@@ -1,0 +1,21 @@
+variable:
+    dir: "/home/imeoer/PROJECT/ink"
+    theme: "${dir}/theme"
+task:
+    default:
+        - "${build_theme}"
+        - "${build_ink}"
+        - "pkill -9 python || true"
+        - "cd ${dir}/public && python -m SimpleHTTPServer"
+    build_theme:
+        - "gulp --cwd ${theme}"
+    build_ink:
+        - "cd ${dir} && go build"
+        - "${dir}/ink"
+
+watch:
+    ${dir}/*.go: "${build_ink}"
+    ${dir}/source/*.md: "${build_ink}"
+    ${theme}/css/*.less: "${default}"
+    ${theme}/js/*.coffee: "${default}"
+    ${theme}/*.html: "${default}"
