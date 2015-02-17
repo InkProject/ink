@@ -12,6 +12,8 @@ task:
     build_ink:
         - cd ${dir}/ink && go build
         - "${dir}/ink/ink -s ${blog} " # build.go path parse issue
+    release:
+        - $GOPATH/bin/goxc -d=${ink}/release -bc="linux windows"
 
 watch:
     ${ink}/*.go: ${build_ink}
