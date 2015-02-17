@@ -11,15 +11,19 @@ import (
 
 func Create(root string) {
     var articles = make(Articles, 0)
-    // Compile template
-    var articleTpl = CompileTpl(root + "/article.html", "article")
-    var pageTpl = CompileTpl(root + "/page.html", "page")
+    var tagMap = make(map[string]Articles)
     // Parse config
-    globalConfig := ParseGlobalConfig(root + "/config.yml")
+    globalConfig := ParseGlobalConfig(filepath.Join(root, "config.yml"))
+    themePath := filepath.Join(root, globalConfig.Site.Theme)
+    publicPath := filepath.Join(root, "public")
+    sourcePath := filepath.Join(root, "source")
+    // Compile template
+    var articleTpl = CompileTpl(filepath.Join(themePath, "article.html"), "article")
+    var pageTpl = CompileTpl(filepath.Join(themePath, "page.html"), "page")
     // Clean public folder
-    os.RemoveAll(root + "/public")
+    os.RemoveAll(publicPath)
     // Find all .md to generate article
-    filepath.Walk(root + "/source", func(path string, info os.FileInfo, err error) error {
+    filepath.Walk(sourcePath, func(path string, info os.FileInfo, err error) error {
         fileExt := strings.ToLower(filepath.Ext(path))
         if fileExt == ".md" {
             // Parse markdown data
@@ -28,7 +32,7 @@ func Create(root string) {
             fileName := strings.TrimSuffix(strings.ToLower(filepath.Base(path)), ".md")
             // Generate directory
             directory := time.Unix(article.Date, 0).Format("2006/01/02/")
-            err := os.MkdirAll(root + "/public/" + directory, 0777)
+            err := os.MkdirAll(filepath.Join(publicPath, directory), 0777)
             if err != nil {
                 Fatal(err.Error())
             }
@@ -37,8 +41,15 @@ func Create(root string) {
             article.Link = outPath
             article.GlobalConfig = *globalConfig
             articles = append(articles, *article)
+            // Get tags info
+            for _, tag := range article.Tag {
+                if _, ok := tagMap[tag]; !ok {
+                    tagMap[tag] = make(Articles, 0)
+                }
+                tagMap[tag] = append(tagMap[tag], *article)
+            }
             // Render article
-            RenderPage(articleTpl, article, root + "/public/" + outPath)
+            RenderPage(articleTpl, article, filepath.Join(publicPath, outPath))
         }
         return nil
     })
@@ -58,9 +69,10 @@ func Create(root string) {
     for i := 0; i < page; i ++ {
         var prev = "/page" + strconv.Itoa(i) + ".html"
         var next = "/page" + strconv.Itoa(i + 2) + ".html"
-        outPath := root + "/public/index.html"
+        outPath := filepath.Join(publicPath, "index.html")
         if i != 0 {
-            outPath = root + "/public/page" + strconv.Itoa(i + 1) + ".html"
+            fileName := "page" + strconv.Itoa(i + 1) + ".html"
+            outPath = filepath.Join(publicPath, fileName)
         } else {
             prev = ""
         }
@@ -83,11 +95,12 @@ func Create(root string) {
             "Total": page,
             "Prev": prev,
             "Next": next,
+            "TagName": "",
         }
         RenderPage(pageTpl, data, outPath)
     }
     // Copy static files
-    CopyDir(root + "/css", root + "/public/css")
-    CopyDir(root + "/js", root + "/public/js")
-    CopyDir(root + "/source/image", root + "/public/image")
+    CopyDir(filepath.Join(themePath, "css"), filepath.Join(publicPath, "css"))
+    CopyDir(filepath.Join(themePath, "js"), filepath.Join(publicPath, "js"))
+    CopyDir(filepath.Join(sourcePath, "image"), filepath.Join(publicPath, "image"))
 }

@@ -10,11 +10,11 @@ func main() {
     var root string
     app := cli.NewApp()
     app.Name = "Ink"
-    app.Usage = "A static blog generator "
+    app.Usage = "A static blog generator"
     app.Author = "https://github.com/imeoer"
     app.Email = "imeoer@gmail.com"
     app.Version = "0.1.0"
-    app.Flags = []cli.Flag {
+    app.Flags = []cli.Flag{
         cli.BoolFlag{
             Name: "server, s",
             Usage: "Run a server to preview site",

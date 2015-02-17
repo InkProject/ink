@@ -13,6 +13,8 @@ type SiteConfig struct {
     Subtitle string
     Logo string
     Limit int
+    Theme string
+    Disqus string
 }
 
 type AuthorConfig struct {
