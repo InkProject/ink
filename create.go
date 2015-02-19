@@ -2,24 +2,30 @@ package main
 
 import (
     "os"
-    "sort"
     "time"
+    "sort"
     "strconv"
     "strings"
+    "html/template"
     "path/filepath"
 )
+
+// Parse config
+var pageTpl template.Template
+var globalConfig *GlobalConfig
+var themePath, publicPath, sourcePath string
 
 func Create(root string) {
     var articles = make(Articles, 0)
     var tagMap = make(map[string]Articles)
     // Parse config
-    globalConfig := ParseGlobalConfig(filepath.Join(root, "config.yml"))
-    themePath := filepath.Join(root, globalConfig.Site.Theme)
-    publicPath := filepath.Join(root, "public")
-    sourcePath := filepath.Join(root, "source")
+    globalConfig = ParseGlobalConfig(filepath.Join(root, "config.yml"))
+    themePath = filepath.Join(root, globalConfig.Site.Theme)
+    publicPath = filepath.Join(root, "public")
+    sourcePath = filepath.Join(root, "source")
     // Compile template
-    var articleTpl = CompileTpl(filepath.Join(themePath, "article.html"), "article")
-    var pageTpl = CompileTpl(filepath.Join(themePath, "page.html"), "page")
+    articleTpl := CompileTpl(filepath.Join(themePath, "article.html"), "article")
+    pageTpl = CompileTpl(filepath.Join(themePath, "page.html"), "page")
     // Clean public folder
     os.RemoveAll(publicPath)
     // Find all .md to generate article
@@ -36,7 +42,7 @@ func Create(root string) {
             if err != nil {
                 Fatal(err.Error())
             }
-            outPath := directory + fileName + ".html"
+            outPath := "/" + directory + fileName + ".html"
             // Generate file path
             article.Link = outPath
             article.GlobalConfig = *globalConfig
@@ -53,6 +59,18 @@ func Create(root string) {
         }
         return nil
     })
+    // Generate article pages
+    RenderArticles("", articles, "")
+    // Generate tag pages
+    for tagName, articles := range tagMap {
+        RenderArticles(filepath.Join("tag", tagName), articles, tagName)
+    }
+}
+
+func RenderArticles(rootPath string, articles Articles, tagName string) {
+    // Create path
+    pagePath := filepath.Join(publicPath, rootPath)
+    os.MkdirAll(pagePath, 0777)
     // Sort by time
     sort.Sort(Articles(articles))
     // Split page
@@ -67,17 +85,17 @@ func Create(root string) {
         page = 1
     }
     for i := 0; i < page; i ++ {
-        var prev = "/page" + strconv.Itoa(i) + ".html"
-        var next = "/page" + strconv.Itoa(i + 2) + ".html"
-        outPath := filepath.Join(publicPath, "index.html")
+        var prev = filepath.Join("/", rootPath, "page" + strconv.Itoa(i) + ".html")
+        var next = filepath.Join("/", rootPath, "page" + strconv.Itoa(i + 2) + ".html")
+        outPath := filepath.Join(pagePath, "index.html")
         if i != 0 {
             fileName := "page" + strconv.Itoa(i + 1) + ".html"
-            outPath = filepath.Join(publicPath, fileName)
+            outPath = filepath.Join(pagePath, fileName)
         } else {
             prev = ""
         }
         if i == 1 {
-            prev = "/index.html"
+            prev = filepath.Join("/", rootPath, "index.html")
         }
         first := i * limit
         count := first + limit
@@ -95,7 +113,7 @@ func Create(root string) {
             "Total": page,
             "Prev": prev,
             "Next": next,
-            "TagName": "",
+            "TagName": tagName,
         }
         RenderPage(pageTpl, data, outPath)
     }

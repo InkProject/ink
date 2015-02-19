@@ -33,6 +33,7 @@ type ArticleConfig struct {
     Date string
     Tag string
     Topic string
+    Preview string
 }
 
 type Article struct {
@@ -103,6 +104,8 @@ func ParseMarkdown(markdownPath string) *Article {
     previewAry := strings.SplitN(markdownStr, MORE_SPLIT, 2)
     if len(previewAry) > 1 {
         article.Preview = previewAry[0]
+    } else {
+        article.Preview = config.Preview
     }
     // Parse markdown content
     markdownStr = strings.Replace(markdownStr, MORE_SPLIT, "", 1)

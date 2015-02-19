@@ -1,12 +1,12 @@
 variable:
-    dir: ~/PROJECT/ink.go/src
+    dir: /home/imeoer/PROJECT/ink.go/src
     ink: ${dir}/ink
-    blog: ~/PROJECT/blog
+    blog: /home/imeoer/PROJECT/blog
     theme: ${blog}/theme
 task:
     default:
         - ${build_theme}
-        - ${build_ink}
+        - ${#build_ink}
     build_theme:
         - gulp --cwd ${theme}
     build_ink:
