@@ -26,7 +26,8 @@ const (
 // Print colorful log
 func Log(method string, info interface{}) {
     // fmt.Printf("%s%s\n%s", color, info, "\x1b[0m")
-    fmt.Printf("%s: %s\n", method, info)
+    method = ""
+    fmt.Printf("%s\n", info)
 }
 
 func Fatal(info interface{}) {

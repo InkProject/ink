@@ -11,7 +11,7 @@ task:
         - gulp --cwd ${theme}
     build_ink:
         - cd ${dir}/ink && go build
-        - "${dir}/ink/ink -s ${blog} " # build.go path parse issue
+        - "${dir}/ink/ink preview ${blog} " # build.go path parse issue
     release:
         - $GOPATH/bin/goxc -d=${ink}/release -bc="linux windows"
 

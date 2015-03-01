@@ -20,16 +20,20 @@ func main() {
     app.Author = "https://github.com/imeoer"
     app.Email = "imeoer@gmail.com"
     app.Version = "0.1.0"
-    app.Flags = []cli.Flag{
-        cli.BoolFlag{
-            Name: "server, s",
-            Usage: "Run in server mode to preview site",
-        },
-    }
     app.Commands = []cli.Command{
         {
+            Name: "preview",
+            ShortName: "pre",
+            Usage: "Run in server mode to preview site",
+            Action: func(c *cli.Context) {
+                ParseGlobalConfig(c)
+                Build()
+                Server()
+            },
+        },
+        {
             Name: "publish",
-            ShortName: "p",
+            ShortName: "pub",
             Usage: "Publish all files in public folder",
             Action: func(c *cli.Context) {
                 ParseGlobalConfig(c)
@@ -41,10 +45,6 @@ func main() {
     app.Action = func(c *cli.Context) {
         ParseGlobalConfig(c)
         Build()
-        serverMode := c.Bool("server")
-        if serverMode {
-            Server()
-        }
     }
     app.Run(os.Args)
 }
