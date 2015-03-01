@@ -1,9 +1,9 @@
 package main
 
 import (
+    "fmt"
     "io"
     "os"
-    "fmt"
     "time"
 )
 
@@ -43,6 +43,13 @@ func ParseDate(dateStr string) time.Time {
     return date.Local()
 }
 
+func Exists(path string) (bool, error) {
+    _, err := os.Stat(path)
+    if err == nil { return true, nil }
+    if os.IsNotExist(err) { return false, nil }
+    return false, err
+}
+
 // Copy folder and file
 // Refer to https://www.socketloop.com/tutorials/golang-copy-directory-including-sub-directories-files
 
@@ -69,11 +76,11 @@ func CopyFile(source string, dest string) (err error) {
 
 func CopyDir(source string, dest string) (err error) {
     sourceinfo, err := os.Stat(source)
-        if err != nil {
+    if err != nil {
         return err
     }
     err = os.MkdirAll(dest, sourceinfo.Mode())
-        if err != nil {
+    if err != nil {
         return err
     }
     directory, _ := os.Open(source)

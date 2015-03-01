@@ -1,9 +1,9 @@
 package main
 
 import (
-    "os"
-    "io/ioutil"
     "html/template"
+    "io/ioutil"
+    "os"
 )
 
 func CompileTpl(tplPath string, name string) template.Template {
@@ -20,7 +20,6 @@ func CompileTpl(tplPath string, name string) template.Template {
     }
     return *tpl
 }
-
 
 func RenderPage(tpl template.Template, tplData interface{}, outPath string) {
     // Create file

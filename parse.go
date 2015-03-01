@@ -1,59 +1,71 @@
 package main
 
 import (
-    "strings"
-    "io/ioutil"
-    "html/template"
-    "gopkg.in/yaml.v2"
     "github.com/russross/blackfriday"
+    "gopkg.in/yaml.v2"
+    "html/template"
+    "io/ioutil"
+    "strings"
 )
 
 type SiteConfig struct {
-    Title string
+    Title    string
     Subtitle string
-    Logo string
-    Limit int
-    Theme string
-    Disqus string
+    Logo     string
+    Limit    int
+    Theme    string
+    Disqus   string
 }
 
 type AuthorConfig struct {
-    Name string
-    Intro string
+    Id     string
+    Name   string
+    Intro  string
     Avatar string
 }
 
+type BuildConfig struct {
+    Port  string
+    Watch bool
+    Copy []string
+    Publish string
+}
+
 type GlobalConfig struct {
-    Site SiteConfig
-    Author AuthorConfig
+    Site   SiteConfig
+    Authors map[string]AuthorConfig
+    Build  BuildConfig
 }
 
 type ArticleConfig struct {
-    Title string
-    Date string
-    Tag string
-    Topic string
+    Title   string
+    Date    string
+    Author  string
+    Tag     string
+    Topic   string
     Preview string
 }
 
 type Article struct {
     ArticleConfig
     GlobalConfig
-    Date int64
-    Tag []string
+    Date    int64
+    Author  AuthorConfig
+    Tag     []string
     Preview string
     Content template.HTML
-    Link string
+    Link    string
 }
 
 type Articles []Article
-func (v Articles) Len() int { return len(v) }
-func (v Articles) Swap(i, j int) { v[i], v[j] = v[j], v[i] }
+
+func (v Articles) Len() int           { return len(v) }
+func (v Articles) Swap(i, j int)      { v[i], v[j] = v[j], v[i] }
 func (v Articles) Less(i, j int) bool { return v[i].Date > v[j].Date }
 
 const (
     CONFIG_SPLIT = "---"
-    MORE_SPLIT = "---more---"
+    MORE_SPLIT   = "---more---"
 )
 
 func parse(markdown string) template.HTML {
@@ -61,7 +73,7 @@ func parse(markdown string) template.HTML {
     return template.HTML(blackfriday.MarkdownCommon([]byte(markdown)))
 }
 
-func ParseGlobalConfig(configPath string) *GlobalConfig {
+func ParseConfig(configPath string) *GlobalConfig {
     var config *GlobalConfig
     // Read data from file
     data, err := ioutil.ReadFile(configPath)
@@ -76,8 +88,8 @@ func ParseGlobalConfig(configPath string) *GlobalConfig {
 
 func ParseMarkdown(markdownPath string) *Article {
     var (
-        config *ArticleConfig
-        configStr string
+        config      *ArticleConfig
+        configStr   string
         markdownStr string
     )
     // Read data from file
@@ -99,6 +111,9 @@ func ParseMarkdown(markdownPath string) *Article {
     if err := yaml.Unmarshal([]byte(configStr), &config); err != nil {
         Fatal(err.Error())
     }
+    if config == nil {
+        Fatal("Article config parse error")
+    }
     var article Article
     // Parse preview splited by MORE_SPLIT
     previewAry := strings.SplitN(markdownStr, MORE_SPLIT, 2)
@@ -112,7 +127,10 @@ func ParseMarkdown(markdownPath string) *Article {
     article.Content = parse(markdownStr)
     article.Date = ParseDate(config.Date).Unix()
     article.Title = config.Title
-    // article.Author = config.Author
+    if author, ok := globalConfig.Authors[config.Author]; ok {
+        author.Id = config.Author
+        article.Author = author
+    }
     article.Tag = strings.Split(config.Tag, " ")
     article.Topic = config.Topic
     return &article
