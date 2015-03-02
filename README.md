@@ -1,27 +1,34 @@
 ## Ink 简介
 
-Ink 是一个静态博客生成器，使用它可以快速构建博客网站。它配置简单，主题简洁，构建快速，优化了中文阅读排版。
+Ink 是一个使用GO语言编写的静态博客生成器，使用它可以快速构建博客网站。无依赖跨平台，配置简单，构建快速，支持多用户，默认主题简洁，优化了中文排版，提高阅读体验。
 
 ### 开始上手
-- 下载 [Ink 工具](https://github.com/InkProject/ink/releases)，然后下载并解压 [Ink 模板](https://github.com/InkProject/blog)
-- 在命令行下运行 `ink -s blog`
+- 下载 [Ink 工具](https://github.com/InkProject/ink/releases)，然后下载并解压 [快速开始模板](https://github.com/InkProject/blog)
+- 在模板目录下运行命令 `ink preview`
 - 使用浏览器访问 `http://localhost:8888` 预览
 
 ### 配置网站
-在`blog`目录中编辑`/config.yml`，使用如下格式
+编辑`config.yml`，使用如下格式
 
 ``` yaml
 site:
     title: 网站标题
     subtitle: 网站子标题
-    limit: 5 #每页可显示的文章数目
+    limit: 每页可显示的文章数目
     theme: 网站主题目录
     disqus: Disqus评论插件账户名
 
-author:
-    name: 作者名称
-    intro: 作者简介
-    avatar: 作者头像路径
+authors:
+    作者ID:
+        name: 作者名称
+        intro: 作者简介
+        avatar: 作者头像路径
+build:
+    port: 预览端口
+    copy:
+        - 构建时将会复制的目录/文件
+    publish: |
+        ink publish 命令将会执行的脚本
 ```
 
 ### 创建文章
@@ -29,16 +36,26 @@ author:
 
 ``` yaml
 title: 文章标题
-date: 2015-02-14 05:00:00
+date: 年-月-日 时:分:秒
+author: 作者ID
 topic: 题图链接 #可选
-tag: 空格 分割 标签
+preview: 文章预览，也可在正文中使用--more--分割 #可选
+tag: 空格 分割 标签 #可选
+
+---
+
+Markdown格式的正文
 ```
 
 ### 发布博客
-- 在命令行下运行`ink blog`构建博客并生成所有文章
-- 将生成的`public`目录下的内容部署到服务器
+- 在博客目录下运行命令`ink publish`构建博客并发布
+- 也可以运行`ink`命令将生成的`public`目录下的内容部署到服务器
 
-## 支持语法
+## Markdown 样式支持
+
+### 图片
+
+![图片说明](/image/example.jpg)
 
 ### 引用
 
@@ -67,5 +84,3 @@ class SomeClass:
 | apple     |     100 |  1   |
 | banana    |     200 |  2   |
 | pear      |     300 |  3   |
-
-**Markdown** 完整支持正在更新
