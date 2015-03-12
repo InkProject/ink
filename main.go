@@ -3,6 +3,7 @@ package main
 import (
     "github.com/codegangsta/cli"
     "github.com/imeoer/bamboo-api/ink"
+    "github.com/go-fsnotify/fsnotify"
     "os"
     "bufio"
     "runtime"
@@ -10,6 +11,7 @@ import (
     "path/filepath"
 )
 
+var watcher *fsnotify.Watcher
 var globalConfig *GlobalConfig
 var rootPath string
 
@@ -28,6 +30,7 @@ func main() {
             Action: func(c *cli.Context) {
                 ParseGlobalConfig(c)
                 Build()
+                Watch()
                 Server()
             },
         },
@@ -65,8 +68,39 @@ func Server() {
     }
     app := ink.New()
     app.Get("*", ink.Static(rootPath+"/public"))
-    Log(LOG, "Server running on port "+port)
+    Log(LOG, "Listening on port "+port)
     app.Listen("0.0.0.0:" + port)
+}
+
+func Watch() {
+    watcher, _ = fsnotify.NewWatcher()
+    // Listen watched file change event
+    go func() {
+        for {
+            select {
+                case event := <-watcher.Events:
+                    if event.Op == fsnotify.Write {
+                        // Handle when file change
+                        Build()
+                    }
+                case err := <-watcher.Errors:
+                    Log(ERR, err.Error())
+            }
+        }
+    }()
+    var dirs = []string{"theme", "source"}
+    for _, source := range dirs {
+        dirPath := filepath.Join(rootPath, source)
+        filepath.Walk(dirPath, func (path string, f os.FileInfo, err error) error {
+            if f.IsDir() {
+                // Defer watcher.Close()
+                if err := watcher.Add(path); err != nil {
+                    Log(ERR, err.Error())
+                }
+            }
+            return nil
+        })
+    }
 }
 
 func Publish() {

@@ -77,6 +77,7 @@ func Build() {
             RenderPage(htmlTpl, globalConfig, filepath.Join(publicPath, relPath))
         }
     }
+    Log(LOG, "Build finished")
 }
 
 func RenderArticles(rootPath string, articles Articles, tagName string) {
@@ -120,7 +121,6 @@ func RenderArticles(rootPath string, articles Articles, tagName string) {
         var data = map[string]interface{}{
             "Articles": articles[first:count],
             "Site": globalConfig.Site,
-            // "Author": globalConfig.Author,
             "Page": i + 1,
             "Total": page,
             "Prev": prev,

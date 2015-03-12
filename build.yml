@@ -6,11 +6,11 @@ variable:
 task:
     default:
         - ${build_theme}
-        - ${#build_ink}
+        - ${build_ink}
     build_theme:
         - gulp --cwd ${theme}
     build_ink:
-        - cd ${dir}/ink && go build
+        - "cd ${dir}/ink && go build"
         - "${dir}/ink/ink preview ${blog} " # build.go path parse issue
     release:
         - $GOPATH/bin/goxc -d=${ink}/release -bc="linux windows"
