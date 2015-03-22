@@ -29,6 +29,7 @@ func main() {
             Usage: "Run in server mode to preview site",
             Action: func(c *cli.Context) {
                 ParseGlobalConfig(c)
+                // globalConfig.Develop = true
                 Build()
                 Watch()
                 Server()
@@ -68,6 +69,7 @@ func Server() {
     }
     app := ink.New()
     app.Get("*", ink.Static(rootPath+"/public"))
+    app.Head("*", ink.Static(rootPath+"/public"))
     Log(LOG, "Listening on port "+port)
     app.Listen("0.0.0.0:" + port)
 }
@@ -88,7 +90,7 @@ func Watch() {
             }
         }
     }()
-    var dirs = []string{"theme", "source"}
+    var dirs = []string{"source"}
     for _, source := range dirs {
         dirPath := filepath.Join(rootPath, source)
         filepath.Walk(dirPath, func (path string, f os.FileInfo, err error) error {

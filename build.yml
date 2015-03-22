@@ -17,7 +17,6 @@ task:
 
 watch:
     ${ink}/*.go: ${build_ink}
-    ${ink}/source/*.md: ${build_ink}
-    ${theme}/css/*.less: ${default}
-    ${theme}/js/*.coffee: ${default}
+    ${theme}/less/*.less: ${default}
+    ${theme}/coffee/*.coffee: ${default}
     ${theme}/*.html: ${default}

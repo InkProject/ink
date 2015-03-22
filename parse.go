@@ -35,11 +35,13 @@ type GlobalConfig struct {
     Site   SiteConfig
     Authors map[string]AuthorConfig
     Build  BuildConfig
+    Develop bool
 }
 
 type ArticleConfig struct {
     Title   string
     Date    string
+    Update  string
     Author  string
     Tag     string
     Topic   string
@@ -50,6 +52,7 @@ type Article struct {
     ArticleConfig
     GlobalConfig
     Date    int64
+    Update  int64
     Author  AuthorConfig
     Tag     []string
     Preview string
@@ -126,6 +129,9 @@ func ParseMarkdown(markdownPath string) *Article {
     markdownStr = strings.Replace(markdownStr, MORE_SPLIT, "", 1)
     article.Content = parse(markdownStr)
     article.Date = ParseDate(config.Date).Unix()
+    if config.Update != "" {
+        article.Update = ParseDate(config.Update).Unix()
+    }
     article.Title = config.Title
     if author, ok := globalConfig.Authors[config.Author]; ok {
         author.Id = config.Author
