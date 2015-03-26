@@ -4,10 +4,13 @@ import (
     "github.com/codegangsta/cli"
     "github.com/imeoer/bamboo-api/ink"
     "github.com/go-fsnotify/fsnotify"
+    "gopkg.in/yaml.v2"
     "os"
     "bufio"
+    "strings"
     "runtime"
     "os/exec"
+    "io/ioutil"
     "path/filepath"
 )
 
@@ -43,6 +46,14 @@ func main() {
                 ParseGlobalConfig(c)
                 Build()
                 Publish()
+            },
+        },
+        {
+            Name: "convert",
+            ShortName: "con",
+            Usage: "Convert jekyll/hexo post format to ink format",
+            Action: func(c *cli.Context) {
+                Convert(c)
             },
         },
     }
@@ -137,4 +148,69 @@ func Publish() {
     }()
     // Exec command
     cmd.Run()
+}
+
+func Convert(c *cli.Context) {
+    // parse arguments
+    var sourcePath, rootPath string
+    args := c.Args()
+    if len(args) > 0 {
+        sourcePath = args[0]
+    } else {
+        Fatal("Please specify the posts source path")
+    }
+    if len(args) > 1 {
+        rootPath = args[1]
+    } else {
+        rootPath = "."
+    }
+    // check if path exist
+    if !Exists(sourcePath) || !Exists(rootPath) {
+        Fatal("Please specify valid path")
+    }
+    // Parse jekyll/hexo post file
+    filepath.Walk(sourcePath, func (path string, f os.FileInfo, err error) error {
+        fileExt := strings.ToLower(filepath.Ext(path))
+        if fileExt == ".md" || fileExt == ".html" {
+            // Read data from file
+            data, err := ioutil.ReadFile(path)
+            if err != nil {
+                Fatal(err.Error())
+            }
+            // Split config and markdown
+            var configStr, contentStr string
+            content := strings.TrimSpace(string(data))
+            parseAry := strings.SplitN(content, "---", 3)
+            parseLen := len(parseAry)
+            if parseLen == 3 { // jekyll
+                configStr = parseAry[1]
+                contentStr = parseAry[2]
+            } else if parseLen == 2 { // hexo
+                configStr = parseAry[0]
+                contentStr = parseAry[1]
+            }
+            // Parse config
+            var article ArticleConfig
+            if err = yaml.Unmarshal([]byte(configStr), &article); err != nil {
+                Fatal(err.Error())
+            }
+            if article.Author == "" {
+                article.Author = "me"
+            }
+            dateAry := strings.SplitN(article.Date, ".", 2)
+            if len(dateAry) == 2 {
+                article.Date = dateAry[0]
+            }
+            // Generate Config
+            var inkConfig []byte
+            if inkConfig, err = yaml.Marshal(article); err != nil {
+                Fatal(err.Error())
+            }
+            inkConfigStr := string(inkConfig)
+            markdownStr := inkConfigStr + "\n\n---\n\n" + contentStr
+            fileName := filepath.Base(path)
+            ioutil.WriteFile(filepath.Join(rootPath, "source/" + fileName + ".md"), []byte(markdownStr), 0666)
+        }
+        return nil
+    })
 }

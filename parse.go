@@ -43,7 +43,7 @@ type ArticleConfig struct {
     Date    string
     Update  string
     Author  string
-    Tag     string
+    Tags    []string
     Topic   string
     Preview string
 }
@@ -54,7 +54,7 @@ type Article struct {
     Date    int64
     Update  int64
     Author  AuthorConfig
-    Tag     []string
+    Tags    []string
     Preview string
     Content template.HTML
     Link    string
@@ -137,7 +137,7 @@ func ParseMarkdown(markdownPath string) *Article {
         author.Id = config.Author
         article.Author = author
     }
-    article.Tag = strings.Split(config.Tag, " ")
+    article.Tags = config.Tags
     article.Topic = config.Topic
     return &article
 }

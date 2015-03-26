@@ -2,6 +2,7 @@ package main
 
 import (
     "os"
+    "fmt"
     "time"
     "sort"
     "strconv"
@@ -15,6 +16,7 @@ var pageTpl template.Template
 var themePath, publicPath, sourcePath string
 
 func Build() {
+    startTime := time.Now()
     var articles = make(Articles, 0)
     var tagMap = make(map[string]Articles)
     // Parse config
@@ -25,7 +27,7 @@ func Build() {
     articleTpl := CompileTpl(filepath.Join(themePath, "article.html"), "article")
     pageTpl = CompileTpl(filepath.Join(themePath, "page.html"), "page")
     // Clean public folder
-    cleanPaths := []string{"post", "tag", "image", "js", "css", "index.html"}
+    cleanPaths := []string{"post", "tag", "images", "js", "css", "index.html"}
     for _, path := range cleanPaths {
         os.RemoveAll(filepath.Join(publicPath, path))
     }
@@ -49,7 +51,7 @@ func Build() {
             article.GlobalConfig = *globalConfig
             articles = append(articles, *article)
             // Get tags info
-            for _, tag := range article.Tag {
+            for _, tag := range article.Tags {
                 if _, ok := tagMap[tag]; !ok {
                     tagMap[tag] = make(Articles, 0)
                 }
@@ -77,7 +79,9 @@ func Build() {
             RenderPage(htmlTpl, globalConfig, filepath.Join(publicPath, relPath))
         }
     }
-    Log(LOG, "Build finished")
+    endTime := time.Now()
+    usedTime := endTime.Sub(startTime)
+    fmt.Printf("Build finished (%v)\n", usedTime)
 }
 
 func RenderArticles(rootPath string, articles Articles, tagName string) {
