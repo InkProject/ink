@@ -15,26 +15,21 @@ const (
 )
 
 const (
-    LOG = "LOG"
-    ERR = "ERR"
-)
-
-const (
     STD_FORMAT = "2006-01-02 15:04:05"
 )
 
-// Print colorful log
-func Log(method string, info interface{}) {
-    // fmt.Printf("%s%s\n%s", color, info, "\x1b[0m")
-    method = ""
+// Print log
+func Log(info interface{}) {
     fmt.Printf("%s\n", info)
 }
 
+// Print error log and exit
 func Fatal(info interface{}) {
-    Log(ERR, info)
+    fmt.Printf("%s%s\n%s", CLR_R, info, "\x1b[0m")
     os.Exit(1)
 }
 
+// Parse date by std date string
 func ParseDate(dateStr string) time.Time {
     format := fmt.Sprintf(STD_FORMAT)
     date, err := time.ParseInLocation(format, dateStr, time.Now().Location())
@@ -44,6 +39,7 @@ func ParseDate(dateStr string) time.Time {
     return date.Local()
 }
 
+// Check file if exist
 func Exists(path string) bool {
     _, err := os.Stat(path)
     if err == nil { return true }
@@ -53,16 +49,16 @@ func Exists(path string) bool {
 
 // Copy folder and file
 // Refer to https://www.socketloop.com/tutorials/golang-copy-directory-including-sub-directories-files
-
-func CopyFile(source string, dest string) (err error) {
+func CopyFile(source string, dest string) {
     sourcefile, err := os.Open(source)
-    if err != nil {
-        return err
-    }
     defer sourcefile.Close()
+    defer wg.Done()
+    if err != nil {
+        Log(err.Error())
+    }
     destfile, err := os.Create(dest)
     if err != nil {
-        return err
+        Log(err.Error())
     }
     defer destfile.Close()
     _, err = io.Copy(destfile, sourcefile)
@@ -72,17 +68,17 @@ func CopyFile(source string, dest string) (err error) {
             err = os.Chmod(dest, sourceinfo.Mode())
         }
     }
-    return
 }
 
-func CopyDir(source string, dest string) (err error) {
+func CopyDir(source string, dest string) {
+    defer wg.Done()
     sourceinfo, err := os.Stat(source)
     if err != nil {
-        return err
+        Log(err.Error())
     }
     err = os.MkdirAll(dest, sourceinfo.Mode())
     if err != nil {
-        return err
+        Log(err.Error())
     }
     directory, _ := os.Open(source)
     objects, err := directory.Readdir(-1)
@@ -90,16 +86,11 @@ func CopyDir(source string, dest string) (err error) {
         sourcefilepointer := source + "/" + obj.Name()
         destinationfilepointer := dest + "/" + obj.Name()
         if obj.IsDir() {
-            err = CopyDir(sourcefilepointer, destinationfilepointer)
-            if err != nil {
-                fmt.Println(err)
-            }
+            wg.Add(1)
+            go CopyDir(sourcefilepointer, destinationfilepointer)
         } else {
-            err = CopyFile(sourcefilepointer, destinationfilepointer)
-            if err != nil {
-                fmt.Println(err)
-            }
+            wg.Add(1)
+            go CopyFile(sourcefilepointer, destinationfilepointer)
         }
     }
-    return
 }

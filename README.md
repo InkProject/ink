@@ -1,6 +1,6 @@
-## Ink 简介
+## 纸小墨简介
 
-Ink 是一个使用GO语言编写的静态博客生成器，使用它可以快速构建博客网站。无依赖跨平台，配置简单，构建快速，支持多用户，默认主题简洁，优化了中文排版，提高阅读体验。
+纸小墨（Ink）是一个使用GO语言编写的静态博客构建工具，可以快速搭建博客网站。无依赖跨平台，配置简单，构建快速，支持多用户，默认主题简洁，对中文排版进行了优化。
 
 ### 开始上手
 - 下载 [Ink 工具](https://github.com/InkProject/ink/releases)，然后下载并解压 [快速开始模板](https://github.com/InkProject/blog)
@@ -17,7 +17,6 @@ site:
     limit: 每页可显示的文章数目
     theme: 网站主题目录
     disqus: Disqus评论插件账户名
-
 authors:
     作者ID:
         name: 作者名称
@@ -36,11 +35,15 @@ build:
 
 ``` yaml
 title: 文章标题
-date: 年-月-日 时:分:秒
+date: 年-月-日 时:分:秒 #创建时间
+update: 年-月-日 时:分:秒 #更新时间，可选
 author: 作者ID
 topic: 题图链接 #可选
+draft: true #草稿，可选
 preview: 文章预览，也可在正文中使用--more--分割 #可选
-tag: 空格 分割 标签 #可选
+tag: #可选
+    - 标签1
+    - 标签2
 
 ---
 
@@ -48,14 +51,40 @@ Markdown格式的正文
 ```
 
 ### 发布博客
-- 在博客目录下运行命令`ink publish`构建博客并发布
-- 也可以运行`ink`命令将生成的`public`目录下的内容部署到服务器
+- 在博客目录下运行`ink publish`命令自动构建博客并发布
+- 或运行`ink`命令将生成的`public`目录下的内容手动部署
+
+## 定制支持
+
+### 修改主题
+
+默认主题使用coffee, less编写，修改对应文件后，需要在`theme`目录下运行`gulp`命令重新编译，使用`ink`命令构建时默认将会复制js, css目录到`public`目录下；页面包含`page.html`（文章列表）及`article.html`（文章），使用[GO语言HTML模板](http://golang.org/pkg/html/template/)语法，两个页面中涵盖了所有可引用变量。
+
+### 添加页面
+
+在`theme`目录下创建的任意`.html`文件将被复制，页面中可引用`config.yml`中site字段下的所有变量。
+
+### 博客迁移
+
+Ink提供简单的Jeklly/Hexo博客文章格式转换，使用命令：
+``` shell
+ink convert /path/_posts
+```
+
+### 源码编译
+
+1. Clone [Ink源码](https://github.com/InkProject/ink)
+2. 配置[GO](http://golang.org/doc/install)语言环境
+3. 安装交叉编译工具[gocx](https://github.com/laher/goxc)
+4. 安装构建工具[build](https://github.com/imeoer/build.go)
+5. 使用`build`命令自动编译
+6. 使用`build release`命令生成不同平台二进制
 
 ## Markdown 样式支持
 
 ### 图片
 
-![图片说明](/image/example.jpg)
+![在这里对图片进行简短的描述](/images/example.jpg)
 
 ### 引用
 
@@ -84,3 +113,7 @@ class SomeClass:
 | apple     |     100 |  1   |
 | banana    |     200 |  2   |
 | pear      |     300 |  3   |
+
+## 反馈建议
+
+请报告至 [https://github.com/InkProject/ink/issues](https://github.com/InkProject/ink/issues)

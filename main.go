@@ -14,25 +14,26 @@ import (
     "path/filepath"
 )
 
+const VERSION = "0.1.0"
+
 var watcher *fsnotify.Watcher
 var globalConfig *GlobalConfig
 var rootPath string
 
 func main() {
     app := cli.NewApp()
-    app.Name = "Ink"
-    app.Usage = "A static blog generator"
+    app.Name = "ink"
+    app.Usage = "A concise static blog generator"
     app.Author = "https://github.com/imeoer"
     app.Email = "imeoer@gmail.com"
-    app.Version = "0.1.0"
+    app.Version = VERSION
     app.Commands = []cli.Command{
         {
             Name: "preview",
-            ShortName: "pre",
-            Usage: "Run in server mode to preview site",
+            Usage: "Run in server mode to preview blog",
             Action: func(c *cli.Context) {
                 ParseGlobalConfig(c)
-                // globalConfig.Develop = true
+                globalConfig.Develop = true
                 Build()
                 Watch()
                 Server()
@@ -40,8 +41,7 @@ func main() {
         },
         {
             Name: "publish",
-            ShortName: "pub",
-            Usage: "Publish all files in public folder",
+            Usage: "Generate blog to public folder and publish",
             Action: func(c *cli.Context) {
                 ParseGlobalConfig(c)
                 Build()
@@ -50,8 +50,7 @@ func main() {
         },
         {
             Name: "convert",
-            ShortName: "con",
-            Usage: "Convert jekyll/hexo post format to ink format",
+            Usage: "Convert Jekyll/Hexo post format to Ink format",
             Action: func(c *cli.Context) {
                 Convert(c)
             },
@@ -81,7 +80,7 @@ func Server() {
     app := ink.New()
     app.Get("*", ink.Static(rootPath+"/public"))
     app.Head("*", ink.Static(rootPath+"/public"))
-    Log(LOG, "Listening on port "+port)
+    Log("Open http://localhost:" + port + "/ to preview")
     app.Listen("0.0.0.0:" + port)
 }
 
@@ -97,7 +96,7 @@ func Watch() {
                         Build()
                     }
                 case err := <-watcher.Errors:
-                    Log(ERR, err.Error())
+                    Log(err.Error())
             }
         }
     }()
@@ -108,7 +107,7 @@ func Watch() {
             if f.IsDir() {
                 // Defer watcher.Close()
                 if err := watcher.Add(path); err != nil {
-                    Log(ERR, err.Error())
+                    Log(err.Error())
                 }
             }
             return nil
@@ -137,13 +136,13 @@ func Publish() {
     // Print stdout
     go func() {
         for out.Scan() {
-            Log(LOG, out.Text())
+            Log(out.Text())
         }
     }()
     // Print stdin
     go func() {
         for err.Scan() {
-            Log(LOG, err.Text())
+            Log(err.Text())
         }
     }()
     // Exec command
@@ -151,7 +150,7 @@ func Publish() {
 }
 
 func Convert(c *cli.Context) {
-    // parse arguments
+    // Parse arguments
     var sourcePath, rootPath string
     args := c.Args()
     if len(args) > 0 {
@@ -164,11 +163,11 @@ func Convert(c *cli.Context) {
     } else {
         rootPath = "."
     }
-    // check if path exist
+    // Check if path exist
     if !Exists(sourcePath) || !Exists(rootPath) {
         Fatal("Please specify valid path")
     }
-    // Parse jekyll/hexo post file
+    // Parse Jekyll/Hexo post file
     filepath.Walk(sourcePath, func (path string, f os.FileInfo, err error) error {
         fileExt := strings.ToLower(filepath.Ext(path))
         if fileExt == ".md" || fileExt == ".html" {

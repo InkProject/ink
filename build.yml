@@ -1,6 +1,4 @@
 variable:
-    dir: /home/imeoer/PROJECT/ink.go/src
-    ink: ${dir}/ink
     blog: /home/imeoer/PROJECT/blog
     theme: ${blog}/theme
 task:
@@ -10,13 +8,13 @@ task:
     build_theme:
         - gulp --cwd ${theme}
     build_ink:
-        - "cd ${dir}/ink && go build"
-        - "${dir}/ink/ink preview ${blog} " # build.go path parse issue
+        - "go build"
+        - "./ink preview ${blog}"
     release:
-        - $GOPATH/bin/goxc -d=${ink}/release -bc="linux windows"
+        - $GOPATH/bin/goxc -d=./release -bc="linux windows"
 
 watch:
-    ${ink}/*.go: ${build_ink}
+    ./*.go: ${build_ink}
     ${theme}/less/*.less: ${default}
     ${theme}/coffee/*.coffee: ${default}
     ${theme}/*.html: ${default}

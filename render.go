@@ -12,8 +12,7 @@ func CompileTpl(tplPath string, name string) template.Template {
     if err != nil {
         Fatal(err.Error())
     }
-    // Produce html content
-    // .Funcs(funcMap)
+    // Generate html content
     tpl, err := template.New(name).Parse(string(html))
     if err != nil {
         Fatal(err.Error())
@@ -22,6 +21,7 @@ func CompileTpl(tplPath string, name string) template.Template {
 }
 
 func RenderPage(tpl template.Template, tplData interface{}, outPath string) {
+    defer wg.Done()
     // Create file
     outFile, err := os.Create(outPath)
     if err != nil {
@@ -30,16 +30,7 @@ func RenderPage(tpl template.Template, tplData interface{}, outPath string) {
     defer func() {
         outFile.Close()
     }()
-    // Define data preprocess
-    // funcMap := template.FuncMap{
-    //     "content": func(content []byte) string {
-    //         return string(content)
-    //     },
-    //     "date": func(date string) string {
-    //         return parseDate(date).Format(STD_FORMAT)
-    //     },
-    // }
-    // Render
+    // Template render
     err = tpl.Execute(outFile, tplData)
     if err != nil {
         Fatal(err.Error())

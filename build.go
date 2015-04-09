@@ -5,6 +5,7 @@ import (
     "fmt"
     "time"
     "sort"
+    "sync"
     "strconv"
     "strings"
     "html/template"
@@ -14,6 +15,8 @@ import (
 // Parse config
 var pageTpl template.Template
 var themePath, publicPath, sourcePath string
+
+var wg sync.WaitGroup
 
 func Build() {
     startTime := time.Now()
@@ -27,9 +30,12 @@ func Build() {
     articleTpl := CompileTpl(filepath.Join(themePath, "article.html"), "article")
     pageTpl = CompileTpl(filepath.Join(themePath, "page.html"), "page")
     // Clean public folder
-    cleanPaths := []string{"post", "tag", "images", "js", "css", "index.html"}
-    for _, path := range cleanPaths {
-        os.RemoveAll(filepath.Join(publicPath, path))
+    cleanPatterns := []string{"post", "tag", "images", "js", "css", "*.html"}
+    for _, pattern := range cleanPatterns {
+        files, _ := filepath.Glob(filepath.Join(publicPath, pattern))
+        for _, path := range files {
+            os.RemoveAll(path)
+        }
     }
     // Find all .md to generate article
     filepath.Walk(sourcePath, func(path string, info os.FileInfo, err error) error {
@@ -37,8 +43,12 @@ func Build() {
         if fileExt == ".md" {
             // Parse markdown data
             article := ParseMarkdown(path)
+            if article.Draft {
+                return nil
+            }
             // Generate page name
             fileName := strings.TrimSuffix(strings.ToLower(filepath.Base(path)), ".md")
+            Log("Building " + fileName)
             // Generate directory
             directory := time.Unix(article.Date, 0).Format("post/2006/01/02/")
             err := os.MkdirAll(filepath.Join(publicPath, directory), 0777)
@@ -58,15 +68,18 @@ func Build() {
                 tagMap[tag] = append(tagMap[tag], *article)
             }
             // Render article
-            RenderPage(articleTpl, article, filepath.Join(publicPath, outPath))
+            wg.Add(1)
+            go RenderPage(articleTpl, article, filepath.Join(publicPath, outPath))
         }
         return nil
     })
     // Generate article pages
-    RenderArticles("", articles, "")
+    wg.Add(1)
+    go RenderArticles("", articles, "")
     // Generate tags pages
     for tagName, articles := range tagMap {
-        RenderArticles(filepath.Join("tag", tagName), articles, tagName)
+        wg.Add(1)
+        go RenderArticles(filepath.Join("tag", tagName), articles, tagName)
     }
     // Generate other pages
     files, _ := filepath.Glob(filepath.Join(themePath, "*.html"))
@@ -76,15 +89,19 @@ func Build() {
         if fileExt == ".html" && baseName != "page.html" && baseName != "article.html" {
             htmlTpl := CompileTpl(path, baseName)
             relPath, _ := filepath.Rel(themePath, path)
-            RenderPage(htmlTpl, globalConfig, filepath.Join(publicPath, relPath))
+            wg.Add(1)
+            go RenderPage(htmlTpl, globalConfig, filepath.Join(publicPath, relPath))
         }
     }
+    wg.Wait()
     endTime := time.Now()
     usedTime := endTime.Sub(startTime)
-    fmt.Printf("Build finished (%v)\n", usedTime)
+    fmt.Printf("\nBuild finish in public folder (%v)\n", usedTime)
 }
 
+// Generate html file by article data
 func RenderArticles(rootPath string, articles Articles, tagName string) {
+    defer wg.Done()
     // Create path
     pagePath := filepath.Join(publicPath, rootPath)
     os.MkdirAll(pagePath, 0777)
@@ -132,12 +149,13 @@ func RenderArticles(rootPath string, articles Articles, tagName string) {
             "TagName": tagName,
             "TagCount": len(articles),
         }
-        RenderPage(pageTpl, data, outPath)
+        wg.Add(1)
+        go RenderPage(pageTpl, data, outPath)
     }
-    // Copy static files
     Copy()
 }
 
+// Copy static files
 func Copy() {
     srcList := globalConfig.Build.Copy
     for _, source := range srcList {
@@ -148,10 +166,11 @@ func Copy() {
         }
         fileName := file.Name()
         desPath := filepath.Join(publicPath, fileName)
+        wg.Add(1)
         if file.IsDir() {
-            CopyDir(srcPath, desPath)
+            go CopyDir(srcPath, desPath)
         } else {
-            CopyFile(srcPath, desPath)
+            go CopyFile(srcPath, desPath)
         }
     }
 }
