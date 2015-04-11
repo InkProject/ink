@@ -9,6 +9,7 @@ import (
 )
 
 type SiteConfig struct {
+    Root     string
     Title    string
     Subtitle string
     Logo     string
@@ -69,12 +70,16 @@ func (v Articles) Less(i, j int) bool { return v[i].Date > v[j].Date }
 
 const (
     CONFIG_SPLIT = "---"
-    MORE_SPLIT   = "---more---"
+    MORE_SPLIT   = "<!--more-->"
 )
 
 func parse(markdown string) template.HTML {
     // html.UnescapeString
     return template.HTML(blackfriday.MarkdownCommon([]byte(markdown)))
+}
+
+func ReplaceRootFlag(content string) string {
+    return strings.Replace(content, "-/", globalConfig.Site.Root + "/", -1)
 }
 
 func ParseConfig(configPath string) *GlobalConfig {
@@ -103,6 +108,7 @@ func ParseMarkdown(markdownPath string) *Article {
     }
     // Split config and markdown
     contentStr := string(data)
+    contentStr = ReplaceRootFlag(contentStr)
     content := strings.SplitN(contentStr, CONFIG_SPLIT, 2)
     contentLen := len(content)
     if contentLen > 0 {
@@ -121,13 +127,15 @@ func ParseMarkdown(markdownPath string) *Article {
     var article Article
     // Parse preview splited by MORE_SPLIT
     previewAry := strings.SplitN(markdownStr, MORE_SPLIT, 2)
-    if len(previewAry) > 1 {
-        article.Preview = previewAry[0]
-    } else {
+    if len(config.Preview) > 0 {
         article.Preview = config.Preview
+    } else {
+        if len(previewAry) > 1 {
+            article.Preview = previewAry[0]
+            markdownStr = strings.Replace(markdownStr, MORE_SPLIT, "", 1)
+        }
     }
     // Parse markdown content
-    markdownStr = strings.Replace(markdownStr, MORE_SPLIT, "", 1)
     article.Content = parse(markdownStr)
     article.Date = ParseDate(config.Date).Unix()
     if config.Update != "" {
@@ -136,6 +144,7 @@ func ParseMarkdown(markdownPath string) *Article {
     article.Title = config.Title
     if author, ok := globalConfig.Authors[config.Author]; ok {
         author.Id = config.Author
+        author.Avatar = ReplaceRootFlag(author.Avatar)
         article.Author = author
     }
     article.Tags = config.Tags

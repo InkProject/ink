@@ -21,7 +21,6 @@ func CompileTpl(tplPath string, name string) template.Template {
 }
 
 func RenderPage(tpl template.Template, tplData interface{}, outPath string) {
-    defer wg.Done()
     // Create file
     outFile, err := os.Create(outPath)
     if err != nil {
@@ -30,6 +29,7 @@ func RenderPage(tpl template.Template, tplData interface{}, outPath string) {
     defer func() {
         outFile.Close()
     }()
+    defer wg.Done()
     // Template render
     err = tpl.Execute(outFile, tplData)
     if err != nil {

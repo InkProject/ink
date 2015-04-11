@@ -14,7 +14,7 @@ import (
     "path/filepath"
 )
 
-const VERSION = "0.1.0"
+const VERSION = "Beta (2015-04-11)"
 
 var watcher *fsnotify.Watcher
 var globalConfig *GlobalConfig
@@ -70,6 +70,7 @@ func ParseGlobalConfig(c *cli.Context) {
         rootPath = "."
     }
     globalConfig = ParseConfig(filepath.Join(rootPath, "config.yml"))
+    globalConfig.Site.Logo = ReplaceRootFlag(globalConfig.Site.Logo)
 }
 
 func Server() {
@@ -181,10 +182,10 @@ func Convert(c *cli.Context) {
             content := strings.TrimSpace(string(data))
             parseAry := strings.SplitN(content, "---", 3)
             parseLen := len(parseAry)
-            if parseLen == 3 { // jekyll
+            if parseLen == 3 { // Jekyll
                 configStr = parseAry[1]
                 contentStr = parseAry[2]
-            } else if parseLen == 2 { // hexo
+            } else if parseLen == 2 { // Hexo
                 configStr = parseAry[0]
                 contentStr = parseAry[1]
             }

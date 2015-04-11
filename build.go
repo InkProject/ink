@@ -16,6 +16,7 @@ import (
 var pageTpl template.Template
 var themePath, publicPath, sourcePath string
 
+// For concurrency
 var wg sync.WaitGroup
 
 func Build() {
@@ -55,7 +56,7 @@ func Build() {
             if err != nil {
                 Fatal(err.Error())
             }
-            outPath := "/" + directory + fileName + ".html"
+            outPath := directory + fileName + ".html"
             // Generate file path
             article.Link = outPath
             article.GlobalConfig = *globalConfig
@@ -82,13 +83,13 @@ func Build() {
         go RenderArticles(filepath.Join("tag", tagName), articles, tagName)
     }
     // Generate other pages
-    files, _ := filepath.Glob(filepath.Join(themePath, "*.html"))
+    files, _ := filepath.Glob(filepath.Join(sourcePath, "*.html"))
     for _, path := range files {
         fileExt := strings.ToLower(filepath.Ext(path))
         baseName := filepath.Base(path)
-        if fileExt == ".html" && baseName != "page.html" && baseName != "article.html" {
+        if fileExt == ".html" {
             htmlTpl := CompileTpl(path, baseName)
-            relPath, _ := filepath.Rel(themePath, path)
+            relPath, _ := filepath.Rel(sourcePath, path)
             wg.Add(1)
             go RenderPage(htmlTpl, globalConfig, filepath.Join(publicPath, relPath))
         }
@@ -119,8 +120,8 @@ func RenderArticles(rootPath string, articles Articles, tagName string) {
         page = 1
     }
     for i := 0; i < page; i ++ {
-        var prev = filepath.Join("/", rootPath, "page" + strconv.Itoa(i) + ".html")
-        var next = filepath.Join("/", rootPath, "page" + strconv.Itoa(i + 2) + ".html")
+        var prev = filepath.Join(rootPath, "page" + strconv.Itoa(i) + ".html")
+        var next = filepath.Join(rootPath, "page" + strconv.Itoa(i + 2) + ".html")
         outPath := filepath.Join(pagePath, "index.html")
         if i != 0 {
             fileName := "page" + strconv.Itoa(i + 1) + ".html"
@@ -129,7 +130,7 @@ func RenderArticles(rootPath string, articles Articles, tagName string) {
             prev = ""
         }
         if i == 1 {
-            prev = filepath.Join("/", rootPath, "index.html")
+            prev = filepath.Join(rootPath, "index.html")
         }
         first := i * limit
         count := first + limit
