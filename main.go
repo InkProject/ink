@@ -32,8 +32,7 @@ func main() {
             Name: "preview",
             Usage: "Run in server mode to preview blog",
             Action: func(c *cli.Context) {
-                ParseGlobalConfig(c)
-                globalConfig.Develop = true
+                ParseGlobalConfig(c, true)
                 Build()
                 Watch()
                 Server()
@@ -43,7 +42,7 @@ func main() {
             Name: "publish",
             Usage: "Generate blog to public folder and publish",
             Action: func(c *cli.Context) {
-                ParseGlobalConfig(c)
+                ParseGlobalConfig(c, false)
                 Build()
                 Publish()
             },
@@ -57,19 +56,23 @@ func main() {
         },
     }
     app.Action = func(c *cli.Context) {
-        ParseGlobalConfig(c)
+        ParseGlobalConfig(c, false)
         Build()
     }
     app.Run(os.Args)
 }
 
-func ParseGlobalConfig(c *cli.Context) {
+func ParseGlobalConfig(c *cli.Context, develop bool) {
     if len(c.Args()) > 0 {
         rootPath = c.Args()[0]
     } else {
         rootPath = "."
     }
     globalConfig = ParseConfig(filepath.Join(rootPath, "config.yml"))
+    globalConfig.Develop = develop
+    if develop {
+        globalConfig.Site.Root = ""
+    }
     globalConfig.Site.Logo = ReplaceRootFlag(globalConfig.Site.Logo)
 }
 
