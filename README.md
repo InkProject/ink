@@ -3,7 +3,7 @@
 纸小墨（Ink）是一个使用GO语言编写的静态博客构建工具，可以快速搭建博客网站。无依赖跨平台，配置简单，构建快速，支持多用户，默认主题简洁，对中文排版进行了优化。
 
 ### 开始上手
-- 下载 [Ink 工具](https://github.com/InkProject/ink/releases)，然后下载并解压 [快速开始模板](https://github.com/InkProject/blog)
+- 下载 [Ink 工具](http://www.inkpaper.io/)，然后下载并解压 [快速开始模板](http://www.inkpaper.io/release/ink_blog.zip)
 - 在模板目录下运行命令 `ink preview`
 - 使用浏览器访问 `http://localhost:8888` 预览
 
