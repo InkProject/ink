@@ -52,15 +52,15 @@ func Exists(path string) bool {
 func CopyFile(source string, dest string) {
     sourcefile, err := os.Open(source)
     defer sourcefile.Close()
-    defer wg.Done()
     if err != nil {
-        Log(err.Error())
+        Fatal(err.Error())
     }
     destfile, err := os.Create(dest)
     if err != nil {
-        Log(err.Error())
+        Fatal(err.Error())
     }
     defer destfile.Close()
+    defer wg.Done()
     _, err = io.Copy(destfile, sourcefile)
     if err == nil {
         sourceinfo, err := os.Stat(source)
@@ -71,25 +71,27 @@ func CopyFile(source string, dest string) {
 }
 
 func CopyDir(source string, dest string) {
-    defer wg.Done()
     sourceinfo, err := os.Stat(source)
     if err != nil {
-        Log(err.Error())
+        Fatal(err.Error())
     }
     err = os.MkdirAll(dest, sourceinfo.Mode())
     if err != nil {
-        Log(err.Error())
+        Fatal(err.Error())
     }
     directory, _ := os.Open(source)
+    defer directory.Close()
+    defer wg.Done()
     objects, err := directory.Readdir(-1)
     for _, obj := range objects {
         sourcefilepointer := source + "/" + obj.Name()
         destinationfilepointer := dest + "/" + obj.Name()
         if obj.IsDir() {
             wg.Add(1)
-            go CopyDir(sourcefilepointer, destinationfilepointer)
+            CopyDir(sourcefilepointer, destinationfilepointer)
         } else {
             wg.Add(1)
+            Log("COPY: " + sourcefilepointer)
             go CopyFile(sourcefilepointer, destinationfilepointer)
         }
     }

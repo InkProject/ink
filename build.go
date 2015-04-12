@@ -94,6 +94,8 @@ func Build() {
             go RenderPage(htmlTpl, globalConfig, filepath.Join(publicPath, relPath))
         }
     }
+    // Copy static files
+    Copy()
     wg.Wait()
     endTime := time.Now()
     usedTime := endTime.Sub(startTime)
@@ -153,7 +155,6 @@ func RenderArticles(rootPath string, articles Articles, tagName string) {
         wg.Add(1)
         go RenderPage(pageTpl, data, outPath)
     }
-    Copy()
 }
 
 // Copy static files

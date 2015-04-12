@@ -6,6 +6,7 @@ import (
     "github.com/go-fsnotify/fsnotify"
     "gopkg.in/yaml.v2"
     "os"
+    "fmt"
     "bufio"
     "strings"
     "runtime"
@@ -172,11 +173,14 @@ func Convert(c *cli.Context) {
         Fatal("Please specify valid path")
     }
     // Parse Jekyll/Hexo post file
+    count := 0
     filepath.Walk(sourcePath, func (path string, f os.FileInfo, err error) error {
         fileExt := strings.ToLower(filepath.Ext(path))
         if fileExt == ".md" || fileExt == ".html" {
             // Read data from file
             data, err := ioutil.ReadFile(path)
+            fileName := filepath.Base(path)
+            Log("Converting " + fileName)
             if err != nil {
                 Fatal(err.Error())
             }
@@ -200,10 +204,18 @@ func Convert(c *cli.Context) {
             if article.Author == "" {
                 article.Author = "me"
             }
+            // Convert date
             dateAry := strings.SplitN(article.Date, ".", 2)
             if len(dateAry) == 2 {
                 article.Date = dateAry[0]
             }
+            if len(article.Date) == 10 {
+                article.Date = article.Date + " 00:00:00"
+            }
+            if len(article.Date) == 0 {
+                article.Date = "1970-01-01 00:00:00"
+            }
+            article.Update = ""
             // Generate Config
             var inkConfig []byte
             if inkConfig, err = yaml.Marshal(article); err != nil {
@@ -211,9 +223,10 @@ func Convert(c *cli.Context) {
             }
             inkConfigStr := string(inkConfig)
             markdownStr := inkConfigStr + "\n\n---\n\n" + contentStr
-            fileName := filepath.Base(path)
             ioutil.WriteFile(filepath.Join(rootPath, "source/" + fileName + ".md"), []byte(markdownStr), 0666)
+            count++
         }
         return nil
     })
+    fmt.Printf("\nConvert finish, total %v articles\n", count)
 }
