@@ -17,6 +17,7 @@ site:
     limit: 每页可显示的文章数目
     theme: 网站主题目录
     disqus: Disqus评论插件账户名
+    root: 网站根路径 #可选
 authors:
     作者ID:
         name: 作者名称
@@ -40,7 +41,7 @@ update: 年-月-日 时:分:秒 #更新时间，可选
 author: 作者ID
 topic: 题图链接 #可选
 draft: true #草稿，可选
-preview: 文章预览，也可在正文中使用--more--分割 #可选
+preview: 文章预览，也可在正文中使用<!--more-->分割 #可选
 tag: #可选
     - 标签1
     - 标签2
@@ -62,7 +63,7 @@ Markdown格式的正文
 
 ### 添加页面
 
-在`theme`目录下创建的任意`.html`文件将被复制，页面中可引用`config.yml`中site字段下的所有变量。
+在`source`目录下创建的任意`.html`文件将被复制，页面中可引用`config.yml`中site字段下的所有变量。
 
 ### 博客迁移
 
@@ -84,7 +85,7 @@ ink convert /path/_posts
 
 ### 图片
 
-![在这里对图片进行简短的描述](/images/example.jpg)
+![在这里对图片进行简短的描述](-/images/example.jpg)
 
 ### 引用
 
@@ -117,3 +118,16 @@ class SomeClass:
 ## 反馈建议
 
 请报告至 [https://github.com/InkProject/ink/issues](https://github.com/InkProject/ink/issues)
+
+## 更新历史
+
+- [2015-03-01] Beta版本，基础功能完成
+
+## 更新计划
+
+- 更多Markdown格式支持
+- 内容排版改进与优化
+- 分类与存档列表
+- RSS订阅支持
+- 页面SEO优化
+- 扩展与插件支持

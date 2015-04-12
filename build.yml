@@ -11,7 +11,7 @@ task:
         - "go build"
         - "./ink preview ${blog}"
     release:
-        - $GOPATH/bin/goxc -d=./release -bc="linux windows"
+        - $GOPATH/bin/goxc -d=./release -bc="linux windows darwin"
 
 watch:
     ./*.go: ${build_ink}
