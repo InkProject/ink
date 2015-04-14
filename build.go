@@ -1,35 +1,54 @@
 package main
 
 import (
-    "os"
     "fmt"
+    "html/template"
+    "os"
+    "path/filepath"
+    "strings"
+    "sync"
     "time"
     "sort"
-    "sync"
-    "strconv"
-    "strings"
-    "html/template"
-    "path/filepath"
 )
 
 // Parse config
-var pageTpl template.Template
+var articleTpl, pageTpl, archiveTpl, tagTpl template.Template
 var themePath, publicPath, sourcePath string
 
 // For concurrency
 var wg sync.WaitGroup
 
+type ArticleInfo struct {
+    Date    string
+    Title   string
+    Link    string
+}
+
+type Archive struct {
+    Year     string
+    Articles []ArticleInfo
+}
+
+type Tag struct {
+    Name     string
+    Count    int
+    Articles []ArticleInfo
+}
+
 func Build() {
     startTime := time.Now()
     var articles = make(Articles, 0)
     var tagMap = make(map[string]Articles)
+    var archiveMap = make(map[string][]ArticleInfo)
     // Parse config
     themePath = filepath.Join(rootPath, globalConfig.Site.Theme)
     publicPath = filepath.Join(rootPath, "public")
     sourcePath = filepath.Join(rootPath, "source")
     // Compile template
-    articleTpl := CompileTpl(filepath.Join(themePath, "article.html"), "article")
+    articleTpl = CompileTpl(filepath.Join(themePath, "article.html"), "article")
     pageTpl = CompileTpl(filepath.Join(themePath, "page.html"), "page")
+    archiveTpl = CompileTpl(filepath.Join(themePath, "archive.html"), "archive")
+    tagTpl = CompileTpl(filepath.Join(themePath, "tag.html"), "tag")
     // Clean public folder
     cleanPatterns := []string{"post", "tag", "images", "js", "css", "*.html"}
     for _, pattern := range cleanPatterns {
@@ -51,7 +70,8 @@ func Build() {
             fileName := strings.TrimSuffix(strings.ToLower(filepath.Base(path)), ".md")
             Log("Building " + fileName)
             // Generate directory
-            directory := time.Unix(article.Date, 0).Format("post/2006/01/02/")
+            unixTime := time.Unix(article.Date, 0)
+            directory := unixTime.Format("post/2006/01/02/")
             err := os.MkdirAll(filepath.Join(publicPath, directory), 0777)
             if err != nil {
                 Fatal(err.Error())
@@ -68,12 +88,25 @@ func Build() {
                 }
                 tagMap[tag] = append(tagMap[tag], *article)
             }
+            // Get archive info
+            dateYear := unixTime.Format("2006")
+            if _, ok := archiveMap[dateYear]; !ok {
+                archiveMap[dateYear] = make([]ArticleInfo, 0)
+            }
+            articleInfo := ArticleInfo{
+                Date: unixTime.Format("2006-01-02"),
+                Title: article.Title,
+                Link: article.Link,
+            }
+            archiveMap[dateYear] = append(archiveMap[dateYear], articleInfo)
             // Render article
             wg.Add(1)
             go RenderPage(articleTpl, article, filepath.Join(publicPath, outPath))
         }
         return nil
     })
+    // Sort by time
+    sort.Sort(Articles(articles))
     // Generate article pages
     wg.Add(1)
     go RenderArticles("", articles, "")
@@ -82,6 +115,43 @@ func Build() {
         wg.Add(1)
         go RenderArticles(filepath.Join("tag", tagName), articles, tagName)
     }
+    // Generate archive page
+    archives := make([]Archive, 0)
+    for year, articleInfos := range archiveMap {
+        archives = append(archives, Archive{
+            Year: year,
+            Articles: articleInfos,
+        })
+    }
+    wg.Add(1)
+    go RenderPage(archiveTpl, map[string]interface{}{
+        "Total": len(articles),
+        "Archive":  archives,
+        "Site":     globalConfig.Site,
+    }, filepath.Join(publicPath, "archive.html"))
+    // Generate tag page
+    tags := make([]Tag, 0)
+    for tagName, tagArticles := range tagMap {
+        articleInfos := make([]ArticleInfo, 0)
+        for _, article := range tagArticles {
+            articleInfos = append(articleInfos, ArticleInfo{
+                Date: time.Unix(article.Date, 0).Format("2006-01-02"),
+                Title: article.Title,
+                Link: article.Link,
+            })
+        }
+        tags = append(tags, Tag{
+            Name: tagName,
+            Count: len(tagArticles),
+            Articles: articleInfos,
+        })
+    }
+    wg.Add(1)
+    go RenderPage(tagTpl, map[string]interface{}{
+        "Total": len(articles),
+        "Tag":      tags,
+        "Site":     globalConfig.Site,
+    }, filepath.Join(publicPath, "tag.html"))
     // Generate other pages
     files, _ := filepath.Glob(filepath.Join(sourcePath, "*.html"))
     for _, path := range files {
@@ -95,66 +165,12 @@ func Build() {
         }
     }
     // Copy static files
+    Log("Copying files")
     Copy()
     wg.Wait()
     endTime := time.Now()
     usedTime := endTime.Sub(startTime)
     fmt.Printf("\nBuild finish in public folder (%v)\n", usedTime)
-}
-
-// Generate html file by article data
-func RenderArticles(rootPath string, articles Articles, tagName string) {
-    defer wg.Done()
-    // Create path
-    pagePath := filepath.Join(publicPath, rootPath)
-    os.MkdirAll(pagePath, 0777)
-    // Sort by time
-    sort.Sort(Articles(articles))
-    // Split page
-    limit := globalConfig.Site.Limit
-    total := len(articles)
-    page := total / limit
-    rest := total % limit
-    if rest != 0 {
-        page++
-    }
-    if total < limit {
-        page = 1
-    }
-    for i := 0; i < page; i ++ {
-        var prev = filepath.Join(rootPath, "page" + strconv.Itoa(i) + ".html")
-        var next = filepath.Join(rootPath, "page" + strconv.Itoa(i + 2) + ".html")
-        outPath := filepath.Join(pagePath, "index.html")
-        if i != 0 {
-            fileName := "page" + strconv.Itoa(i + 1) + ".html"
-            outPath = filepath.Join(pagePath, fileName)
-        } else {
-            prev = ""
-        }
-        if i == 1 {
-            prev = filepath.Join(rootPath, "index.html")
-        }
-        first := i * limit
-        count := first + limit
-        if i == page - 1 {
-            if rest != 0 {
-                count = first + rest
-            }
-            next = ""
-        }
-        var data = map[string]interface{}{
-            "Articles": articles[first:count],
-            "Site": globalConfig.Site,
-            "Page": i + 1,
-            "Total": page,
-            "Prev": prev,
-            "Next": next,
-            "TagName": tagName,
-            "TagCount": len(articles),
-        }
-        wg.Add(1)
-        go RenderPage(pageTpl, data, outPath)
-    }
 }
 
 // Copy static files

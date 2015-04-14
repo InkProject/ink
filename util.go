@@ -42,8 +42,12 @@ func ParseDate(dateStr string) time.Time {
 // Check file if exist
 func Exists(path string) bool {
     _, err := os.Stat(path)
-    if err == nil { return true }
-    if os.IsNotExist(err) { return false }
+    if err == nil {
+        return true
+    }
+    if os.IsNotExist(err) {
+        return false
+    }
     return false
 }
 
@@ -91,7 +95,6 @@ func CopyDir(source string, dest string) {
             CopyDir(sourcefilepointer, destinationfilepointer)
         } else {
             wg.Add(1)
-            Log("COPY: " + sourcefilepointer)
             go CopyFile(sourcefilepointer, destinationfilepointer)
         }
     }

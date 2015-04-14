@@ -26,16 +26,16 @@ type AuthorConfig struct {
 }
 
 type BuildConfig struct {
-    Port  string
-    Watch bool
-    Copy []string
+    Port    string
+    Watch   bool
+    Copy    []string
     Publish string
 }
 
 type GlobalConfig struct {
-    Site   SiteConfig
+    Site    SiteConfig
     Authors map[string]AuthorConfig
-    Build  BuildConfig
+    Build   BuildConfig
     Develop bool
 }
 
@@ -79,7 +79,7 @@ func parse(markdown string) template.HTML {
 }
 
 func ReplaceRootFlag(content string) string {
-    return strings.Replace(content, "-/", globalConfig.Site.Root + "/", -1)
+    return strings.Replace(content, "-/", globalConfig.Site.Root+"/", -1)
 }
 
 func ParseConfig(configPath string) *GlobalConfig {

@@ -1,21 +1,21 @@
 package main
 
 import (
-    "github.com/codegangsta/cli"
-    "github.com/imeoer/bamboo-api/ink"
-    "github.com/go-fsnotify/fsnotify"
-    "gopkg.in/yaml.v2"
-    "os"
-    "fmt"
     "bufio"
-    "strings"
-    "runtime"
-    "os/exec"
+    "fmt"
+    "github.com/codegangsta/cli"
+    "github.com/go-fsnotify/fsnotify"
+    "github.com/imeoer/bamboo-api/ink"
+    "gopkg.in/yaml.v2"
     "io/ioutil"
+    "os"
+    "os/exec"
     "path/filepath"
+    "runtime"
+    "strings"
 )
 
-const VERSION = "Beta (2015-04-11)"
+const VERSION = "Beta (2015-04-12)"
 
 var watcher *fsnotify.Watcher
 var globalConfig *GlobalConfig
@@ -24,13 +24,13 @@ var rootPath string
 func main() {
     app := cli.NewApp()
     app.Name = "ink"
-    app.Usage = "A concise static blog generator"
+    app.Usage = "An elegant static blog generator"
     app.Author = "https://github.com/imeoer"
     app.Email = "imeoer@gmail.com"
     app.Version = VERSION
     app.Commands = []cli.Command{
         {
-            Name: "preview",
+            Name:  "preview",
             Usage: "Run in server mode to preview blog",
             Action: func(c *cli.Context) {
                 ParseGlobalConfig(c, true)
@@ -40,7 +40,7 @@ func main() {
             },
         },
         {
-            Name: "publish",
+            Name:  "publish",
             Usage: "Generate blog to public folder and publish",
             Action: func(c *cli.Context) {
                 ParseGlobalConfig(c, false)
@@ -49,7 +49,7 @@ func main() {
             },
         },
         {
-            Name: "convert",
+            Name:  "convert",
             Usage: "Convert Jekyll/Hexo post format to Ink format",
             Action: func(c *cli.Context) {
                 Convert(c)
@@ -95,20 +95,20 @@ func Watch() {
     go func() {
         for {
             select {
-                case event := <-watcher.Events:
-                    if event.Op == fsnotify.Write {
-                        // Handle when file change
-                        Build()
-                    }
-                case err := <-watcher.Errors:
-                    Log(err.Error())
+            case event := <-watcher.Events:
+                if event.Op == fsnotify.Write {
+                    // Handle when file change
+                    Build()
+                }
+            case err := <-watcher.Errors:
+                Log(err.Error())
             }
         }
     }()
     var dirs = []string{"source"}
     for _, source := range dirs {
         dirPath := filepath.Join(rootPath, source)
-        filepath.Walk(dirPath, func (path string, f os.FileInfo, err error) error {
+        filepath.Walk(dirPath, func(path string, f os.FileInfo, err error) error {
             if f.IsDir() {
                 // Defer watcher.Close()
                 if err := watcher.Add(path); err != nil {
@@ -174,7 +174,7 @@ func Convert(c *cli.Context) {
     }
     // Parse Jekyll/Hexo post file
     count := 0
-    filepath.Walk(sourcePath, func (path string, f os.FileInfo, err error) error {
+    filepath.Walk(sourcePath, func(path string, f os.FileInfo, err error) error {
         fileExt := strings.ToLower(filepath.Ext(path))
         if fileExt == ".md" || fileExt == ".html" {
             // Read data from file
@@ -223,7 +223,7 @@ func Convert(c *cli.Context) {
             }
             inkConfigStr := string(inkConfig)
             markdownStr := inkConfigStr + "\n\n---\n\n" + contentStr
-            ioutil.WriteFile(filepath.Join(rootPath, "source/" + fileName + ".md"), []byte(markdownStr), 0666)
+            ioutil.WriteFile(filepath.Join(rootPath, "source/"+fileName+".md"), []byte(markdownStr), 0666)
             count++
         }
         return nil
