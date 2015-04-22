@@ -8,7 +8,7 @@ task:
     build_theme:
         - gulp --cwd ${theme}
     build_ink:
-        - "go build"
+        - "go fmt && go build"
         - "./ink preview ${blog}"
     release:
         - $GOPATH/bin/goxc -d=./release -bc="linux windows darwin"
