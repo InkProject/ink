@@ -1,13 +1,17 @@
 package main
 
 import (
+	"archive/zip"
 	"bufio"
 	"fmt"
 	"github.com/codegangsta/cli"
 	"github.com/go-fsnotify/fsnotify"
 	"github.com/imeoer/bamboo-api/ink"
 	"gopkg.in/yaml.v2"
+	"io"
 	"io/ioutil"
+	"math"
+	"net/http"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -29,6 +33,13 @@ func main() {
 	app.Email = "imeoer@gmail.com"
 	app.Version = VERSION
 	app.Commands = []cli.Command{
+		{
+			Name:  "init",
+			Usage: "Init blog in a specified directory",
+			Action: func(c *cli.Context) {
+				Init(c)
+			},
+		},
 		{
 			Name:  "preview",
 			Usage: "Run in server mode to preview blog",
@@ -229,4 +240,87 @@ func Convert(c *cli.Context) {
 		return nil
 	})
 	fmt.Printf("\nConvert finish, total %v articles\n", count)
+}
+
+// Download and extract Ink template
+
+type Download struct {
+	io.Reader
+	length int64
+	total  int64
+}
+
+func (dn *Download) Read(p []byte) (int, error) {
+	n, err := dn.Reader.Read(p)
+	dn.total += int64(n)
+	if err == nil {
+		percent := math.Ceil(float64(dn.total) / float64(dn.length) * 100)
+		fmt.Printf("\rDownload %.f%% ...\r", percent)
+	}
+	return n, err
+}
+
+func Init(c *cli.Context) {
+	// Parse arguments
+	var directory string
+	args := c.Args()
+	if len(args) > 0 {
+		directory = args[0]
+	} else {
+		Fatal("Please specify a new blog directory name")
+	}
+	// Create blog directory
+	err := os.MkdirAll(directory, 0777)
+	if err != nil {
+		Fatal(err.Error())
+	}
+	zipPath := filepath.Join(os.TempDir(), "ink_blog.zip")
+	zipOut, err := os.Create(zipPath)
+	if err != nil {
+		Fatal(err.Error())
+	}
+	defer zipOut.Close()
+	// Http get request for zip
+	fmt.Printf("Connecting server to init blog\r")
+	resp, err := http.Get("http://www.inkpaper.io/release/ink_blog.zip")
+	if err != nil {
+		Fatal(err.Error())
+	}
+	defer resp.Body.Close()
+	// Get download progress
+	zipSrc := &Download{Reader: resp.Body, length: resp.ContentLength}
+	_, err = io.Copy(zipOut, zipSrc)
+	if err != nil {
+		Fatal(err.Error())
+	}
+	// Extract downloaded zip file
+	r, err := zip.OpenReader(zipPath)
+	if err != nil {
+		Fatal(err.Error())
+	}
+	defer r.Close()
+	for _, f := range r.File {
+		rc, err := f.Open()
+		if err != nil {
+			Fatal(err.Error())
+		}
+		isDir := f.FileInfo().IsDir()
+		if isDir {
+			err = os.MkdirAll(filepath.Join(directory, f.Name), 0777)
+			if err != nil {
+				Fatal(err.Error())
+			}
+		} else {
+			extractOut, err := os.Create(filepath.Join(directory, f.Name))
+			if err != nil {
+				Fatal(err.Error())
+			}
+			_, err = io.Copy(extractOut, rc)
+			if err != nil {
+				Fatal(err.Error())
+			}
+		}
+		rc.Close()
+	}
+	Log("Blog created in " + directory + ", use 'ink preview " + directory + "' to preview")
 }

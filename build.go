@@ -18,6 +18,7 @@ var themePath, publicPath, sourcePath string
 // For concurrency
 var wg sync.WaitGroup
 
+// Data struct
 type ArticleInfo struct {
 	Date  string
 	Title string
@@ -35,6 +36,7 @@ type Tag struct {
 	Articles Collections
 }
 
+// For sort
 type Collections []interface{}
 
 func (v Collections) Len() int      { return len(v) }

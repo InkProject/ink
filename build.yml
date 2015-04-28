@@ -1,6 +1,7 @@
 variable:
     blog: /home/imeoer/PROJECT/blog
     theme: ${blog}/theme
+
 task:
     default:
         - ${build_theme}
