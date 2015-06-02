@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/russross/blackfriday"
+	"github.com/InkProject/blackfriday"
 	"gopkg.in/yaml.v2"
 	"html/template"
 	"io/ioutil"
@@ -81,7 +81,7 @@ func ParseConfig(configPath string) *GlobalConfig {
 	// Read data from file
 	data, err := ioutil.ReadFile(configPath)
 	if err != nil {
-		Fatal(err.Error())
+		return nil
 	}
 	if err = yaml.Unmarshal(data, &config); err != nil {
 		Fatal(err.Error())

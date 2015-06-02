@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"github.com/codegangsta/cli"
 	"github.com/go-fsnotify/fsnotify"
-	"github.com/imeoer/bamboo-api/ink"
+	"github.com/InkProject/ink.go"
 	"gopkg.in/yaml.v2"
 	"io"
 	"io/ioutil"
@@ -19,7 +19,11 @@ import (
 	"strings"
 )
 
-const VERSION = "Beta (2015-04-12)"
+const (
+	VERSION      = "Beta (2015-04-28)"
+	DEFAULT_PATH = "blog"
+	DOWNLOAD_URL = "http://www.inkpaper.io/release/ink_blog.zip"
+)
 
 var watcher *fsnotify.Watcher
 var globalConfig *GlobalConfig
@@ -44,7 +48,7 @@ func main() {
 			Name:  "preview",
 			Usage: "Run in server mode to preview blog",
 			Action: func(c *cli.Context) {
-				ParseGlobalConfig(c, true)
+				ParseGlobalConfigByCli(c, true)
 				Build()
 				Watch()
 				Server()
@@ -54,7 +58,7 @@ func main() {
 			Name:  "publish",
 			Usage: "Generate blog to public folder and publish",
 			Action: func(c *cli.Context) {
-				ParseGlobalConfig(c, false)
+				ParseGlobalConfigByCli(c, false)
 				Build()
 				Publish()
 			},
@@ -68,19 +72,41 @@ func main() {
 		},
 	}
 	app.Action = func(c *cli.Context) {
-		ParseGlobalConfig(c, false)
-		Build()
+		ParseGlobalConfig(".", false)
+		if globalConfig == nil {
+			ParseGlobalConfig(DEFAULT_PATH, false)
+			if globalConfig == nil {
+				Init(nil)
+				ParseGlobalConfig(DEFAULT_PATH, true)
+			}
+		}
+		if globalConfig != nil {
+			Build()
+			Watch()
+			Server()
+		}
 	}
 	app.Run(os.Args)
 }
 
-func ParseGlobalConfig(c *cli.Context, develop bool) {
+func ParseGlobalConfigByCli(c *cli.Context, develop bool) {
 	if len(c.Args()) > 0 {
 		rootPath = c.Args()[0]
 	} else {
 		rootPath = "."
 	}
+	ParseGlobalConfig(rootPath, develop)
+	if globalConfig == nil {
+		Fatal("Parse config.yml failed, please specify a valid path")
+	}
+}
+
+func ParseGlobalConfig(root string, develop bool) {
+	rootPath = root
 	globalConfig = ParseConfig(filepath.Join(rootPath, "config.yml"))
+	if globalConfig == nil {
+		return
+	}
 	globalConfig.Develop = develop
 	if develop {
 		globalConfig.Site.Root = ""
@@ -94,8 +120,8 @@ func Server() {
 		port = "8888"
 	}
 	app := ink.New()
-	app.Get("*", ink.Static(rootPath+"/public"))
-	app.Head("*", ink.Static(rootPath+"/public"))
+	app.Get("*", ink.Static(filepath.Join(rootPath, "public")))
+	app.Head("*", ink.Static(filepath.Join(rootPath, "public")))
 	Log("Open http://localhost:" + port + "/ to preview")
 	app.Listen("0.0.0.0:" + port)
 }
@@ -263,11 +289,15 @@ func (dn *Download) Read(p []byte) (int, error) {
 func Init(c *cli.Context) {
 	// Parse arguments
 	var directory string
-	args := c.Args()
-	if len(args) > 0 {
-		directory = args[0]
+	if c == nil {
+		directory = DEFAULT_PATH
 	} else {
-		Fatal("Please specify a new blog directory name")
+		args := c.Args()
+		if len(args) > 0 {
+			directory = args[0]
+		} else {
+			Fatal("Please specify a new blog directory name")
+		}
 	}
 	// Create blog directory
 	err := os.MkdirAll(directory, 0777)
@@ -282,7 +312,7 @@ func Init(c *cli.Context) {
 	defer zipOut.Close()
 	// Http get request for zip
 	fmt.Printf("Connecting server to init blog\r")
-	resp, err := http.Get("http://www.inkpaper.io/release/ink_blog.zip")
+	resp, err := http.Get(DOWNLOAD_URL)
 	if err != nil {
 		Fatal(err.Error())
 	}
