@@ -4,9 +4,9 @@ import (
 	"archive/zip"
 	"bufio"
 	"fmt"
+	"github.com/InkProject/ink.go"
 	"github.com/codegangsta/cli"
 	"github.com/go-fsnotify/fsnotify"
-	"github.com/InkProject/ink.go"
 	"gopkg.in/yaml.v2"
 	"io"
 	"io/ioutil"
@@ -20,7 +20,7 @@ import (
 )
 
 const (
-	VERSION      = "Beta (2015-04-28)"
+	VERSION      = "Beta (2015-06-04)"
 	DEFAULT_PATH = "blog"
 	DOWNLOAD_URL = "http://www.inkpaper.io/release/ink_blog.zip"
 )

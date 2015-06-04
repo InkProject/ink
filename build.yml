@@ -1,5 +1,5 @@
 variable:
-    blog: /home/imeoer/PROJECT/blog
+    blog: ./blog
     theme: ${blog}/theme
 
 task:
@@ -12,7 +12,18 @@ task:
         - "go fmt && go build"
         - "./ink preview ${blog}"
     release:
-        - $GOPATH/bin/goxc -d=./release -bc="linux windows darwin"
+        - rsync -av template/* blog --exclude public --exclude theme/node_modules
+        - $GOPATH/bin/goxc -d=release -bc="linux windows darwin" -include=blog
+        - rm -r blog
+        - mv release/snapshot/ink_windows_amd64.zip ../ink-web/release/.
+        - mv release/snapshot/ink_windows_386.zip ../ink-web/release/.
+        - mv release/snapshot/ink_darwin_amd64.zip ../ink-web/release/.
+        - mv release/snapshot/ink_linux_amd64.tar.gz ../ink-web/release/.
+        - mv release/snapshot/ink_linux_386.tar.gz ../ink-web/release/.
+        # - zip -r release/snapshot/ink_windows_amd64.zip blog -x "*node_modules*" "*public*"
+        # - zip -r release/snapshot/ink_windows_386.zip blog -x "*node_modules*" "*public*"
+        # - zip -r release/snapshot/ink_darwin_amd64.zip blog ink_darwin_amd64 -x "*node_modules*" "*public*"
+        # - zip ink_linux_amd64.tar.gz ./release/snapshot/ink_linux_amd64.tar.gz ./blog
 
 watch:
     ./*.go: ${build_ink}
