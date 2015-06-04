@@ -3,8 +3,7 @@
 纸小墨（Ink）是一个使用GO语言编写的静态博客构建工具，可以快速搭建博客网站。无依赖跨平台，配置简单，构建快速，支持多用户，默认主题简洁，对中文排版进行了优化。
 
 ### 开始上手
-- 下载 [Ink 工具](http://www.inkpaper.io/)，然后下载并解压 [快速开始模板](http://www.inkpaper.io/release/ink_blog.zip)
-- 在模板目录下运行命令 `ink preview`
+- 下载并解压 [Ink](http://www.inkpaper.io/)，运行命令 `ink`
 - 使用浏览器访问 `http://localhost:8888` 预览
 
 ### 配置网站
@@ -55,6 +54,8 @@ Markdown格式的正文
 - 在博客目录下运行`ink publish`命令自动构建博客并发布
 - 或运行`ink`命令将生成的`public`目录下的内容手动部署
 
+> Tips: 当`source`目录中文件发生变化，`ink preview`命令会自动重新构建博客，刷新浏览器以更新
+
 ## 定制支持
 
 ### 修改主题
@@ -74,12 +75,15 @@ ink convert /path/_posts
 
 ### 源码编译
 
-1. Clone [Ink源码](https://github.com/InkProject/ink)
-2. 配置[GO](http://golang.org/doc/install)语言环境
-3. 安装交叉编译工具[gocx](https://github.com/laher/goxc)
-4. 安装构建工具[build](https://github.com/imeoer/build.go)
-5. 使用`build`命令自动编译
-6. 使用`build release`命令生成不同平台二进制
+本地运行
+1. 配置[GO](http://golang.org/doc/install)语言环境
+2. 运行命令`go get github.com/InkProject/ink`，编译并获取ink
+3. 运行命令`ink preview $GOPATH/src/github.com/InkProject/ink/template`，预览博客
+
+Docker构建
+1. Clone源码 `git clone git@github.com:InkProject/ink.git`
+2. 源码目录下构建镜像`docker build -t ink .`
+3. 运行容器`docker run -p 8888:80 ink`
 
 ## Markdown 样式支持
 
@@ -121,13 +125,14 @@ class SomeClass:
 
 ## 更新历史
 
+- [2015-06-04] 编译更多平台版本，增加标签与存档页
 - [2015-03-01] Beta版本，基础功能完成
 
 ## 更新计划
 
+- 中文排版深度优化
 - 更多Markdown格式支持
-- 内容排版改进与优化
-- 分类与存档列表
+- 图形界面支持
 - RSS订阅支持
 - 页面SEO优化
 - 扩展与插件支持
