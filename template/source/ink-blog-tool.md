@@ -1,6 +1,6 @@
 title: 简洁的中文博客构建工具 —— 纸小墨（Ink）
 date: 2015-03-01 17:00:00
-update: 2015-04-09 10:00:00
+update: 2015-06-04 14:00:00
 author: me
 topic: -/images/example.jpg
 tags:
@@ -17,10 +17,8 @@ preview: 纸小墨（Ink）是一个使用GO语言编写的静态博客构建工
 纸小墨（Ink）是一个使用GO语言编写的静态博客构建工具，可以快速搭建博客网站。无依赖跨平台，配置简单，构建快速，支持多用户，默认主题简洁，对中文排版进行了优化。
 
 ### 开始上手
-- 下载并解压 [Ink](http://www.inkpaper.io/)，运行命令 `ink init blog`与`ink preview blog`
+- 下载并解压 [Ink](http://www.inkpaper.io/)，运行命令 `ink`
 - 使用浏览器访问 `http://localhost:8888` 预览
-
-> Tips: 若第一步失败，请尝试手动下载解压 [快速开始模板](http://www.inkpaper.io/release/ink_blog.zip)，然后在模板目录下运行命令 `ink preview`
 
 ### 配置网站
 编辑`config.yml`，使用如下格式
@@ -91,12 +89,15 @@ ink convert /path/_posts
 
 ### 源码编译
 
-1. Clone [Ink源码](https://github.com/InkProject/ink)
-2. 配置[GO](http://golang.org/doc/install)语言环境
-3. 安装交叉编译工具[gocx](https://github.com/laher/goxc)
-4. 安装构建工具[build](https://github.com/imeoer/build.go)
-5. 使用`build`命令自动编译
-6. 使用`build release`命令生成不同平台二进制
+本地运行
+1. 配置[GO](http://golang.org/doc/install)语言环境
+2. 运行命令`go get github.com/InkProject/ink`，编译并获取ink
+3. 运行命令`ink preview $GOPATH/src/github.com/InkProject/ink/template`，预览博客
+
+Docker构建
+1. Clone源码 `git clone git@github.com:InkProject/ink.git`
+2. 源码目录下构建镜像`docker build -t ink .`
+3. 运行容器`docker run -p 8888:80 ink`
 
 ## Markdown 样式支持
 
@@ -138,6 +139,7 @@ class SomeClass:
 
 ## 更新历史
 
+- [2015-06-04] 编译更多平台版本，增加标签与存档页
 - [2015-03-01] Beta版本，基础功能完成
 
 ## 更新计划
