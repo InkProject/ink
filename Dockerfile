@@ -1,3 +1,5 @@
 FROM golang:1.4.2
-go get github.com/InkProject/ink
-ink preview $GOPATH/src/github.com/InkProject/ink/template
+RUN go get github.com/InkProject/ink
+EXPOSE 8888
+WORKDIR /go/src/github.com/InkProject/ink
+CMD ["ink", "preview", "template"]
