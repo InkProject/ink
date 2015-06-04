@@ -90,11 +90,13 @@ ink convert /path/_posts
 ### 源码编译
 
 本地运行
+
 1. 配置[GO](http://golang.org/doc/install)语言环境
 2. 运行命令`go get github.com/InkProject/ink`，编译并获取ink
 3. 运行命令`ink preview $GOPATH/src/github.com/InkProject/ink/template`，预览博客
 
 Docker构建
+
 1. Clone源码 `git clone git@github.com:InkProject/ink.git`
 2. 源码目录下构建镜像`docker build -t ink .`
 3. 运行容器`docker run -p 8888:80 ink`
