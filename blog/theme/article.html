@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1, minimum-scale=1, maximum-scale=1">
+        <meta name="keywords" content="{{range .Tags}}{{.}},{{end}}">
+        <meta name="description" content="{{.Title}}">
+        <link rel="stylesheet" href="{{.Site.Root}}/css/global.css">
+        <link rel="stylesheet" href="{{.Site.Root}}/css/index.css">
+        <link rel="stylesheet" href="{{.Site.Root}}/css/monokai_sublime.css">
+        <title>{{.Title}}</title>
+    </head>
+    <body>
+        <article class="container">
+            <a class="index" href="{{.Site.Root}}/">{{.Site.Title}}</a>
+            <ul class="menu">
+                <li class="menu-item"><a href="{{.Site.Root}}/archive.html">归档</a></li>
+                <li class="menu-item"><a href="{{.Site.Root}}/tag.html">标签</a></li>
+            </ul>
+            <article class="main article">
+                <h1 class="title">{{.Title}}</h1>
+                <section class="info">
+                    {{if .Author.Avatar}}<span class="avatar" style="background-image: url({{.Author.Avatar}});"></span>{{end}}
+                    {{if .Author.Name}}<a class="name" href="{{.Site.Root}}/about.{{.Author.Id}}.html">{{.Author.Name}}</a>{{end}}
+                    <span class="date" data-time="{{.Date}}">
+                        <span class="from"></span>
+                        {{if .Update}}<span class="date" data-time="{{.Update}}">（更新于<span class="from"></span>）</span>{{end}}
+                    </span>
+                    <span class="tags">{{range .Tags}}<a class="tag" href="{{$.Site.Root}}/tag/{{.}}/index.html">{{.}}</a>{{end}}</span>
+                </section>
+                <article class="content">{{.Content}}</article>
+                <section class="author">
+                    {{if .Author.Avatar}}<div class="avatar" style="background-image: url({{.Author.Avatar}});"></div>{{end}}
+                    <a class="name" href="{{.Site.Root}}/about.{{.Author.Id}}.html">{{.Author.Name}}</a>
+                    <div class="intro">{{.Author.Intro}}</div>
+                </section>
+                <section id="disqus_thread"></section>
+            </article>
+        </article>
+        <footer class="footer">
+            <span class="copyright">
+                {{.Site.Title}} ©
+                <script type="text/javascript">
+                    document.write(new Date().getFullYear());
+                </script>
+            </span>
+            <span class="publish">Powered by <a href="http://www.inkpaper.io/" target="_blank">Ink</a></span>
+        </footer>
+        <script src="{{.Site.Root}}/js/jquery-1.11.2.min.js"></script>
+        <script src="{{.Site.Root}}/js/highlight.pack.js"></script>
+        <script src="{{.Site.Root}}/js/jquery.unveil.js"></script>
+        <script src="{{.Site.Root}}/js/index.js"></script>
+        <script type="text/javascript">
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//{{.Site.Disqus}}.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+    </body>
+</html>

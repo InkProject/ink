@@ -37,13 +37,13 @@ func main() {
 	app.Email = "imeoer@gmail.com"
 	app.Version = VERSION
 	app.Commands = []cli.Command{
-		{
-			Name:  "init",
-			Usage: "Init blog in a specified directory",
-			Action: func(c *cli.Context) {
-				Init(c)
-			},
-		},
+		// {
+		// 	Name:  "init",
+		// 	Usage: "Init blog in a specified directory",
+		// 	Action: func(c *cli.Context) {
+		// 		Init(c)
+		// 	},
+		// },
 		{
 			Name:  "preview",
 			Usage: "Run in server mode to preview blog",
@@ -76,8 +76,9 @@ func main() {
 		if globalConfig == nil {
 			ParseGlobalConfig(DEFAULT_PATH, false)
 			if globalConfig == nil {
-				Init(nil)
-				ParseGlobalConfig(DEFAULT_PATH, true)
+				// Init(nil)
+				// ParseGlobalConfig(DEFAULT_PATH, true)
+				Fatal("Config.yml not found, please specify a valid blog directory")
 			}
 		}
 		if globalConfig != nil {
