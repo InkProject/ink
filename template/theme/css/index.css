@@ -1,3 +1,50 @@
+@font-face {
+  font-family: 'Quattrocento-Regular';
+  src: url('fonts/Quattrocento-Regular.eot');
+  src: url('fonts/Quattrocento-Regular.eot?#iefix') format('embedded-opentype'), url('fonts/Quattrocento-Regular.otf') format('otf'), url('fonts/Quattrocento-Regular.woff') format('woff'), url('fonts/Quattrocento-Regular.ttf') format('truetype'), url('fonts/Quattrocento-Regular.svg#Quattrocento-Regular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Quattrocento-Bold';
+  src: url('fonts/Quattrocento-Bold.eot');
+  src: url('fonts/Quattrocento-Bold.eot?#iefix') format('embedded-opentype'), url('fonts/Quattrocento-Bold.otf') format('otf'), url('fonts/Quattrocento-Bold.woff') format('woff'), url('fonts/Quattrocento-Bold.ttf') format('truetype'), url('fonts/Quattrocento-Bold.svg#Quattrocento-Bold') format('svg');
+  font-weight: bold;
+  font-style: normal;
+}
+.font-main {
+  font-family: Arial, Heltivitar, "Hiragino Sans GB", "STHeiti", "Microsoft YaHei", "WenQuanYi Micro Hei";
+}
+.font-content {
+  font-family: Quattrocento-Regular, Georgia, Cambria, "Times New Roman", Times, serif, "Hiragino Sans GB", "STHeiti", "Microsoft YaHei", "WenQuanYi Micro Hei";
+}
+.font-code {
+  font-family: consolas, monaco, "Source Code Pro", monospace;
+}
+html,
+body,
+input {
+  margin: 0;
+  font-family: Arial, Heltivitar, "Hiragino Sans GB", "STHeiti", "Microsoft YaHei", "WenQuanYi Micro Hei";
+}
+html,
+body {
+  height: 100%;
+}
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+a {
+  text-decoration: none;
+}
+a:hover {
+  opacity: 0.9;
+}
+*::selection {
+  background-color: #ffe5d8;
+}
 .index {
   margin: 15px;
   display: block;
@@ -222,7 +269,7 @@ a.name {
 }
 .main.article .info .date {
   color: #ccc;
-  margin-right: 10px;
+  margin-right: 5px;
 }
 .main.article .info .tags {
   color: #ccc;
@@ -233,14 +280,14 @@ a.name {
   text-decoration: none;
 }
 .main.article .content {
+  font-family: Quattrocento-Regular, Georgia, Cambria, "Times New Roman", Times, serif, "Hiragino Sans GB", "STHeiti", "Microsoft YaHei", "WenQuanYi Micro Hei";
   margin-top: 100px;
   font-size: 16px;
   letter-spacing: 1px;
   line-height: 1.7;
-  text-align: justify;
   text-justify: ideographic;
 }
-.main.article .content TO DO h1 {
+.main.article .content h1 {
   font-size: 28px;
   margin-top: 40px;
   margin-bottom: 10px;
@@ -268,23 +315,25 @@ a.name {
   text-decoration: underline;
 }
 .main.article .content code {
-  font-size: 14px;
   font-family: consolas, monaco, "Source Code Pro", monospace;
-  background-color: #ffcdac;
-  padding: 2px;
+  font-size: 14px;
+  padding: 1px 4px;
   border-radius: 2px;
   margin: 0px 3px;
+  border: 1px dashed #EDD0BD;
+  background-color: #FFF9F5;
 }
 .main.article .content pre {
   margin: 0;
 }
 .main.article .content pre code {
-  font-size: 14px;
   font-family: consolas, monaco, "Source Code Pro", monospace;
+  font-size: 14px;
   margin: 0;
   padding: 15px;
   border-radius: 0;
-  background-color: #373737;
+  border: 1px dashed #EDD0BD;
+  background-color: #FFF9F5;
 }
 .main.article .content blockquote {
   border-left: 3px #6b6b6b solid;

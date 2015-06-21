@@ -1,8 +1,20 @@
+title: An Elegant Static Blog Generator —— InkPaper
+date: 2015-03-01 17:00:00
+update: 2015-06-21 10:00:00
+author: me
+topic: -/images/example-en.png
+tags:
+    - Design
+    - Writing
+preview: InkPaper is an static blog generator developed by Golang, No dependencies, Easy configuration, Fast building, Multi user support, Elegant theme, Optimized typesetting
+
+---
+
 ## Introduce
 
 InkPaper is an static blog generator developed by Golang, No dependencies, Easy config, Fast building, Multi user support, Elegant theme, Optimized typesetting.
 
-![InkPaper - An Elegant Static Blog Generator](template/source/images/example-en.png)
+![InkPaper - An Elegant Static Blog Generator](-/images/example-en.png)
 
 ### Quick Start
 - Download & Extract [Ink](http://www.inkpaper.io/)，Run `ink`

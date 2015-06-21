@@ -1,3 +1,5 @@
+@import "global";
+
 .index {
     margin: 15px;
     display: block;
@@ -223,7 +225,7 @@ a.name {
             }
             .date {
                 color: #ccc;
-                margin-right: 10px;
+                margin-right: 5px;
             }
             .tags {
                 color: #ccc;
@@ -235,13 +237,13 @@ a.name {
             }
         }
         .content {
+            .font-content;
             margin-top: 100px;
             font-size: 16px;
             letter-spacing: 1px;
             line-height: 1.7;
-            text-align: justify;
+            // text-align: justify;
             text-justify: ideographic;
-            TO DO
             h1 {
                 font-size: 28px;
                 margin-top: 40px;
@@ -270,22 +272,24 @@ a.name {
                 }
             }
             code {
+                .font-code;
                 font-size: 14px;
-                font-family: consolas,monaco,"Source Code Pro",monospace;
-                background-color: #ffcdac;
-                padding: 2px;
+                padding: 1px 4px;
                 border-radius: 2px;
                 margin: 0px 3px;
+                border: 1px dashed #EDD0BD;
+                background-color: #FFF9F5;
             }
             pre {
                 margin: 0;
                 code {
+                    .font-code;
                     font-size: 14px;
-                    font-family: consolas,monaco,"Source Code Pro",monospace;
                     margin: 0;
                     padding: 15px;
                     border-radius: 0;
-                    background-color: #373737;
+                    border: 1px dashed #EDD0BD;
+                    background-color: #FFF9F5;
                 }
             }
             blockquote {

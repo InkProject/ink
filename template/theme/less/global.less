@@ -1,7 +1,42 @@
+@font-face {
+    font-family: 'Quattrocento-Regular';
+    src: url('fonts/Quattrocento-Regular.eot');
+    src: url('fonts/Quattrocento-Regular.eot?#iefix') format('embedded-opentype'),
+        url('fonts/Quattrocento-Regular.otf') format('otf'),
+        url('fonts/Quattrocento-Regular.woff') format('woff'),
+        url('fonts/Quattrocento-Regular.ttf') format('truetype'),
+        url('fonts/Quattrocento-Regular.svg#Quattrocento-Regular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Quattrocento-Bold';
+    src: url('fonts/Quattrocento-Bold.eot');
+    src: url('fonts/Quattrocento-Bold.eot?#iefix') format('embedded-opentype'),
+        url('fonts/Quattrocento-Bold.otf') format('otf'),
+        url('fonts/Quattrocento-Bold.woff') format('woff'),
+        url('fonts/Quattrocento-Bold.ttf') format('truetype'),
+        url('fonts/Quattrocento-Bold.svg#Quattrocento-Bold') format('svg');
+    font-weight: bold;
+    font-style: normal;
+}
+
+.font-main {
+    font-family: Arial, Heltivitar, "Hiragino Sans GB", "STHeiti", "Microsoft YaHei", "WenQuanYi Micro Hei";
+}
+
+.font-content {
+    font-family: Quattrocento-Regular, Georgia, Cambria, "Times New Roman", Times, serif, "Hiragino Sans GB", "STHeiti", "Microsoft YaHei", "WenQuanYi Micro Hei";
+}
+
+.font-code {
+    font-family: consolas, monaco, "Source Code Pro", monospace;
+}
+
 html, body, input {
     margin: 0;
-    // font-family: "arial", "heltivitar", "Hiragino Sans GB", "STHeiti", "Microsoft YaHei", "WenQuanYi Micro Hei";
-    font: 400 1em/1.8 "arial", "heltivitar", "Hiragino Sans GB", "STHeiti", "Microsoft YaHei", "WenQuanYi Micro Hei";
+    .font-main;
 }
 
 html, body {

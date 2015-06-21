@@ -3,19 +3,19 @@ timeSince = (date) ->
     seconds = Math.floor((new Date() - date) / 1000)
     interval = Math.floor(seconds / 31536000)
     if interval > 1
-        return interval + "年前"
+        return interval + " Years Ago"
     interval = Math.floor(seconds / 2592000)
     if interval > 1
-        return interval + "个月前"
+        return interval + " Months Ago"
     interval = Math.floor(seconds / 86400)
     if interval > 1
-        return interval + "天前"
+        return interval + " Days Ago"
     interval = Math.floor(seconds / 3600)
     if interval > 1
-        return interval + "小时前"
+        return interval + " Hours Ago"
     interval = Math.floor(seconds / 60)
     if interval > 1
-        return interval + "分钟前"
+        return interval + " Mins Ago"
     return Math.floor(seconds) + "秒前"
 
 $ () ->
@@ -39,6 +39,7 @@ $ () ->
         imageAlt = $item.prop('alt')
         $item.parent('a').after('<div class="image-alt">' + imageAlt + '</div>') if $.trim(imageAlt)
     # lazy load images
-    .unveil 200, () ->
-        $(@).load () ->
-            @style.opacity = 1
+    if $('img').unveil
+        $('img').unveil 200, () ->
+            $(@).load () ->
+                @style.opacity = 1

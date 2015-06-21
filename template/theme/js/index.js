@@ -6,23 +6,23 @@
     seconds = Math.floor((new Date() - date) / 1000);
     interval = Math.floor(seconds / 31536000);
     if (interval > 1) {
-      return interval + "年前";
+      return interval + " Years Ago";
     }
     interval = Math.floor(seconds / 2592000);
     if (interval > 1) {
-      return interval + "个月前";
+      return interval + " Months Ago";
     }
     interval = Math.floor(seconds / 86400);
     if (interval > 1) {
-      return interval + "天前";
+      return interval + " Days Ago";
     }
     interval = Math.floor(seconds / 3600);
     if (interval > 1) {
-      return interval + "小时前";
+      return interval + " Hours Ago";
     }
     interval = Math.floor(seconds / 60);
     if (interval > 1) {
-      return interval + "分钟前";
+      return interval + " Mins Ago";
     }
     return Math.floor(seconds) + "秒前";
   };
@@ -41,7 +41,7 @@
     $('pre code').each(function(i, block) {
       return hljs.highlightBlock(block);
     });
-    return $('img').each(function(idx, item) {
+    $('img').each(function(idx, item) {
       var $item, imageAlt;
       $item = $(item);
       $item.attr('src', 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAB+UlEQVRYR+2XQSgFQRjH30sppUgp5SDlJqLkLMVJSinF5TkppaSUg5QiclDKhYgLcSEHOUgpUopycXBSclbipMT/r9nXmHa93ZnvrUc79W93Z+f7vt/+Z2fe23SqwFu6wPlSCaDrDCUOJg66OuAa/2ffwQo8+QrU6+pAxPhtjB+Bnry4IAdPMKA9YnKp4YdI1JUL8EOqmkWeZ8SURwGM6z31TPnfgEWwfgzqh96gVWjdYhr9QkQcnEbmKSP7IK43Q0BmMIbTtx8wVgTwEcmrjQLXuG7JAdiE+xcKsB7H7DaixYkAviBhqQFzg+vmHwDLcO8KqlNj6DZdN5sI4AKyjhuZubEua33dOG+AZlXfAY7s01snLo6NPhHAEiSdgfgLw0XCBTKvFWrF+SnEccMQ3ZvzcesefY3Qq3ZPBNCnVrarFmeXUKU26B3nXPl+bQmdo3EB0qkziFMbthG+DTpXAXlzsBgFjiCb3+47NdV8XcQAO5RTi+rJt3Dkxm3buJgmpQA5lbcQ90IC8sknbMlU3AOONVKAG0iUcQQyw8UAuZdxT5NuIoD8h82prZKmQz4RwB0k6ssDHFOKAOaJ7Vta620mDji9Rqh/1HuI6ImbTNXjl92AVzvoe4OLYu0XIHdRcwiii18trg8i68lIAK2tS6bY1brEQSEHPwHGT3gpenNNIQAAAABJRU5ErkJggg==');
@@ -50,11 +50,14 @@
       if ($.trim(imageAlt)) {
         return $item.parent('a').after('<div class="image-alt">' + imageAlt + '</div>');
       }
-    }).unveil(200, function() {
-      return $(this).load(function() {
-        return this.style.opacity = 1;
-      });
     });
+    if ($('img').unveil) {
+      return $('img').unveil(200, function() {
+        return $(this).load(function() {
+          return this.style.opacity = 1;
+        });
+      });
+    }
   });
 
 }).call(this);

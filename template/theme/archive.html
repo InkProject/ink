@@ -6,7 +6,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1, minimum-scale=1, maximum-scale=1">
         <meta name="keywords" content="{{.Site.Title}}, {{.Site.Subtitle}}">
         <meta name="description" content="{{.Site.Subtitle}}">
-        <link rel="stylesheet" href="{{.Site.Root}}/css/global.css">
         <link rel="stylesheet" href="{{.Site.Root}}/css/index.css">
         <title>{{.Site.Title}}</title>
     </head>
@@ -14,8 +13,8 @@
         <article class="container">
             <a class="index" href="{{.Site.Root}}/">{{.Site.Title}}</a>
             <ul class="menu">
-                <li class="menu-item"><a href="{{.Site.Root}}/archive.html">归档</a></li>
-                <li class="menu-item"><a href="{{.Site.Root}}/tag.html">标签</a></li>
+                <li class="menu-item"><a href="{{.Site.Root}}/archive.html">ARCHIVE</a></li>
+                <li class="menu-item"><a href="{{.Site.Root}}/tag.html">TAG</a></li>
             </ul>
             <article class="main archive">
                 <header class="site">
@@ -23,13 +22,13 @@
                     <h2 class="subtitle">{{.Site.Subtitle}}</h2>
                 </header>
                 <header class="header">
-                    <span class="title">归档</span>
-                    <span class="subtitle">共{{.Total}}篇文章</span>
+                    <span class="title">ARCHIVE</span>
+                    <span class="subtitle">{{.Total}} Articles</span>
                 </header>
                 <ul class="archive-list">
                     {{range .Archive}}
                     <li class="archive-item">
-                        <div class="archive-year">{{.Year}}年</div>
+                        <div class="archive-year">{{.Year}}</div>
                         <ul class="article-list">
                             {{range .Articles}}
                             <li class="article-item">

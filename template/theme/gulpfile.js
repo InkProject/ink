@@ -8,7 +8,7 @@ var path = require('path'),
 var compile = function(file, type) {
     var method = coffee;
     var outpath = 'js';
-    if (type === 'less') {
+    if (type === '.less') {
         method = less;
         outpath = 'css';
     }
@@ -21,13 +21,15 @@ var compile = function(file, type) {
 };
 
 gulp.task('watch', function() {
+    compile('coffee/**/*.coffee', '.coffee');
+    compile('less/**/*.less', '.less');
     gulp.watch(['coffee/**/*.coffee', 'less/**/*.less'], function(data) {
         console.info(data.type + ': ' + data.path);
-        compile(data.path, data.type);
+        compile(data.path, path.extname(data.path));
     });
 });
 
 gulp.task('default', function() {
-    compile('coffee/**/*.coffee', 'coffee');
-    compile('less/**/*.less', 'less');
+    compile('coffee/**/*.coffee', '.coffee');
+    compile('less/**/*.less', '.less');
 });

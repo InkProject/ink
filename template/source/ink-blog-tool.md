@@ -1,20 +1,20 @@
-title: 简洁的中文博客构建工具 —— 纸小墨（Ink）
+title: 简洁的静态博客构建工具 —— 纸小墨（InkPaper）
 date: 2015-03-01 17:00:00
-update: 2015-06-04 14:00:00
+update: 2015-06-21 10:00:00
 author: me
-topic: -/images/example.jpg
+topic: -/images/example.png
 tags:
-    - 产品
-    - 设计
-    - 写作
-    - 博客
-preview: 纸小墨（Ink）是一个使用GO语言编写的静态博客构建工具，可以快速搭建博客网站。无依赖跨平台，配置简单，构建快速，支持多用户，默认主题简洁，对中文排版进行了优化
+    - Design
+    - Writing
+preview: 纸小墨（InkPaper）是一个使用GO语言编写的静态博客构建工具，可以快速搭建博客网站。无依赖跨平台，配置简单，构建快速，支持多用户，默认主题简洁，对文字排版进行了优化
 
 ---
 
 ## 纸小墨简介
 
-纸小墨（Ink）是一个使用GO语言编写的静态博客构建工具，可以快速搭建博客网站。无依赖跨平台，配置简单，构建快速，支持多用户，默认主题简洁，对中文排版进行了优化。
+纸小墨（InkPaper）是一个使用GO语言编写的静态博客构建工具，可以快速搭建博客网站。无依赖跨平台，配置简单，构建快速，支持多用户，默认主题简洁，对文字排版进行了优化。
+
+![纸小墨 - 简洁的静态博客构建工具](-/images/example.png)
 
 ### 开始上手
 - 下载并解压 [Ink](http://www.inkpaper.io/)，运行命令 `ink`
@@ -101,40 +101,6 @@ Docker构建
 2. 源码目录下构建镜像`docker build -t ink .`
 3. 运行容器`docker run -p 8888:80 ink`
 
-## Markdown 样式支持
-
-### 图片
-
-![在这里对图片进行简短的描述](-/images/example.jpg)
-
-### 引用
-
-> Markdown 是一种轻量级标记语言，创始人为約翰·格魯伯（John Gruber）。它允许人们“使用易读易写的纯文本格式编写文档，然后转换成有效的XHTML(或者HTML)文档”。这种语言吸收了很多在电子邮件中已有的纯文本标记的特性。
-—— [维基百科](http://www.wikiwand.com/zh/Markdown)
-
-### 代码
-``` python
-@requires_authorization
-def somefunc(param1='', param2=0):
-    r'''A docstring'''
-    if param1 > param2: # interesting
-        print 'Gre\'ater'
-    return (param2 - param1 + 1) or None
-
-class SomeClass:
-    pass
-
->>> message = '''interpreter
-... prompt'''
-```
-
-### 表格
-| 左对齐    |    右对齐| 居中 |
-| :-------- | -------:| :--: |
-| apple     |     100 |  1   |
-| banana    |     200 |  2   |
-| pear      |     300 |  3   |
-
 ## 反馈建议
 
 请报告至 [https://github.com/InkProject/ink/issues](https://github.com/InkProject/ink/issues)
@@ -146,9 +112,6 @@ class SomeClass:
 
 ## 更新计划
 
-- 中文排版深度优化
-- 更多Markdown格式支持
-- 图形界面支持
-- RSS订阅支持
+- 排版深度优化
 - 页面SEO优化
 - 扩展与插件支持

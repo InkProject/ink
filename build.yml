@@ -1,13 +1,13 @@
 variable:
-    blog: ./blog
+    blog: ./template
     theme: ${blog}/theme
 
 task:
     default:
-        - ${build_theme}
+        - ${#build_theme}
         - ${build_ink}
     build_theme:
-        - gulp --cwd ${theme}
+        - gulp --cwd ${theme} watch
     build_ink:
         - "go fmt && go build"
         - "./ink preview ${blog}"
@@ -20,10 +20,6 @@ task:
         - mv release/snapshot/ink_darwin_amd64.zip ../ink-web/release/.
         - mv release/snapshot/ink_linux_amd64.tar.gz ../ink-web/release/.
         - mv release/snapshot/ink_linux_386.tar.gz ../ink-web/release/.
-        # - zip -r release/snapshot/ink_windows_amd64.zip blog -x "*node_modules*" "*public*"
-        # - zip -r release/snapshot/ink_windows_386.zip blog -x "*node_modules*" "*public*"
-        # - zip -r release/snapshot/ink_darwin_amd64.zip blog ink_darwin_amd64 -x "*node_modules*" "*public*"
-        # - zip ink_linux_amd64.tar.gz ./release/snapshot/ink_linux_amd64.tar.gz ./blog
 
 watch:
     ./*.go: ${build_ink}
