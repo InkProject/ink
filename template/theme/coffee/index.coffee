@@ -16,7 +16,7 @@ timeSince = (date) ->
     interval = Math.floor(seconds / 60)
     if interval > 1
         return interval + " Mins Ago"
-    return Math.floor(seconds) + "秒前"
+    return Math.floor(seconds) + "Seconds Ago"
 
 $ () ->
 
