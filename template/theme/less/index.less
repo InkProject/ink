@@ -31,7 +31,7 @@ a.name {
 .main {
     color: #4A4A4A;
     margin: 0 auto;
-    max-width: 780px;
+    max-width: 720px;
     padding: 0 15px;
     min-height:100%;
     position:relative;
@@ -53,6 +53,8 @@ a.name {
             text-align: center;
         }
         .subtitle {
+            .font-content;
+            font-style: italic;
             margin-top: 10px;
             font-size: 16px;
             color: #bbb;
@@ -110,6 +112,7 @@ a.name {
                     margin-bottom: 10px;
                 }
                 .preview {
+                    .font-content;
                     display: inline-block;
                     letter-spacing: 0.5px;
                     line-height: 28px;
@@ -131,7 +134,8 @@ a.name {
                     background-size: cover;
                     background-repeat: no-repeat;
                     float: left;
-                    margin-top: -2px;
+                    margin-top: -4px;
+                    border: 1px #eee solid;
                 }
                 .name {
                     margin-right: 10px;
@@ -140,6 +144,7 @@ a.name {
                     color: #ccc;
                 }
                 .tags {
+                    .font-content;
                     margin-left: 10px;
                     float: right;
                     .tag {
@@ -202,14 +207,13 @@ a.name {
         padding-bottom: 120px;
         .title {
             margin: 0;
-            font-size: 32px;
             font-weight: bold;
             color: #4A4A4A;
-            // text-align: center;
+            font-size: 30px;
+            line-height: 42px;
         }
         .info {
-            margin-top: 20px;
-            // text-align: center;
+            margin-top: 10px;
             .avatar {
                 width: 20px;
                 height: 20px;
@@ -218,7 +222,8 @@ a.name {
                 background-size: cover;
                 background-repeat: no-repeat;
                 float: left;
-                margin-top: 1px;
+                margin-top: -4px;
+                border: 1px #eee solid;
             }
             .name {
                 margin-right: 5px;
@@ -228,6 +233,7 @@ a.name {
                 margin-right: 5px;
             }
             .tags {
+                .font-content;
                 color: #ccc;
                 .tag {
                     margin-right: 5px;
@@ -238,12 +244,18 @@ a.name {
         }
         .content {
             .font-content;
-            margin-top: 100px;
+            margin-top: 70px;
             font-size: 16px;
             letter-spacing: 1px;
             line-height: 1.7;
             // text-align: justify;
-            text-justify: ideographic;
+            h1, h2, h3, h4, h5, h6 {
+                .font-main;
+                // font-weight: normal;
+                & + p {
+                    margin-top: 10px;
+                }
+            }
             h1 {
                 font-size: 28px;
                 margin-top: 40px;
@@ -260,15 +272,15 @@ a.name {
                 margin-bottom: 10px;
             }
             p {
-                margin-bottom: 10px;
-                margin-top: 10px;
+                margin-bottom: 30px;
+                margin-top: 30px;
             }
             a {
                 color: #1980e6;
-                text-decoration: none;
+                text-decoration: underline;
                 &:hover {
                     color: #0f4d8a;
-                    text-decoration: underline;
+                    // text-decoration: underline;
                 }
             }
             code {
@@ -296,6 +308,7 @@ a.name {
                 border-left: 3px #6b6b6b solid;
                 padding: 0px 10px 0px 20px;
                 margin: 25px 0;
+                margin-left: -23px;
             }
             table {
                 font-size: 14px;
@@ -320,7 +333,16 @@ a.name {
             }
             ul {
                 list-style: circle;
-                padding-left: 20px;
+                padding-left: 40px;
+                li {
+                    margin: 5px 0;
+                }
+            }
+            ol {
+                padding-left: 40px;
+                li {
+                    margin: 5px 0;
+                }
             }
             hr {
                 margin: 25px 0;
@@ -342,6 +364,41 @@ a.name {
                 font-style: italic;
                 margin-top: -10px;
                 margin-bottom: 50px;
+            }
+        }
+        .recommend {
+            margin-top: 50px;
+            overflow: auto;
+            .nav {
+                width: 100%;
+                .head {
+                    font-size: 12px;
+                    font-style: italic;
+                    margin-bottom: 10px;
+                    color: #c4c4c4;
+                    text-align: center;
+                }
+                .link {
+                    color: #4A4A4A;
+                    text-align: center;
+                    display: block;
+                }
+                &.prev.more {
+                    width: 45%;
+                    text-align: left;
+                    float: left;
+                    .head, .link  {
+                        text-align: left;
+                    }
+                }
+                &.next.more {
+                    width: 45%;
+                    text-align: right;
+                    float: right;
+                    .head, .link {
+                        text-align: right;
+                    }
+                }
             }
         }
         .author {
@@ -373,6 +430,8 @@ a.name {
                 font-size: 16px;
             }
             .intro {
+                .font-content;
+                font-style: italic;
                 margin-top: 8px;
                 font-size: 14px;
                 color: #bbb;
@@ -397,6 +456,8 @@ a.name {
         .site {
             .title, .subtitle {
                 text-align: left;
+                .font-content;
+                font-style: italic;
             }
         }
         .header {
@@ -412,7 +473,8 @@ a.name {
             .subtitle {
                 margin-top: 10px;
                 padding: 3px 5px;
-                // font-size: 16px;
+                .font-content;
+                font-style: italic;
                 color: #bbb;
             }
         }

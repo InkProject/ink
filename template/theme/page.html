@@ -11,11 +11,7 @@
     </head>
     <body>
         <article class="container">
-            <a class="index" href="{{.Site.Root}}/">{{.Site.Title}}</a>
-            <ul class="menu">
-                <li class="menu-item"><a href="{{.Site.Root}}/archive.html">ARCHIVE</a></li>
-                <li class="menu-item"><a href="{{.Site.Root}}/tag.html">TAG</a></li>
-            </ul>
+            {{template "header" .}}
             <article class="main page">
                 <header class="header site">
                     {{if .TagName}}
@@ -38,7 +34,7 @@
                             {{if .Author.Name}}<a class="name" href="{{.Site.Root}}/about.{{.Author.Id}}.html">{{.Author.Name}}</a>{{end}}
                             <span class="date" data-time="{{.Date}}">
                                 <span class="from"></span>
-                                {{if .Update}}<span class="date" data-time="{{.Update}}">(<span class="from"></span> Updated)</span>{{end}}
+                                {{if .Update}}<span class="date" data-time="{{.Update}}">(<span class="from"></span> updated)</span>{{end}}
                             </span>
                             <span class="tags">
                             {{range .Tags}}<a class="tag" href="{{$.Site.Root}}/tag/{{.}}/index.html">{{.}}</a>{{end}}
@@ -54,15 +50,7 @@
                 </section>
             </article>
         </article>
-        <footer class="footer">
-            <span class="copyright">
-                {{.Site.Title}} ©
-                <script type="text/javascript">
-                    document.write(new Date().getFullYear());
-                </script>
-            </span>
-            <span class="publish">Powered by <a href="http://www.inkpaper.io/" target="_blank">Ink</a></span>
-        </footer>
+        {{template "footer" .}}
     </body>
     <script src="{{.Site.Root}}/js/jquery-1.11.2.min.js"></script>
     <script src="{{.Site.Root}}/js/index.js"></script>

@@ -3,20 +3,20 @@ timeSince = (date) ->
     seconds = Math.floor((new Date() - date) / 1000)
     interval = Math.floor(seconds / 31536000)
     if interval > 1
-        return interval + " Years Ago"
+        return interval + " years ago"
     interval = Math.floor(seconds / 2592000)
     if interval > 1
-        return interval + " Months Ago"
+        return interval + " months ago"
     interval = Math.floor(seconds / 86400)
     if interval > 1
-        return interval + " Days Ago"
+        return interval + " days ago"
     interval = Math.floor(seconds / 3600)
     if interval > 1
-        return interval + " Hours Ago"
+        return interval + " hours ago"
     interval = Math.floor(seconds / 60)
     if interval > 1
-        return interval + " Mins Ago"
-    return Math.floor(seconds) + "Seconds Ago"
+        return interval + " mins ago"
+    return Math.floor(seconds) + " seconds ago"
 
 $ () ->
 

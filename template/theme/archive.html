@@ -11,11 +11,7 @@
     </head>
     <body>
         <article class="container">
-            <a class="index" href="{{.Site.Root}}/">{{.Site.Title}}</a>
-            <ul class="menu">
-                <li class="menu-item"><a href="{{.Site.Root}}/archive.html">ARCHIVE</a></li>
-                <li class="menu-item"><a href="{{.Site.Root}}/tag.html">TAG</a></li>
-            </ul>
+            {{template "header" .}}
             <article class="main archive">
                 <header class="site">
                     <h1 class="title">{{.Site.Title}}</h1>
@@ -42,15 +38,7 @@
                 </ul>
             </article>
         </article>
-        <footer class="footer">
-            <span class="copyright">
-                {{.Site.Title}} ©
-                <script type="text/javascript">
-                    document.write(new Date().getFullYear());
-                </script>
-            </span>
-            <span class="publish">Powered by <a href="http://www.inkpaper.io/" target="_blank">Ink</a></span>
-        </footer>
+        {{template "footer" .}}
     </body>
     <script src="{{.Site.Root}}/js/jquery-1.11.2.min.js"></script>
     <script src="{{.Site.Root}}/js/index.js"></script>

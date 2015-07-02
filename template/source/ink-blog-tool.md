@@ -18,7 +18,7 @@ preview: 纸小墨（InkPaper）是一个使用GO语言编写的静态博客构�
 
 ### 开始上手
 - 下载并解压 [Ink](http://www.inkpaper.io/)，运行命令 `ink`
-- 使用浏览器访问 `http://localhost:8888` 预览
+- 使用浏览器访问 `http://localhost:8000` 预览
 
 ### 配置网站
 编辑`config.yml`，使用如下格式

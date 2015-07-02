@@ -76,7 +76,7 @@ a.name {
 .main {
   color: #4A4A4A;
   margin: 0 auto;
-  max-width: 780px;
+  max-width: 720px;
   padding: 0 15px;
   min-height: 100%;
   position: relative;
@@ -98,6 +98,8 @@ a.name {
   text-align: center;
 }
 .main .site .subtitle {
+  font-family: Quattrocento-Regular, Georgia, Cambria, "Times New Roman", Times, serif, "Hiragino Sans GB", "STHeiti", "Microsoft YaHei", "WenQuanYi Micro Hei";
+  font-style: italic;
   margin-top: 10px;
   font-size: 16px;
   color: #bbb;
@@ -157,6 +159,7 @@ a.name {
   margin-bottom: 10px;
 }
 .main.page .article-list .article .preview {
+  font-family: Quattrocento-Regular, Georgia, Cambria, "Times New Roman", Times, serif, "Hiragino Sans GB", "STHeiti", "Microsoft YaHei", "WenQuanYi Micro Hei";
   display: inline-block;
   letter-spacing: 0.5px;
   line-height: 28px;
@@ -178,7 +181,8 @@ a.name {
   background-size: cover;
   background-repeat: no-repeat;
   float: left;
-  margin-top: 1px;
+  margin-top: -4px;
+  border: 1px #eee solid;
 }
 .main.page .article-list .article .name {
   margin-right: 10px;
@@ -187,6 +191,7 @@ a.name {
   color: #ccc;
 }
 .main.page .article-list .article .tags {
+  font-family: Quattrocento-Regular, Georgia, Cambria, "Times New Roman", Times, serif, "Hiragino Sans GB", "STHeiti", "Microsoft YaHei", "WenQuanYi Micro Hei";
   margin-left: 10px;
   float: right;
 }
@@ -247,12 +252,13 @@ a.name {
 }
 .main.article .title {
   margin: 0;
-  font-size: 32px;
   font-weight: bold;
   color: #4A4A4A;
+  font-size: 30px;
+  line-height: 42px;
 }
 .main.article .info {
-  margin-top: 20px;
+  margin-top: 10px;
 }
 .main.article .info .avatar {
   width: 20px;
@@ -262,7 +268,8 @@ a.name {
   background-size: cover;
   background-repeat: no-repeat;
   float: left;
-  margin-top: 1px;
+  margin-top: -4px;
+  border: 1px #eee solid;
 }
 .main.article .info .name {
   margin-right: 5px;
@@ -272,6 +279,7 @@ a.name {
   margin-right: 5px;
 }
 .main.article .info .tags {
+  font-family: Quattrocento-Regular, Georgia, Cambria, "Times New Roman", Times, serif, "Hiragino Sans GB", "STHeiti", "Microsoft YaHei", "WenQuanYi Micro Hei";
   color: #ccc;
 }
 .main.article .info .tags .tag {
@@ -281,11 +289,26 @@ a.name {
 }
 .main.article .content {
   font-family: Quattrocento-Regular, Georgia, Cambria, "Times New Roman", Times, serif, "Hiragino Sans GB", "STHeiti", "Microsoft YaHei", "WenQuanYi Micro Hei";
-  margin-top: 100px;
+  margin-top: 70px;
   font-size: 16px;
   letter-spacing: 1px;
   line-height: 1.7;
-  text-justify: ideographic;
+}
+.main.article .content h1,
+.main.article .content h2,
+.main.article .content h3,
+.main.article .content h4,
+.main.article .content h5,
+.main.article .content h6 {
+  font-family: Arial, Heltivitar, "Hiragino Sans GB", "STHeiti", "Microsoft YaHei", "WenQuanYi Micro Hei";
+}
+.main.article .content h1 + p,
+.main.article .content h2 + p,
+.main.article .content h3 + p,
+.main.article .content h4 + p,
+.main.article .content h5 + p,
+.main.article .content h6 + p {
+  margin-top: 10px;
 }
 .main.article .content h1 {
   font-size: 28px;
@@ -303,16 +326,15 @@ a.name {
   margin-bottom: 10px;
 }
 .main.article .content p {
-  margin-bottom: 10px;
-  margin-top: 10px;
+  margin-bottom: 30px;
+  margin-top: 30px;
 }
 .main.article .content a {
   color: #1980e6;
-  text-decoration: none;
+  text-decoration: underline;
 }
 .main.article .content a:hover {
   color: #0f4d8a;
-  text-decoration: underline;
 }
 .main.article .content code {
   font-family: consolas, monaco, "Source Code Pro", monospace;
@@ -339,6 +361,7 @@ a.name {
   border-left: 3px #6b6b6b solid;
   padding: 0px 10px 0px 20px;
   margin: 25px 0;
+  margin-left: -23px;
 }
 .main.article .content table {
   font-size: 14px;
@@ -363,7 +386,16 @@ a.name {
 }
 .main.article .content ul {
   list-style: circle;
-  padding-left: 20px;
+  padding-left: 40px;
+}
+.main.article .content ul li {
+  margin: 5px 0;
+}
+.main.article .content ol {
+  padding-left: 40px;
+}
+.main.article .content ol li {
+  margin: 5px 0;
 }
 .main.article .content hr {
   margin: 25px 0;
@@ -385,6 +417,43 @@ a.name {
   font-style: italic;
   margin-top: -10px;
   margin-bottom: 50px;
+}
+.main.article .recommend {
+  margin-top: 50px;
+  overflow: auto;
+}
+.main.article .recommend .nav {
+  width: 100%;
+}
+.main.article .recommend .nav .head {
+  font-size: 12px;
+  font-style: italic;
+  margin-bottom: 10px;
+  color: #c4c4c4;
+  text-align: center;
+}
+.main.article .recommend .nav .link {
+  color: #4A4A4A;
+  text-align: center;
+  display: block;
+}
+.main.article .recommend .nav.prev.more {
+  width: 45%;
+  text-align: left;
+  float: left;
+}
+.main.article .recommend .nav.prev.more .head,
+.main.article .recommend .nav.prev.more .link {
+  text-align: left;
+}
+.main.article .recommend .nav.next.more {
+  width: 45%;
+  text-align: right;
+  float: right;
+}
+.main.article .recommend .nav.next.more .head,
+.main.article .recommend .nav.next.more .link {
+  text-align: right;
 }
 .main.article .author {
   margin-top: 36px;
@@ -416,6 +485,8 @@ a.name {
   font-size: 16px;
 }
 .main.article .author .intro {
+  font-family: Quattrocento-Regular, Georgia, Cambria, "Times New Roman", Times, serif, "Hiragino Sans GB", "STHeiti", "Microsoft YaHei", "WenQuanYi Micro Hei";
+  font-style: italic;
   margin-top: 8px;
   font-size: 14px;
   color: #bbb;
@@ -441,6 +512,8 @@ a.name {
 .main.archive .site .subtitle,
 .main.tag .site .subtitle {
   text-align: left;
+  font-family: Quattrocento-Regular, Georgia, Cambria, "Times New Roman", Times, serif, "Hiragino Sans GB", "STHeiti", "Microsoft YaHei", "WenQuanYi Micro Hei";
+  font-style: italic;
 }
 .main.archive .header,
 .main.tag .header {
@@ -458,6 +531,8 @@ a.name {
 .main.tag .header .subtitle {
   margin-top: 10px;
   padding: 3px 5px;
+  font-family: Quattrocento-Regular, Georgia, Cambria, "Times New Roman", Times, serif, "Hiragino Sans GB", "STHeiti", "Microsoft YaHei", "WenQuanYi Micro Hei";
+  font-style: italic;
   color: #bbb;
 }
 .main.archive .archive-list,

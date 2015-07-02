@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"html/template"
+	"io/ioutil"
 	"os"
 	"path/filepath"
 	"sort"
@@ -64,11 +65,28 @@ func Build() {
 	themePath = filepath.Join(rootPath, globalConfig.Site.Theme)
 	publicPath = filepath.Join(rootPath, "public")
 	sourcePath = filepath.Join(rootPath, "source")
+	// Append all partial html
+	var partialTpl string
+	files, _ := filepath.Glob(filepath.Join(themePath, "*.html"))
+	for _, path := range files {
+		fileExt := strings.ToLower(filepath.Ext(path))
+		baseName := strings.ToLower(filepath.Base(path))
+		if fileExt == ".html" && strings.HasPrefix(baseName, "_") {
+			html, err := ioutil.ReadFile(path)
+			if err != nil {
+				Fatal(err.Error())
+			}
+			tplName := strings.TrimPrefix(baseName, "_")
+			tplName = strings.TrimSuffix(tplName, ".html")
+			htmlStr := "{{define \"" + tplName + "\"}}" + string(html) + "{{end}}"
+			partialTpl += htmlStr
+		}
+	}
 	// Compile template
-	articleTpl = CompileTpl(filepath.Join(themePath, "article.html"), "article")
-	pageTpl = CompileTpl(filepath.Join(themePath, "page.html"), "page")
-	archiveTpl = CompileTpl(filepath.Join(themePath, "archive.html"), "archive")
-	tagTpl = CompileTpl(filepath.Join(themePath, "tag.html"), "tag")
+	articleTpl = CompileTpl(filepath.Join(themePath, "article.html"), partialTpl, "article")
+	pageTpl = CompileTpl(filepath.Join(themePath, "page.html"), partialTpl, "page")
+	archiveTpl = CompileTpl(filepath.Join(themePath, "archive.html"), partialTpl, "archive")
+	tagTpl = CompileTpl(filepath.Join(themePath, "tag.html"), partialTpl, "tag")
 	// Clean public folder
 	cleanPatterns := []string{"post", "tag", "images", "js", "css", "*.html", "favicon.ico", "robots.txt"}
 	for _, pattern := range cleanPatterns {
@@ -119,21 +137,21 @@ func Build() {
 				Link:  article.Link,
 			}
 			archiveMap[dateYear] = append(archiveMap[dateYear], articleInfo)
-			// Render article
-			wg.Add(1)
-			go RenderPage(articleTpl, article, filepath.Join(publicPath, outPath))
 		}
 		return nil
 	})
 	// Sort by date
 	sort.Sort(articles)
-	// Generate article pages
+	// Render article
 	wg.Add(1)
-	go RenderArticles("", articles, "")
-	// Generate tags pages
+	go RenderArticles(articleTpl, articles)
+	// Generate article list pages
+	wg.Add(1)
+	go RenderArticleList("", articles, "")
+	// Generate article list pages by tag
 	for tagName, articles := range tagMap {
 		wg.Add(1)
-		go RenderArticles(filepath.Join("tag", tagName), articles, tagName)
+		go RenderArticleList(filepath.Join("tag", tagName), articles, tagName)
 	}
 	// Generate archive page
 	archives := make(Collections, 0)
@@ -181,12 +199,12 @@ func Build() {
 		"Site":  globalConfig.Site,
 	}, filepath.Join(publicPath, "tag.html"))
 	// Generate other pages
-	files, _ := filepath.Glob(filepath.Join(sourcePath, "*.html"))
+	files, _ = filepath.Glob(filepath.Join(sourcePath, "*.html"))
 	for _, path := range files {
 		fileExt := strings.ToLower(filepath.Ext(path))
 		baseName := filepath.Base(path)
-		if fileExt == ".html" {
-			htmlTpl := CompileTpl(path, baseName)
+		if fileExt == ".html" && !strings.HasPrefix(baseName, "_") {
+			htmlTpl := CompileTpl(path, partialTpl, baseName)
 			relPath, _ := filepath.Rel(sourcePath, path)
 			wg.Add(1)
 			go RenderPage(htmlTpl, globalConfig, filepath.Join(publicPath, relPath))
