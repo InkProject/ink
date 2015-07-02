@@ -82,7 +82,11 @@ func Build() {
 		fileExt := strings.ToLower(filepath.Ext(path))
 		if fileExt == ".md" {
 			// Parse markdown data
-			article := ParseMarkdown(path)
+			article, err := ParseMarkdown(path)
+			if err != nil {
+				Log(err)
+				return err
+			}
 			if article.Draft {
 				return nil
 			}
@@ -92,7 +96,7 @@ func Build() {
 			// Generate directory
 			unixTime := time.Unix(article.Date, 0)
 			directory := unixTime.Format("post/2006/01/02/")
-			err := os.MkdirAll(filepath.Join(publicPath, directory), 0777)
+			err = os.MkdirAll(filepath.Join(publicPath, directory), 0777)
 			if err != nil {
 				Fatal(err.Error())
 			}

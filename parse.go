@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"github.com/InkProject/blackfriday"
 	"gopkg.in/yaml.v2"
 	"html/template"
@@ -89,7 +90,7 @@ func ParseConfig(configPath string) *GlobalConfig {
 	return config
 }
 
-func ParseMarkdown(markdownPath string) *Article {
+func ParseMarkdown(markdownPath string) (*Article, error) {
 	var (
 		config      *ArticleConfig
 		configStr   string
@@ -98,7 +99,7 @@ func ParseMarkdown(markdownPath string) *Article {
 	// Read data from file
 	data, err := ioutil.ReadFile(markdownPath)
 	if err != nil {
-		Fatal(err.Error())
+		return nil, err
 	}
 	// Split config and markdown
 	contentStr := string(data)
@@ -113,10 +114,10 @@ func ParseMarkdown(markdownPath string) *Article {
 	}
 	// Parse config content
 	if err := yaml.Unmarshal([]byte(configStr), &config); err != nil {
-		Fatal(err.Error())
+		return nil, err
 	}
 	if config == nil {
-		Fatal("Article config parse error")
+		return nil, errors.New("Article config parse error")
 	}
 	var article Article
 	// Parse preview splited by MORE_SPLIT
@@ -144,5 +145,5 @@ func ParseMarkdown(markdownPath string) *Article {
 	article.Tags = config.Tags
 	article.Topic = config.Topic
 	article.Draft = config.Draft
-	return &article
+	return &article, nil
 }
