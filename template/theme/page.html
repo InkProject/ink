@@ -18,7 +18,7 @@
                         <h1 class="tag">{{.TagName}}</h1>
                         <h2 class="tag-sub">{{.TagCount}} Articles</h2>
                     {{else}}
-                        {{if .Site.Logo}}<div class="logo" style="background-image: url({{.Site.Logo}});"></div>{{end}}
+                        {{if .Site.Logo}}<img class="logo" src="{{.Site.Logo}}" />{{end}}
                         <h1 class="title">{{.Site.Title}}</h1>
                         <h2 class="subtitle">{{.Site.Subtitle}}</h2>
                     {{end}}

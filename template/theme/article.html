@@ -33,13 +33,13 @@
                 <section class="recommend">
                     {{if .Prev}}
                     <section class="nav prev{{if .Next}} more{{end}}">
-                        <div class="head">Prev</div>
+                        <div class="head">Prev Reading</div>
                         <a class="link" href="{{.Site.Root}}/{{.Prev.Link}}">{{.Prev.Title}}</a>
                     </section>
                     {{end}}
                     {{if .Next}}
                     <section class="nav next{{if .Prev}} more{{end}}">
-                        <div class="head">Next</div>
+                        <div class="head">Next Reading</div>
                         <a class="link" href="{{.Site.Root}}/{{.Next.Link}}">{{.Next.Title}}</a>
                     </section>
                     {{end}}
