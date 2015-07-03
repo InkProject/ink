@@ -8,7 +8,7 @@ InkPaper is an static blog generator developed by Golang, No dependencies, Easy 
 - Download & Extract [Ink](http://www.inkpaper.io/)，Run `ink`
 - Open `http://localhost:8000` in browser to preview
 
-### Configuration
+### Website Configuration
 Edit `config.yml`, use format:
 
 ``` yaml
@@ -39,8 +39,8 @@ Create any `.md` file in `source` folder, use format:
 
 ``` yaml
 title: Article Title
-date: Year-Month-Day Hour:Minute:Second #Created Time
-update: Year-Month-Day Hour:Minute:Second #Updated Time，Optional
+date: Year-Month-Day Hour:Minute:Second #Created Time，Support TimeZone, such as " +0800"
+update: Year-Month-Day Hour:Minute:Second #Updated Time，Optional，Support TimeZone, such as " +0800"
 author: AuthorID
 cover: Article Conver Path #Optional
 draft: true #If Draft，Optional
@@ -91,6 +91,9 @@ Docker Build
 1. Clone code `git clone git@github.com:InkProject/ink.git`
 2. Build image `docker build -t ink .` in source folder
 3. Run container `docker run -p 8888:80 ink`
+
+## License
+[CC Attribution-NonCommercial License 4.0](https://creativecommons.org/licenses/by-nc/4.0/)
 
 ## Issue Report
 

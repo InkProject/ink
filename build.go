@@ -24,6 +24,7 @@ type ArticleInfo struct {
 	Date  string
 	Title string
 	Link  string
+	Top   bool
 }
 
 type Archive struct {
@@ -45,9 +46,25 @@ func (v Collections) Swap(i, j int) { v[i], v[j] = v[j], v[i] }
 func (v Collections) Less(i, j int) bool {
 	switch v[i].(type) {
 	case ArticleInfo:
-		return v[i].(ArticleInfo).Date > v[j].(ArticleInfo).Date
+		article1 := v[i].(ArticleInfo)
+		article2 := v[j].(ArticleInfo)
+		if article1.Top && !article1.Top {
+			return true
+		} else if !article1.Top && article1.Top {
+			return false
+		} else {
+			return article1.Date > article2.Date
+		}
 	case Article:
-		return v[i].(Article).Date > v[j].(Article).Date
+		article1 := v[i].(Article)
+		article2 := v[j].(Article)
+		if article1.Top && !article1.Top {
+			return true
+		} else if !article1.Top && article1.Top {
+			return false
+		} else {
+			return article1.Date > article2.Date
+		}
 	case Archive:
 		return v[i].(Archive).Year > v[j].(Archive).Year
 	case Tag:
@@ -135,6 +152,7 @@ func Build() {
 				Date:  unixTime.Format("2006-01-02"),
 				Title: article.Title,
 				Link:  article.Link,
+				Top:   article.Top,
 			}
 			archiveMap[dateYear] = append(archiveMap[dateYear], articleInfo)
 		}
@@ -176,10 +194,12 @@ func Build() {
 	for tagName, tagArticles := range tagMap {
 		articleInfos := make(Collections, 0)
 		for _, article := range tagArticles {
+			articleValue := article.(Article)
 			articleInfos = append(articleInfos, ArticleInfo{
-				Date:  time.Unix(article.(Article).Date, 0).Format("2006-01-02"),
-				Title: article.(Article).Title,
-				Link:  article.(Article).Link,
+				Date:  time.Unix(articleValue.Date, 0).Format("2006-01-02"),
+				Title: articleValue.Title,
+				Link:  articleValue.Link,
+				Top: articleValue.Top,
 			})
 		}
 		// Sort by date

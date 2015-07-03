@@ -1,14 +1,14 @@
 @font-face {
-  font-family: 'Quattrocento-Regular';
-  src: url('fonts/Quattrocento-Regular.eot');
-  src: url('fonts/Quattrocento-Regular.eot?#iefix') format('embedded-opentype'), url('fonts/Quattrocento-Regular.otf') format('otf'), url('fonts/Quattrocento-Regular.woff') format('woff'), url('fonts/Quattrocento-Regular.ttf') format('truetype'), url('fonts/Quattrocento-Regular.svg#Quattrocento-Regular') format('svg');
+  font-family: 'PTSerif-Regular';
+  src: url('fonts/PTSerif-Regular.eot');
+  src: url('fonts/PTSerif-Regular.eot?#iefix') format('embedded-opentype'), url('fonts/PTSerif-Regular.otf') format('otf'), url('fonts/PTSerif-Regular.woff') format('woff'), url('fonts/PTSerif-Regular.ttf') format('truetype'), url('fonts/PTSerif-Regular.svg#PTSerif-Regular') format('svg');
   font-weight: normal;
   font-style: normal;
 }
 @font-face {
-  font-family: 'Quattrocento-Bold';
-  src: url('fonts/Quattrocento-Bold.eot');
-  src: url('fonts/Quattrocento-Bold.eot?#iefix') format('embedded-opentype'), url('fonts/Quattrocento-Bold.otf') format('otf'), url('fonts/Quattrocento-Bold.woff') format('woff'), url('fonts/Quattrocento-Bold.ttf') format('truetype'), url('fonts/Quattrocento-Bold.svg#Quattrocento-Bold') format('svg');
+  font-family: 'PTSerif-Bold';
+  src: url('fonts/PTSerif-Bold.eot');
+  src: url('fonts/PTSerif-Bold.eot?#iefix') format('embedded-opentype'), url('fonts/PTSerif-Bold.otf') format('otf'), url('fonts/PTSerif-Bold.woff') format('woff'), url('fonts/PTSerif-Bold.ttf') format('truetype'), url('fonts/PTSerif-Bold.svg#PTSerif-Bold') format('svg');
   font-weight: bold;
   font-style: normal;
 }
@@ -16,7 +16,7 @@
   font-family: Arial, Heltivitar, "Hiragino Sans GB", "STHeiti", "Microsoft YaHei", "WenQuanYi Micro Hei";
 }
 .font-content {
-  font-family: Quattrocento-Regular, Georgia, Cambria, "Times New Roman", Times, serif, "Hiragino Sans GB", "STHeiti", "Microsoft YaHei", "WenQuanYi Micro Hei";
+  font-family: PTSerif-Regular, Georgia, Cambria, "Times New Roman", Times, serif, "Hiragino Sans GB", "STHeiti", "Microsoft YaHei", "WenQuanYi Micro Hei";
 }
 .font-code {
   font-family: consolas, monaco, "Source Code Pro", monospace;
@@ -84,7 +84,6 @@ a.name {
 .main .site .logo {
   margin: 0 auto;
   width: 80px;
-  height: 80px;
   border-radius: 80px;
   background-size: cover;
   background-repeat: no-repeat;
@@ -98,7 +97,7 @@ a.name {
   text-align: center;
 }
 .main .site .subtitle {
-  font-family: Quattrocento-Regular, Georgia, Cambria, "Times New Roman", Times, serif, "Hiragino Sans GB", "STHeiti", "Microsoft YaHei", "WenQuanYi Micro Hei";
+  font-family: PTSerif-Regular, Georgia, Cambria, "Times New Roman", Times, serif, "Hiragino Sans GB", "STHeiti", "Microsoft YaHei", "WenQuanYi Micro Hei";
   font-style: italic;
   margin-top: 10px;
   font-size: 16px;
@@ -159,7 +158,7 @@ a.name {
   margin-bottom: 10px;
 }
 .main.page .article-list .article .preview {
-  font-family: Quattrocento-Regular, Georgia, Cambria, "Times New Roman", Times, serif, "Hiragino Sans GB", "STHeiti", "Microsoft YaHei", "WenQuanYi Micro Hei";
+  font-family: PTSerif-Regular, Georgia, Cambria, "Times New Roman", Times, serif, "Hiragino Sans GB", "STHeiti", "Microsoft YaHei", "WenQuanYi Micro Hei";
   display: inline-block;
   letter-spacing: 0.5px;
   line-height: 28px;
@@ -191,7 +190,7 @@ a.name {
   color: #ccc;
 }
 .main.page .article-list .article .tags {
-  font-family: Quattrocento-Regular, Georgia, Cambria, "Times New Roman", Times, serif, "Hiragino Sans GB", "STHeiti", "Microsoft YaHei", "WenQuanYi Micro Hei";
+  font-family: PTSerif-Regular, Georgia, Cambria, "Times New Roman", Times, serif, "Hiragino Sans GB", "STHeiti", "Microsoft YaHei", "WenQuanYi Micro Hei";
   margin-left: 10px;
   float: right;
 }
@@ -259,6 +258,7 @@ a.name {
 }
 .main.article .info {
   margin-top: 10px;
+  font-size: 14px;
 }
 .main.article .info .avatar {
   width: 20px;
@@ -279,7 +279,7 @@ a.name {
   margin-right: 5px;
 }
 .main.article .info .tags {
-  font-family: Quattrocento-Regular, Georgia, Cambria, "Times New Roman", Times, serif, "Hiragino Sans GB", "STHeiti", "Microsoft YaHei", "WenQuanYi Micro Hei";
+  font-family: PTSerif-Regular, Georgia, Cambria, "Times New Roman", Times, serif, "Hiragino Sans GB", "STHeiti", "Microsoft YaHei", "WenQuanYi Micro Hei";
   color: #ccc;
 }
 .main.article .info .tags .tag {
@@ -288,7 +288,7 @@ a.name {
   text-decoration: none;
 }
 .main.article .content {
-  font-family: Quattrocento-Regular, Georgia, Cambria, "Times New Roman", Times, serif, "Hiragino Sans GB", "STHeiti", "Microsoft YaHei", "WenQuanYi Micro Hei";
+  font-family: PTSerif-Regular, Georgia, Cambria, "Times New Roman", Times, serif, "Hiragino Sans GB", "STHeiti", "Microsoft YaHei", "WenQuanYi Micro Hei";
   margin-top: 70px;
   font-size: 16px;
   letter-spacing: 1px;
@@ -485,7 +485,7 @@ a.name {
   font-size: 16px;
 }
 .main.article .author .intro {
-  font-family: Quattrocento-Regular, Georgia, Cambria, "Times New Roman", Times, serif, "Hiragino Sans GB", "STHeiti", "Microsoft YaHei", "WenQuanYi Micro Hei";
+  font-family: PTSerif-Regular, Georgia, Cambria, "Times New Roman", Times, serif, "Hiragino Sans GB", "STHeiti", "Microsoft YaHei", "WenQuanYi Micro Hei";
   font-style: italic;
   margin-top: 8px;
   font-size: 14px;
@@ -512,7 +512,7 @@ a.name {
 .main.archive .site .subtitle,
 .main.tag .site .subtitle {
   text-align: left;
-  font-family: Quattrocento-Regular, Georgia, Cambria, "Times New Roman", Times, serif, "Hiragino Sans GB", "STHeiti", "Microsoft YaHei", "WenQuanYi Micro Hei";
+  font-family: PTSerif-Regular, Georgia, Cambria, "Times New Roman", Times, serif, "Hiragino Sans GB", "STHeiti", "Microsoft YaHei", "WenQuanYi Micro Hei";
   font-style: italic;
 }
 .main.archive .header,
@@ -531,7 +531,7 @@ a.name {
 .main.tag .header .subtitle {
   margin-top: 10px;
   padding: 3px 5px;
-  font-family: Quattrocento-Regular, Georgia, Cambria, "Times New Roman", Times, serif, "Hiragino Sans GB", "STHeiti", "Microsoft YaHei", "WenQuanYi Micro Hei";
+  font-family: PTSerif-Regular, Georgia, Cambria, "Times New Roman", Times, serif, "Hiragino Sans GB", "STHeiti", "Microsoft YaHei", "WenQuanYi Micro Hei";
   font-style: italic;
   color: #bbb;
 }

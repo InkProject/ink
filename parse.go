@@ -48,6 +48,7 @@ type ArticleConfig struct {
 	Topic   string
 	Draft   bool
 	Preview string
+	Top		bool
 }
 
 type Article struct {
@@ -144,5 +145,6 @@ func ParseMarkdown(markdownPath string) *Article {
 	article.Tags = config.Tags
 	article.Topic = config.Topic
 	article.Draft = config.Draft
+	article.Top = config.Top
 	return &article
 }

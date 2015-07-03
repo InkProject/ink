@@ -1,8 +1,9 @@
 title: An Elegant Static Blog Generator —— InkPaper
-date: 2015-03-01 17:00:00
-update: 2015-06-21 10:00:00
+date: 2015-03-01 17:00:00 +0800
+update: 2015-06-21 10:00:00 +0800
 author: me
 topic: -/images/example-en.png
+top: true
 tags:
     - Design
     - Writing
@@ -51,8 +52,8 @@ Create any `.md` file in `source` folder, use format:
 
 ``` yaml
 title: Article Title
-date: Year-Month-Day Hour:Minute:Second #Created Time
-update: Year-Month-Day Hour:Minute:Second #Updated Time，Optional
+date: Year-Month-Day Hour:Minute:Second #Created Time，Support TimeZone, such as " +0800"
+update: Year-Month-Day Hour:Minute:Second #Updated Time，Optional，Support TimeZone, such as " +0800"
 author: AuthorID
 cover: Article Conver Path #Optional
 draft: true #If Draft，Optional
@@ -103,6 +104,9 @@ Docker Build
 1. Clone code `git clone git@github.com:InkProject/ink.git`
 2. Build image `docker build -t ink .` in source folder
 3. Run container `docker run -p 8888:80 ink`
+
+## License
+[CC Attribution-NonCommercial License 4.0](https://creativecommons.org/licenses/by-nc/4.0/)
 
 ## Issue Report
 

@@ -1,6 +1,6 @@
 title: 简洁的静态博客构建工具 —— 纸小墨（InkPaper）
-date: 2015-03-01 17:00:00
-update: 2015-06-21 10:00:00
+date: 2015-03-01 18:00:00 +0800
+update: 2015-06-21 10:00:00 +0800
 author: me
 topic: -/images/example.png
 tags:
@@ -49,8 +49,8 @@ build:
 
 ``` yaml
 title: 文章标题
-date: 年-月-日 时:分:秒 #创建时间
-update: 年-月-日 时:分:秒 #更新时间，可选
+date: 年-月-日 时:分:秒 #创建时间，可加时区如" +0800"
+update: 年-月-日 时:分:秒 #更新时间，可选，可加时区如" +0800"
 author: 作者ID
 topic: 题图链接 #可选
 draft: true #草稿，可选
@@ -100,6 +100,9 @@ Docker构建
 1. Clone源码 `git clone git@github.com:InkProject/ink.git`
 2. 源码目录下构建镜像`docker build -t ink .`
 3. 运行容器`docker run -p 8888:80 ink`
+
+## 协议
+[CC Attribution-NonCommercial License 4.0](https://creativecommons.org/licenses/by-nc/4.0/)
 
 ## 反馈建议
 
