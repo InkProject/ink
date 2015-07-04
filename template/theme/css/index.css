@@ -144,7 +144,11 @@ a.name {
   color: #4A4A4A;
   display: block;
 }
-.main.page .article-list .article .thematic {
+.main.page .article-list .article .title .top {
+  color: #ccc;
+  margin-right: 5px;
+}
+.main.page .article-list .article .topic {
   color: #fff;
   width: 100%;
   height: 280px;
@@ -513,7 +517,6 @@ a.name {
 .main.tag .site .subtitle {
   text-align: left;
   font-family: PTSerif-Regular, Georgia, Cambria, "Times New Roman", Times, serif, "Hiragino Sans GB", "STHeiti", "Microsoft YaHei", "WenQuanYi Micro Hei";
-  font-style: italic;
 }
 .main.archive .header,
 .main.tag .header {

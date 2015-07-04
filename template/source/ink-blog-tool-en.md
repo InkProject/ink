@@ -1,9 +1,8 @@
-title: An Elegant Static Blog Generator —— InkPaper
+title: An Elegant Static Blog Generator —— InkPaper14
 date: 2015-03-01 17:00:00 +0800
 update: 2015-06-21 10:00:00 +0800
 author: me
 topic: -/images/example-en.png
-top: true
 tags:
     - Design
     - Writing

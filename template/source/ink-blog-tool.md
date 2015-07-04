@@ -1,23 +1,23 @@
 title: 简洁的静态博客构建工具 —— 纸小墨（InkPaper）
 date: 2015-03-01 18:00:00 +0800
-update: 2015-06-21 10:00:00 +0800
+update: 2015-07-04 10:00:00 +0800
 author: me
 topic: -/images/example.png
 tags:
     - Design
     - Writing
-preview: 纸小墨（InkPaper）是一个使用GO语言编写的静态博客构建工具，可以快速搭建博客网站。无依赖跨平台，配置简单，构建快速，支持多用户，默认主题简洁，对文字排版进行了优化
+preview: 纸小墨（InkPaper）是一个使用GO语言编写的静态博客构建工具，可以快速搭建博客网站。优点是无依赖跨平台，配置简单构建快速，注重简洁易用与排版优化
 
 ---
 
 ## 纸小墨简介
 
-纸小墨（InkPaper）是一个使用GO语言编写的静态博客构建工具，可以快速搭建博客网站。无依赖跨平台，配置简单，构建快速，支持多用户，默认主题简洁，对文字排版进行了优化。
+纸小墨（InkPaper）是一个使用GO语言编写的静态博客构建工具，可以快速搭建博客网站。优点是无依赖跨平台，配置简单构建快速，注重于简洁易用与排版优化。
 
 ![纸小墨 - 简洁的静态博客构建工具](-/images/example.png)
 
 ### 开始上手
-- 下载并解压 [Ink](http://www.inkpaper.io/)，运行命令 `ink`
+- 下载并解压 [Ink](http://www.inkpaper.io/)，运行命令 `ink preview`
 - 使用浏览器访问 `http://localhost:8000` 预览
 
 ### 配置网站
@@ -31,6 +31,7 @@ site:
     theme: 网站主题目录
     disqus: Disqus评论插件账户名
     root: 网站根路径 #可选
+    lang: 网站语言 #支持en, zh，可在theme/lang.yml配置
 authors:
     作者ID:
         name: 作者名称
@@ -45,7 +46,7 @@ build:
 ```
 
 ### 创建文章
-在`source`目录中建立任意`.md`文件，使用如下格式
+在`source`目录中建立任意`.md`文件（可置于子文件夹），使用如下格式
 
 ``` yaml
 title: 文章标题
@@ -66,19 +67,21 @@ Markdown格式的正文
 
 ### 发布博客
 - 在博客目录下运行`ink publish`命令自动构建博客并发布
-- 或运行`ink`命令将生成的`public`目录下的内容手动部署
+- 或运行`ink build`命令将生成的`public`目录下的内容手动部署
 
-> Tips: 当`source`目录中文件发生变化，`ink preview`命令会自动重新构建博客，刷新浏览器以更新
+> Tips: 当使用`ink preview`命令时，`source`目录中文件发生变化，会自动重新构建博客，刷新浏览器以更新
 
 ## 定制支持
 
 ### 修改主题
 
-默认主题使用coffee, less编写，修改对应文件后，需要在`theme`目录下运行`gulp`命令重新编译，使用`ink`命令构建时默认将会复制js, css目录到`public`目录下；页面包含`page.html`（文章列表）及`article.html`（文章），使用[GO语言HTML模板](http://golang.org/pkg/html/template/)语法，两个页面中涵盖了所有可引用变量。
+默认主题使用coffee, less编写，修改对应文件后，需要在`theme`目录下运行`gulp`命令重新编译，使用`ink build`命令构建时默认将会复制js, css目录到`public`目录下。
+
+页面包含`page.html`（文章列表）及`article.html`（文章）等，所有页面均支持[GO语言HTML模板](http://golang.org/pkg/html/template/)语法，可引用变量。
 
 ### 添加页面
 
-在`source`目录下创建的任意`.html`文件将被复制，页面中可引用`config.yml`中site字段下的所有变量。
+在`source`目录下创建的任意`.html`文件将被复制，这些文件中可引用`config.yml`中site字段下的所有变量。
 
 ### 博客迁移
 
@@ -93,15 +96,15 @@ ink convert /path/_posts
 
 1. 配置[GO](http://golang.org/doc/install)语言环境
 2. 运行命令`go get github.com/InkProject/ink`，编译并获取ink
-3. 运行命令`ink preview $GOPATH/src/github.com/InkProject/ink/template`，预览博客
+3. 运行命令`ink preview $GOPATH/src/github.com/InkProject/ink/blog`，预览博客
 
-Docker构建
+Docker构建（示例）
 
 1. Clone源码 `git clone git@github.com:InkProject/ink.git`
 2. 源码目录下构建镜像`docker build -t ink .`
-3. 运行容器`docker run -p 8888:80 ink`
+3. 运行容器`docker run -p 8000:80 ink`
 
-## 协议
+## 开源协议
 [CC Attribution-NonCommercial License 4.0](https://creativecommons.org/licenses/by-nc/4.0/)
 
 ## 反馈建议
@@ -110,6 +113,7 @@ Docker构建
 
 ## 更新历史
 
+- [2015-07-04] 数项Bug修复与主题改善，支持置顶，多语言，子模板
 - [2015-06-04] 编译更多平台版本，增加标签与存档页
 - [2015-03-01] Beta版本，基础功能完成
 
@@ -118,3 +122,8 @@ Docker构建
 - 排版深度优化
 - 页面SEO优化
 - 扩展与插件支持
+
+## 他们正在使用(欢迎加入)
+
+- [http://www.inkpaper.io/blog/](http://www.inkpaper.io/blog/)
+- [https://hyper.sh/blog/](https://hyper.sh/blog/)

@@ -21,6 +21,7 @@ var wg sync.WaitGroup
 
 // Data struct
 type ArticleInfo struct {
+	DetailDate  int64
 	Date  string
 	Title string
 	Link  string
@@ -46,21 +47,13 @@ func (v Collections) Swap(i, j int) { v[i], v[j] = v[j], v[i] }
 func (v Collections) Less(i, j int) bool {
 	switch v[i].(type) {
 	case ArticleInfo:
-		article1 := v[i].(ArticleInfo)
-		article2 := v[j].(ArticleInfo)
-		if article1.Top && !article1.Top {
-			return true
-		} else if !article1.Top && article1.Top {
-			return false
-		} else {
-			return article1.Date > article2.Date
-		}
+		return v[i].(ArticleInfo).DetailDate > v[j].(ArticleInfo).DetailDate
 	case Article:
 		article1 := v[i].(Article)
 		article2 := v[j].(Article)
-		if article1.Top && !article1.Top {
+		if article1.Top && !article2.Top {
 			return true
-		} else if !article1.Top && article1.Top {
+		} else if !article1.Top && article2.Top {
 			return false
 		} else {
 			return article1.Date > article2.Date
@@ -149,6 +142,7 @@ func Build() {
 				archiveMap[dateYear] = make(Collections, 0)
 			}
 			articleInfo := ArticleInfo{
+				DetailDate: article.Date,
 				Date:  unixTime.Format("2006-01-02"),
 				Title: article.Title,
 				Link:  article.Link,
@@ -196,10 +190,11 @@ func Build() {
 		for _, article := range tagArticles {
 			articleValue := article.(Article)
 			articleInfos = append(articleInfos, ArticleInfo{
+				DetailDate: articleValue.Date,
 				Date:  time.Unix(articleValue.Date, 0).Format("2006-01-02"),
 				Title: articleValue.Title,
 				Link:  articleValue.Link,
-				Top: articleValue.Top,
+				Top:   articleValue.Top,
 			})
 		}
 		// Sort by date

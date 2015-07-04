@@ -16,7 +16,7 @@ import (
 )
 
 const (
-	VERSION = "Beta (2015-07-03)"
+	VERSION = "Beta (2015-07-04)"
 )
 
 var watcher *fsnotify.Watcher

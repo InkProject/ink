@@ -48,7 +48,7 @@ type ArticleConfig struct {
 	Topic   string
 	Draft   bool
 	Preview string
-	Top		bool
+	Top     bool
 }
 
 type Article struct {

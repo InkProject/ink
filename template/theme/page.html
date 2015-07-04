@@ -26,9 +26,9 @@
                 <ul class="article-list">
                     {{range .Articles}}
                     <li class="article">
-                        <a class="title" href="{{$.Site.Root}}/{{.Link}}">{{.Title}}</a>
-                        {{if .Topic}}<div class="thematic" style="background-image:url({{.Topic}});"></div>{{end}}
-                        <section class="preview">{{.Preview}}{{if .Preview}}...{{end}}</section>
+                        <a class="title" href="{{$.Site.Root}}/{{.Link}}">{{if .Top}}<span class="top">[TOP]</span>{{end}}{{.Title}}</a>
+                        {{if .Topic}}<div class="topic" style="background-image:url({{.Topic}});"></div>{{end}}
+                        {{if .Preview}}<section class="preview">{{.Preview}}...</section>{{end}}
                         <section class="info">
                             {{if .Author.Avatar}}<span class="avatar" style="background-image: url({{.Author.Avatar}});"></span>{{end}}
                             {{if .Author.Name}}<a class="name" href="{{.Site.Root}}/about.{{.Author.Id}}.html">{{.Author.Name}}</a>{{end}}

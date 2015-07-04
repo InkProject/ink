@@ -5,6 +5,7 @@ site:
     limit: 10
     theme: theme
     disqus: somebody
+    lang: en
     # root: /blog
 
 authors:
