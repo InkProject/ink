@@ -6,6 +6,7 @@ import (
 	"html/template"
 	"io/ioutil"
 	"strings"
+	"path/filepath"
 )
 
 type SiteConfig struct {
@@ -16,6 +17,7 @@ type SiteConfig struct {
 	Limit    int
 	Theme    string
 	Disqus   string
+	Lang  	string
 }
 
 type AuthorConfig struct {
@@ -33,6 +35,7 @@ type BuildConfig struct {
 }
 
 type GlobalConfig struct {
+	I18n	map[string]string
 	Site    SiteConfig
 	Authors map[string]AuthorConfig
 	Build   BuildConfig
@@ -63,6 +66,8 @@ type Article struct {
 	Link    string
 }
 
+type Lang interface{}
+
 const (
 	CONFIG_SPLIT = "---"
 	MORE_SPLIT   = "<!--more-->"
@@ -77,7 +82,7 @@ func ReplaceRootFlag(content string) string {
 	return strings.Replace(content, "-/", globalConfig.Site.Root+"/", -1)
 }
 
-func ParseConfig(configPath string) *GlobalConfig {
+func ParseConfig(configPath string, develop bool) *GlobalConfig {
 	var config *GlobalConfig
 	// Read data from file
 	data, err := ioutil.ReadFile(configPath)
@@ -87,7 +92,31 @@ func ParseConfig(configPath string) *GlobalConfig {
 	if err = yaml.Unmarshal(data, &config); err != nil {
 		Fatal(err.Error())
 	}
+	lang := ParseLang(filepath.Join(rootPath, config.Site.Theme, "lang.yml"))
+	config.I18n = make(map[string]string)
+	for item, langItem := range lang {
+		config.I18n[item] = langItem[config.Site.Lang]
+	}
+	config.Develop = develop
+	if develop {
+		config.Site.Root = ""
+	}
+	config.Site.Logo = strings.Replace(config.Site.Logo, "-/", config.Site.Root+"/", -1)
 	return config
+}
+
+func ParseLang(langPath string) map[string]map[string]string {
+	// Read data from file
+	var lang map[string]map[string]string
+	data, err := ioutil.ReadFile(langPath)
+	if err != nil {
+		Fatal(err.Error())
+	}
+	// Parse lang content
+	if err := yaml.Unmarshal(data, &lang); err != nil {
+		Fatal(err.Error())
+	}
+	return lang
 }
 
 func ParseMarkdown(markdownPath string) *Article {

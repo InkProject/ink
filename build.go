@@ -182,6 +182,7 @@ func Build() {
 		"Total":   len(articles),
 		"Archive": archives,
 		"Site":    globalConfig.Site,
+		"I18n":    globalConfig.I18n,
 	}, filepath.Join(publicPath, "archive.html"))
 	// Generate tag page
 	tags := make(Collections, 0)
@@ -212,6 +213,7 @@ func Build() {
 		"Total": len(articles),
 		"Tag":   tags,
 		"Site":  globalConfig.Site,
+		"I18n":  globalConfig.I18n,
 	}, filepath.Join(publicPath, "tag.html"))
 	// Generate other pages
 	files, _ = filepath.Glob(filepath.Join(sourcePath, "*.html"))

@@ -1,21 +1,27 @@
 archive:
-	en: Archive
-	zh: 归档
+    en: Archive
+    zh: 归档
 tag:
-	en: Tag
-	zh: 标签
+    en: Tag
+    zh: 标签
 articles:
-	en: Articles
-	zh: 篇文章
+    en: Articles
+    zh: 篇文章
 updated:
-	en: updated
-	zh: 更新
+    en: updated
+    zh: 更新
 prev_page:
-	en: Prev Page
-	zh: 上一页
+    en: Prev Page
+    zh: 上一页
 next_page:
-	en: Next Page
-	zh: 下一页
+    en: Next Page
+    zh: 下一页
+prev_reading:
+    en: Prev Reading
+    zh: 上篇文章
+next_reading:
+    en: Next Reading
+    zh: 下篇文章
 top:
     en: TOP
     zh: 置顶

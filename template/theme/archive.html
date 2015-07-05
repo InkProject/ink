@@ -18,8 +18,8 @@
                     <h2 class="subtitle">{{.Site.Subtitle}}</h2>
                 </header>
                 <header class="header">
-                    <span class="title">ARCHIVE</span>
-                    <span class="subtitle">{{.Total}} Articles</span>
+                    <span class="title">{{i18n "archive"}}</span>
+                    <span class="subtitle">{{.Total}} {{i18n "articles"}}</span>
                 </header>
                 <ul class="archive-list">
                     {{range .Archive}}

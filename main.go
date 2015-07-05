@@ -83,15 +83,10 @@ func ParseGlobalConfigByCli(c *cli.Context, develop bool) {
 
 func ParseGlobalConfig(root string, develop bool) {
 	rootPath = root
-	globalConfig = ParseConfig(filepath.Join(rootPath, "config.yml"))
+	globalConfig = ParseConfig(filepath.Join(rootPath, "config.yml"), develop)
 	if globalConfig == nil {
 		return
 	}
-	globalConfig.Develop = develop
-	if develop {
-		globalConfig.Site.Root = ""
-	}
-	globalConfig.Site.Logo = ReplaceRootFlag(globalConfig.Site.Logo)
 }
 
 func Server() {

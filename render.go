@@ -8,10 +8,17 @@ import (
 	"strconv"
 )
 
+type Data interface{}
+
 type RenderArticle struct {
 	Article
 	Next *Article
 	Prev *Article
+}
+
+type RenderData struct {
+	lang Lang
+	Data
 }
 
 // Compile html template
@@ -23,8 +30,13 @@ func CompileTpl(tplPath string, partialTpl string, name string) template.Templat
 	}
 	// Append partial template
 	htmlStr := string(html) + partialTpl
+	funcMap := template.FuncMap{
+		"i18n": func (val string) string {
+			return globalConfig.I18n[val]
+		},
+	}
 	// Generate html content
-	tpl, err := template.New(name).Parse(htmlStr)
+	tpl, err := template.New(name).Funcs(funcMap).Parse(htmlStr)
 	if err != nil {
 		Fatal(err.Error())
 	}

@@ -16,7 +16,7 @@
                 <header class="header site">
                     {{if .TagName}}
                         <h1 class="tag">{{.TagName}}</h1>
-                        <h2 class="tag-sub">{{.TagCount}} Articles</h2>
+                        <h2 class="tag-sub">{{.TagCount}} {{i18n "articles"}}</h2>
                     {{else}}
                         {{if .Site.Logo}}<img class="logo" src="{{.Site.Logo}}" />{{end}}
                         <h1 class="title">{{.Site.Title}}</h1>
@@ -26,7 +26,7 @@
                 <ul class="article-list">
                     {{range .Articles}}
                     <li class="article">
-                        <a class="title" href="{{$.Site.Root}}/{{.Link}}">{{if .Top}}<span class="top">[TOP]</span>{{end}}{{.Title}}</a>
+                        <a class="title" href="{{$.Site.Root}}/{{.Link}}">{{if .Top}}<span class="top">[{{i18n "top"}}]</span>{{end}}{{.Title}}</a>
                         {{if .Topic}}<div class="topic" style="background-image:url({{.Topic}});"></div>{{end}}
                         {{if .Preview}}<section class="preview">{{.Preview}}...</section>{{end}}
                         <section class="info">
@@ -34,7 +34,7 @@
                             {{if .Author.Name}}<a class="name" href="{{.Site.Root}}/about.{{.Author.Id}}.html">{{.Author.Name}}</a>{{end}}
                             <span class="date" data-time="{{.Date}}">
                                 <span class="from"></span>
-                                {{if .Update}}<span class="date" data-time="{{.Update}}">(<span class="from"></span> updated)</span>{{end}}
+                                {{if .Update}}<span class="date" data-time="{{.Update}}">(<span class="from"></span> {{i18n "updated"}})</span>{{end}}
                             </span>
                             <span class="tags">
                             {{range .Tags}}<a class="tag" href="{{$.Site.Root}}/tag/{{.}}/index.html">{{.}}</a>{{end}}
@@ -44,9 +44,9 @@
                     {{end}}
                 </ul>
                 <section class="page-nav">
-                    {{if .Prev}}<a class="prev" href="{{.Site.Root}}/{{.Prev}}">Prev Page</a>{{end}}
+                    {{if .Prev}}<a class="prev" href="{{.Site.Root}}/{{.Prev}}">{{i18n "prev_page"}}</a>{{end}}
                     {{if ne .Total 1}}<span class="nav">{{.Page}} / {{.Total}}</span>{{end}}
-                    {{if .Next}}<a class="next" href="{{.Site.Root}}/{{.Next}}">Next Page</a>{{end}}
+                    {{if .Next}}<a class="next" href="{{.Site.Root}}/{{.Next}}">{{i18n "next_page"}}</a>{{end}}
                 </section>
             </article>
         </article>
