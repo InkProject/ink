@@ -17,6 +17,7 @@ import (
 
 const (
 	VERSION = "Beta (2015-07-04)"
+	DEFAULT_ROOT = "blog"
 )
 
 var watcher *fsnotify.Watcher
@@ -77,7 +78,10 @@ func ParseGlobalConfigByCli(c *cli.Context, develop bool) {
 	}
 	ParseGlobalConfig(rootPath, develop)
 	if globalConfig == nil {
-		Fatal("Parse config.yml failed, please specify a valid path")
+		ParseGlobalConfig(DEFAULT_ROOT, develop)
+		if globalConfig == nil {
+			Fatal("Parse config.yml failed, please specify a valid path")
+		}
 	}
 }
 

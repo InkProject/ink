@@ -1,11 +1,11 @@
 ## Introduce
 
-InkPaper is an static blog generator developed by Golang, No dependencies, Easy config, Fast building, Multi user support, Elegant theme, Optimized typesetting.
+InkPaper is an static blog generator developed by Golang, No dependencies, Cross platform, Easy use, Fast build, Elegant theme.
 
 ![InkPaper - An Elegant Static Blog Generator](template/source/images/example-en.png)
 
 ### Quick Start
-- Download & Extract [Ink](http://www.inkpaper.io/)，Run `ink`
+- Download & Extract [Ink](http://www.inkpaper.io/)，Run `ink preview`
 - Open `http://localhost:8000` in browser to preview
 
 ### Website Configuration
@@ -16,9 +16,10 @@ site:
     title: Website Title
     subtitle: Website Subtitle
     limit: Max Article Count Per Page
-    theme: Website Theme Folder
+    theme: Website Theme Directory
     disqus: Disqus Plugin Username
     root: Website Root Path #Optional
+    lang: Website language #Support en, zh, Configurable in theme/lang.yml
 
 authors:
     AuthorID:
@@ -35,7 +36,7 @@ build:
 ```
 
 ### Writing
-Create any `.md` file in `source` folder, use format:
+Create any `.md` file in `source` directory (Support subdirectory), use format:
 
 ``` yaml
 title: Article Title
@@ -55,20 +56,22 @@ Markdown Format's Body
 ```
 
 ### Publish
-- Run `ink publish` in blog folder to automatically build and publish
-- Or run `ink` to manually deploy generated `public` folder
+- Run `ink publish` in blog directory to automatically build and publish
+- Or run `ink build` to manually deploy generated `public` directory
 
-> **Tips**: When `source` folder changed，`ink preview` will automatically rebuild blog，refresh browser to update
+> **Tips**: When `source` directory changed，`ink preview` will automatically rebuild blog，refresh browser to update
 
 ## Custom
 
 ### Modify Theme
 
-Default theme use coffee & less build, after modify that files, run `gulp` in `theme` to recompile, run `ink` will copy js and css folder to public folder; page `page.html` (article list) and `article.html` (article), use variable with [Golang Template](http://golang.org/pkg/html/template/) syntax.
+Default theme use coffee & less build, after modify that files, run `gulp` in `theme` to recompile, run `ink` will copy js and css directory to public directory;
+
+page `page.html` (article list) and `article.html` (article), use variable with [Golang Template](http://golang.org/pkg/html/template/) syntax.
 
 ### New Page
 
-Created any `.html` file will be copied to `source` folder, could use all variables on `site` field in `config.yml`.
+Created any `.html` file will be copied to `source` directory, could use all variables on `site` field in `config.yml`.
 
 ### Blog Migrate (Beta)
 
@@ -86,10 +89,10 @@ Local Build
 2. Run `go get github.com/InkProject/ink`, compile and get ink
 3. Run `ink preview $GOPATH/src/github.com/InkProject/ink/template`, preview blog
 
-Docker Build
+Docker Build (Example)
 
 1. Clone code `git clone git@github.com:InkProject/ink.git`
-2. Build image `docker build -t ink .` in source folder
+2. Build image `docker build -t ink .` in source directory
 3. Run container `docker run -p 8888:80 ink`
 
 ## License
@@ -101,6 +104,7 @@ Docker Build
 
 ## Change Log
 
+- [2015-07-04] Bug fix, improve theme, support top, i18n, subtemplate
 - [2015-06-04] Build more platform, add archive and tag page
 - [2015-03-01] Release first beta version
 
@@ -109,3 +113,8 @@ Docker Build
 - Improve Theme
 - Support RSS Feed
 - Extension And Plugin
+
+## They are using
+
+- [http://www.inkpaper.io/blog/](http://www.inkpaper.io/blog/)
+- [https://hyper.sh/blog/](https://hyper.sh/blog/)

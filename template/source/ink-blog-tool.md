@@ -83,7 +83,7 @@ Markdown格式的正文
 
 在`source`目录下创建的任意`.html`文件将被复制，这些文件中可引用`config.yml`中site字段下的所有变量。
 
-### 博客迁移
+### 博客迁移(Beta)
 
 Ink提供简单的Jeklly/Hexo博客文章格式转换，使用命令：
 ``` shell
@@ -96,7 +96,7 @@ ink convert /path/_posts
 
 1. 配置[GO](http://golang.org/doc/install)语言环境
 2. 运行命令`go get github.com/InkProject/ink`，编译并获取ink
-3. 运行命令`ink preview $GOPATH/src/github.com/InkProject/ink/blog`，预览博客
+3. 运行命令`ink preview $GOPATH/src/github.com/InkProject/ink/template`，预览博客
 
 Docker构建（示例）
 
