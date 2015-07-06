@@ -43,15 +43,16 @@ type GlobalConfig struct {
 }
 
 type ArticleConfig struct {
-	Title   string
-	Date    string
-	Update  string
-	Author  string
-	Tags    []string
-	Topic   string
-	Draft   bool
-	Preview string
-	Top     bool
+	Title      string
+	Date       string
+	Update     string
+	Author     string
+	Tags       []string
+	Categories []string
+	Topic      string
+	Draft      bool
+	Preview    string
+	Top        bool
 }
 
 type Article struct {

@@ -217,6 +217,15 @@ func Convert(c *cli.Context) {
 			if err = yaml.Unmarshal([]byte(configStr), &article); err != nil {
 				Fatal(err.Error())
 			}
+			tags := make(map[string]bool)
+			for _, t := range article.Tags {
+				tags[t] = true
+			}
+			for _, c := range article.Categories {
+				if _, ok := tags[c]; !ok {
+					article.Tags = append(article.Tags, c)
+				}
+			}
 			if article.Author == "" {
 				article.Author = "me"
 			}
