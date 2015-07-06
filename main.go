@@ -217,6 +217,15 @@ func Convert(c *cli.Context) {
 			if err = yaml.Unmarshal([]byte(configStr), &article); err != nil {
 				Fatal(err.Error())
 			}
+			tags := make(map[string]bool)
+			for _, t := range article.Tags {
+				tags[t] = true
+			}
+			for _, c := range article.Categories {
+				if _, ok := tags[c]; !ok {
+					article.Tags = append(article.Tags, c)
+				}
+			}
 			if article.Author == "" {
 				article.Author = "me"
 			}
@@ -238,8 +247,12 @@ func Convert(c *cli.Context) {
 				Fatal(err.Error())
 			}
 			inkConfigStr := string(inkConfig)
-			markdownStr := inkConfigStr + "\n\n---\n\n" + contentStr
-			ioutil.WriteFile(filepath.Join(rootPath, "source/"+fileName+".md"), []byte(markdownStr), 0666)
+			markdownStr := inkConfigStr + "\n\n---\n\n" + contentStr + "\n"
+			targetName := "source/" + fileName
+			if fileExt != ".md" {
+				targetName = targetName + ".md"
+			}
+			ioutil.WriteFile(filepath.Join(rootPath, targetName), []byte(markdownStr), 0644)
 			count++
 		}
 		return nil
