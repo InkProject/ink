@@ -43,8 +43,9 @@ title: Article Title
 date: Year-Month-Day Hour:Minute:Second #Created Time，Support TimeZone, such as " +0800"
 update: Year-Month-Day Hour:Minute:Second #Updated Time，Optional，Support TimeZone, such as " +0800"
 author: AuthorID
-cover: Article Conver Path #Optional
+topic: Article Cover Path #Optional
 draft: true #If Draft，Optional
+top: Place article to top #Optional
 preview: Article Preview，Also use <!--more--> to split in body #Optional
 tag: #Optional
     - Tag1
@@ -61,7 +62,7 @@ Markdown Format's Body
 
 > **Tips**: When `source` directory changed，`ink preview` will automatically rebuild blog，refresh browser to update
 
-## Custom
+## Customization
 
 ### Modify Theme
 
