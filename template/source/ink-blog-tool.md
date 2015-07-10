@@ -124,7 +124,9 @@ Docker构建（示例）
 - 页面SEO优化
 - 扩展与插件支持
 
-## 他们正在使用(欢迎加入)
+## 他们正在使用
 
 - [http://www.inkpaper.io/blog/](http://www.inkpaper.io/blog/)
 - [https://hyper.sh/blog/](https://hyper.sh/blog/)
+- [http://wangsiyi.net/](http://wangsiyi.net/)
+- [http://lubia.cn/](http://lubia.cn/)
