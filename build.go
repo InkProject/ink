@@ -61,6 +61,9 @@ func (v Collections) Less(i, j int) bool {
 	case Archive:
 		return v[i].(Archive).Year > v[j].(Archive).Year
 	case Tag:
+		if v[i].(Tag).Count == v[j].(Tag).Count {
+			return v[i].(Tag).Name > v[j].(Tag).Name
+		}
 		return v[i].(Tag).Count > v[j].(Tag).Count
 	}
 	return false
@@ -205,9 +208,9 @@ func Build() {
 			Count:    len(tagArticles),
 			Articles: articleInfos,
 		})
-		// Sort by count
-		sort.Sort(Collections(tags))
 	}
+	// Sort by count
+	sort.Sort(Collections(tags))
 	wg.Add(1)
 	go RenderPage(tagTpl, map[string]interface{}{
 		"Total": len(articles),
