@@ -55,6 +55,7 @@ update: 年-月-日 时:分:秒 #更新时间，可选，可加时区如" +0800"
 author: 作者ID
 topic: 题图链接 #可选
 draft: true #草稿，可选
+top: true #置顶文章，可选
 preview: 文章预览，也可在正文中使用<!--more-->分割 #可选
 tag: #可选
     - 标签1
@@ -123,7 +124,9 @@ Docker构建（示例）
 - 页面SEO优化
 - 扩展与插件支持
 
-## 他们正在使用(欢迎加入)
+## 他们正在使用
 
 - [http://www.inkpaper.io/blog/](http://www.inkpaper.io/blog/)
 - [https://hyper.sh/blog/](https://hyper.sh/blog/)
+- [http://wangsiyi.net/](http://wangsiyi.net/)
+- [http://lubia.cn/](http://lubia.cn/)
