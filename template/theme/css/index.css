@@ -84,6 +84,7 @@ a.name {
 .main .site .logo {
   margin: 0 auto;
   width: 80px;
+  height: 80px;
   border-radius: 80px;
   background-size: cover;
   background-repeat: no-repeat;
