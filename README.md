@@ -43,7 +43,7 @@ title: Article Title
 date: Year-Month-Day Hour:Minute:Second #Created Time，Support TimeZone, such as " +0800"
 update: Year-Month-Day Hour:Minute:Second #Updated Time，Optional，Support TimeZone, such as " +0800"
 author: AuthorID
-topic: Article Cover Path #Optional
+cover: Article Cover Path #Optional
 draft: true #If Draft，Optional
 top: Place article to top #Optional
 preview: Article Preview，Also use <!--more--> to split in body #Optional
@@ -105,6 +105,7 @@ Docker Build (Example)
 
 ## Change Log
 
+- [2015-08-15] Bug fix, support RSS feed, improve theme
 - [2015-07-04] Bug fix, improve theme, support top, i18n, subtemplate
 - [2015-06-04] Build more platform, add archive and tag page
 - [2015-03-01] Release first beta version

@@ -117,7 +117,7 @@ Docker Build (Example)
 
 ## Change Log
 
-- [2015-08-15] Bug fix，support RSS feed，主题改善
+- [2015-08-15] Bug fix, support RSS feed, improve theme
 - [2015-07-04] Bug fix, improve theme, support top, i18n, subtemplate
 - [2015-06-04] Build more platform, add archive and tag page
 - [2015-03-01] Release first beta version

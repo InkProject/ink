@@ -5,8 +5,8 @@ import (
 	"gopkg.in/yaml.v2"
 	"html/template"
 	"io/ioutil"
-	"strings"
 	"path/filepath"
+	"strings"
 )
 
 type SiteConfig struct {
@@ -17,8 +17,8 @@ type SiteConfig struct {
 	Limit    int
 	Theme    string
 	Disqus   string
-	Lang  	string
-	Url     string
+	Lang     string
+	Url      string
 }
 
 type AuthorConfig struct {
@@ -36,7 +36,7 @@ type BuildConfig struct {
 }
 
 type GlobalConfig struct {
-	I18n	map[string]string
+	I18n    map[string]string
 	Site    SiteConfig
 	Authors map[string]AuthorConfig
 	Build   BuildConfig

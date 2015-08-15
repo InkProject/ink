@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/gorilla/feeds"
 	"html/template"
 	"io/ioutil"
 	"os"
@@ -10,7 +11,6 @@ import (
 	"strings"
 	"sync"
 	"time"
-	"github.com/gorilla/feeds"
 )
 
 // Parse config
@@ -22,11 +22,11 @@ var wg sync.WaitGroup
 
 // Data struct
 type ArticleInfo struct {
-	DetailDate  int64
-	Date  string
-	Title string
-	Link  string
-	Top   bool
+	DetailDate int64
+	Date       string
+	Title      string
+	Link       string
+	Top        bool
 }
 
 type Archive struct {
@@ -147,10 +147,10 @@ func Build() {
 			}
 			articleInfo := ArticleInfo{
 				DetailDate: article.Date,
-				Date:  unixTime.Format("2006-01-02"),
-				Title: article.Title,
-				Link:  article.Link,
-				Top:   article.Top,
+				Date:       unixTime.Format("2006-01-02"),
+				Title:      article.Title,
+				Link:       article.Link,
+				Top:        article.Top,
 			}
 			archiveMap[dateYear] = append(archiveMap[dateYear], articleInfo)
 		}
@@ -199,10 +199,10 @@ func Build() {
 			articleValue := article.(Article)
 			articleInfos = append(articleInfos, ArticleInfo{
 				DetailDate: articleValue.Date,
-				Date:  time.Unix(articleValue.Date, 0).Format("2006-01-02"),
-				Title: articleValue.Title,
-				Link:  articleValue.Link,
-				Top:   articleValue.Top,
+				Date:       time.Unix(articleValue.Date, 0).Format("2006-01-02"),
+				Title:      articleValue.Title,
+				Link:       articleValue.Link,
+				Top:        articleValue.Top,
 			})
 		}
 		// Sort by date
@@ -253,12 +253,12 @@ func GenerateRSS(articles Collections) {
 		feedArticles = articles[0:globalConfig.Site.Limit]
 	}
 	if globalConfig.Site.Url != "" {
-		feed := &feeds.Feed {
-			Title: globalConfig.Site.Title,
-			Link: &feeds.Link{Href: globalConfig.Site.Url},
+		feed := &feeds.Feed{
+			Title:       globalConfig.Site.Title,
+			Link:        &feeds.Link{Href: globalConfig.Site.Url},
 			Description: globalConfig.Site.Subtitle,
-			Author: &feeds.Author{globalConfig.Site.Title, ""},
-			Created: time.Now(),
+			Author:      &feeds.Author{globalConfig.Site.Title, ""},
+			Created:     time.Now(),
 		}
 		feed.Items = make([]*feeds.Item, 0)
 		for _, item := range feedArticles {

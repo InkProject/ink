@@ -31,7 +31,7 @@ func CompileTpl(tplPath string, partialTpl string, name string) template.Templat
 	// Append partial template
 	htmlStr := string(html) + partialTpl
 	funcMap := template.FuncMap{
-		"i18n": func (val string) string {
+		"i18n": func(val string) string {
 			return globalConfig.I18n[val]
 		},
 	}
