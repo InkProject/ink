@@ -1,30 +1,31 @@
 site:
     title: InkPaper
     subtitle: An Elegant Static Blog Generator
-    logo: -/images/avatar.png
+    logo: -/images/avatar.jpg
     limit: 10
     theme: theme
     disqus: somebody
     lang: en
+    url: http://www.inkpaper.io/blog/
     # root: /blog
 
 authors:
     me:
         name: InkPaper
         intro: An Elegant Static Blog Generator
-        avatar: -/images/avatar.png
+        avatar: -/images/avatar.jpg
 
 build:
     port: 8000
+    # Copied files to public folder when build
     copy:
-        # Copied files to public folder when build
         - theme/css
         - theme/js
         - theme/favicon.ico
         - theme/robots.txt
         - source/images
+    # Excuted command when use 'ink publish'
     publish: |
-        # Excuted command when use 'ink publish'
         git add . -A
         git commit -m "update"
         git push origin

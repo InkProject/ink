@@ -1,9 +1,12 @@
 archive:
-    en: Archive
+    en: ARCHIVE
     zh: 归档
 tag:
-    en: Tag
+    en: TAG
     zh: 标签
+rss:
+    en: RSS
+    zh: 订阅
 articles:
     en: Articles
     zh: 篇文章

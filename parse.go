@@ -18,6 +18,7 @@ type SiteConfig struct {
 	Theme    string
 	Disqus   string
 	Lang  	string
+	Url     string
 }
 
 type AuthorConfig struct {
@@ -50,6 +51,7 @@ type ArticleConfig struct {
 	Tags       []string
 	Categories []string
 	Topic      string
+	Cover      string
 	Draft      bool
 	Preview    string
 	Top        bool
@@ -174,6 +176,12 @@ func ParseMarkdown(markdownPath string) *Article {
 	}
 	article.Tags = config.Tags
 	article.Topic = config.Topic
+	// Support topic and cover field
+	if config.Cover != "" {
+		article.Cover = config.Cover
+	} else {
+		article.Cover = config.Topic
+	}
 	article.Draft = config.Draft
 	article.Top = config.Top
 	return &article
