@@ -156,6 +156,9 @@ func Build() {
 		}
 		return nil
 	})
+	if len(articles) == 0 {
+		Fatal("Must be have at least one article")
+	}
 	// Sort by date
 	sort.Sort(articles)
 	// Generate rss page

@@ -46,8 +46,8 @@ author: AuthorID
 cover: Article Cover Path #Optional
 draft: true #If Draft, Optional
 top: Place article to top #Optional
-preview: Article Preview, Also use <!--more--> to split in body #Optional
-tag: #Optional
+preview: Article Preview，Also use <!--more--> to split in body #Optional
+tags: #Optional
     - Tag1
     - Tag2
 
@@ -122,3 +122,5 @@ Docker Build (Example)
 - [https://hyper.sh/blog/](https://hyper.sh/blog/)
 - [http://wangsiyi.net/](http://wangsiyi.net/)
 - [http://lubia.cn/](http://lubia.cn/)
+- [http://ikevin.in/](http://ikevin.in/)
+- [http://bluepi0j.me/](http://bluepi0j.me/)

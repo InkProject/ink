@@ -57,7 +57,7 @@ cover: 题图链接 #可选
 draft: true #草稿，可选
 top: true #置顶文章，可选
 preview: 文章预览，也可在正文中使用<!--more-->分割 #可选
-tag: #可选
+tags: #可选
     - 标签1
     - 标签2
 
@@ -131,3 +131,5 @@ Docker构建（示例）
 - [https://hyper.sh/blog/](https://hyper.sh/blog/)
 - [http://wangsiyi.net/](http://wangsiyi.net/)
 - [http://lubia.cn/](http://lubia.cn/)
+- [http://ikevin.in/](http://ikevin.in/)
+- [http://bluepi0j.me/](http://bluepi0j.me/)
