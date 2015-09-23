@@ -1,6 +1,6 @@
 title: 简洁的静态博客构建工具 —— 纸小墨（InkPaper）
 date: 2015-03-01 18:00:00 +0800
-update: 2015-07-04 10:00:00 +0800
+update: 2015-09-23 10:00:00 +0800
 author: me
 cover: -/images/example.png
 tags:
@@ -105,6 +105,10 @@ Docker构建（示例）
 2. 源码目录下构建镜像`docker build -t ink .`
 3. 运行容器`docker run -p 8000:80 ink`
 
+## 主题
+
+- [https://github.com/Xdatk/ink-pure](https://github.com/Xdatk/ink-pure)
+
 ## 开源协议
 [CC Attribution-NonCommercial License 4.0](https://creativecommons.org/licenses/by-nc/4.0/)
 
@@ -133,3 +137,4 @@ Docker构建（示例）
 - [http://lubia.cn/](http://lubia.cn/)
 - [http://ikevin.in/](http://ikevin.in/)
 - [http://bluepi0j.me/](http://bluepi0j.me/)
+- [http://leftcoding.com/](http://leftcoding.com/)

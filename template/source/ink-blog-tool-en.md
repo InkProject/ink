@@ -1,6 +1,6 @@
 title: An Elegant Static Blog Generator —— InkPaper
 date: 2015-03-01 19:00:00 +0800
-update: 2015-07-04 10:00:00 +0800
+update: 2015-09-23 10:00:00 +0800
 author: me
 cover: -/images/example-en.png
 tags:
@@ -108,6 +108,10 @@ Docker Build (Example)
 2. Build image `docker build -t ink .` in source directory
 3. Run container `docker run -p 8888:80 ink`
 
+## Theme
+
+- [https://github.com/Xdatk/ink-pure](https://github.com/Xdatk/ink-pure)
+
 ## License
 [CC Attribution-NonCommercial License 4.0](https://creativecommons.org/licenses/by-nc/4.0/)
 
@@ -136,3 +140,4 @@ Docker Build (Example)
 - [http://lubia.cn/](http://lubia.cn/)
 - [http://ikevin.in/](http://ikevin.in/)
 - [http://bluepi0j.me/](http://bluepi0j.me/)
+- [http://leftcoding.com/](http://leftcoding.com/)
