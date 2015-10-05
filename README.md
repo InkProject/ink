@@ -5,7 +5,7 @@ InkPaper is an static blog generator developed by Golang, No dependencies, Cross
 ![InkPaper - An Elegant Static Blog Generator](template/source/images/example-en.png)
 
 ### Quick Start
-- Download & Extract [Ink](http://www.inkpaper.io/), Run `ink preview`
+- Download & Extract [Ink](http://www.inkpaper.io/)，Run `ink preview`
 - Open `http://localhost:8000` in browser to preview
 
 ### Website Configuration
@@ -40,11 +40,11 @@ Create any `.md` file in `source` directory (Support subdirectory), use format:
 
 ``` yaml
 title: Article Title
-date: Year-Month-Day Hour:Minute:Second #Created Time, Support TimeZone, such as " +0800"
-update: Year-Month-Day Hour:Minute:Second #Updated Time, Optional, Support TimeZone, such as " +0800"
+date: Year-Month-Day Hour:Minute:Second #Created Time，Support TimeZone, such as " +0800"
+update: Year-Month-Day Hour:Minute:Second #Updated Time，Optional，Support TimeZone, such as " +0800"
 author: AuthorID
 cover: Article Cover Path #Optional
-draft: true #If Draft, Optional
+draft: true #If Draft，Optional
 top: Place article to top #Optional
 preview: Article Preview，Also use <!--more--> to split in body #Optional
 tags: #Optional
@@ -60,7 +60,7 @@ Markdown Format's Body
 - Run `ink publish` in blog directory to automatically build and publish
 - Or run `ink build` to manually deploy generated `public` directory
 
-> **Tips**: When `source` directory changed, `ink preview` will automatically rebuild blog, refresh browser to update
+> **Tips**: When `source` directory changed，`ink preview` will automatically rebuild blog，refresh browser to update
 
 ## Customization
 
@@ -96,6 +96,11 @@ Docker Build (Example)
 2. Build image `docker build -t ink .` in source directory
 3. Run container `docker run -p 8888:80 ink`
 
+## Theme
+
+- Pure: [https://github.com/Xdatk/ink-pure](https://github.com/Xdatk/ink-pure)
+- Werttin: [https://github.com/Skimige/ink_Werttin](https://github.com/Skimige/ink_Werttin)
+
 ## License
 [CC Attribution-NonCommercial License 4.0](https://creativecommons.org/licenses/by-nc/4.0/)
 
@@ -124,3 +129,4 @@ Docker Build (Example)
 - [http://lubia.cn/](http://lubia.cn/)
 - [http://ikevin.in/](http://ikevin.in/)
 - [http://bluepi0j.me/](http://bluepi0j.me/)
+- [http://leftcoding.com/](http://leftcoding.com/)
