@@ -107,7 +107,8 @@ Docker构建（示例）
 
 ## 主题
 
-- [https://github.com/Xdatk/ink-pure](https://github.com/Xdatk/ink-pure)
+- Pure: [https://github.com/Xdatk/ink-pure](https://github.com/Xdatk/ink-pure)
+- Werttin: [https://github.com/Skimige/ink_Werttin](https://github.com/Skimige/ink_Werttin)
 
 ## 开源协议
 [CC Attribution-NonCommercial License 4.0](https://creativecommons.org/licenses/by-nc/4.0/)

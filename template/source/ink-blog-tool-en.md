@@ -110,7 +110,8 @@ Docker Build (Example)
 
 ## Theme
 
-- [https://github.com/Xdatk/ink-pure](https://github.com/Xdatk/ink-pure)
+- Pure: [https://github.com/Xdatk/ink-pure](https://github.com/Xdatk/ink-pure)
+- Werttin: [https://github.com/Skimige/ink_Werttin](https://github.com/Skimige/ink_Werttin)
 
 ## License
 [CC Attribution-NonCommercial License 4.0](https://creativecommons.org/licenses/by-nc/4.0/)
