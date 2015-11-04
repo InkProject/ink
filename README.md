@@ -44,8 +44,8 @@ date: Year-Month-Day Hour:Minute:Second #Created Time，Support TimeZone, such a
 update: Year-Month-Day Hour:Minute:Second #Updated Time，Optional，Support TimeZone, such as " +0800"
 author: AuthorID
 cover: Article Cover Path #Optional
-draft: true #If Draft，Optional
-top: Place article to top #Optional
+draft: false #If Draft，Optional
+top: false #Place article to top, Optional
 preview: Article Preview，Also use <!--more--> to split in body #Optional
 tags: #Optional
     - Tag1
@@ -118,7 +118,6 @@ Docker Build (Example)
 ## Develop Plan
 
 - Improve Theme
-- Support RSS Feed
 - Extension And Plugin
 
 ## They are using

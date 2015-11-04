@@ -63,6 +63,11 @@ a:hover {
   font-weight: bold;
   right: 0;
 }
+@media (max-width: 767px) {
+  .menu {
+    font-size: 16px;
+  }
+}
 .menu .menu-item {
   float: right;
   margin-right: 10px;
@@ -97,6 +102,11 @@ a.name {
   font-size: 32px;
   text-align: center;
 }
+@media (max-width: 767px) {
+  .main .site .title {
+    font-size: 28px;
+  }
+}
 .main .site .subtitle {
   font-family: PTSerif-Regular, Georgia, Cambria, "Times New Roman", Times, serif, "Hiragino Sans GB", "STHeiti", "Microsoft YaHei", "WenQuanYi Micro Hei";
   font-style: italic;
@@ -105,6 +115,11 @@ a.name {
   color: #bbb;
   text-align: center;
   font-weight: normal;
+}
+@media (max-width: 767px) {
+  .main .site .subtitle {
+    font-size: 14px;
+  }
 }
 .main.page {
   padding-top: 100px;
@@ -149,6 +164,11 @@ a.name {
   color: #ccc;
   margin-right: 5px;
 }
+@media (max-width: 767px) {
+  .main.page .article-list .article .title {
+    font-size: 24px;
+  }
+}
 .main.page .article-list .article .cover {
   color: #fff;
   width: 100%;
@@ -170,6 +190,11 @@ a.name {
   font-size: 16px;
   margin-top: 10px;
   color: #666;
+}
+@media (max-width: 767px) {
+  .main.page .article-list .article .preview {
+    font-size: 14px;
+  }
 }
 .main.page .article-list .article .info {
   margin-top: 15px;
@@ -261,6 +286,11 @@ a.name {
   font-size: 30px;
   line-height: 42px;
 }
+@media (max-width: 767px) {
+  .main.article .title {
+    font-size: 26px;
+  }
+}
 .main.article .info {
   margin-top: 10px;
   font-size: 14px;
@@ -298,6 +328,11 @@ a.name {
   font-size: 16px;
   letter-spacing: 1px;
   line-height: 1.7;
+}
+@media (max-width: 767px) {
+  .main.article .content {
+    font-size: 14px;
+  }
 }
 .main.article .content h1,
 .main.article .content h2,
@@ -347,6 +382,7 @@ a.name {
   padding: 1px 4px;
   border-radius: 2px;
   margin: 0px 3px;
+  color: #c7254e;
   border: 1px dashed #EDD0BD;
   background-color: #FFF9F5;
 }
@@ -358,7 +394,7 @@ a.name {
   font-size: 14px;
   margin: 0;
   padding: 15px;
-  border-radius: 0;
+  border-radius: 3px;
   border: 1px dashed #EDD0BD;
   background-color: #FFF9F5;
 }
