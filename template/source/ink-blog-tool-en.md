@@ -1,6 +1,6 @@
 title: An Elegant Static Blog Generator —— InkPaper
-date: 2015-03-01 19:00:00 +0800
-update: 2015-09-23 10:00:00 +0800
+date: 2015-03-01 17:00:00 +0800
+update: 2015-11-06 10:00:00 +0800
 author: me
 cover: -/images/example-en.png
 tags:

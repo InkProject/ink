@@ -1,11 +1,11 @@
 title: 简洁的静态博客构建工具 —— 纸小墨（InkPaper）
 date: 2015-03-01 18:00:00 +0800
-update: 2015-09-23 10:00:00 +0800
+update: 2015-11-06 10:00:00 +0800
 author: me
 cover: -/images/example.png
 tags:
-    - Design
-    - Writing
+    - 设计
+    - 写作
 preview: 纸小墨（InkPaper）是一个使用GO语言编写的静态博客构建工具，可以快速搭建博客网站。优点是无依赖跨平台，配置简单构建快速，注重简洁易用与排版优化
 
 ---

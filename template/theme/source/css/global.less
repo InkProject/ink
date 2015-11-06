@@ -1,0 +1,33 @@
+.font-main, .font-content {
+    font-family: Cabin, Helvetica, Arial, sans-serif, "Hiragino Sans GB", "STHeiti", "Microsoft YaHei", "WenQuanYi Micro Hei";
+}
+
+.font-code {
+    font-family: consolas, monaco, "Source Code Pro", hack, monospace;
+}
+
+html, body, input {
+    margin: 0;
+    .font-main;
+}
+
+html, body {
+    height: 100%;
+}
+
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+    &:hover {
+        opacity: 0.9;
+    }
+}
+
+*::selection {
+     background-color: #ffe5d8;
+}
