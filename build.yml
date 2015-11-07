@@ -7,7 +7,7 @@ task:
         - ${#build_theme}
         - ${build_ink}
     build_theme:
-        - gulp --cwd ${theme} watch
+        - cd ${theme} && webpack
     build_ink:
         - "go fmt && go build"
         - "./ink preview ${blog}"
@@ -23,6 +23,6 @@ task:
 
 watch:
     ./*.go: ${build_ink}
-    ${theme}/less/*.less: ${default}
-    ${theme}/coffee/*.coffee: ${default}
+    ${theme}/source/css/*.less: ${default}
+    ${theme}/source/js/*.coffee: ${default}
     ${theme}/*.html: ${default}
