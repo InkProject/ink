@@ -17,5 +17,6 @@ module.exports = {
     plugins: [
         new ExtractTextPlugin('index.css'),
         new webpack.optimize.UglifyJsPlugin({ minimize: true })
-    ]
+    ],
+    watch: true
 };

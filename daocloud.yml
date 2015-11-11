@@ -1,7 +1,0 @@
-image: daocloud/ci-golang:1.4
-
-script:
-  - export GOPATH=$PWD
-  - export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
-  - go get github.com/InkProject/ink
-  - ink help

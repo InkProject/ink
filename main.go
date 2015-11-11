@@ -6,6 +6,7 @@ import (
 	"github.com/InkProject/ink.go"
 	"github.com/codegangsta/cli"
 	"github.com/go-fsnotify/fsnotify"
+	"github.com/gorilla/websocket"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"os"
@@ -16,13 +17,14 @@ import (
 )
 
 const (
-	VERSION      = "Beta (2015-08-15)"
+	VERSION      = "Beta (2015-11-08)"
 	DEFAULT_ROOT = "blog"
 )
 
 var watcher *fsnotify.Watcher
 var globalConfig *GlobalConfig
 var rootPath string
+var conn *websocket.Conn
 
 func main() {
 	app := cli.NewApp()
@@ -47,7 +49,7 @@ func main() {
 				ParseGlobalConfigByCli(c, true)
 				Build()
 				Watch()
-				Server()
+				Server(true)
 			},
 		},
 		{
@@ -93,31 +95,66 @@ func ParseGlobalConfig(root string, develop bool) {
 	}
 }
 
-func Server() {
+func Websocket(ctx *ink.Context) {
+	// Live reload
+	var upgrader = websocket.Upgrader{
+		ReadBufferSize:  1024,
+		WriteBufferSize: 1024,
+	}
+	if c, err := upgrader.Upgrade(ctx.Res, ctx.Req, nil); err != nil {
+		Fatal(err)
+	} else {
+		conn = c
+	}
+	// go func() {
+	// 	for {
+	// 		_, _, err := conn.ReadMessage()
+	// 		if err != nil {
+	// 			return
+	// 		}
+	// 	}
+	// }()
+	ctx.Stop()
+}
+
+func Server(watch bool) {
 	port := globalConfig.Build.Port
 	if port == "" {
 		port = "8000"
 	}
-	app := ink.New()
-	app.Get("*", ink.Static(filepath.Join(rootPath, "public")))
-	app.Head("*", ink.Static(filepath.Join(rootPath, "public")))
+	web := ink.New()
+	if watch {
+		web.Get("/live", Websocket)
+	}
+	// Static
+	web.Get("*", ink.Static(filepath.Join(rootPath, "public")))
+	// Listen
 	Log("Open http://localhost:" + port + "/ to preview")
-	app.Listen("0.0.0.0:" + port)
+	web.Listen("0.0.0.0:" + port)
 }
 
 func Watch() {
-	watcher, _ = fsnotify.NewWatcher()
 	// Listen watched file change event
+	if watcher != nil {
+		watcher.Close()
+	}
+	watcher, _ = fsnotify.NewWatcher()
 	go func() {
 		for {
 			select {
 			case event := <-watcher.Events:
 				if event.Op == fsnotify.Write {
 					// Handle when file change
+					fmt.Println(event.Name)
 					Build()
+					if conn != nil {
+						if err := conn.WriteMessage(websocket.TextMessage, []byte("change")); err == nil {
+							// Fatal(err)
+						}
+					}
 				}
-			case err := <-watcher.Errors:
-				Log(err.Error())
+				// case err := <-watcher.Errors:
+				// 	Log(err.Error())
 			}
 		}
 	}()
@@ -126,7 +163,6 @@ func Watch() {
 		dirPath := filepath.Join(rootPath, source)
 		filepath.Walk(dirPath, func(path string, f os.FileInfo, err error) error {
 			if f.IsDir() {
-				// Defer watcher.Close()
 				if err := watcher.Add(path); err != nil {
 					Log(err.Error())
 				}

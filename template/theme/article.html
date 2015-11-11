@@ -49,6 +49,7 @@
         {{template "footer" .}}
         <script src="{{.Site.Root}}/bundle/index.js"></script>
     </body>
+    {{if not .Develop}}
     <script type="text/javascript">
         (function() {
             var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
@@ -56,4 +57,5 @@
             (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
         })();
     </script>
+    {{end}}
 </html>
