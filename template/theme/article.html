@@ -49,7 +49,7 @@
         {{template "footer" .}}
         <script src="{{.Site.Root}}/bundle/index.js"></script>
     </body>
-    {{if not .Develop}}
+    {{if .Site.Disqus}}
     <script type="text/javascript">
         (function() {
             var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

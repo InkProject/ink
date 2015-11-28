@@ -106,14 +106,6 @@ func Websocket(ctx *ink.Context) {
 	} else {
 		conn = c
 	}
-	// go func() {
-	// 	for {
-	// 		_, _, err := conn.ReadMessage()
-	// 		if err != nil {
-	// 			return
-	// 		}
-	// 	}
-	// }()
 	ctx.Stop()
 }
 
