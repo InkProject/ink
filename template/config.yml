@@ -4,7 +4,7 @@ site:
     # logo: -/images/avatar.jpg
     limit: 10
     theme: theme
-    disqus: somebody
+    comment: somebody
     lang: zh
     url: http://www.inkpaper.io/blog/
     # root: /blog
@@ -19,9 +19,6 @@ build:
     port: 8000
     # Copied files to public folder when build
     copy:
-        - theme/bundle
-        - theme/favicon.ico
-        - theme/robots.txt
         - source/images
     # Excuted command when use 'ink publish'
     publish: |

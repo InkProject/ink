@@ -29,7 +29,7 @@ site:
     subtitle: 网站子标题
     limit: 每页可显示的文章数目
     theme: 网站主题目录
-    disqus: Disqus评论插件账户名
+    comment: 评论插件变量(默认为Disqus账户名)
     root: 网站根路径 #可选
     lang: 网站语言 #支持en, zh，可在theme/lang.yml配置
 authors:

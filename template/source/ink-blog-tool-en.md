@@ -29,7 +29,7 @@ site:
     subtitle: Website Subtitle
     limit: Max Article Count Per Page
     theme: Website Theme Directory
-    disqus: Disqus Plugin Username
+    comment: Comment Plugin Variable (Default Is Disqus Username)
     root: Website Root Path #Optional
     lang: Website language #Support en, zh, Configurable in theme/lang.yml
 

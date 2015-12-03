@@ -16,11 +16,6 @@ type RenderArticle struct {
 	Prev *Article
 }
 
-type RenderData struct {
-	lang Lang
-	Data
-}
-
 // Compile html template
 func CompileTpl(tplPath string, partialTpl string, name string) template.Template {
 	// Read template data from file

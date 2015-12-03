@@ -43,19 +43,10 @@
                     </section>
                     {{end}}
                 </section>
-                <section id="disqus_thread"></section>
+                {{template "comment" .}}
             </article>
         </article>
         {{template "footer" .}}
         <script src="{{.Site.Root}}/bundle/index.js"></script>
     </body>
-    {{if .Site.Disqus}}
-    <script type="text/javascript">
-        (function() {
-            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-            dsq.src = '//{{.Site.Disqus}}.disqus.com/embed.js';
-            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-        })();
-    </script>
-    {{end}}
 </html>

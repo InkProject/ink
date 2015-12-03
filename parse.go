@@ -16,7 +16,7 @@ type SiteConfig struct {
 	Logo     string
 	Limit    int
 	Theme    string
-	Disqus   string
+	Comment  string
 	Lang     string
 	Url      string
 }
@@ -69,7 +69,10 @@ type Article struct {
 	Link    string
 }
 
-type Lang interface{}
+type ThemeConfig struct {
+	Copy    []string
+	Lang    map[string]map[string]string
+}
 
 const (
 	CONFIG_SPLIT = "---"
@@ -87,7 +90,7 @@ func ReplaceRootFlag(content string) string {
 
 func ParseConfig(configPath string, develop bool) *GlobalConfig {
 	var config *GlobalConfig
-	// Read data from file
+	// Parse Global Config
 	data, err := ioutil.ReadFile(configPath)
 	if err != nil {
 		return nil
@@ -95,31 +98,35 @@ func ParseConfig(configPath string, develop bool) *GlobalConfig {
 	if err = yaml.Unmarshal(data, &config); err != nil {
 		Fatal(err.Error())
 	}
-	lang := ParseLang(filepath.Join(rootPath, config.Site.Theme, "lang.yml"))
-	config.I18n = make(map[string]string)
-	for item, langItem := range lang {
-		config.I18n[item] = langItem[config.Site.Lang]
-	}
 	config.Develop = develop
 	if develop {
 		config.Site.Root = ""
 	}
 	config.Site.Logo = strings.Replace(config.Site.Logo, "-/", config.Site.Root+"/", -1)
+	// Parse Theme Config
+	themeConfig := ParseThemeConfig(filepath.Join(rootPath, config.Site.Theme, "config.yml"))
+	for _, copyItem := range themeConfig.Copy {
+		config.Build.Copy = append(config.Build.Copy, filepath.Join(config.Site.Theme, copyItem))
+	}
+	config.I18n = make(map[string]string)
+	for item, langItem := range themeConfig.Lang {
+		config.I18n[item] = langItem[config.Site.Lang]
+	}
 	return config
 }
 
-func ParseLang(langPath string) map[string]map[string]string {
+func ParseThemeConfig(configPath string) *ThemeConfig {
 	// Read data from file
-	var lang map[string]map[string]string
-	data, err := ioutil.ReadFile(langPath)
+	var themeConfig *ThemeConfig
+	data, err := ioutil.ReadFile(configPath)
 	if err != nil {
 		Fatal(err.Error())
 	}
-	// Parse lang content
-	if err := yaml.Unmarshal(data, &lang); err != nil {
+	// Parse config content
+	if err := yaml.Unmarshal(data, &themeConfig); err != nil {
 		Fatal(err.Error())
 	}
-	return lang
+	return themeConfig
 }
 
 func ParseMarkdown(markdownPath string) *Article {

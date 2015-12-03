@@ -20,7 +20,7 @@
         conn.onclose = function() {
             if (connectTimer) clearTimeout(connectTimer);
             connectTimer = setTimeout(function() {
-              connect();
+                connect();
             }, 1000);
         };
     };
