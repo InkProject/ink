@@ -123,6 +123,7 @@ func RenderArticleList(rootPath string, articles Collections, tagName string) {
 		var data = map[string]interface{}{
 			"Articles": articles[first:count],
 			"Site":     globalConfig.Site,
+			"Develop":  globalConfig.Develop,
 			"Page":     i + 1,
 			"Total":    page,
 			"Prev":     prev,

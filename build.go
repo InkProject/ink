@@ -115,7 +115,7 @@ func Build() {
 		if fileExt == ".md" {
 			// Parse markdown data
 			article := ParseMarkdown(path)
-			if article.Draft {
+			if article == nil || article.Draft {
 				return nil
 			}
 			// Generate page name

@@ -25,13 +25,18 @@ func Log(info interface{}) {
 	fmt.Printf("%s\n", info)
 }
 
-// Print error log and exit
-func Fatal(info interface{}) {
+// Print error log
+func Error(info interface{}) {
 	if runtime.GOOS == "windows" {
 		fmt.Printf("ERR: %s\n", info)
 	} else {
 		fmt.Printf("%s%s\n%s", CLR_R, info, "\x1b[0m")
 	}
+}
+
+// Print error log and exit
+func Fatal(info interface{}) {
+	Error(info)
 	os.Exit(1)
 }
 

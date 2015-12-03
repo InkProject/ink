@@ -146,10 +146,12 @@ func ParseMarkdown(markdownPath string) *Article {
 	}
 	// Parse config content
 	if err := yaml.Unmarshal([]byte(configStr), &config); err != nil {
-		Fatal(err.Error())
+		Error(err.Error())
+		return nil
 	}
 	if config == nil {
-		Fatal("Article config parse error")
+		Error("Article config parse error")
+		return nil
 	}
 	var article Article
 	// Parse preview splited by MORE_SPLIT
