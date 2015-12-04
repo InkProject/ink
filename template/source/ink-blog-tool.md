@@ -1,8 +1,8 @@
-title: 简洁的静态博客构建工具 —— 纸小墨（InkPaper）
+title: "简洁的静态博客构建工具 —— 纸小墨（InkPaper）"
 date: 2015-03-01 18:00:00 +0800
 update: 2015-11-06 10:00:00 +0800
 author: me
-cover: -/images/example.png
+cover: "-/images/example.png"
 tags:
     - 设计
     - 写作
@@ -32,11 +32,15 @@ site:
     comment: 评论插件变量(默认为Disqus账户名)
     root: 网站根路径 #可选
     lang: 网站语言 #支持en, zh，可在theme/lang.yml配置
+    url: 网站链接 #用于RSS生成
+    link: 文章链接形式 #默认为{title}.html，支持{year},{month},{day},{title}变量
+
 authors:
     作者ID:
         name: 作者名称
         intro: 作者简介
         avatar: 作者头像路径
+
 build:
     port: 预览端口
     copy:
@@ -70,7 +74,7 @@ Markdown格式的正文
 - 在博客目录下运行`ink publish`命令自动构建博客并发布
 - 或运行`ink build`命令将生成的`public`目录下的内容手动部署
 
-> Tips: 当使用`ink preview`命令时，`source`目录中文件发生变化，会自动重新构建博客，刷新浏览器以更新
+> Tips: 当使用`ink preview`命令时，`source`目录中文件发生变化，会自动重新构建博客，刷新浏览器以更新。
 
 ## 定制支持
 

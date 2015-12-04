@@ -121,16 +121,30 @@ func Build() {
 			// Generate page name
 			fileName := strings.TrimSuffix(strings.ToLower(filepath.Base(path)), ".md")
 			Log("Building " + fileName)
-			// Generate directory
+			// Genetate custom link
 			unixTime := time.Unix(article.Date, 0)
-			directory := unixTime.Format("post/2006/01/02/")
+			linkMap := map[string]string {
+				"{year}": unixTime.Format("2006"),
+				"{month}": unixTime.Format("01"),
+				"{day}": unixTime.Format("02"),
+				"{title}": fileName,
+			}
+			var link string
+			if globalConfig.Site.Link == "" {
+				link = fileName + ".html"
+			} else {
+				link = globalConfig.Site.Link
+				for key, val := range linkMap {
+					link = strings.Replace(link, key, val, -1)
+				}
+			}
+			directory := filepath.Dir(link)
 			err := os.MkdirAll(filepath.Join(publicPath, directory), 0777)
 			if err != nil {
 				Fatal(err.Error())
 			}
-			outPath := directory + fileName + ".html"
 			// Generate file path
-			article.Link = outPath
+			article.Link = link
 			article.GlobalConfig = *globalConfig
 			articles = append(articles, *article)
 			// Get tags info

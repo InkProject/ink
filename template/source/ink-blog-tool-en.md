@@ -1,8 +1,8 @@
-title: An Elegant Static Blog Generator —— InkPaper
+title: "An Elegant Static Blog Generator —— InkPaper"
 date: 2015-03-01 17:00:00 +0800
 update: 2015-11-06 10:00:00 +0800
 author: me
-cover: -/images/example-en.png
+cover: "-/images/example-en.png"
 tags:
     - Design
     - Writing
@@ -31,7 +31,9 @@ site:
     theme: Website Theme Directory
     comment: Comment Plugin Variable (Default Is Disqus Username)
     root: Website Root Path #Optional
-    lang: Website language #Support en, zh, Configurable in theme/lang.yml
+    lang: Website Language #Support en, zh, Configurable in theme/lang.yml
+    url: Website URL #For RSS Generating
+    link: Article Link Scheme #Default Is {title}.html，Support {year},{month},{day},{title} Variables
 
 authors:
     AuthorID:

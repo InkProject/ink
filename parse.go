@@ -19,6 +19,7 @@ type SiteConfig struct {
 	Comment  string
 	Lang     string
 	Url      string
+	Link     string
 }
 
 type AuthorConfig struct {

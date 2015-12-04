@@ -1,25 +1,26 @@
 site:
-    title: 纸小墨官方博客
-    subtitle: 简洁的静态博客构建工具
-    # logo: -/images/avatar.jpg
+    title: "纸小墨官方博客"
+    subtitle: "简洁的静态博客构建工具"
     limit: 10
     theme: theme
-    comment: somebody
     lang: zh
     url: "http://www.inkpaper.io/blog"
-    # root: /blog
+    comment: username
+    # logo: "-/images/avatar.jpg"
+    # link: "{title}.html"
+    # root: "/blog"
 
 authors:
     me:
-        name: 纸小墨
-        intro: 简洁的静态博客构建工具
-        avatar: -/images/avatar.jpg
+        name: "纸小墨"
+        intro: "简洁的静态博客构建工具"
+        avatar: "-/images/avatar.jpg"
 
 build:
     port: 8000
     # Copied files to public folder when build
     copy:
-        - source/images
+        - "source/images"
     # Excuted command when use 'ink publish'
     publish: |
         git add . -A
