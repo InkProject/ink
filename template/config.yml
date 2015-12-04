@@ -6,7 +6,7 @@ site:
     theme: theme
     comment: somebody
     lang: zh
-    url: http://www.inkpaper.io/blog/
+    url: "http://www.inkpaper.io/blog"
     # root: /blog
 
 authors:

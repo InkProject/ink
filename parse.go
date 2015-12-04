@@ -70,8 +70,8 @@ type Article struct {
 }
 
 type ThemeConfig struct {
-	Copy    []string
-	Lang    map[string]map[string]string
+	Copy []string
+	Lang map[string]map[string]string
 }
 
 const (

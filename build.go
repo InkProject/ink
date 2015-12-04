@@ -268,8 +268,8 @@ func GenerateRSS(articles Collections) {
 			article := item.(Article)
 			feed.Items = append(feed.Items, &feeds.Item{
 				Title:       article.Title,
-				Link:        &feeds.Link{Href: filepath.Join(globalConfig.Site.Url, article.Link)},
-				Description: article.Preview,
+				Link:        &feeds.Link{Href: globalConfig.Site.Url + "/" + article.Link},
+				Description: string(article.Content),
 				Author:      &feeds.Author{article.Author.Name, ""},
 				Created:     time.Unix(article.Date, 0),
 				Updated:     time.Unix(article.Update, 0),
