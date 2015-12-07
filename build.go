@@ -123,10 +123,10 @@ func Build() {
 			Log("Building " + fileName)
 			// Genetate custom link
 			unixTime := time.Unix(article.Date, 0)
-			linkMap := map[string]string {
-				"{year}": unixTime.Format("2006"),
+			linkMap := map[string]string{
+				"{year}":  unixTime.Format("2006"),
 				"{month}": unixTime.Format("01"),
-				"{day}": unixTime.Format("02"),
+				"{day}":   unixTime.Format("02"),
 				"{title}": fileName,
 			}
 			var link string
