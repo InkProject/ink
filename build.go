@@ -252,12 +252,11 @@ func Build() {
 		}
 	}
 	// Copy static files
-	Log("Copying files")
 	Copy()
 	wg.Wait()
 	endTime := time.Now()
 	usedTime := endTime.Sub(startTime)
-	fmt.Printf("\nBuild finish in public folder (%v)\n", usedTime)
+	fmt.Printf("\nFinished to build in public folder (%v)\n", usedTime)
 }
 
 // Generate rss page
@@ -304,18 +303,24 @@ func GenerateRSS(articles Collections) {
 func Copy() {
 	srcList := globalConfig.Build.Copy
 	for _, source := range srcList {
-		srcPath := filepath.Join(rootPath, source)
-		file, err := os.Stat(srcPath)
-		if err != nil {
-			Fatal("Not exist: " + srcPath)
-		}
-		fileName := file.Name()
-		desPath := filepath.Join(publicPath, fileName)
-		wg.Add(1)
-		if file.IsDir() {
-			go CopyDir(srcPath, desPath)
+		if matches, err := filepath.Glob(filepath.Join(rootPath, source)); err == nil {
+			for _, srcPath := range matches {
+				Log("Copying " + srcPath)
+				file, err := os.Stat(srcPath)
+				if err != nil {
+					Fatal("Not exist: " + srcPath)
+				}
+				fileName := file.Name()
+				desPath := filepath.Join(publicPath, fileName)
+				wg.Add(1)
+				if file.IsDir() {
+					go CopyDir(srcPath, desPath)
+				} else {
+					go CopyFile(srcPath, desPath)
+				}
+			}
 		} else {
-			go CopyFile(srcPath, desPath)
+			Fatal(err.Error())
 		}
 	}
 }
