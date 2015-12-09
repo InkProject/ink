@@ -20,6 +20,7 @@ type SiteConfig struct {
 	Lang     string
 	Url      string
 	Link     string
+	Config   interface{}
 }
 
 type AuthorConfig struct {
@@ -56,11 +57,12 @@ type ArticleConfig struct {
 	Draft      bool
 	Preview    string
 	Top        bool
+	Config     interface{}
 }
 
 type Article struct {
-	ArticleConfig
 	GlobalConfig
+	ArticleConfig
 	Date    int64
 	Update  int64
 	Author  AuthorConfig
@@ -68,6 +70,7 @@ type Article struct {
 	Preview string
 	Content template.HTML
 	Link    string
+	Config  interface{}
 }
 
 type ThemeConfig struct {
@@ -80,7 +83,7 @@ const (
 	MORE_SPLIT   = "<!--more-->"
 )
 
-func parse(markdown string) template.HTML {
+func Parse(markdown string) template.HTML {
 	// html.UnescapeString
 	return template.HTML(blackfriday.MarkdownCommon([]byte(markdown)))
 }
@@ -98,6 +101,9 @@ func ParseConfig(configPath string, develop bool) *GlobalConfig {
 	}
 	if err = yaml.Unmarshal(data, &config); err != nil {
 		Fatal(err.Error())
+	}
+	if config.Site.Config == nil {
+		config.Site.Config = ""
 	}
 	config.Develop = develop
 	if develop {
@@ -161,8 +167,11 @@ func ParseMarkdown(markdownPath string) *Article {
 		Error("Article config parse error")
 		return nil
 	}
-	var article Article
+	if config.Config == nil {
+		config.Config = ""
+	}
 	// Parse preview splited by MORE_SPLIT
+	var article Article
 	previewAry := strings.SplitN(markdownStr, MORE_SPLIT, 2)
 	if len(config.Preview) > 0 {
 		article.Preview = config.Preview
@@ -173,26 +182,27 @@ func ParseMarkdown(markdownPath string) *Article {
 		}
 	}
 	// Parse markdown content
-	article.Content = parse(markdownStr)
+	article.Config = config.Config
+	article.Content = Parse(markdownStr)
 	article.Date = ParseDate(config.Date).Unix()
+	article.Title = config.Title
+	article.Tags = config.Tags
+	article.Topic = config.Topic
+	article.Draft = config.Draft
+	article.Top = config.Top
 	if config.Update != "" {
 		article.Update = ParseDate(config.Update).Unix()
 	}
-	article.Title = config.Title
 	if author, ok := globalConfig.Authors[config.Author]; ok {
 		author.Id = config.Author
 		author.Avatar = ReplaceRootFlag(author.Avatar)
 		article.Author = author
 	}
-	article.Tags = config.Tags
-	article.Topic = config.Topic
 	// Support topic and cover field
 	if config.Cover != "" {
 		article.Cover = config.Cover
 	} else {
 		article.Cover = config.Topic
 	}
-	article.Draft = config.Draft
-	article.Top = config.Top
 	return &article
 }
