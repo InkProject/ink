@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import ace from 'brace';
 import 'brace/mode/markdown';
 import 'brace/theme/tomorrow';
 
-export class Editor extends Component {
+export default class Editor extends React.Component {
     componentDidMount () {
         var editor = ace.edit('editor');
         editor.setOptions({
