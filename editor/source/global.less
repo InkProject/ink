@@ -1,0 +1,37 @@
+.font-main {
+    font-family: "Menlo, Consolas, 'source-code-pro', 'DejaVu Sans Mono', Monaco, 'Ubuntu Mono', 'Courier New', Courier, 'Microsoft Yahei', 'Hiragino Sans GB', 'WenQuanYi Micro Hei', monospace";
+}
+
+.vendor(@property, @value) {
+    -webkit-@{property}: @value;
+     -khtml-@{property}: @value;
+       -moz-@{property}: @value;
+            @{property}: @value;
+}
+
+html, body, input {
+    margin: 0;
+    font-size: 14px;
+    .font-main;
+}
+
+html, body {
+    height: 100%;
+}
+
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+    &:hover {
+        opacity: 0.9;
+    }
+}
+
+* {
+    outline: none;
+}
