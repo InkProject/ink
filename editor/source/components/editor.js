@@ -19,7 +19,7 @@ export default class Editor extends React.Component {
             hScrollBarAlwaysVisible: false,
             displayIndentGuides: false
         });
-        editor.renderer.setScrollMargin(230, 230);
+        editor.renderer.setScrollMargin(200, 200);
         editor.renderer.setPadding(600);
         editor.container.style.lineHeight = 2;
     }

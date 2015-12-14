@@ -8,9 +8,8 @@ module.exports = {
         './source/app.js'
     ],
     output: {
-      path: path.join(__dirname, 'dist'),
-      filename: 'bundle.js',
-      publicPath: '/static/'
+        path: path.join(__dirname, 'assets'),
+        filename: 'bundle.js'
     },
     module: {
         loaders: [{
