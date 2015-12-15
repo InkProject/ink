@@ -1,5 +1,4 @@
 import 'font-awesome/less/font-awesome.less';
-import './styles/global.less';
 import './styles/index.less';
 
 import React from 'react';

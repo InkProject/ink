@@ -17,24 +17,23 @@ module.exports = {
                 test: /\.js$/,
                 loaders: ['babel'],
                 include: path.join(__dirname, 'source')
-            },{
+            }, {
                 test: /\.less$/,
-                loader: "style!css!less"
-            },
-            {
+                loader: ExtractTextPlugin.extract('style-loader', 'css!less')
+            }, {
                 test : /\.woff|\.woff2|\.svg|.eot|\.ttf/,
                 loader : 'url-loader?limit=1&name=/styles/[name]-[hash:6].[ext]'
-            },
-            {
+            }, {
                 test : /\index.html$/,
                 loader : 'file-loader?name=/[name].[ext]'
             }
         ]
     },
     plugins: [
-        // new webpack.optimize.UglifyJsPlugin({ minimize: true }),
+        new webpack.optimize.UglifyJsPlugin({ minimize: true }),
         new webpack.HotModuleReplacementPlugin(),
-        new webpack.NoErrorsPlugin()
+        new webpack.NoErrorsPlugin(),
+        new ExtractTextPlugin("/styles/index.css")
     ],
     devtool: 'cheap-module-eval-source-map'
 };

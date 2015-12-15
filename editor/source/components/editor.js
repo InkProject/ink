@@ -6,7 +6,7 @@ import 'brace/theme/tomorrow';
 
 export default class Editor extends React.Component {
     componentDidMount () {
-        var editor = ace.edit('editor');
+        let editor = ace.edit('editor');
         editor.setOptions({
             scrollPastEnd: true,
             showGutter: false,

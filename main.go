@@ -44,7 +44,7 @@ func main() {
 				ParseGlobalConfigByCli(c, true)
 				Build()
 				Watch()
-				Static(true)
+				Serve()
 			},
 		},
 		{
