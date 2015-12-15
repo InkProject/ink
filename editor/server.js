@@ -13,9 +13,7 @@ app.use(require('webpack-dev-middleware')(compiler, {
 
 app.use(require('webpack-hot-middleware')(compiler));
 
-app.get('*', function(req, res) {
-    res.sendFile(path.join(__dirname, 'assets', 'index.html'));
-});
+app.use(express.static('assets'));
 
 app.listen(8000, 'localhost', function(err) {
     if (err) {

@@ -1,12 +1,15 @@
 .font-main {
     font-family: "Menlo, Consolas, 'source-code-pro', 'DejaVu Sans Mono', Monaco, 'Ubuntu Mono', 'Courier New', Courier, 'Microsoft Yahei', 'Hiragino Sans GB', 'WenQuanYi Micro Hei', monospace";
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
 }
 
 .vendor(@property, @value) {
     -webkit-@{property}: @value;
-     -khtml-@{property}: @value;
-       -moz-@{property}: @value;
-            @{property}: @value;
+    -khtml-@{property}: @value;
+    -moz-@{property}: @value;
+    @{property}: @value;
 }
 
 html, body, input {

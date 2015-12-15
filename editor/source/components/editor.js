@@ -10,8 +10,8 @@ export default class Editor extends React.Component {
         editor.setOptions({
             scrollPastEnd: true,
             showGutter: false,
-            theme: 'ace/theme/tomorrow',
             wrap: true,
+            theme: 'ace/theme/tomorrow',
             mode: 'ace/mode/markdown',
             showPrintMargin: false,
             fontSize: '14px',
