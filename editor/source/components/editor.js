@@ -3,8 +3,12 @@ import React from 'react';
 import ace from 'brace';
 import 'brace/mode/markdown';
 import 'brace/theme/tomorrow';
+import article from '../stores/article';
 
 export default class Editor extends React.Component {
+    initialState () {
+        this.state = article.getState();
+    }
     componentDidMount () {
         let editor = ace.edit('editor');
         editor.setOptions({
@@ -25,7 +29,7 @@ export default class Editor extends React.Component {
     }
     render() {
         return (
-            <div id="editor"></div>
+            <div id="editor">{this.state}</div>
         );
     }
 }

@@ -92,7 +92,7 @@ func ReplaceRootFlag(content string) string {
 	return strings.Replace(content, "-/", globalConfig.Site.Root+"/", -1)
 }
 
-func ParseConfig(configPath string, develop bool) *GlobalConfig {
+func ParseGlobalConfig(configPath string, develop bool) *GlobalConfig {
 	var config *GlobalConfig
 	// Parse Global Config
 	data, err := ioutil.ReadFile(configPath)
@@ -136,12 +136,8 @@ func ParseThemeConfig(configPath string) *ThemeConfig {
 	return themeConfig
 }
 
-func ParseMarkdown(markdownPath string) *Article {
-	var (
-		config      *ArticleConfig
-		configStr   string
-		markdownStr string
-	)
+func ParseArticleConfig(markdownPath string) (config *ArticleConfig, content string) {
+	var configStr string
 	// Read data from file
 	data, err := ioutil.ReadFile(markdownPath)
 	if err != nil {
@@ -150,40 +146,45 @@ func ParseMarkdown(markdownPath string) *Article {
 	// Split config and markdown
 	contentStr := string(data)
 	contentStr = ReplaceRootFlag(contentStr)
-	content := strings.SplitN(contentStr, CONFIG_SPLIT, 2)
-	contentLen := len(content)
+	markdownStr := strings.SplitN(contentStr, CONFIG_SPLIT, 2)
+	contentLen := len(markdownStr)
 	if contentLen > 0 {
-		configStr = content[0]
+		configStr = markdownStr[0]
 	}
 	if contentLen > 1 {
-		markdownStr = content[1]
+		content = markdownStr[1]
 	}
 	// Parse config content
 	if err := yaml.Unmarshal([]byte(configStr), &config); err != nil {
 		Error(err.Error())
-		return nil
+		return nil, ""
 	}
 	if config == nil {
-		Error("Article config parse error")
+		return nil, ""
+	}
+	// Parse preview splited by MORE_SPLIT
+	previewAry := strings.SplitN(content, MORE_SPLIT, 2)
+	if len(config.Preview) <= 0 && len(previewAry) > 1 {
+		config.Preview = previewAry[0]
+		content = strings.Replace(content, MORE_SPLIT, "", 1)
+	}
+	return config, content
+}
+
+func ParseArticle(markdownPath string) *Article {
+	config, content := ParseArticleConfig(markdownPath)
+	if config == nil {
+		Error("Invalid format: " + markdownPath)
 		return nil
 	}
 	if config.Config == nil {
 		config.Config = ""
 	}
-	// Parse preview splited by MORE_SPLIT
 	var article Article
-	previewAry := strings.SplitN(markdownStr, MORE_SPLIT, 2)
-	if len(config.Preview) > 0 {
-		article.Preview = config.Preview
-	} else {
-		if len(previewAry) > 1 {
-			article.Preview = previewAry[0]
-			markdownStr = strings.Replace(markdownStr, MORE_SPLIT, "", 1)
-		}
-	}
 	// Parse markdown content
+	article.Preview = config.Preview
 	article.Config = config.Config
-	article.Content = Parse(markdownStr)
+	article.Content = Parse(content)
 	article.Date = ParseDate(config.Date).Unix()
 	article.Title = config.Title
 	article.Tags = config.Tags

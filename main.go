@@ -83,18 +83,18 @@ func ParseGlobalConfigByCli(c *cli.Context, develop bool) {
 	} else {
 		rootPath = "."
 	}
-	ParseGlobalConfig(rootPath, develop)
+	ParseGlobalConfigWrap(rootPath, develop)
 	if globalConfig == nil {
-		ParseGlobalConfig(DEFAULT_ROOT, develop)
+		ParseGlobalConfigWrap(DEFAULT_ROOT, develop)
 		if globalConfig == nil {
 			Fatal("Parse config.yml failed, please specify a valid path")
 		}
 	}
 }
 
-func ParseGlobalConfig(root string, develop bool) {
+func ParseGlobalConfigWrap(root string, develop bool) {
 	rootPath = root
-	globalConfig = ParseConfig(filepath.Join(rootPath, "config.yml"), develop)
+	globalConfig = ParseGlobalConfig(filepath.Join(rootPath, "config.yml"), develop)
 	if globalConfig == nil {
 		return
 	}

@@ -35,5 +35,5 @@ module.exports = {
         new webpack.NoErrorsPlugin(),
         new ExtractTextPlugin("/styles/index.css")
     ],
-    devtool: 'cheap-module-eval-source-map'
+    devtool: 'eval-source-map'
 };

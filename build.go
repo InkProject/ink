@@ -114,7 +114,7 @@ func Build() {
 		fileExt := strings.ToLower(filepath.Ext(path))
 		if fileExt == ".md" {
 			// Parse markdown data
-			article := ParseMarkdown(path)
+			article := ParseArticle(path)
 			if article == nil || article.Draft {
 				return nil
 			}
