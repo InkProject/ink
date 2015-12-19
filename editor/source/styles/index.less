@@ -1,14 +1,18 @@
 @import "global";
 
-.button {
+.hover {
     cursor: pointer;
+    &:hover {
+        opacity: 0.7;
+    }
+}
+
+.button {
     text-align: center;
     background-color: #555;
     color: white;
     line-height: 31px;
-    &:hover {
-        opacity: 0.9;
-    }
+    .hover;
     &.button-cube {
         padding: 0px 14px;
         border-radius: 3px;
@@ -31,8 +35,7 @@
     bottom: 0;
     z-index: 2;
     overflow: auto;
-    width: 420px;
-    // border-right: 1px dashed #eee;
+    border-right: 1px dashed #ddd;
     // background-color: white;
     .menu {
         float: left;
@@ -44,12 +47,12 @@
                 width: 40px;
                 height: 40px;
                 font-size: 18px;
-                position: absolute;
+                // position: absolute;
                 line-height: 40px;
                 background-color: #a20000;
             }
             &.setting {
-                margin-top: 65px;
+                margin-top: 15px;
             }
         }
     }
@@ -77,7 +80,7 @@
 }
 
 #files {
-    width: 300px;
+    width: 200px;
     float: left;
     padding: 13px 30px;
     #search-wrap {
@@ -98,11 +101,11 @@
         }
     }
     #list {
-        display: none;
+        // display: none;
         margin-top: 30px;
         .item {
             // border-bottom: 1px solid #eee;
-            padding-bottom: 20px;
+            padding-bottom: 30px;
             .head {
                 margin-bottom: 5px;
                 .date {
@@ -125,9 +128,15 @@
     position: absolute;
     left: 0;
     right: 0;
+    top: 0;
+    margin: 0 20px;
+    padding-top: 50px;
+    padding-bottom: 50px;
     z-index: 1;
     text-align: center;
-    margin-top: 60px;
+    // background-color: white;
+    pointer-events: none;
+    background-image: linear-gradient(to top, transparent, white 50%);
     .title {
         font-size: 32px;
         font-weight: bold;
@@ -170,4 +179,9 @@
             background: #fbfbfb;
         }
     }
+}
+#loading {
+    font-size: 46px;
+    color: #aaa;
+    margin-top: 20px;
 }

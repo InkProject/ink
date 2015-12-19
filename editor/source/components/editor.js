@@ -3,11 +3,10 @@ import React from 'react';
 import ace from 'brace';
 import 'brace/mode/markdown';
 import 'brace/theme/tomorrow';
-import article from '../stores/article';
 
 export default class Editor extends React.Component {
-    initialState () {
-        this.state = article.getState();
+    componentWillReceiveProps (props) {
+        this.editor.setValue(props.content, -1);
     }
     componentDidMount () {
         let editor = ace.edit('editor');
@@ -24,12 +23,20 @@ export default class Editor extends React.Component {
             displayIndentGuides: false
         });
         editor.renderer.setScrollMargin(200, 200);
-        editor.renderer.setPadding(600);
+        window.addEventListener('resize', function() {
+            let width = window.innerWidth ||
+                document.documentElement.clientWidth ||
+                document.body.clientWidth;
+            if (width > 700) {
+                editor.renderer.setPadding((width - 700) / 2);
+            }
+        });
         editor.container.style.lineHeight = 2;
+        this.editor = editor;
     }
     render() {
         return (
-            <div id="editor">{this.state}</div>
+            <div id="editor"></div>
         );
     }
 }

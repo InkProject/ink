@@ -34,10 +34,13 @@
   },
   "dependencies": {
     "brace": "^0.7.0",
+    "classnames": "^2.2.1",
     "font-awesome": "^4.5.0",
+    "immutable": "^3.7.6",
     "react": "^0.14.3",
     "react-dom": "^0.14.3",
     "react-redux": "^4.0.1",
-    "redux": "^3.0.5"
+    "redux": "^3.0.5",
+    "redux-thunk": "^1.0.2"
   }
 }
