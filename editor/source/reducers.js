@@ -4,6 +4,7 @@ import Immutable from 'immutable';
 const initialState = Immutable.fromJS({
     show: true,
     loading: false,
+    selected: null,
     data: []
 });
 
@@ -15,6 +16,8 @@ function list(state = initialState, action) {
             return state.set('show', false);
         case 'SHOW_LOADING':
             return state.set('loading', action.flag);
+        case 'SELECT_ARTICLE':
+            return state.set('selected', action.id);
         case 'REFRESH_LIST':
             let newData = Object.keys(action.data).map(function(id) {
                 let item = action.data[id];
