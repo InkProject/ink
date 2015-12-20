@@ -1,13 +1,15 @@
+import { ACTION } from './index';
+
 function showLoading(flag) {
     return {
-        type: 'SHOW_LOADING',
+        type: ACTION.SHOW_LOADING,
         flag
     }
 }
 
 function refreshList(data) {
     return {
-        type: 'REFRESH_LIST',
+        type: ACTION.REFRESH_LIST,
         data
     }
 }
@@ -28,26 +30,26 @@ export function fetchList() {
 
 export function showList() {
     return {
-        type: 'SHOW_LIST'
+        type: ACTION.SHOW_LIST
     }
 }
 
 export function hideList() {
     return {
-        type: 'HIDE_LIST'
+        type: ACTION.HIDE_LIST
     }
 }
 
 function setContent(content) {
     return {
-        type: 'SET_CONTENT',
+        type: ACTION.SET_CONTENT,
         content
     }
 }
 
 function selectArticle(id) {
     return {
-        type: 'SELECT_ARTICLE',
+        type: ACTION.SELECT_ARTICLE,
         id
     }
 }

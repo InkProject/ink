@@ -1,24 +1,26 @@
 import { combineReducers } from 'redux';
 import Immutable from 'immutable';
 
-const initialState = Immutable.fromJS({
+import { ACTION } from './actions';
+
+function menu(state = Immutable.fromJS({
     show: true,
     loading: false,
-    selected: null,
-    data: []
-});
-
-function list(state = initialState, action) {
+    list: {
+        selected: null,
+        data: []
+    }
+}), action) {
     switch (action.type) {
-        case 'SHOW_LIST':
+        case ACTION.SHOW_LIST:
             return state.set('show', true);
-        case 'HIDE_LIST':
+        case ACTION.HIDE_LIST:
             return state.set('show', false);
-        case 'SHOW_LOADING':
+        case ACTION.SHOW_LOADING:
             return state.set('loading', action.flag);
-        case 'SELECT_ARTICLE':
-            return state.set('selected', action.id);
-        case 'REFRESH_LIST':
+        case ACTION.SELECT_ARTICLE:
+            return state.mergeDeep({list: {selected: action.id}});
+        case ACTION.REFRESH_LIST:
             let newData = Object.keys(action.data).map(function(id) {
                 let item = action.data[id];
                 return {
@@ -27,23 +29,24 @@ function list(state = initialState, action) {
                     preview: item.article.Preview
                 };
             });
-            return state.set('data', Immutable.fromJS(newData));
+            return state.mergeDeep({list: {data: Immutable.fromJS(newData)}});
         default:
             return state;
     }
 }
 
-function content(state = '', action) {
+function editor(state = Immutable.fromJS({
+    content: ''
+}), action) {
     switch (action.type) {
-        case 'SET_CONTENT':
-            return action.content;
+        case ACTION.SET_CONTENT:
+            return state.set('content', action.content);
         default:
             return state;
     }
-    return state;
 }
 
 export default combineReducers({
-    list: list,
-    content: content
+    menu,
+    editor
 });

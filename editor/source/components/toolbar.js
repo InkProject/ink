@@ -3,8 +3,6 @@ import classNames from 'classnames';
 
 export default class extends React.Component {
     render() {
-        const list = this.props.list;
-        const actions = this.props.actions;
         return (
             <ul className="menu">
                 <li className="button button-cube"><i className="fa fa-rocket"></i>发布</li>

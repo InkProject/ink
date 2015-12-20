@@ -3,8 +3,6 @@ import classNames from 'classnames';
 
 export default class extends React.Component {
     render() {
-        const list = this.props.list;
-        const actions = this.props.actions;
         return (
             <div id="header">
                 <div className="title">构建只为纯粹书写的博客</div>

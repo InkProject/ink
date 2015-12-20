@@ -3,10 +3,10 @@ import './styles/index.less';
 
 import React from 'react';
 import ReactDom from 'react-dom';
+import classNames from 'classnames';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import classNames from 'classnames';
-import actions from './actions';
+import { listAction } from './actions';
 
 import Editor from './components/editor';
 import List from './components/list';
@@ -17,26 +17,27 @@ import Toolbar from './components/toolbar';
 
 class App extends React.Component {
     componentWillMount() {
-        this.props.actions.fetchList();
+        this.props.listAction.fetchList();
     }
     render() {
-        const list = this.props.list;
-        const actions = this.props.actions;
-        const content = this.props.content;
+        const menu = this.props.menu;
+        const list = menu.get('list');
+        const editor = this.props.editor;
+        const listAction = this.props.listAction;
         return (
             <div id="container">
-                <div id="left" onMouseLeave={actions.hideList} onMouseOver={actions.showList}>
-                    <Menu {...this.props} />
-                    <div id="files" className={classNames({hide: !list.get('show')})}>
-                        <Search {...this.props} />
-                        <List {...this.props} />
+                <div id="left" onMouseLeave={listAction.hideList} onMouseOver={listAction.showList}>
+                    <Menu menu={menu} />
+                    <div id="files" className={classNames({hide: !menu.get('show')})}>
+                        <Search />
+                        <List list={list} onOpenArticle={listAction.openArticle} />
                     </div>
                 </div>
                 <div id="right">
-                    <Toolbar {...this.props} />
+                    <Toolbar />
                 </div>
-                <Header {...this.props} />
-                <Editor {...this.props} />
+                <Header />
+                <Editor content={editor.get('content')} />
             </div>
         );
     }
@@ -46,6 +47,6 @@ export default connect(function(state) {
     return state;
 }, function(dispatch) {
     return {
-        actions: bindActionCreators(actions, dispatch)
+        listAction: bindActionCreators(listAction, dispatch)
     };
 })(App);
