@@ -1,4 +1,5 @@
 import { ACTION } from './index';
+import * as editorAction from './editor';
 
 function showLoading(flag) {
     return {
@@ -40,13 +41,6 @@ export function hideList() {
     }
 }
 
-function setContent(content) {
-    return {
-        type: ACTION.SET_CONTENT,
-        content
-    }
-}
-
 function selectArticle(id) {
     return {
         type: ACTION.SELECT_ARTICLE,
@@ -60,7 +54,7 @@ export function openArticle(id) {
         fetch('http://localhost:8001/api/articles/' + id).then(function(response) {
             return response.json();
         }).then(function(data) {
-            dispatch(setContent(data));
+            dispatch(editorAction.setContent(data));
             dispatch(selectArticle(id));
             dispatch(showLoading(false));
         }).catch(function(error) {

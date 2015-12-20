@@ -1,9 +1,8 @@
-import { combineReducers } from 'redux';
 import Immutable from 'immutable';
 
-import { ACTION } from './actions';
+import { ACTION } from '../actions';
 
-function menu(state = Immutable.fromJS({
+export default function menu(state = Immutable.fromJS({
     show: true,
     loading: false,
     list: {
@@ -34,19 +33,3 @@ function menu(state = Immutable.fromJS({
             return state;
     }
 }
-
-function editor(state = Immutable.fromJS({
-    content: ''
-}), action) {
-    switch (action.type) {
-        case ACTION.SET_CONTENT:
-            return state.set('content', action.content);
-        default:
-            return state;
-    }
-}
-
-export default combineReducers({
-    menu,
-    editor
-});

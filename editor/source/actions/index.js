@@ -1,4 +1,5 @@
-import * as listAction from './list';
+import * as menuAction from './menu';
+import * as editorAction from './editor';
 
 const ACTION = {
     SHOW_LIST: 'SHOW_LIST',
@@ -9,4 +10,8 @@ const ACTION = {
     SET_CONTENT: 'SET_CONTENT'
 };
 
-export { listAction, ACTION };
+export {
+    ACTION,
+    menuAction,
+    editorAction
+};
