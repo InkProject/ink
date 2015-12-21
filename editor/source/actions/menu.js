@@ -1,6 +1,8 @@
 import { ACTION } from './index';
 import * as editorAction from './editor';
 
+const apiURL = 'http://localhost:8001/api';
+
 function showLoading(flag) {
     return {
         type: ACTION.SHOW_LOADING,
@@ -18,7 +20,7 @@ function refreshList(data) {
 export function fetchList() {
     return dispatch => {
         dispatch(showLoading(true));
-        fetch('http://localhost:8001/api/articles').then(function(response) {
+        fetch(`${apiURL}/articles`).then(function(response) {
             return response.json();
         }).then(function(data) {
             dispatch(refreshList(data));
@@ -51,7 +53,7 @@ function selectArticle(id) {
 export function openArticle(id) {
     return dispatch => {
         dispatch(showLoading(true));
-        fetch('http://localhost:8001/api/articles/' + id).then(function(response) {
+        fetch(`${apiURL}/articles/${id}`).then(function(response) {
             return response.json();
         }).then(function(data) {
             dispatch(editorAction.setContent(data));

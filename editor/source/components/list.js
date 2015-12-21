@@ -1,7 +1,8 @@
 import React from 'react';
+import Component from './index';
 import classNames from 'classnames';
 
-export default class extends React.Component {
+export default class extends Component {
     render() {
         const list = this.props.list;
         const onOpenArticle = this.props.onOpenArticle;

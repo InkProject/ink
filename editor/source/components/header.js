@@ -1,16 +1,22 @@
 import React from 'react';
+import Component from './index';
 import classNames from 'classnames';
+import _ from 'lodash';
 
-export default class extends React.Component {
+export default class extends Component {
     render() {
+        let title = this.props.title || '键入文章标题';
+        let tags = [];
+        if (_.isArray(this.props.tags))
+            tags = this.props.tags;
         return (
             <div id="header">
-                <div className="title">构建只为纯粹书写的博客</div>
-                <div className="info">
-                    <span className="draft">草稿</span>
-                    <span className="tag">产品</span>
-                    <span className="tag">设计</span>
-                </div>
+                <div className="title">{title}</div>
+                <div className="info">{
+                    tags.map(item =>
+                        <span className="tag">{item}</span>
+                    )
+                }</div>
             </div>
         );
     }
