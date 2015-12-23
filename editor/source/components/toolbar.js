@@ -5,7 +5,7 @@ import classNames from 'classnames';
 export default class extends Component {
     render() {
         return (
-            <ul className="menu">
+            <ul id="right">
                 <li className="button button-cube"><i className="fa fa-rocket"></i>发布</li>
                 <li className="button button-cube deploy"><i className="fa fa-chrome"></i>预览</li>
                 <li className="button button-circle"><i className="fa fa-floppy-o"></i></li>

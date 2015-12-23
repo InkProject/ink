@@ -3,7 +3,7 @@ import * as editorAction from './editor';
 
 const apiURL = 'http://localhost:8001/api';
 
-function showLoading(flag) {
+export function showLoading(flag) {
     return {
         type: ACTION.SHOW_LOADING,
         flag

@@ -6,15 +6,15 @@ import _ from 'lodash';
 export default class extends Component {
     render() {
         let title = this.props.title || '键入文章标题';
-        let tags = [];
-        if (_.isArray(this.props.tags))
+        var tags = [];
+        if (_.isArray(this.props.tags) && this.props.tags.length > 0)
             tags = this.props.tags;
         return (
             <div id="header">
-                <div className="title">{title}</div>
+                <div className="title hover">{title}</div>
                 <div className="info">{
                     tags.map(item =>
-                        <span className="tag">{item}</span>
+                        item ? <span className="tag">{item}</span> : null
                     )
                 }</div>
             </div>

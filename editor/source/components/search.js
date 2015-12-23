@@ -7,7 +7,7 @@ export default class extends Component {
         return (
             <label id="search-wrap" htmlFor="search">
                 <i className="fa fa-search"></i>
-                <input id="search" type="text" placeholder="搜索..." />
+                <input id="search" type="text" placeholder="搜索..." onFocus={this.props.onFocus.bind(this)} />
             </label>
         );
     }

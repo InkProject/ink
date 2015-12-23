@@ -4,13 +4,17 @@ import ace from 'brace';
 import 'brace/mode/markdown';
 import 'brace/theme/tomorrow';
 
-export default class Editor extends Component {
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { menuAction, editorAction } from '../actions';
+
+class Editor extends Component {
     resizeEditor () {
         let width = window.innerWidth ||
             document.documentElement.clientWidth ||
             document.body.clientWidth;
-        if (width > 800) {
-            this.editor.renderer.setPadding((width - 800) / 2);
+        if (width > 700) {
+            this.editor.renderer.setPadding((width - 700) / 2);
         }
     }
     componentDidUpdate () {
@@ -33,8 +37,11 @@ export default class Editor extends Component {
         });
         editor.renderer.setScrollMargin(200, 200);
         editor.container.style.lineHeight = 2;
-        editor.on('input', () =>
-            this.props.onChange(this.editor.getValue())
+        editor.on('input', () => {
+            this.props.editorAction.setHeader(this.editor.getValue())
+        });
+        editor.on('focus', () =>
+            this.props.menuAction.hideList()
         );
         this.editor = editor;
         this.resizeEditor();
@@ -46,3 +53,10 @@ export default class Editor extends Component {
         );
     }
 }
+
+export default connect(null, function(dispatch) {
+    return {
+        menuAction: bindActionCreators(menuAction, dispatch),
+        editorAction: bindActionCreators(editorAction, dispatch)
+    };
+})(Editor);

@@ -22,24 +22,19 @@ class App extends Component {
     }
     render() {
         const menu = this.props.menu;
-        const list = menu.get('list');
         const editor = this.props.editor;
         const menuAction = this.props.menuAction;
-        const editorAction = this.props.editorAction;
+        const list = menu.get('list');
         return (
             <div id="container">
-                <div id="left" onMouseLeave={menuAction.hideList} onMouseOver={menuAction.showList}>
+                <div id="left" className={classNames({close: !menu.get('show')})}>
                     <Menu menu={menu} />
-                    <div id="files" className={classNames({hide: !menu.get('show')})}>
-                        <Search />
-                        <List list={list} onOpenArticle={menuAction.openArticle} />
-                    </div>
+                    <List list={list} hide={!menu.get('show')} />
                 </div>
-                <div id="right">
-                    <Toolbar />
-                </div>
+                <Search onFocus={menuAction.showList} />
+                <Toolbar />
                 <Header title={editor.get('title')} tags={editor.get('tags')}/>
-                <Editor content={editor.get('content')} onChange={editorAction.setHeader} />
+                <Editor content={editor.get('content')} />
             </div>
         );
     }
@@ -49,7 +44,6 @@ export default connect(function(state) {
     return state;
 }, function(dispatch) {
     return {
-        menuAction: bindActionCreators(menuAction, dispatch),
-        editorAction: bindActionCreators(editorAction, dispatch)
+        menuAction: bindActionCreators(menuAction, dispatch)
     };
 })(App);
