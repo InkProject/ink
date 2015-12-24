@@ -49,7 +49,7 @@ lang:
         en: " years ago"
         zh: 年前
         ru: " лет назад"
-    since_mongth:
+    since_month:
         en: " months ago"
         zh: 个月前
         ru: " месяцев назад"
