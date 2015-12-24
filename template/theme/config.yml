@@ -48,18 +48,24 @@ lang:
     since_year:
         en: " years ago"
         zh: 年前
+        ru: " лет назад"
     since_mongth:
         en: " months ago"
         zh: 个月前
+        ru: " месяцев назад"
     since_day:
         en: " days ago"
         zh: 天前
+        ru: " дней назад"
     since_hour:
         en: " hours ago"
         zh: 小时前
+        ru: " часов назад"
     since_minute:
         en: " mintues ago"
         zh: 分钟前
+        ru: " минут назад"
     since_second:
         en: " seconds ago"
         zh: 秒前
+        ru: " секунд назад"
