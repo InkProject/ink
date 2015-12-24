@@ -5,8 +5,8 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import rootReducer from './reducers';
 import App from './app';
-import Editor from './components/editor';
-import { Router, Route } from 'react-router';
+import List from './components/list';
+import { Router, Route, IndexRoute } from 'react-router';
 import { syncReduxAndRouter } from 'redux-simple-router';
 import { createHistory } from 'history';
 
@@ -20,7 +20,8 @@ ReactDom.render(
     <Provider store={store}>
         <Router history={history}>
             <Route path="/" component={App}>
-                <Route path="/article" component={Editor}></Route>
+                <IndexRoute component={List}/>
+                <Route path="/edit/:id" component={List}/>
             </Route>
         </Router>
     </Provider>,

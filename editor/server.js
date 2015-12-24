@@ -15,6 +15,10 @@ app.use(require('webpack-hot-middleware')(compiler));
 
 app.use(express.static('assets'));
 
+app.get('*', function(request, response, next) {
+    response.sendFile(__dirname + '/assets/index.html');
+});
+
 app.listen(8000, 'localhost', function(err) {
     if (err) {
         console.log(err);

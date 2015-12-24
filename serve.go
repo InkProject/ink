@@ -95,9 +95,8 @@ func Serve() {
 	api.SetApp(router)
 
 	http.Handle("/api/", http.StripPrefix("/api", api.MakeHandler()))
-	http.Handle("/", http.StripPrefix("/", http.FileServer(http.Dir("editor/assets"))))
-	http.Handle("*", http.StripPrefix("/", http.FileServer(http.Dir("editor/assets"))))
-	// http.Handle("/preview/", http.StripPrefix("/preview", http.FileServer(http.Dir(filepath.Join(rootPath, "public")))))
+	// http.Handle("/", http.StripPrefix("/", http.FileServer(http.Dir("editor/assets"))))
+	http.Handle("/", http.StripPrefix("/", http.FileServer(http.Dir(filepath.Join(rootPath, "public")))))
 
 	port := globalConfig.Build.Port
 	if port == "" {

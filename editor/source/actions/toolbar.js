@@ -1,5 +1,5 @@
 import { ACTION } from './index';
-import * as menuAction from './editor';
+import * as listAction from './editor';
 
 export function saveContent(id, name, content) {
     return dispatch => {

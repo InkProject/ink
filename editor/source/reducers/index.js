@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
 import { routeReducer } from 'redux-simple-router';
 
-import menu from './menu';
+import list from './list';
 import editor from './editor';
 
 export default combineReducers({
-    menu,
+    list,
     editor,
     routing: routeReducer
 });

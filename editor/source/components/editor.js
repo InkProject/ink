@@ -6,7 +6,7 @@ import 'brace/theme/tomorrow';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { menuAction, editorAction } from '../actions';
+import { listAction, editorAction } from '../actions';
 
 class Editor extends Component {
     resizeEditor () {
@@ -18,7 +18,7 @@ class Editor extends Component {
         }
     }
     componentDidUpdate () {
-        this.editor.setValue(this.props.content, -1);
+        this.editor.setValue(this.props.content || '', -1);
     }
     componentDidMount () {
         let editor = ace.edit('editor');
@@ -41,7 +41,7 @@ class Editor extends Component {
             this.props.editorAction.setHeader(this.editor.getValue())
         });
         editor.on('focus', () =>
-            this.props.menuAction.hideList()
+            this.props.listAction.hideList()
         );
         this.editor = editor;
         this.resizeEditor();
@@ -56,7 +56,7 @@ class Editor extends Component {
 
 export default connect(null, function(dispatch) {
     return {
-        menuAction: bindActionCreators(menuAction, dispatch),
+        listAction: bindActionCreators(listAction, dispatch),
         editorAction: bindActionCreators(editorAction, dispatch)
     };
 })(Editor);

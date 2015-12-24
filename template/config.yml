@@ -17,7 +17,7 @@ authors:
         avatar: "-/images/avatar.jpg"
 
 build:
-    port: 8001
+    port: 8000
     # Copied files to public folder when build
     copy:
         - "source/images"
