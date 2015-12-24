@@ -45,3 +45,21 @@ lang:
         en: TOP
         zh: 置顶
         ru: Наверх
+    since_year:
+        en: " years ago"
+        zh: 年前
+    since_mongth:
+        en: " months ago"
+        zh: 个月前
+    since_day:
+        en: " days ago"
+        zh: 天前
+    since_hour:
+        en: " hours ago"
+        zh: 小时前
+    since_minute:
+        en: " mintues ago"
+        zh: 分钟前
+    since_second:
+        en: " seconds ago"
+        zh: 秒前

@@ -3,7 +3,7 @@ site:
     subtitle: "简洁的静态博客构建工具"
     limit: 10
     theme: theme
-    lang: zh
+    lang: ru
     url: "http://www.inkpaper.io/blog"
     comment: username
     # logo: "-/images/avatar.jpg"
