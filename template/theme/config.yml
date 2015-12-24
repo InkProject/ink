@@ -8,30 +8,40 @@ lang:
     archive:
         en: ARCHIVE
         zh: 归档
+        ru: Архив
     tag:
         en: TAG
         zh: 标签
+        ru: Теги
     rss:
         en: RSS
         zh: 订阅
+        ru: RSS
     articles:
         en: Articles
         zh: 篇文章
+        ru: Записи
     updated:
         en: updated
         zh: 更新
+        ru: обновлено
     prev_page:
         en: Prev Page
         zh: 上一页
+        ru: Назад
     next_page:
         en: Next Page
         zh: 下一页
+        ru: Далее
     prev_reading:
         en: Prev Reading
         zh: 上篇文章
+        ru: Предыдущая запись
     next_reading:
         en: Next Reading
         zh: 下篇文章
+        ru: Следующая запись
     top:
         en: TOP
         zh: 置顶
+        ru: Наверх
