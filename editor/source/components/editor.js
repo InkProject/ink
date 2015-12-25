@@ -48,13 +48,21 @@ class Editor extends Component {
         window.addEventListener('resize', this.resizeEditor.bind(this));
     }
     render() {
+        const id = this.props.params.id;
+        if (id) {
+            this.props.listAction.openArticle(id);
+        }
         return (
             <div id="editor"></div>
         );
     }
 }
 
-export default connect(null, function(dispatch) {
+export default connect(function(state) {
+    return {
+        content: state.editor.get('content')
+    }
+}, function(dispatch) {
     return {
         listAction: bindActionCreators(listAction, dispatch),
         editorAction: bindActionCreators(editorAction, dispatch)

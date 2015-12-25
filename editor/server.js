@@ -19,10 +19,10 @@ app.get('*', function(request, response, next) {
     response.sendFile(__dirname + '/assets/index.html');
 });
 
-app.listen(8000, 'localhost', function(err) {
+app.listen(8001, 'localhost', function(err) {
     if (err) {
         console.log(err);
         return;
     }
-    console.log('Listening at http://localhost:8000');
+    console.log('Listening at http://localhost:8001');
 });

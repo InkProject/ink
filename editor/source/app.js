@@ -21,11 +21,11 @@ class App extends Component {
         const editor = this.props.editor;
         return (
             <div id="container">
-                <Left show={list.get('show')} loading={list.get('loading')} listComponent={this.props.children} />
+                <Left list={list} listComponent={this.props.List} />
                 <Search />
                 <Toolbar />
-                <Header title={editor.get('title')} tags={editor.get('tags')}/>
-                <Editor content={editor.get('content')} />
+                <Header editor={editor} />
+                {this.props.Editor}
             </div>
         );
     }

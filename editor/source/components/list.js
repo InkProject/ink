@@ -13,14 +13,10 @@ class List extends Component {
     }
     render() {
         const list = this.props.list;
-        const id = this.props.params.id;
-        if (id) {
-            this.props.listAction.openArticle(id);
-        }
         return (
-            <ul id="list" className={classNames({hide: this.props.hide})}>{
+            <ul id="list" className={classNames({hide: !list.get('show')})}>{
                 list.get('data').map(item =>
-                    <li className={classNames('item hover', {selected: item.get('id') == id})} key={item.get('id')} >
+                    <li className={classNames('item hover', {selected: item.get('id') == this.props.params.id})} key={item.get('id')} >
                         <Link to={`/edit/${item.get('id')}`}>
                             <div className="head">
                                 <span className="date">2015-03-01 18:00</span>
@@ -38,7 +34,7 @@ class List extends Component {
 export default connect(function(state) {
     return {
         list: state.list
-    };
+    }
 }, function(dispatch) {
     return {
         listAction: bindActionCreators(listAction, dispatch),
