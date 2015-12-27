@@ -11,20 +11,17 @@ import { editorAction } from './actions';
 
 import Left from './components/left';
 import Editor from './components/editor';
-import Header from './components/header';
 import Search from './components/search';
 import Toolbar from './components/toolbar';
 
 class App extends Component {
     render() {
         const list = this.props.list;
-        const editor = this.props.editor;
         return (
             <div id="container">
                 <Left list={list} listComponent={this.props.List} />
                 <Search />
                 <Toolbar />
-                <Header editor={editor} />
                 {this.props.Editor}
             </div>
         );

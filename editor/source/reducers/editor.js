@@ -4,15 +4,24 @@ import { ACTION } from '../actions';
 export default function editor(state = Immutable.fromJS({
     title: '',
     tags: [],
-    content: ''
+    config: '',
+    content: '',
+    current: ''
 }), action) {
     switch (action.type) {
-        case ACTION.SET_CONTENT:
-            return state.set('content', action.content);
         case ACTION.SET_HEADER:
-            return state
-                .set('title', action.title)
-                .set('tags', action.tags);
+            return state.mergeDeep({
+                title: action.title,
+                tags: action.tags
+            });
+        case ACTION.SET_CONTENT:
+            return state.mergeDeep({
+                title: action.title,
+                tags: action.tags,
+                config: action.config,
+                content: action.content,
+                current: action.content
+            });
         default:
             return state;
     }

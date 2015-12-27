@@ -10,8 +10,8 @@ export default class extends Component {
         if (_.isArray(this.props.tags) && this.props.tags.length > 0)
             tags = this.props.tags;
         return (
-            <div id="header">
-                <div className="title hover">{title}</div>
+            <div id="header" className={classNames({edit: this.props.edit})} onClick={this.props.onClick}>
+                <div className="title hover"><i className="fa fa-cog"></i><span>{title}</span></div>
                 <div className="info">{
                     tags.map(item =>
                         item ? <span className="tag">{item}</span> : null

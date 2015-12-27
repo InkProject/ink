@@ -13,7 +13,6 @@ export function saveContent(id, name, content) {
         }).then(function(response) {
             return response;
         }).then(function(data) {
-            alert(data);
             dispatch(menuAction.showLoading(false));
         }).catch(function(error) {
             alert(JSON.stringify(error));

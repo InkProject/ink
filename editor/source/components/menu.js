@@ -13,12 +13,14 @@ class Menu extends Component {
         const listAction = this.props.listAction;
         return (
             <ul id="menu" className="list">
-                <li className="button button-circle inbox" onClick={listAction.showList}>
-                    <i className={classNames('fa', {['fa-'+(show?'plus':'inbox')]: true})}></i>
+                <li>
+                    <button className="button button-circle inbox" onClick={listAction.showList}>
+                        <i className={classNames('fa', {['fa-'+(show?'plus':'inbox')]: true})}></i>
+                    </button>
                 </li>
-                <li className="button button-circle setting"><i className="fa fa-wrench"></i></li>
-                <li className="button button-circle theme"><i className="fa fa-moon-o"></i></li>
-                <li className="button button-circle help"><i className="fa fa-hashtag"></i></li>
+                <li><button className="button button-circle setting"><i className="fa fa-wrench"></i></button></li>
+                <li><button className="button button-circle theme"><i className="fa fa-moon-o"></i></button></li>
+                <li><button className="button button-circle help"><i className="fa fa-hashtag"></i></button></li>
                 <li><i id="loading" className={classNames('fa fa-cog fa-spin', {hide: !loading})}></i></li>
             </ul>
         );

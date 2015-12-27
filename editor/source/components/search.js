@@ -7,11 +7,22 @@ import { connect } from 'react-redux';
 import { listAction } from '../actions';
 
 export default class Search extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {focus: false};
+    }
+    onFocus() {
+        this.props.listAction.showList();
+        this.setState({focus: true});
+    }
+    onBlur() {
+        this.setState({focus: false});
+    }
     render() {
         return (
-            <label id="search-wrap" htmlFor="search">
+            <label id="search-wrap" htmlFor="search" className={classNames({focus: this.state.focus})}>
                 <i className="fa fa-search"></i>
-                <input id="search" type="text" placeholder="搜索..." onFocus={this.props.listAction.showList} />
+                <input id="search" type="text" placeholder="搜索..." onFocus={() => this.onFocus()} onBlur={() => this.onBlur()} />
             </label>
         );
     }

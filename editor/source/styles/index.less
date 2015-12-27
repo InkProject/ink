@@ -1,10 +1,19 @@
 @import "global";
 
 .hover {
-    // cursor: pointer;
-    cursor: default;
+    cursor: pointer;
+    // cursor: default;
     &:hover {
         opacity: 0.9;
+    }
+}
+
+button {
+    border: 0;
+    &:focus {
+        // opacity: 1;
+        // background-color: #222 !important;
+        outline: 1px dotted #aaa;
     }
 }
 
@@ -56,19 +65,20 @@
     .list {
         position: fixed;
         width: 40px;
-
-        .button {
-            margin: 0 auto;
+        text-align: center;
+        li {
             margin-bottom: 20px;
-            &.inbox {
-                width: 40px;
-                height: 40px;
-                font-size: 18px;
-                line-height: 40px;
-                background-color: #a20000;
-            }
-            &.setting {
-                margin-top: 15px;
+            .button {
+                &.inbox {
+                    width: 40px;
+                    height: 40px;
+                    font-size: 18px;
+                    line-height: 40px;
+                    background-color: #a20000;
+                }
+                &.setting {
+                    margin-top: 15px;
+                }
             }
         }
     }
@@ -76,14 +86,16 @@
 #search-wrap {
     position: fixed;
     top: 0;
-    rigth: 0;
     left: 100px;
     z-index: 2;
-    width: 250px;
+    width: 215px;
     padding-top: 44px;
     padding-bottom: 30px;
     color: #aaa;
     background-image: linear-gradient(to top, transparent, white 50%);
+    &.focus {
+        color: #555;
+    }
     .fa {
         position: absolute;
         margin-top: 0;
@@ -98,7 +110,7 @@
     }
 }
 #list {
-    width: 250px;
+    width: 200px;
     margin-left: 40px;
     padding: 13px 30px;
     padding-top: 0;
@@ -136,6 +148,10 @@
         .preview {
             color: #ccc;
             margin-top: 10px;
+            width: 200px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
     }
 }
@@ -145,16 +161,18 @@
     right: 0;
     top: 0;
     z-index: 2;
-    overflow: auto;
+    // overflow: auto;
     float: right;
-    .button {
+    li {
         float: right;
         margin-left: 20px;
-        &.deploy {
-            background-color: #777;
-        }
-        &.remove {
-            background-color: #a20000;
+        .button {
+            &.deploy {
+                background-color: #777;
+            }
+            &.remove {
+                background-color: #a20000;
+            }
         }
     }
 }
@@ -168,14 +186,31 @@
     text-align: center;
     // pointer-events: none;
     background-image: linear-gradient(to top, transparent, white 20%);
+    &.edit {
+        .title {
+            i {
+                display: inline-block;
+                margin-left: -40px;
+                margin-top: 4px;
+                color: #ccc;
+                position: absolute;
+            }
+            span {
+                border-bottom: 2px dashed #ccc;
+            }
+        }
+    }
     .title {
+        i {
+            display: none;
+        }
         margin: 0 auto;
         max-width: 600px;
         font-size: 32px;
         font-weight: bold;
         color: #555;
     }
-    span {
+    .tag {
         font-style: italic;
         border: 1px solid #eee;
         border-radius: 3px;
@@ -186,7 +221,7 @@
         display: inline-block;
     }
 }
-#editor {
+#config-editor, #content-editor {
     position: absolute;
     top: 0;
     right: 0;
@@ -213,9 +248,36 @@
             // background: #F2FFEF;
         }
     }
+    textarea {
+        // letter-spacing: 3.5px !important;
+        // opacity: 0.1 !important;
+    }
 }
 #loading {
     font-size: 46px;
     color: #aaa;
     margin-top: 20px;
+}
+#confirm {
+    position: absolute;
+    left: 27px;
+    top: 75px;
+    background-color: #555;
+    border-radius: 3px;
+    z-index: 3;
+    color: #fff;
+    text-align: center;
+    padding: 8px 10px;
+    &:before {
+        content: "";
+        position: absolute;
+        left: 50%;
+        margin-left: -9px;
+        top: -7px;
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 0 10px 10px 10px;
+        border-color: transparent transparent #555 transparent;
+    }
 }

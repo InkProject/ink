@@ -3,7 +3,7 @@ import Immutable from 'immutable';
 import { ACTION } from '../actions';
 
 export default function list(state = Immutable.fromJS({
-    show: true,
+    show: false,
     loading: false,
     data: []
 }), action) {

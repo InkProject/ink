@@ -45,13 +45,12 @@ export function hideList() {
 
 export function openArticle(id) {
     return dispatch => {
-        // dispatch(showLoading(true));
+        dispatch(showLoading(true));
         fetch(`${apiURL}/articles/${id}`).then(function(response) {
             return response.json();
         }).then(function(data) {
-            // alert(data)
-            dispatch(editorAction.setContent(data));
-            // dispatch(showLoading(false));
+            dispatch(editorAction.setEditor(data));
+            dispatch(showLoading(false));
         }).catch(function(error) {
             alert(JSON.stringify(error));
         });

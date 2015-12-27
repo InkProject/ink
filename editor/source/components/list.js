@@ -16,8 +16,8 @@ class List extends Component {
         return (
             <ul id="list" className={classNames({hide: !list.get('show')})}>{
                 list.get('data').map(item =>
-                    <li className={classNames('item hover', {selected: item.get('id') == this.props.params.id})} key={item.get('id')} >
-                        <Link to={`/edit/${item.get('id')}`}>
+                    <li className={classNames('item hover', {selected: item.get('id') == this.props.params.id})} key={item.get('id')}>
+                        <Link to={`/edit/${item.get('id')}`} onClick={() => this.props.listAction.openArticle(item.get('id'))}>
                             <div className="head">
                                 <span className="date">2015-03-01 18:00</span>
                             </div>
