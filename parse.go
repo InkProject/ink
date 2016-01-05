@@ -55,7 +55,7 @@ type ArticleConfig struct {
 	Topic      string
 	Cover      string
 	Draft      bool
-	Preview    string
+	Preview    template.HTML
 	Top        bool
 	Config     interface{}
 }
@@ -67,7 +67,7 @@ type Article struct {
 	Update  int64
 	Author  AuthorConfig
 	Tags    []string
-	Preview string
+	Preview template.HTML
 	Content template.HTML
 	Link    string
 	Config  interface{}
@@ -165,7 +165,7 @@ func ParseArticleConfig(markdownPath string) (config *ArticleConfig, content str
 	// Parse preview splited by MORE_SPLIT
 	previewAry := strings.SplitN(content, MORE_SPLIT, 2)
 	if len(config.Preview) <= 0 && len(previewAry) > 1 {
-		config.Preview = previewAry[0]
+		config.Preview = Parse(previewAry[0])
 		content = strings.Replace(content, MORE_SPLIT, "", 1)
 	}
 	return config, content
