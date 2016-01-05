@@ -10,6 +10,9 @@ import { listAction, editorAction } from '../actions';
 class List extends Component {
     componentWillMount() {
         this.props.listAction.fetchList();
+        if (this.props.params.id) {
+            this.props.listAction.openArticle(this.props.params.id);
+        }
     }
     render() {
         const list = this.props.list;

@@ -28,10 +28,6 @@ class Editor extends Component {
             this.configEditor.renderer.setPadding((width - 700) / 2);
         }
     }
-    // shouldComponentUpdate(nextProps, nextStates) {
-    //     alert(nextProps.params.id != this.props.params.id)
-    //     return nextProps.params.id != this.props.params.id;
-    // }
     componentDidUpdate(prevProps, prevState) {
         if (this.props.content != prevProps.content) {
             this.editor.setValue(this.props.content || '', -1);
@@ -57,6 +53,7 @@ class Editor extends Component {
         editor.setOptions(editorOption);
         editor.renderer.setScrollMargin(200, 200);
         editor.container.style.lineHeight = 2;
+        editor.$blockScrolling = Infinity;
         editor.on('focus', () =>
             this.props.listAction.hideList()
         );

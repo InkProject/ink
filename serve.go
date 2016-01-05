@@ -2,11 +2,9 @@ package main
 
 import (
 	"fmt"
-	"github.com/ant0ine/go-json-rest/rest"
 	"github.com/go-fsnotify/fsnotify"
 	"github.com/gorilla/websocket"
-	"log"
-	"net/http"
+	"github.com/InkProject/ink.go"
 	"os"
 	"path/filepath"
 )
@@ -53,55 +51,29 @@ func Watch() {
 	}
 }
 
-func Websocket(w rest.ResponseWriter, req *rest.Request) {
+func Websocket(ctx *ink.Context) {
 	var upgrader = websocket.Upgrader{
 		ReadBufferSize:  1024,
 		WriteBufferSize: 1024,
 	}
-	if c, err := upgrader.Upgrade(w.(http.ResponseWriter), req.Request, nil); err != nil {
+	if c, err := upgrader.Upgrade(ctx.Res, ctx.Req, nil); err != nil {
 		Fatal(err)
 	} else {
 		conn = c
 	}
+	ctx.Stop()
 }
 
 func Serve() {
-	api := rest.NewApi()
-	api.Use(rest.DefaultDevStack...)
-	api.Use(&rest.CorsMiddleware{
-        RejectNonCorsRequests: false,
-        OriginValidator: func(origin string, request *rest.Request) bool {
-            return true
-        },
-        AllowedMethods: []string{"GET", "POST", "PUT", "DELETE"},
-        AllowedHeaders: []string{
-            "Accept", "Content-Type", "X-Custom-Header", "Origin",
-		},
-        AccessControlAllowCredentials: true,
-        AccessControlMaxAge:           3600,
-    })
+	web := ink.New()
 
-	router, err := rest.MakeRouter(
-		rest.Get("/articles", ApiListArticle),
-		rest.Get("/articles/#id", ApiGetArticle),
-		rest.Post("/articles", ApiCreateArticle),
-		rest.Put("/articles/#id", ApiModifyArticle),
-		rest.Delete("/articles/#id", ApiRemoveArticle),
-		rest.Get("/live", Websocket),
-	)
-	if err != nil {
-		log.Fatal(err)
-	}
-	api.SetApp(router)
+	web.Get("/articles", ApiListArticle)
+	web.Get("/articles/:id/", ApiGetArticle)
+	web.Post("/articles", ApiCreateArticle)
+	web.Put("/articles/:id", ApiModifyArticle)
+	web.Delete("/articles/:id", ApiRemoveArticle)
+	web.Get("/live", Websocket)
 
-	http.Handle("/api/", http.StripPrefix("/api", api.MakeHandler()))
-	// http.Handle("/", http.StripPrefix("/", http.FileServer(http.Dir("editor/assets"))))
-	http.Handle("/", http.StripPrefix("/", http.FileServer(http.Dir(filepath.Join(rootPath, "public")))))
-
-	port := globalConfig.Build.Port
-	if port == "" {
-		port = "8000"
-	}
-
-	log.Fatal(http.ListenAndServe(":"+port, nil))
+	web.Get("*", ink.Static(filepath.Join("editor/assets")))
+	web.Listen(":8000")
 }

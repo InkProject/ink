@@ -1,7 +1,7 @@
 import { ACTION } from './index';
 import * as editorAction from './editor';
 
-const apiURL = 'http://localhost:8000/api';
+const apiURL = 'http://localhost:8000';
 
 export function showLoading(flag) {
     return {
@@ -26,7 +26,7 @@ export function fetchList() {
             dispatch(refreshList(data));
             dispatch(showLoading(false));
         }).catch(function(error) {
-            alert(JSON.stringify(error));
+            alert(JSON.stringify(arguments));
         });
     };
 }
@@ -52,7 +52,7 @@ export function openArticle(id) {
             dispatch(editorAction.setEditor(data));
             dispatch(showLoading(false));
         }).catch(function(error) {
-            alert(JSON.stringify(error));
+            alert(JSON.stringify(arguments));
         });
     };
 }
