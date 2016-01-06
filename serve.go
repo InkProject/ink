@@ -2,9 +2,9 @@ package main
 
 import (
 	"fmt"
+	"github.com/InkProject/ink.go"
 	"github.com/go-fsnotify/fsnotify"
 	"github.com/gorilla/websocket"
-	"github.com/InkProject/ink.go"
 	"os"
 	"path/filepath"
 )
@@ -27,13 +27,13 @@ func Watch() {
 					fmt.Println(event.Name)
 					Build()
 					if conn != nil {
-						if err := conn.WriteMessage(websocket.TextMessage, []byte("change")); err == nil {
-							Log(err)
+						if err := conn.WriteMessage(websocket.TextMessage, []byte("change")); err != nil {
+							Warn(err.Error())
 						}
 					}
 				}
 			case err := <-watcher.Errors:
-				Log(err.Error())
+				Warn(err.Error())
 			}
 		}
 	}()
@@ -43,7 +43,7 @@ func Watch() {
 		filepath.Walk(dirPath, func(path string, f os.FileInfo, err error) error {
 			if f.IsDir() {
 				if err := watcher.Add(path); err != nil {
-					Log(err.Error())
+					Warn(err.Error())
 				}
 			}
 			return nil
@@ -76,5 +76,5 @@ func Serve() {
 
 	// web.Get("*", ink.Static(filepath.Join("editor/assets")))
 	web.Get("*", ink.Static(filepath.Join(rootPath, "public")))
-	web.Listen(":8000")
+	web.Listen(":" + globalConfig.Build.Port)
 }

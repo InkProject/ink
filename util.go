@@ -13,6 +13,7 @@ const (
 	CLR_R = "\x1b[31;1m"
 	CLR_G = "\x1b[32;1m"
 	CLR_B = "\x1b[34;1m"
+	CLR_Y = "\x1b[33;1m"
 )
 
 const (
@@ -23,6 +24,15 @@ const (
 // Print log
 func Log(info interface{}) {
 	fmt.Printf("%s\n", info)
+}
+
+// Print warning log
+func Warn(info interface{}) {
+	if runtime.GOOS == "windows" {
+		fmt.Printf("WARNING: %s\n", info)
+	} else {
+		fmt.Printf("%s%s\n%s", CLR_Y, info, "\x1b[0m")
+	}
 }
 
 // Print error log
