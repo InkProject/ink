@@ -74,7 +74,7 @@ func Serve() {
 	web.Delete("/articles/:id", ApiRemoveArticle)
 	web.Get("/live", Websocket)
 
-	// web.Get("*", ink.Static(filepath.Join("editor/assets")))
-	web.Get("*", ink.Static(filepath.Join(rootPath, "public")))
+	web.Get("*", ink.Static(filepath.Join("editor/assets")))
+	// web.Get("*", ink.Static(filepath.Join(rootPath, "public")))
 	web.Listen(":" + globalConfig.Build.Port)
 }
