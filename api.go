@@ -27,7 +27,9 @@ func replyJSON(ctx *ink.Context, status int, data interface{}) {
 		return
 	}
 	if status == http.StatusOK {
-		ctx.Res.Header().Set("Content-Type", "application/json")
+		ctx.Header().Set("Content-Type", "application/json")
+		ctx.Header().Set("Access-Control-Allow-Origin", "*")
+		ctx.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
 		ctx.Res.Write(jsonStr)
 	} else {
 		http.Error(ctx.Res, data.(string), status)

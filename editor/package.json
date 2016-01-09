@@ -35,7 +35,10 @@
     "url-loader": "^0.5.7",
     "webpack": "^1.12.9",
     "webpack-dev-middleware": "^1.4.0",
-    "webpack-hot-middleware": "^2.6.0"
+    "webpack-hot-middleware": "^2.6.0",
+    "postcss-loader": "^0.8.0",
+    "precss": "^1.4.0",
+    "autoprefixer": "^6.2.3"
   },
   "dependencies": {
     "brace": "^0.7.0",

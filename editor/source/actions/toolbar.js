@@ -1,9 +1,8 @@
-import { ACTION } from './index';
-import * as listAction from './editor';
+import { ACTION, utilAction, listAction, apiURL } from './index';
 
 export function saveContent(id, name, content) {
     return dispatch => {
-        dispatch(menuAction.showLoading(true));
+        dispatch(listAction.showLoading(true));
         fetch(`${apiURL}/articles/${id}`, {
             method: 'PUT',
             body: {
@@ -11,9 +10,10 @@ export function saveContent(id, name, content) {
                 content
             }
         }).then(function(response) {
-            return response;
+            return response.json();
         }).then(function(data) {
-            dispatch(menuAction.showLoading(false));
+            dispatch(utilAction.showTip('保存成功'));
+            dispatch(listAction.showLoading(false));
         }).catch(function(error) {
             alert(JSON.stringify(error));
         });

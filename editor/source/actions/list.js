@@ -1,7 +1,4 @@
-import { ACTION } from './index';
-import * as editorAction from './editor';
-
-const apiURL = 'http://localhost:8000';
+import { ACTION, editorAction, apiURL } from './index';
 
 export function showLoading(flag) {
     return {

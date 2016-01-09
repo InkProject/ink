@@ -68,13 +68,16 @@ func Serve() {
 	web := ink.New()
 
 	web.Get("/articles", ApiListArticle)
-	web.Get("/articles/:id/", ApiGetArticle)
+	web.Get("/articles/:id", ApiGetArticle)
 	web.Post("/articles", ApiCreateArticle)
 	web.Put("/articles/:id", ApiModifyArticle)
 	web.Delete("/articles/:id", ApiRemoveArticle)
 	web.Get("/live", Websocket)
 
+	web.Use(ink.Cors)
+
 	web.Get("*", ink.Static(filepath.Join("editor/assets")))
+
 	// web.Get("*", ink.Static(filepath.Join(rootPath, "public")))
 	web.Listen(":" + globalConfig.Build.Port)
 }

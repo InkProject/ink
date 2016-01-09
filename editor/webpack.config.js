@@ -10,6 +10,7 @@ module.exports = {
     ],
     output: {
         path: path.join(__dirname, 'assets'),
+        publicPath: '/',
         filename: 'bundle.js'
     },
     module: {
@@ -18,17 +19,20 @@ module.exports = {
                 loaders: ['babel'],
                 include: path.join(__dirname, 'source')
             }, {
-                test: /\.less$/,
-                loader: 'style-loader!css!less'
-                // loader: ExtractTextPlugin.extract('style-loader', 'css!less')
+                test: /\.css$/,
+                // loader: ExtractTextPlugin.extract('style-loader', 'css!postcss')
+                loader: 'style-loader!css-loader!postcss-loader'
             }, {
                 test : /\.woff|\.woff2|\.svg|.eot|\.ttf/,
-                loader : 'url-loader?&limit=1&name=/styles/[name]-[hash:6].[ext]'
+                loader : 'url-loader?&limit=1&name=styles/[name]-[hash:6].[ext]'
             }, {
                 test : /\index.html$/,
                 loader : 'file-loader?name=/[name].[ext]'
             }
         ]
+    },
+    postcss: function () {
+        return [require('autoprefixer'), require('precss')];
     },
     plugins: [
         // new ExtractTextPlugin("/styles/index.css"),

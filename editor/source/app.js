@@ -1,5 +1,5 @@
-import 'font-awesome/less/font-awesome.less';
-import './styles/index.less';
+import 'font-awesome/css/font-awesome.css';
+import './styles/index.css';
 
 import React from 'react';
 import Component from './components';
@@ -17,8 +17,10 @@ import Toolbar from './components/toolbar';
 class App extends Component {
     render() {
         const list = this.props.list;
+        const util = this.props.util;
         return (
             <div id="container">
+                <div id="tooltip" className={classNames({hide: !util.get('tip').get('show')})}>{util.get('tip').get('content')}</div>
                 <Left list={list} listComponent={this.props.List} />
                 <Search />
                 <Toolbar />
