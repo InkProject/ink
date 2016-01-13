@@ -14,8 +14,17 @@ import { createHistory } from 'history';
 const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
 const store = createStoreWithMiddleware(rootReducer);
 
+if (module.hot) {
+    module.hot.accept('./reducers', () => {
+        const nextRootReducer = require('./reducers');
+        store.replaceReducer(nextRootReducer);
+    });
+}
+
 const history = createHistory();
-syncReduxAndRouter(history, store)
+syncReduxAndRouter(history, store);
+
+window.globalStore = store;
 
 ReactDom.render(
     <Provider store={store}>

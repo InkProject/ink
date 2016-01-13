@@ -21,7 +21,7 @@ export default function list(state = Immutable.fromJS({
                 let item = action.data[id];
                 return {
                     id,
-                    name: item.article.Name,
+                    name: item.path,
                     title: item.article.Title,
                     preview: item.article.Preview
                 };

@@ -18,9 +18,15 @@ class App extends Component {
     render() {
         const list = this.props.list;
         const util = this.props.util;
+        const tip = util.get('tip');
         return (
             <div id="container">
-                <div id="tooltip" className={classNames({hide: !util.get('tip').get('show')})}>{util.get('tip').get('content')}</div>
+                <div id="tooltip" className={classNames({hide: !tip.get('show')})}>
+                    <div className="content">
+                        {tip.get('loading') ? <i className="fa fa-cog fa-spin"></i> : null}
+                        {tip.get('content')}
+                    </div>
+                </div>
                 <Left list={list} listComponent={this.props.List} />
                 <Search />
                 <Toolbar />

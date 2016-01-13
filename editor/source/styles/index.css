@@ -40,19 +40,30 @@ button {
 }
 
 #tooltip {
-    text-align: center;
-    color: #FFF;
+    left: 0;
+    right: 0;
+    height: 35px;
     position: absolute;
-    left: 50%;
     margin-top: 28px;
-    margin-left: -50px;
-    width: 100px;
     z-index: 9999;
-    padding: 8px;
-    background-color: #00B106;
-    border-radius: 30px;
-    font-size: 14px;
-    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    .content {
+        padding: 8px 18px;
+        text-align: center;
+        color: #FFF;
+        background-color: #00B106;
+        border-radius: 30px;
+        font-size: 14px;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        i {
+            font-size: 20px;
+            margin-right: 5px;
+        }
+    }
 }
 
 #left {

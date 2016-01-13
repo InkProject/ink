@@ -17,6 +17,10 @@ type NewArticle struct {
 	Content string
 }
 
+type OldArticle struct {
+	Content string
+}
+
 var articleCache map[string]interface{}
 
 func replyJSON(ctx *ink.Context, status int, data interface{}) {
@@ -32,6 +36,7 @@ func replyJSON(ctx *ink.Context, status int, data interface{}) {
 		ctx.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
 		ctx.Res.Write(jsonStr)
 	} else {
+		Warn(data)
 		http.Error(ctx.Res, data.(string), status)
 	}
 	ctx.Stop()
@@ -110,33 +115,41 @@ func ApiCreateArticle(ctx *ink.Context) {
 	replyJSON(ctx, http.StatusOK, nil)
 }
 
-func ApiModifyArticle(ctx *ink.Context) {
+func ApiSaveArticle(ctx *ink.Context) {
 	UpdateArticleCache()
 	decoder := json.NewDecoder(ctx.Req.Body)
-	var newArticle NewArticle
-	err := decoder.Decode(&newArticle)
+	var article OldArticle
+	err := decoder.Decode(&article)
 	if err != nil {
 		replyJSON(ctx, http.StatusBadRequest, err.Error())
 		return
 	}
-	// Rename
 	cacheArticle, ok := articleCache[ctx.Param["id"]]
 	if !ok {
 		replyJSON(ctx, http.StatusNotFound, "Not Found")
 		return
 	}
-	oldPath := cacheArticle.(map[string]interface{})["path"].(string)
-	newPath := filepath.Join(sourcePath, newArticle.Name+".md")
-	err = os.Rename(oldPath, newPath)
-	if err != nil {
-		replyJSON(ctx, http.StatusInternalServerError, err.Error())
-		return
-	}
 	// Write
-	err = ioutil.WriteFile(newPath, []byte(newArticle.Content), 0644)
+	path := cacheArticle.(map[string]interface{})["path"].(string)
+	err = ioutil.WriteFile(path, []byte(article.Content), 0644)
 	if err != nil {
 		replyJSON(ctx, http.StatusInternalServerError, err.Error())
 		return
 	}
 	replyJSON(ctx, http.StatusOK, nil)
 }
+
+
+// Rename
+// cacheArticle, ok := articleCache[ctx.Param["id"]]
+// if !ok {
+// 	replyJSON(ctx, http.StatusNotFound, "Not Found")
+// 	return
+// }
+// oldPath := cacheArticle.(map[string]interface{})["path"].(string)
+// newPath := filepath.Join(sourcePath, newArticle.Name+".md")
+// err = os.Rename(oldPath, newPath)
+// if err != nil {
+// 	replyJSON(ctx, http.StatusInternalServerError, err.Error())
+// 	return
+// }

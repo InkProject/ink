@@ -1,4 +1,4 @@
-import { ACTION, editorAction, apiURL } from './index';
+import { ACTION, editorAction, utilAction } from './index';
 
 export function showLoading(flag) {
     return {
@@ -16,14 +16,10 @@ function refreshList(data) {
 
 export function fetchList() {
     return dispatch => {
-        dispatch(showLoading(true));
-        fetch(`${apiURL}/articles`).then(function(response) {
-            return response.json();
-        }).then(function(data) {
+        dispatch(utilAction.showTip('load'));
+        utilAction.apiRequest('GET', `articles`).then(function(data) {
             dispatch(refreshList(data));
-            dispatch(showLoading(false));
-        }).catch(function(error) {
-            alert(JSON.stringify(arguments));
+            dispatch(utilAction.showTip('hide'));
         });
     };
 }
@@ -42,14 +38,10 @@ export function hideList() {
 
 export function openArticle(id) {
     return dispatch => {
-        dispatch(showLoading(true));
-        fetch(`${apiURL}/articles/${id}`).then(function(response) {
-            return response.json();
-        }).then(function(data) {
-            dispatch(editorAction.setEditor(data));
-            dispatch(showLoading(false));
-        }).catch(function(error) {
-            alert(JSON.stringify(arguments));
+        dispatch(utilAction.showTip('load'));
+        utilAction.apiRequest('GET', `articles/${id}`).then(function(data) {
+            dispatch(editorAction.setEditor(id, data));
+            dispatch(utilAction.showTip('hide'));
         });
     };
 }

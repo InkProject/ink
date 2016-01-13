@@ -24,6 +24,7 @@ class List extends Component {
                             <div className="head">
                                 <span className="date">2015-03-01 18:00</span>
                             </div>
+                            <div className="name">{item.get('name')}</div>
                             <div className="title">{item.get('title')}</div>
                             <div className="preview">{item.get('preview')}</div>
                         </Link>

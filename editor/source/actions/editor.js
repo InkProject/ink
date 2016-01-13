@@ -26,7 +26,7 @@ export function setHeader(data) {
     }
 }
 
-export function setEditor(data) {
+export function setEditor(id, data) {
     let dataAry = data.split('---');
     let configData = dataAry[0];
     let content = _.trim(dataAry[1] || '');
@@ -34,9 +34,17 @@ export function setEditor(data) {
     let { title, tags } = config || {};
     return {
         type: ACTION.SET_CONTENT,
+        id,
         title,
         tags,
         config: configData,
         content
+    }
+}
+
+export function setCurrent(current) {
+    return {
+        type: ACTION.SET_CURRENT,
+        current
     }
 }

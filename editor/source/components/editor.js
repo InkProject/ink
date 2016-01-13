@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import ace from 'brace';
 import 'brace/mode/markdown';
 import 'brace/theme/tomorrow';
+import _ from 'lodash';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -67,10 +68,17 @@ class Editor extends Component {
         this.setEditorStyle(this.configEditor);
         this.configEditor.on('input', () => {
             this.props.editorAction.setHeader(this.configEditor.getValue())
+            this.onEditorChange();
         });
         // resize by window size
         this.resizeEditor();
         window.addEventListener('resize', this.resizeEditor.bind(this));
+    }
+    onEditorChange () {
+        let config = _.trim(this.configEditor.getValue());
+        let content = _.trim(this.editor.getValue());
+        let current = `${config}\n\n---\n\n${content}`;
+        this.props.editorAction.setCurrent(current);
     }
     render() {
         return (

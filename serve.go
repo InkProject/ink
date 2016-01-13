@@ -70,7 +70,7 @@ func Serve() {
 	web.Get("/articles", ApiListArticle)
 	web.Get("/articles/:id", ApiGetArticle)
 	web.Post("/articles", ApiCreateArticle)
-	web.Put("/articles/:id", ApiModifyArticle)
+	web.Put("/articles/:id", ApiSaveArticle)
 	web.Delete("/articles/:id", ApiRemoveArticle)
 	web.Get("/live", Websocket)
 

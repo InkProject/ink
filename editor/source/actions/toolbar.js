@@ -1,21 +1,15 @@
-import { ACTION, utilAction, listAction, apiURL } from './index';
+import { ACTION, utilAction } from './index';
 
-export function saveContent(id, name, content) {
+export function saveContent() {
     return dispatch => {
-        dispatch(listAction.showLoading(true));
-        fetch(`${apiURL}/articles/${id}`, {
-            method: 'PUT',
-            body: {
-                name,
-                content
-            }
-        }).then(function(response) {
-            return response.json();
+        let state = globalStore.getState();
+        let currentId = state.editor.get('id');
+        let currentContent = state.editor.get('current');
+        dispatch(utilAction.showTip('load'));
+        utilAction.apiRequest('PUT', `articles/${currentId}`, {
+            content: currentContent
         }).then(function(data) {
-            dispatch(utilAction.showTip('保存成功'));
-            dispatch(listAction.showLoading(false));
-        }).catch(function(error) {
-            alert(JSON.stringify(error));
+            dispatch(utilAction.showTip('auto', '保存成功'));
         });
     };
 }
