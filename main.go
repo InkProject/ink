@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"github.com/codegangsta/cli"
+	"github.com/facebookgo/symwalk"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"os"
@@ -154,7 +155,7 @@ func Convert(c *cli.Context) {
 	}
 	// Parse Jekyll/Hexo post file
 	count := 0
-	filepath.Walk(sourcePath, func(path string, f os.FileInfo, err error) error {
+	symwalk.Walk(sourcePath, func(path string, f os.FileInfo, err error) error {
 		fileExt := strings.ToLower(filepath.Ext(path))
 		if fileExt == ".md" || fileExt == ".html" {
 			// Read data from file

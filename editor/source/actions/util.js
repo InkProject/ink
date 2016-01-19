@@ -1,10 +1,16 @@
 import { ACTION, apiURL } from './index';
 
-function toogleTip(show, loading, content) {
+function toogleTip({
+    show = true,
+    error = false,
+    loading = false,
+    content = ''
+}) {
     return {
         type: ACTION.SHOW_TIP,
         loading,
         show,
+        error,
         content
     }
 }
@@ -12,14 +18,33 @@ function toogleTip(show, loading, content) {
 export function showTip(type, content) {
     return dispatch => {
         if (type === 'auto') {
-            dispatch(toogleTip(true, false, content));
+            dispatch(toogleTip({
+                content
+            }));
             setTimeout(function() {
-                dispatch(toogleTip(false));
+                dispatch(toogleTip({
+                    show: false
+                }));
             }, 1000);
         } else if (type === 'load') {
-            dispatch(toogleTip(true, true, content));
+            dispatch(toogleTip({
+                loading: true,
+                content
+            }));
         } else if (type === 'hide') {
-            dispatch(toogleTip(false));
+            dispatch(toogleTip({
+                show: false
+            }));
+        } else if (type === 'error') {
+            dispatch(toogleTip({
+                error: true,
+                content
+            }));
+            setTimeout(function() {
+                dispatch(toogleTip({
+                    show: false
+                }));
+            }, 1000);
         }
     };
 }
@@ -35,6 +60,6 @@ export function apiRequest(method, url, data) {
     }).then(function(response) {
         return response.json();
     }).catch(function(error) {
-        showTip('load', error);
+        showTip('error', error.message || error || '未知错误');
     });
 }

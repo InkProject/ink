@@ -29,7 +29,7 @@ window.globalStore = store;
 ReactDom.render(
     <Provider store={store}>
         <Router history={history}>
-            <Route path="/" component={App}>
+            <Route path="/editor.html" component={App}>
                 <IndexRoute components={{List, Editor}}/>
                 <Route path="/edit/:id" components={{List, Editor}}/>
             </Route>

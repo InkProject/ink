@@ -6,6 +6,7 @@ export default function util(state = Immutable.fromJS({
     tip: {
         loading: false,
         show: false,
+        error: false,
         content: ''
     }
 }), action) {
@@ -14,6 +15,7 @@ export default function util(state = Immutable.fromJS({
             return state.mergeDeep({
                 tip: {
                     show: action.show,
+                    error: action.error,
                     loading: action.loading,
                     content: action.content
                 }

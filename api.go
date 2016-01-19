@@ -5,6 +5,7 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"github.com/InkProject/ink.go"
+	"github.com/facebookgo/symwalk"
 	"io/ioutil"
 	"net/http"
 	"os"
@@ -44,7 +45,7 @@ func replyJSON(ctx *ink.Context, status int, data interface{}) {
 
 func UpdateArticleCache() {
 	articleCache = make(map[string]interface{}, 0)
-	filepath.Walk(sourcePath, func(path string, info os.FileInfo, err error) error {
+	symwalk.Walk(sourcePath, func(path string, info os.FileInfo, err error) error {
 		fileExt := strings.ToLower(filepath.Ext(path))
 		if fileExt == ".md" {
 			fileName := strings.TrimSuffix(strings.ToLower(filepath.Base(path)), ".md")

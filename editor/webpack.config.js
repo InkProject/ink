@@ -6,7 +6,7 @@ module.exports = {
     entry: [
         'webpack-hot-middleware/client',
         './source/index.js',
-        './source/index.html'
+        './source/editor.html'
     ],
     output: {
         path: path.join(__dirname, 'assets'),
@@ -26,7 +26,7 @@ module.exports = {
                 test : /\.woff|\.woff2|\.svg|.eot|\.ttf/,
                 loader : 'url-loader?&limit=1&name=styles/[name]-[hash:6].[ext]'
             }, {
-                test : /\index.html$/,
+                test : /\editor.html$/,
                 loader : 'file-loader?name=/[name].[ext]'
             }
         ]

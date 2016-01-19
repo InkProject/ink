@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/gorilla/feeds"
+	"github.com/facebookgo/symwalk"
 	"html/template"
 	"io/ioutil"
 	"os"
@@ -110,7 +111,7 @@ func Build() {
 		}
 	}
 	// Find all .md to generate article
-	filepath.Walk(sourcePath, func(path string, info os.FileInfo, err error) error {
+	symwalk.Walk(sourcePath, func(path string, info os.FileInfo, err error) error {
 		fileExt := strings.ToLower(filepath.Ext(path))
 		if fileExt == ".md" {
 			// Parse markdown data

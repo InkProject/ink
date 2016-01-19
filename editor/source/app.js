@@ -21,7 +21,7 @@ class App extends Component {
         const tip = util.get('tip');
         return (
             <div id="container">
-                <div id="tooltip" className={classNames({hide: !tip.get('show')})}>
+                <div id="tooltip" className={classNames({hide: !tip.get('show'), error: tip.get('error')})}>
                     <div className="content">
                         {tip.get('loading') ? <i className="fa fa-cog fa-spin"></i> : null}
                         {tip.get('content')}

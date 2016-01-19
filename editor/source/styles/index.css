@@ -48,10 +48,16 @@ button {
     z-index: 9999;
     display: flex;
     justify-content: center;
+    pointer-events: none;
+    &.error {
+        .content {
+            background-color: #980000;
+        }
+    }
     .content {
         padding: 8px 18px;
         text-align: center;
-        color: #FFF;
+        color: white;
         background-color: #00B106;
         border-radius: 30px;
         font-size: 14px;
@@ -61,7 +67,6 @@ button {
         justify-content: center;
         i {
             font-size: 20px;
-            margin-right: 5px;
         }
     }
 }
