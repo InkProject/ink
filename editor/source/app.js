@@ -13,6 +13,7 @@ import Left from './components/left';
 import Editor from './components/editor';
 import Search from './components/search';
 import Toolbar from './components/toolbar';
+import Modal from './components/modal';
 
 class App extends Component {
     render() {
@@ -21,6 +22,7 @@ class App extends Component {
         const tip = util.get('tip');
         return (
             <div id="container">
+                <Modal />
                 <div id="tooltip" className={classNames({hide: !tip.get('show'), error: tip.get('error')})}>
                     <div className="content">
                         {tip.get('loading') ? <i className="fa fa-cog fa-spin"></i> : null}

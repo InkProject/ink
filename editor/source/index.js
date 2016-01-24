@@ -9,7 +9,7 @@ import List from './components/list';
 import Editor from './components/editor';
 import { Router, Route, IndexRoute } from 'react-router';
 import { syncReduxAndRouter } from 'redux-simple-router';
-import { createHistory } from 'history';
+import history from './history';
 
 const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
 const store = createStoreWithMiddleware(rootReducer);
@@ -21,7 +21,6 @@ if (module.hot) {
     });
 }
 
-const history = createHistory();
 syncReduxAndRouter(history, store);
 
 window.globalStore = store;
@@ -29,7 +28,7 @@ window.globalStore = store;
 ReactDom.render(
     <Provider store={store}>
         <Router history={history}>
-            <Route path="/editor.html" component={App}>
+            <Route path="/" component={App}>
                 <IndexRoute components={{List, Editor}}/>
                 <Route path="/edit/:id" components={{List, Editor}}/>
             </Route>

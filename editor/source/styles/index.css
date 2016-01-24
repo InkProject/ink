@@ -14,6 +14,10 @@ button {
     }
 }
 
+.hover {
+    @mixin hover;
+}
+
 .button {
     text-align: center;
     background-color: #555;
@@ -21,7 +25,7 @@ button {
     line-height: 31px;
     @mixin hover;
     &.button-cube {
-        padding: 0px 14px;
+        padding: 7px 14px;
         border-radius: 3px;
         .fa {
             font-size: 14px;
@@ -29,6 +33,7 @@ button {
         }
     }
     &.button-circle {
+        display: inline-block;
         width: 31px;
         height: 31px;
         border-radius: 50%;
@@ -165,6 +170,13 @@ button {
             .date {
                 color: #aaa;
             }
+        }
+        .name {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: #555;
+            margin-top: 5px;
         }
         .title {
             color: #888;
@@ -307,5 +319,70 @@ button {
         border-style: solid;
         border-width: 0 10px 10px 10px;
         border-color: transparent transparent #555 transparent;
+    }
+}
+
+#modal {
+    position: fixed;
+    z-index: 999;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    .overlay {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: white;
+        opacity: 0.95;
+    }
+    .content {
+        z-index: 1;
+        margin-top: 200px;
+        text-align: center;
+        .title {
+            font-size: 22px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: green;
+            font-weight: bold;
+            margin-bottom: 20px;
+            .fa {
+                font-size: 32px;
+                margin-right: 10px;
+            }
+        }
+        .name {
+            text-align: center;
+            padding: 10px 20px;
+            border-radius: 50px;
+            color: #005b37;
+            background-color: white;
+            border: 2px solid #eee;
+            &::placeholder {
+                opacity: 0.5;
+            }
+        }
+        .confirm {
+            .fa {
+                margin-right: 8px;
+            }
+            width: 50px;
+            margin: 0 auto;
+            display: block;
+            border-radius: 50px;
+            padding: 8px 25px;
+            border: 2px solid green;
+            background-color: #00aa35;
+            color: white;
+            margin-top: 20px;
+        }
     }
 }

@@ -15,6 +15,7 @@ class Toolbar extends Component {
         this.setState({confirm: flag});
     }
     onRemoveClick() {
+        this.props.toolbarAction.removeArticle();
         this.setState({confirm: false});
     }
     onSaveClick() {
@@ -25,8 +26,8 @@ class Toolbar extends Component {
             <ul id="right">
                 <li><a className="button button-cube"><i className="fa fa-rocket"></i>发布</a></li>
                 <li><a className="button button-cube deploy" href="/" target="_blank"><i className="fa fa-chrome"></i>预览</a></li>
-                <li><a className="button button-circle" onClick={() => this.onSaveClick()}><i className="fa fa-floppy-o"></i></a></li>
-                <li><a className="button button-circle remove" onFocus={() => this.showConfirm(true)} onBlur={() => this.showConfirm(false)}><i className="fa fa-trash"></i></a></li>
+                <li><button className="button button-circle" onClick={() => this.onSaveClick()}><i className="fa fa-floppy-o"></i></button></li>
+                <li><button className="button button-circle remove" onFocus={() => this.showConfirm(true)} onBlur={() => this.showConfirm(false)}><i className="fa fa-trash"></i></button></li>
                 {this.state.confirm ? <div id="confirm" className="hover" onMouseDown={() => this.onRemoveClick()}>确认删除</div> : null}
             </ul>
         );

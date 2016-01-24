@@ -21,8 +21,8 @@ export function setHeader(data) {
     let config = parseConfig(data);
     return {
         type: ACTION.SET_HEADER,
-        title: config.title,
-        tags: config.tags
+        title: config ? config.title : '键入文章标题',
+        tags: config ? config.tags : []
     }
 }
 

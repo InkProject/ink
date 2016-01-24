@@ -1,6 +1,8 @@
 import * as listAction from './list';
 import * as editorAction from './editor';
 import * as toolbarAction from './toolbar';
+import * as menuAction from './menu';
+import * as modalAction from './modal';
 import * as utilAction from './util';
 
 const apiURL = 'http://localhost:8000';
@@ -17,7 +19,10 @@ const ACTION = {
 
     SAVE_CONTENT: 'SAVE_CONTENT',
 
-    SHOW_TIP: 'SHOW_TIP'
+    SHOW_TIP: 'SHOW_TIP',
+
+    SHOW_MODAL: 'SHOW_MODAL',
+    CREATE_ARTICLE: 'CREATE_ARTICLE'
 };
 
 export {
@@ -26,5 +31,7 @@ export {
     listAction,
     editorAction,
     toolbarAction,
-    utilAction
+    utilAction,
+    menuAction,
+    modalAction
 };

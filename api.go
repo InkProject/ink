@@ -24,6 +24,11 @@ type OldArticle struct {
 
 var articleCache map[string]interface{}
 
+func hashPath(path string) string {
+	md5Hex := md5.Sum([]byte(path))
+	return hex.EncodeToString(md5Hex[:])
+}
+
 func replyJSON(ctx *ink.Context, status int, data interface{}) {
 	jsonStr, err := json.Marshal(data)
 	if err != nil {
@@ -50,8 +55,7 @@ func UpdateArticleCache() {
 		if fileExt == ".md" {
 			fileName := strings.TrimSuffix(strings.ToLower(filepath.Base(path)), ".md")
 			config, _ := ParseArticleConfig(path)
-			md5Hex := md5.Sum([]byte(path))
-			id := hex.EncodeToString(md5Hex[:])
+			id := hashPath(path)
 			articleCache[string(id)] = map[string]interface{}{
 				"name":    fileName,
 				"path":    path,
@@ -113,7 +117,9 @@ func ApiCreateArticle(ctx *ink.Context) {
 		replyJSON(ctx, http.StatusInternalServerError, err.Error())
 		return
 	}
-	replyJSON(ctx, http.StatusOK, nil)
+	replyJSON(ctx, http.StatusOK, map[string]string {
+		"id": hashPath(filePath),
+	})
 }
 
 func ApiSaveArticle(ctx *ink.Context) {

@@ -4,9 +4,16 @@ import classNames from 'classnames';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { listAction, editorAction } from '../actions';
+import { listAction, editorAction, menuAction } from '../actions';
 
 class Menu extends Component {
+    onInboxClick() {
+        if (this.props.show) {
+            this.props.menuAction.showModal(true)
+        } else {
+            this.props.listAction.showList()
+        }
+    }
     render() {
         const show = this.props.show;
         const loading = this.props.loading;
@@ -14,7 +21,7 @@ class Menu extends Component {
         return (
             <ul id="menu" className="list">
                 <li>
-                    <button className="button button-circle inbox" onClick={listAction.showList}>
+                    <button className="button button-circle inbox" onClick={() => this.onInboxClick()}>
                         <i className={classNames('fa', {['fa-'+(show?'plus':'inbox')]: true})}></i>
                     </button>
                 </li>
@@ -30,6 +37,7 @@ class Menu extends Component {
 export default connect(null, function(dispatch) {
     return {
         listAction: bindActionCreators(listAction, dispatch),
-        editorAction: bindActionCreators(editorAction, dispatch)
+        editorAction: bindActionCreators(editorAction, dispatch),
+        menuAction: bindActionCreators(menuAction, dispatch)
     };
 })(Menu);

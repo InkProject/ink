@@ -16,10 +16,10 @@ function refreshList(data) {
 
 export function fetchList() {
     return dispatch => {
-        dispatch(utilAction.showTip('load'));
+        // dispatch(utilAction.showTip('load'));
         utilAction.apiRequest('GET', `articles`).then(function(data) {
             dispatch(refreshList(data));
-            dispatch(utilAction.showTip('hide'));
+            // dispatch(utilAction.showTip('hide'));
         });
     };
 }

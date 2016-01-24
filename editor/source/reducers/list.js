@@ -22,8 +22,8 @@ export default function list(state = Immutable.fromJS({
                 return {
                     id,
                     name: item.path,
-                    title: item.article.Title,
-                    preview: item.article.Preview
+                    title: item.article ? item.article.Title : '未命名标题',
+                    preview: item.article ? item.article.Preview : ''
                 };
             });
             return state.set('data', Immutable.fromJS(newData));
