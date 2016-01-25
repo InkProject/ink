@@ -23,11 +23,14 @@ module.exports = {
                 // loader: ExtractTextPlugin.extract('style-loader', 'css!postcss')
                 loader: 'style-loader!css-loader!postcss-loader'
             }, {
-                test : /\.woff|\.woff2|\.svg|.eot|\.ttf/,
-                loader : 'url-loader?&limit=1&name=styles/[name]-[hash:6].[ext]'
+                test: /\.woff|\.woff2|\.svg|.eot|\.ttf/,
+                loader: 'url-loader?&limit=1&name=styles/[name]-[hash:6].[ext]'
             }, {
-                test : /\index.html$/,
-                loader : 'file-loader?name=/[name].[ext]'
+                test: /\.png/,
+                loader: 'file-loader?name=[name].[ext]'
+            }, {
+                test: /\.html/,
+                loader: 'file-loader?name=/[name].[ext]'
             }
         ]
     },

@@ -8,7 +8,7 @@ import _ from 'lodash';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { listAction, editorAction } from '../actions';
+import { listAction, editorAction, utilAction } from '../actions';
 
 import Header from './header';
 
@@ -19,22 +19,35 @@ class Editor extends Component {
     }
     switchConfigMode() {
         this.setState({configMode: !this.state.configMode});
+        if (this.state.configMode) {
+            this.contentEditor.focus();
+            this.props.utilAction.showTip('auto', '切换至内容');
+        } else {
+            this.configEditor.focus();
+            this.props.utilAction.showTip('auto', '切换至配置');
+        }
+        this.setEditorStyle(this.contentEditor);
+        this.setEditorStyle(this.configEditor);
     }
     resizeEditor() {
         let width = window.innerWidth ||
             document.documentElement.clientWidth ||
             document.body.clientWidth;
         if (width > 700) {
-            this.editor.renderer.setPadding((width - 700) / 2);
+            this.contentEditor.renderer.setPadding((width - 700) / 2);
             this.configEditor.renderer.setPadding((width - 700) / 2);
         }
+        this.setEditorStyle(this.contentEditor);
+        this.setEditorStyle(this.configEditor);
     }
     componentDidUpdate(prevProps, prevState) {
-        if (this.props.content != prevProps.content) {
-            this.editor.setValue(this.props.content || '', -1);
+        if (this.props.editor.get('id') != this.props.params.id) {
+            this.props.listAction.openArticle(this.props.params.id);
         }
-        if (this.props.config != prevProps.config) {
-            this.configEditor.setValue(this.props.config || '', -1);
+        if (!prevProps || this.props.editor.get('id') != prevProps.editor.get('id')) {
+            this.contentEditor.setValue(this.props.editor.get('content') || '', -1);
+            this.configEditor.setValue(this.props.editor.get('config') || '', -1);
+            this.setState({configMode: false});
         }
     }
     setEditorStyle(editor) {
@@ -61,8 +74,8 @@ class Editor extends Component {
     }
     componentDidMount () {
         // init content editor
-        this.editor = ace.edit('content-editor');
-        this.setEditorStyle(this.editor);
+        this.contentEditor = ace.edit('content-editor');
+        this.setEditorStyle(this.contentEditor);
         // init config editor
         this.configEditor = ace.edit('config-editor');
         this.setEditorStyle(this.configEditor);
@@ -70,20 +83,25 @@ class Editor extends Component {
             this.props.editorAction.setHeader(this.configEditor.getValue())
             this.onEditorChange();
         });
+        this.contentEditor.on('input', () => {
+            this.onEditorChange();
+        });
         // resize by window size
         this.resizeEditor();
         window.addEventListener('resize', this.resizeEditor.bind(this));
+        this.componentDidUpdate();
     }
     onEditorChange () {
         let config = _.trim(this.configEditor.getValue());
-        let content = _.trim(this.editor.getValue());
-        let current = `${config}\n\n---\n\n${content}`;
+        let content = _.trim(this.contentEditor.getValue());
+        let current = `${_.trim(config)}\n\n---\n\n${_.trim(content)}`;
         this.props.editorAction.setCurrent(current);
     }
     render() {
+        const editor = this.props.editor;
         return (
             <div className="editor-wrap">
-                <Header title={this.props.title} tags={this.props.tags} edit={this.state.configMode} onClick={() => this.switchConfigMode()} />
+                <Header title={editor.get('title')} tags={editor.get('tags')} edit={this.state.configMode} onClick={() => this.switchConfigMode()} />
                 <div className={classNames({hide: this.state.configMode})}><div id="content-editor"></div></div>
                 <div className={classNames({hide: !this.state.configMode})}><div id="config-editor"></div></div>
             </div>
@@ -93,14 +111,12 @@ class Editor extends Component {
 
 export default connect(function(state) {
     return {
-        title: state.editor.get('title'),
-        tags: state.editor.get('tags'),
-        config: state.editor.get('config'),
-        content: state.editor.get('content')
+        editor: state.editor
     }
 }, function(dispatch) {
     return {
         listAction: bindActionCreators(listAction, dispatch),
-        editorAction: bindActionCreators(editorAction, dispatch)
+        editorAction: bindActionCreators(editorAction, dispatch),
+        utilAction: bindActionCreators(utilAction, dispatch)
     };
 })(Editor);

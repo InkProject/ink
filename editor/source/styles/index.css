@@ -1,5 +1,9 @@
 @import "global";
 
+#root, #container {
+    height: 100%;
+}
+
 @define-mixin hover {
     cursor: pointer;
     &:hover {
@@ -284,11 +288,31 @@ button {
     }
     .ace_marker-layer {
         .ace_selection {
-            background: #f0f0f0;
+            background: #E7FFE1;
         }
         .ace_active-line {
             background: #fbfbfb;
         }
+    }
+}
+
+.welcome-wrap {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    opacity: 0.1;
+    /*color: #bbb;*/
+    .logo {
+        margin-top: 200px;
+        display: block;
+        width: 250px;
+    }
+    .slogan {
+        font-size: 32px;
+        /*font-weight: bold;*/
+        margin-top: 30px;
     }
 }
 

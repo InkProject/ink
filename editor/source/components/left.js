@@ -16,7 +16,7 @@ export default class Left extends Component {
         return (
             <div id="left" className={classNames({close: !show})}>
                 <Menu show={show} loading={loading} />
-                {this.props.listComponent}
+                <List />
             </div>
         );
     }

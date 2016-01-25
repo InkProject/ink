@@ -3,14 +3,14 @@ import yaml from 'js-yaml';
 import _ from 'lodash';
 
 let parseConfig = function(data, noContent) {
-    let content;
+    let configStr;
     if (noContent) {
-        content = data;
+        configStr = _.trim(data);
     } else {
-        content = data.split('---')[0] || '\n';
+        configStr = _.trim(data.split('---')[0] || '\n');
     }
     try {
-        return yaml.safeLoad(content);
+        return yaml.safeLoad(configStr);
     } catch (err) {
         console.log(err);
         return null;
@@ -28,8 +28,8 @@ export function setHeader(data) {
 
 export function setEditor(id, data) {
     let dataAry = data.split('---');
-    let configData = dataAry[0];
-    let content = _.trim(dataAry[1] || '');
+    let configData = _.trim(dataAry[0]);
+    let content = _.trim(dataAry[1] ? dataAry.slice(1).join('---') : '');
     let config = parseConfig(configData);
     let { title, tags } = config || {};
     return {

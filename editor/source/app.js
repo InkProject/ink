@@ -14,25 +14,22 @@ import Editor from './components/editor';
 import Search from './components/search';
 import Toolbar from './components/toolbar';
 import Modal from './components/modal';
+import Tooltip from './components/tooltip';
 
 class App extends Component {
     render() {
         const list = this.props.list;
         const util = this.props.util;
+        const editor = this.props.editor;
         const tip = util.get('tip');
         return (
             <div id="container">
                 <Modal />
-                <div id="tooltip" className={classNames({hide: !tip.get('show'), error: tip.get('error')})}>
-                    <div className="content">
-                        {tip.get('loading') ? <i className="fa fa-cog fa-spin"></i> : null}
-                        {tip.get('content')}
-                    </div>
-                </div>
-                <Left list={list} listComponent={this.props.List} />
+                <Tooltip />
+                <Left />
                 <Search />
                 <Toolbar />
-                {this.props.Editor}
+                { this.props.Welcome || this.props.Editor }
             </div>
         );
     }
