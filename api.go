@@ -11,6 +11,8 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"mime/multipart"
+	// "fmt"
 )
 
 type NewArticle struct {
@@ -22,7 +24,13 @@ type OldArticle struct {
 	Content string
 }
 
-var articleCache map[string]interface{}
+type CacheArticleInfo struct {
+	Name string
+	Path string
+	Article *ArticleConfig
+}
+
+var articleCache map[string]CacheArticleInfo
 
 func hashPath(path string) string {
 	md5Hex := md5.Sum([]byte(path))
@@ -49,17 +57,17 @@ func replyJSON(ctx *ink.Context, status int, data interface{}) {
 }
 
 func UpdateArticleCache() {
-	articleCache = make(map[string]interface{}, 0)
+	articleCache = make(map[string]CacheArticleInfo, 0)
 	symwalk.Walk(sourcePath, func(path string, info os.FileInfo, err error) error {
 		fileExt := strings.ToLower(filepath.Ext(path))
 		if fileExt == ".md" {
 			fileName := strings.TrimSuffix(strings.ToLower(filepath.Base(path)), ".md")
 			config, _ := ParseArticleConfig(path)
 			id := hashPath(path)
-			articleCache[string(id)] = map[string]interface{}{
-				"name":    fileName,
-				"path":    path,
-				"article": config,
+			articleCache[string(id)] = CacheArticleInfo{
+				Name:    fileName,
+				Path:    path,
+				Article: config,
 			}
 		}
 		return nil
@@ -78,7 +86,7 @@ func ApiGetArticle(ctx *ink.Context) {
 		replyJSON(ctx, http.StatusNotFound, "Not Found")
 		return
 	}
-	filePath := article.(map[string]interface{})["path"].(string)
+	filePath := article.Path
 	data, err := ioutil.ReadFile(filePath)
 	if err != nil {
 		replyJSON(ctx, http.StatusInternalServerError, err.Error())
@@ -94,7 +102,7 @@ func ApiRemoveArticle(ctx *ink.Context) {
 		replyJSON(ctx, http.StatusNotFound, "Not Found")
 		return
 	}
-	filePath := article.(map[string]interface{})["path"].(string)
+	filePath := article.Path
 	err := os.Remove(filePath)
 	if err != nil {
 		replyJSON(ctx, http.StatusInternalServerError, err.Error())
@@ -137,13 +145,55 @@ func ApiSaveArticle(ctx *ink.Context) {
 		return
 	}
 	// Write
-	path := cacheArticle.(map[string]interface{})["path"].(string)
+	path := cacheArticle.Path
 	err = ioutil.WriteFile(path, []byte(article.Content), 0644)
 	if err != nil {
 		replyJSON(ctx, http.StatusInternalServerError, err.Error())
 		return
 	}
 	replyJSON(ctx, http.StatusOK, nil)
+}
+
+func getFormFile(ctx *ink.Context, field string) (data []byte, handler *multipart.FileHeader, err error) {
+	file, handler, err := ctx.Req.FormFile(field)
+	if err != nil {
+		replyJSON(ctx, http.StatusBadRequest, err.Error())
+		return nil, handler, err
+	}
+	data, err = ioutil.ReadAll(file)
+	if err != nil {
+		replyJSON(ctx, http.StatusBadRequest, err.Error())
+		return data, handler, err
+	}
+	return data, handler, err
+}
+
+func ApiUploadFile(ctx *ink.Context) {
+	UpdateArticleCache()
+	fileData, handler, err := getFormFile(ctx, "file")
+	if err != nil {
+		replyJSON(ctx, http.StatusBadRequest, err.Error())
+		return
+	}
+	articleId := ctx.Req.FormValue("article_id")
+	article, ok := articleCache[articleId]
+	if !ok {
+		replyJSON(ctx, http.StatusNotFound, "Not Found")
+		return
+	}
+	fileDirPath := filepath.Join(sourcePath, "images", article.Name)
+	err = os.MkdirAll(fileDirPath, 0777)
+	if err != nil {
+		replyJSON(ctx, http.StatusInternalServerError, err.Error())
+		return
+	}
+	if err = ioutil.WriteFile(filepath.Join(fileDirPath, handler.Filename), fileData, 0777); err != nil {
+		replyJSON(ctx, http.StatusInternalServerError, err.Error())
+		return
+	}
+	replyJSON(ctx, http.StatusOK, map[string]string {
+		"path": "-/" + filepath.Join("images", article.Name, handler.Filename),
+	})
 }
 
 

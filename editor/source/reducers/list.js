@@ -1,6 +1,6 @@
-import Immutable from 'immutable';
+import Immutable from 'immutable'
 
-import { ACTION } from '../actions';
+import { ACTION } from '../actions'
 
 export default function list(state = Immutable.fromJS({
     show: false,
@@ -9,25 +9,25 @@ export default function list(state = Immutable.fromJS({
 }), action) {
     switch (action.type) {
         case ACTION.SHOW_LIST:
-            return state.set('show', true);
+            return state.set('show', true)
         case ACTION.HIDE_LIST:
-            return state.set('show', false);
+            return state.set('show', false)
         case ACTION.TOOGLE_LIST:
-            return state.set('show', !state.get('show'));
+            return state.set('show', !state.get('show'))
         case ACTION.SHOW_LOADING:
-            return state.set('loading', action.flag);
+            return state.set('loading', action.flag)
         case ACTION.REFRESH_LIST:
             let newData = Object.keys(action.data).map(function(id) {
-                let item = action.data[id];
+                let item = action.data[id]
                 return {
                     id,
-                    name: item.path,
-                    title: item.article ? item.article.Title : '未命名标题',
-                    preview: item.article ? item.article.Preview : ''
-                };
-            });
-            return state.set('data', Immutable.fromJS(newData));
+                    name: item.Path,
+                    title: item.Article ? item.Article.Title : '未命名标题',
+                    preview: item.Article ? item.Article.Preview : ''
+                }
+            })
+            return state.set('data', Immutable.fromJS(newData))
         default:
-            return state;
+            return state
     }
 }

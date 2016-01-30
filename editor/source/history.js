@@ -1,2 +1,2 @@
-import { createHistory } from 'history';
-export default createHistory();
+import { createHistory } from 'history'
+export default createHistory()

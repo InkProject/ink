@@ -1,4 +1,4 @@
-import { ACTION, apiURL } from './index';
+import { ACTION, apiURL } from './index'
 
 function toogleTip({
     show = true,
@@ -20,46 +20,49 @@ export function showTip(type, content) {
         if (type === 'auto') {
             dispatch(toogleTip({
                 content
-            }));
+            }))
             setTimeout(function() {
                 dispatch(toogleTip({
                     show: false
-                }));
-            }, 1000);
+                }))
+            }, 2000)
         } else if (type === 'load') {
             dispatch(toogleTip({
                 loading: true,
                 content
-            }));
+            }))
         } else if (type === 'hide') {
             dispatch(toogleTip({
                 show: false
-            }));
+            }))
         } else if (type === 'error') {
             dispatch(toogleTip({
                 error: true,
                 content
-            }));
+            }))
             setTimeout(function() {
                 dispatch(toogleTip({
                     show: false
-                }));
-            }, 1000);
+                }))
+            }, 2000)
         }
-    };
+    }
 }
 
 export function apiRequest(method, url, data) {
-    let state = globalStore.getState();
-    let currentId = state.editor.get('id');
-    let currentContent = state.editor.get('current');
+    const state = globalStore.getState()
+    const currentId = state.editor.get('id')
+    const currentContent = state.editor.get('current')
+    if (!(data instanceof FormData)) {
+        data = data ? JSON.stringify(data) : null
+    }
     return fetch(`${apiURL}/${url}`, {
         mode: 'cors',
         method: method,
-        body: data ? JSON.stringify(data) : null
-    }).then(function(response) {
-        return response.json();
-    }).catch(function(error) {
-        showTip('error', error.message || error || '未知错误');
-    });
+        body: data
+    }).then((response) => {
+        return response.json()
+    }).catch((error) => {
+        showTip('error', error ? error.message : '未知错误')
+    })
 }

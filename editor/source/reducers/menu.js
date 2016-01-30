@@ -1,6 +1,6 @@
-import Immutable from 'immutable';
+import Immutable from 'immutable'
 
-import { ACTION } from '../actions';
+import { ACTION } from '../actions'
 
 export default function menu(state = Immutable.fromJS({
     modal: {
@@ -13,8 +13,8 @@ export default function menu(state = Immutable.fromJS({
                 modal: {
                     show: action.flag
                 }
-            });
+            })
         default:
-            return state;
+            return state
     }
 }

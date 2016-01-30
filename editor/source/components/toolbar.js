@@ -1,25 +1,25 @@
-import React from 'react';
-import Component from './index';
-import classNames from 'classnames';
+import React from 'react'
+import Component from './index'
+import classNames from 'classnames'
 
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import { toolbarAction } from '../actions';
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import { toolbarAction } from '../actions'
 
 class Toolbar extends Component {
     constructor(props) {
-        super(props);
-        this.state = {confirm: false};
+        super(props)
+        this.state = {confirm: false}
     }
     showConfirm(flag) {
-        this.setState({confirm: flag});
+        this.setState({confirm: flag})
     }
     onRemoveClick() {
-        this.props.toolbarAction.removeArticle();
-        this.setState({confirm: false});
+        this.props.toolbarAction.removeArticle()
+        this.setState({confirm: false})
     }
     onSaveClick() {
-        this.props.toolbarAction.saveContent();
+        this.props.toolbarAction.saveContent()
     }
     render() {
         return (
@@ -30,12 +30,12 @@ class Toolbar extends Component {
                 <li><button className="button button-circle remove" onFocus={() => this.showConfirm(true)} onBlur={() => this.showConfirm(false)}><i className="fa fa-trash"></i></button></li>
                 {this.state.confirm ? <div id="confirm" className="hover" onMouseDown={() => this.onRemoveClick()}>确认删除</div> : null}
             </ul>
-        );
+        )
     }
 }
 
 export default connect(null, function(dispatch) {
     return {
         toolbarAction: bindActionCreators(toolbarAction, dispatch)
-    };
-})(Toolbar);
+    }
+})(Toolbar)

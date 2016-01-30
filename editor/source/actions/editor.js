@@ -1,24 +1,24 @@
-import { ACTION } from './index';
-import yaml from 'js-yaml';
-import _ from 'lodash';
+import { ACTION, utilAction } from './index'
+import yaml from 'js-yaml'
+import _ from 'lodash'
 
 let parseConfig = function(data, noContent) {
-    let configStr;
+    let configStr
     if (noContent) {
-        configStr = _.trim(data);
+        configStr = _.trim(data)
     } else {
-        configStr = _.trim(data.split('---')[0] || '\n');
+        configStr = _.trim(data.split('---')[0] || '\n')
     }
     try {
-        return yaml.safeLoad(configStr);
+        return yaml.safeLoad(configStr)
     } catch (err) {
-        console.log(err);
-        return null;
+        console.log(err)
+        return null
     }
-};
+}
 
 export function setHeader(data) {
-    let config = parseConfig(data);
+    let config = parseConfig(data)
     return {
         type: ACTION.SET_HEADER,
         title: config ? config.title : '键入文章标题',
@@ -27,11 +27,11 @@ export function setHeader(data) {
 }
 
 export function setEditor(id, data) {
-    let dataAry = data.split('---');
-    let configData = _.trim(dataAry[0]);
-    let content = _.trim(dataAry[1] ? dataAry.slice(1).join('---') : '');
-    let config = parseConfig(configData);
-    let { title, tags } = config || {};
+    let dataAry = data.split('---')
+    let configData = _.trim(dataAry[0])
+    let content = _.trim(dataAry[1] ? dataAry.slice(1).join('---') : '')
+    let config = parseConfig(configData)
+    let { title, tags } = config || {}
     return {
         type: ACTION.SET_CONTENT,
         id,
@@ -46,5 +46,21 @@ export function setCurrent(current) {
     return {
         type: ACTION.SET_CURRENT,
         current
+    }
+}
+
+export function uploadImage(file, callback) {
+    return dispatch => {
+        const articleId = globalStore.getState().editor.get('id')
+        let data = new FormData()
+        data.append('file', file)
+        data.append('article_id', articleId)
+        utilAction.apiRequest('POST', 'upload', data).then(function(data) {
+            dispatch(utilAction.showTip('auto', '已插入图片'))
+            callback(data.path)
+        }).catch((err) => {
+            dispatch(utilAction.showTip('auto', '图片上传失败'))
+            callback()
+        })
     }
 }

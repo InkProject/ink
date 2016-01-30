@@ -1,12 +1,12 @@
-import React from 'react';
-import Component from './index';
-import classNames from 'classnames';
+import React from 'react'
+import Component from './index'
+import classNames from 'classnames'
 
-import { connect } from 'react-redux';
+import { connect } from 'react-redux'
 
 class Toolbar extends Component {
     render() {
-        const tip = this.props.util.get('tip');
+        const tip = this.props.util.get('tip')
         return (
             <div id="tooltip" className={classNames({hide: !tip.get('show'), error: tip.get('error')})}>
                 <div className="content">
@@ -14,7 +14,7 @@ class Toolbar extends Component {
                     {tip.get('content')}
                 </div>
             </div>
-        );
+        )
     }
 }
 
@@ -22,4 +22,4 @@ export default connect(function(state) {
     return {
         util: state.util
     }
-})(Toolbar);
+})(Toolbar)

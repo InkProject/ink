@@ -1,4 +1,4 @@
-import { ACTION, utilAction } from './index';
+import { ACTION, utilAction } from './index'
 
 export function showModal(flag) {
     return {

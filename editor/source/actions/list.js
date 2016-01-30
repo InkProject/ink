@@ -1,4 +1,4 @@
-import { ACTION, editorAction, utilAction } from './index';
+import { ACTION, editorAction, utilAction } from './index'
 
 export function showLoading(flag) {
     return {
@@ -16,12 +16,12 @@ function refreshList(data) {
 
 export function fetchList() {
     return dispatch => {
-        // dispatch(utilAction.showTip('load'));
+        // dispatch(utilAction.showTip('load'))
         utilAction.apiRequest('GET', `articles`).then(function(data) {
-            dispatch(refreshList(data));
-            // dispatch(utilAction.showTip('hide'));
-        });
-    };
+            dispatch(refreshList(data))
+            // dispatch(utilAction.showTip('hide'))
+        })
+    }
 }
 
 export function showList() {
@@ -38,10 +38,10 @@ export function hideList() {
 
 export function openArticle(id) {
     return dispatch => {
-        dispatch(utilAction.showTip('load'));
+        dispatch(utilAction.showTip('load'))
         utilAction.apiRequest('GET', `articles/${id}`).then(function(data) {
-            dispatch(editorAction.setEditor(id, data));
-            dispatch(utilAction.showTip('hide'));
-        });
-    };
+            dispatch(editorAction.setEditor(id, data))
+            dispatch(utilAction.showTip('hide'))
+        })
+    }
 }

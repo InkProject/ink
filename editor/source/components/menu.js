@@ -1,10 +1,10 @@
-import React from 'react';
-import Component from './index';
-import classNames from 'classnames';
+import React from 'react'
+import Component from './index'
+import classNames from 'classnames'
 
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import { listAction, editorAction, menuAction } from '../actions';
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import { listAction, editorAction, menuAction } from '../actions'
 
 class Menu extends Component {
     onInboxClick() {
@@ -15,9 +15,9 @@ class Menu extends Component {
         }
     }
     render() {
-        const show = this.props.show;
-        const loading = this.props.loading;
-        const listAction = this.props.listAction;
+        const show = this.props.show
+        const loading = this.props.loading
+        const listAction = this.props.listAction
         return (
             <ul id="menu" className="list">
                 <li>
@@ -30,7 +30,7 @@ class Menu extends Component {
                 <li><button className="button button-circle help"><i className="fa fa-hashtag"></i></button></li>
                 <li><i id="loading" className={classNames('fa fa-cog fa-spin', {hide: !loading})}></i></li>
             </ul>
-        );
+        )
     }
 }
 
@@ -39,5 +39,5 @@ export default connect(null, function(dispatch) {
         listAction: bindActionCreators(listAction, dispatch),
         editorAction: bindActionCreators(editorAction, dispatch),
         menuAction: bindActionCreators(menuAction, dispatch)
-    };
-})(Menu);
+    }
+})(Menu)

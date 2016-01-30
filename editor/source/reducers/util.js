@@ -1,6 +1,6 @@
-import Immutable from 'immutable';
+import Immutable from 'immutable'
 
-import { ACTION } from '../actions';
+import { ACTION } from '../actions'
 
 export default function util(state = Immutable.fromJS({
     tip: {
@@ -19,8 +19,8 @@ export default function util(state = Immutable.fromJS({
                     loading: action.loading,
                     content: action.content
                 }
-            });
+            })
         default:
-            return state;
+            return state
     }
 }

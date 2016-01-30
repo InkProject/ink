@@ -66,22 +66,24 @@ func Websocket(ctx *ink.Context) {
 }
 
 func Serve() {
-	web := ink.New()
+	editorWeb := ink.New()
 
-	web.Get("/articles", ApiListArticle)
-	web.Get("/articles/:id", ApiGetArticle)
-	web.Post("/articles", ApiCreateArticle)
-	web.Put("/articles/:id", ApiSaveArticle)
-	web.Delete("/articles/:id", ApiRemoveArticle)
-	web.Get("/live", Websocket)
+	editorWeb.Get("/articles", ApiListArticle)
+	editorWeb.Get("/articles/:id", ApiGetArticle)
+	editorWeb.Post("/articles", ApiCreateArticle)
+	editorWeb.Put("/articles/:id", ApiSaveArticle)
+	editorWeb.Delete("/articles/:id", ApiRemoveArticle)
+	editorWeb.Post("/upload", ApiUploadFile)
+	editorWeb.Use(ink.Cors)
+	editorWeb.Get("*", ink.Static(filepath.Join("editor/assets")))
 
-	web.Use(ink.Cors)
+	Log("Access http://localhost:" + globalConfig.Build.Port + "/ to open editor")
+	go editorWeb.Listen(":" + globalConfig.Build.Port)
 
-	web.Get("*", ink.Static(filepath.Join("editor/assets")))
+	previewWeb := ink.New()
+	previewWeb.Get("/live", Websocket)
+	previewWeb.Get("*", ink.Static(filepath.Join(rootPath, "public")))
 
-	web.Get("*", ink.Static(filepath.Join(rootPath, "public")))
-
-	Log("Open http://localhost:" + globalConfig.Build.Port + "/ to preview")
-
-	web.Listen(":" + globalConfig.Build.Port)
+	Log("Access http://localhost:2333" + "/ to open preview")
+	previewWeb.Listen(":2333")
 }
