@@ -39,9 +39,9 @@ class Editor extends Component {
         const width = window.innerWidth ||
             document.documentElement.clientWidth ||
             document.body.clientWidth
-        if (width > 700) {
-            this.contentEditor.renderer.setPadding((width - 700) / 2)
-            this.configEditor.renderer.setPadding((width - 700) / 2)
+        if (width > 750) {
+            this.contentEditor.renderer.setPadding((width - 750) / 2)
+            this.configEditor.renderer.setPadding((width - 750) / 2)
         }
         this.setEditorStyle(this.contentEditor)
         this.setEditorStyle(this.configEditor)
@@ -64,15 +64,16 @@ class Editor extends Component {
             theme: 'ace/theme/tomorrow',
             mode: 'ace/mode/markdown',
             showPrintMargin: false,
-            fontSize: '14px',
+            fontSize: '16px',
             fontFamily: "Menlo, Consolas, 'source-code-pro', 'DejaVu Sans Mono', Monaco, 'Ubuntu Mono', 'Courier New', Courier, 'Microsoft Yahei', 'Hiragino Sans GB', 'WenQuanYi Micro Hei', monospace",
             hScrollBarAlwaysVisible: false,
             selectionStyle: "line",
-            displayIndentGuides: false
+            displayIndentGuides: false,
+            // animatedScroll: true
         }
         editor.setOptions(editorOption)
         editor.renderer.setScrollMargin(200, 200)
-        editor.container.style.lineHeight = 2
+        editor.container.style.lineHeight = 1.6
         editor.$blockScrolling = Infinity
         editor.on('focus', () =>
             this.props.listAction.hideList()
@@ -93,9 +94,60 @@ class Editor extends Component {
     mergeState(object) {
         this.setState(Object.assign({}, this.state, object))
     }
+    changeToolbar() {
+        const contentSelection = this.contentEditor.getSelection()
+        const cursor = contentSelection.getCursor()
+        const lines = document.querySelectorAll('#content-editor .ace_line_group')
+        const selectRange = this.contentEditor.getSelectionRange()
+        const firstShowRow = this.contentEditor.getFirstVisibleRow()
+        const startRow = selectRange.start.row - firstShowRow
+        const endRow = selectRange.end.row - firstShowRow;
+        ([]).forEach.call(lines, (line, idx) => {
+            if (idx >= startRow - 1 && idx <= endRow + 1) {
+                line.className = 'ace_line_group no-blur'
+            } else {
+                line.className = 'ace_line_group'
+            }
+        })
+        _.delay(() => {
+            const contentSelection = this.contentEditor.getSelection()
+            const contentSession = this.contentEditor.getSession()
+            const toolbarElem = document.querySelector('#editor-toolbar')
+            const cursor = contentSelection.getCursor()
+            const selectedText = contentSession.doc.getTextRange(contentSelection.getRange())
+            const cursorElem = document.querySelector('#content-editor .ace_cursor')
+            const cursorPos = this.cumulativeOffset(cursorElem)
+            // this.contentEditor.scrollToLine(cursor.row, true, true)
+            if (_.trim(selectedText) && !selectedText.includes('\n')) {
+                toolbarElem.style.top = cursorPos.top - 45 + 'px'
+                toolbarElem.style.left = cursorPos.left - 15 + 'px'
+                this.mergeState({
+                    toolbar: {show: true, selectMode: true}
+                })
+                return
+            } else {
+                toolbarElem.style.top = cursorPos.top - 7 + 'px'
+                toolbarElem.style.left = cursorPos.left - 55 + 'px'
+                this.mergeState({
+                    toolbar: {selectMode: false}
+                })
+            }
+            const line = contentSession.getLine(cursor.row)
+            if (cursor.column == 0 && line.length == 0) {
+                this.mergeState({
+                    toolbar: {show: true}
+                })
+            } else {
+                this.mergeState({
+                    toolbar: {show: false}
+                })
+            }
+        }, 100)
+    }
     componentDidMount() {
         // init content editor
         this.contentEditor = ace.edit('content-editor')
+        window.editor = this.contentEditor
         this.setEditorStyle(this.contentEditor)
         // init config editor
         this.configEditor = ace.edit('config-editor')
@@ -108,39 +160,8 @@ class Editor extends Component {
             this.onEditorChange()
         })
         const contentSelection = this.contentEditor.getSelection()
-        const contentSession = this.contentEditor.getSession()
-        const toolbarElem = document.querySelector('#editor-toolbar')
-        contentSelection.on('changeCursor', () => {
-            const cursor = contentSelection.getCursor()
-            const selectedText = contentSession.doc.getTextRange(contentSelection.getRange())
-            _.delay(() => {
-                const cursorElem = document.querySelector('#content-editor .ace_cursor')
-                const cursorPos = this.cumulativeOffset(cursorElem)
-                if (_.trim(selectedText)) {
-                    toolbarElem.style.top = cursorPos.top - 45 + 'px'
-                    toolbarElem.style.left = cursorPos.left - 15 + 'px'
-                    this.mergeState({
-                        toolbar: {show: true, selectMode: true}
-                    })
-                    return
-                } else {
-                    toolbarElem.style.top = cursorPos.top - 7 + 'px'
-                    toolbarElem.style.left = cursorPos.left - 55 + 'px'
-                    this.mergeState({
-                        toolbar: {selectMode: false}
-                    })
-                }
-                if (cursor.column == 0) {
-                    this.mergeState({
-                        toolbar: {show: true}
-                    })
-                } else {
-                    this.mergeState({
-                        toolbar: {show: false}
-                    })
-                }
-            }, 100)
-        })
+        contentSelection.on('changeSelection', this.changeToolbar.bind(this))
+        contentSelection.on('changeCursor', this.changeToolbar.bind(this))
         // resize by window size
         this.resizeEditor()
         window.addEventListener('resize', this.resizeEditor.bind(this))
@@ -156,9 +177,11 @@ class Editor extends Component {
         const contentSelection = this.contentEditor.getSelection()
         const cursor = contentSelection.getCursor()
         contentSelection.moveTo(cursor.row + row, cursor.column + column)
-        this.mergeState({
-            toolbar: {show: false}
-        })
+        _.delay(() => {
+            this.mergeState({
+                toolbar: {show: false}
+            })
+        }, 200)
         this.contentEditor.focus()
     }
     onFileSelect(event) {
@@ -178,11 +201,11 @@ class Editor extends Component {
                 this.contentEditor.insert('``` \n```')
                 this.moveContentEditorCursor(-1, 1)
                 return
-            case 'ul':
+            case 'ol':
                 this.contentEditor.insert('1. ')
                 this.moveContentEditorCursor(0, 0)
                 return
-            case 'ol':
+            case 'ul':
                 this.contentEditor.insert('- ')
                 this.moveContentEditorCursor(0, 0)
                 return
