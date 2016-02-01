@@ -13,7 +13,7 @@
 }
 
 @define-mixin shadow {
-    box-shadow: 0 2px 4px rgba(0, 0 , 0, .24);
+    box-shadow: 0 2px 4px rgba(0, 0 , 0, .2);
 }
 
 button {
@@ -104,7 +104,7 @@ button {
         border-right: 0;
         background-color: transparent;
         .list {
-            .theme, .help, .setting, .create {
+            .theme, .help, .setting, .create, .focus {
                 display: none;
             }
         }
@@ -123,8 +123,9 @@ button {
                     line-height: 40px;
                     background-color: #a20000;
                 }
-                &.setting {
+                &.focus {
                     margin-top: 15px;
+                    background-color: #a20000;
                 }
             }
         }
@@ -234,7 +235,7 @@ button {
 
 #header {
     padding: 90px 0;
-    padding-bottom: 20px;
+    padding-bottom: 40px;
     margin: 0 20px;
     z-index: 1;
     position: relative;
@@ -286,9 +287,9 @@ button {
     .ace_line_group {
         border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
         box-sizing: border-box;
+        transition: .5s all ease;
         filter: blur(1px);
         opacity: 0.3;
-        transition: .5s all ease;
         &.no-blur {
             filter: blur(0);
             opacity: 1;

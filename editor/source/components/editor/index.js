@@ -1,5 +1,5 @@
 import React from 'react'
-import Component from './index'
+import Component from '../index'
 import classNames from 'classnames'
 import ace from 'brace'
 import 'brace/mode/markdown'
@@ -8,9 +8,12 @@ import _ from 'lodash'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { listAction, editorAction, utilAction } from '../actions'
 
-import Header from './header'
+import * as listAction from '../list/action'
+import * as editorAction from './action'
+import * as util from '../util'
+
+import Header from '../header'
 
 class Editor extends Component {
     constructor(props) {
@@ -27,10 +30,10 @@ class Editor extends Component {
         this.setState({configMode: !this.state.configMode})
         if (this.state.configMode) {
             this.contentEditor.focus()
-            this.props.utilAction.showTip('auto', '切换至内容')
+            this.props.util.showTip('auto', '切换至内容')
         } else {
             this.configEditor.focus()
-            this.props.utilAction.showTip('auto', '切换至配置')
+            this.props.util.showTip('auto', '切换至配置')
         }
         this.setEditorStyle(this.contentEditor)
         this.setEditorStyle(this.configEditor)
@@ -69,8 +72,9 @@ class Editor extends Component {
             hScrollBarAlwaysVisible: false,
             selectionStyle: "line",
             displayIndentGuides: false,
-            // animatedScroll: true
+            animatedScroll: true
         }
+        editor.setKeyboardHandler('ace/keyboard/vim')
         editor.setOptions(editorOption)
         editor.renderer.setScrollMargin(200, 200)
         editor.container.style.lineHeight = 1.6
@@ -95,19 +99,21 @@ class Editor extends Component {
         this.setState(Object.assign({}, this.state, object))
     }
     changeToolbar() {
-        const contentSelection = this.contentEditor.getSelection()
-        const cursor = contentSelection.getCursor()
-        const lines = document.querySelectorAll('#content-editor .ace_line_group')
         const selectRange = this.contentEditor.getSelectionRange()
         const firstShowRow = this.contentEditor.getFirstVisibleRow()
         const startRow = selectRange.start.row - firstShowRow
         const endRow = selectRange.end.row - firstShowRow;
-        ([]).forEach.call(lines, (line, idx) => {
-            if (idx >= startRow - 1 && idx <= endRow + 1) {
-                line.className = 'ace_line_group no-blur'
-            } else {
-                line.className = 'ace_line_group'
-            }
+        // const scrollTop = this.contentEditor.getCursorPositionScreen().row * 25;
+        // this.contentEditor.session.setScrollTop(scrollTop - 400);
+        _.delay(() => {
+            const lines = document.querySelectorAll('#content-editor .ace_line_group');
+            ([]).forEach.call(lines, (line, idx) => {
+                if (idx >= (startRow - 1) && idx <= (endRow + 1)) {
+                    line.className = 'ace_line_group no-blur'
+                } else {
+                    line.className = 'ace_line_group'
+                }
+            })
         })
         _.delay(() => {
             const contentSelection = this.contentEditor.getSelection()
@@ -117,7 +123,6 @@ class Editor extends Component {
             const selectedText = contentSession.doc.getTextRange(contentSelection.getRange())
             const cursorElem = document.querySelector('#content-editor .ace_cursor')
             const cursorPos = this.cumulativeOffset(cursorElem)
-            // this.contentEditor.scrollToLine(cursor.row, true, true)
             if (_.trim(selectedText) && !selectedText.includes('\n')) {
                 toolbarElem.style.top = cursorPos.top - 45 + 'px'
                 toolbarElem.style.left = cursorPos.left - 15 + 'px'
@@ -160,7 +165,7 @@ class Editor extends Component {
             this.onEditorChange()
         })
         const contentSelection = this.contentEditor.getSelection()
-        contentSelection.on('changeSelection', this.changeToolbar.bind(this))
+        // contentSelection.on('changeSelection', this.changeToolbar.bind(this))
         contentSelection.on('changeCursor', this.changeToolbar.bind(this))
         // resize by window size
         this.resizeEditor()
@@ -292,6 +297,6 @@ export default connect(function(state) {
     return {
         listAction: bindActionCreators(listAction, dispatch),
         editorAction: bindActionCreators(editorAction, dispatch),
-        utilAction: bindActionCreators(utilAction, dispatch)
+        util: bindActionCreators(util, dispatch)
     }
 })(Editor)

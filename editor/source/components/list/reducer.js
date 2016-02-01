@@ -1,6 +1,6 @@
 import Immutable from 'immutable'
 
-import { ACTION } from '../actions'
+import ActionType from '../action'
 
 export default function list(state = Immutable.fromJS({
     show: false,
@@ -8,15 +8,15 @@ export default function list(state = Immutable.fromJS({
     data: []
 }), action) {
     switch (action.type) {
-        case ACTION.SHOW_LIST:
+        case ActionType.SHOW_LIST:
             return state.set('show', true)
-        case ACTION.HIDE_LIST:
+        case ActionType.HIDE_LIST:
             return state.set('show', false)
-        case ACTION.TOOGLE_LIST:
+        case ActionType.TOOGLE_LIST:
             return state.set('show', !state.get('show'))
-        case ACTION.SHOW_LOADING:
+        case ActionType.SHOW_LOADING:
             return state.set('loading', action.flag)
-        case ACTION.REFRESH_LIST:
+        case ActionType.REFRESH_LIST:
             let newData = Object.keys(action.data).map(function(id) {
                 let item = action.data[id]
                 return {

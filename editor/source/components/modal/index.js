@@ -1,11 +1,12 @@
 import React from 'react'
-import Component from './index'
+import Component from '../index'
 import classNames from 'classnames'
 import _ from 'lodash'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { listAction, editorAction, menuAction, modalAction } from '../actions'
+import * as modalAction from './action'
+import * as menuAction from '../menu/action'
 
 class Modal extends Component {
     constructor(props) {

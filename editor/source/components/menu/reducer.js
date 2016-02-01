@@ -1,6 +1,6 @@
 import Immutable from 'immutable'
 
-import { ACTION } from '../actions'
+import ActionType from '../action'
 
 export default function menu(state = Immutable.fromJS({
     modal: {
@@ -8,7 +8,7 @@ export default function menu(state = Immutable.fromJS({
     }
 }), action) {
     switch (action.type) {
-        case ACTION.SHOW_MODAL:
+        case ActionType.SHOW_MODAL:
             return state.mergeDeep({
                 modal: {
                     show: action.flag

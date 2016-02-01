@@ -1,10 +1,10 @@
 import React from 'react'
-import Component from './index'
+import Component from '../index'
 import classNames from 'classnames'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { toolbarAction } from '../actions'
+import * as toolbarAction from '../toolbar/action'
 
 class Toolbar extends Component {
     constructor(props) {

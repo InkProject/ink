@@ -1,12 +1,11 @@
 import React from 'react'
-import Component from './index'
+import Component from '../index'
 import classNames from 'classnames'
-import List from './list'
-import Menu from './menu'
+import List from '../list'
+import Menu from '../menu'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { listAction, editorAction } from '../actions'
 
 export default class Left extends Component {
     render() {
@@ -28,7 +27,5 @@ export default connect(function(state) {
     }
 }, function(dispatch) {
     return {
-        listAction: bindActionCreators(listAction, dispatch),
-        editorAction: bindActionCreators(editorAction, dispatch)
     }
 })(Left)

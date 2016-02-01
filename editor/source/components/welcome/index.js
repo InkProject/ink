@@ -1,16 +1,16 @@
 import React from 'react'
-import Component from './index'
+import Component from '../index'
 import classNames from 'classnames'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { menuAction } from '../actions'
+import * as menuAction from '../menu/action'
 
 class Welcome extends Component {
     render() {
         return (
             <div className="welcome-wrap">
-                <img src={require('../../assets/logo.png')} className="logo" />
+                <img src={require('../../../assets/logo.png')} className="logo" />
                 <div className="slogan">构建只为纯粹书写的博客</div>
                 <div className="guide">
                     <div className="document hover"><i className="fa fa-hashtag"></i>撰写指南</div>

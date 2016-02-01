@@ -1,4 +1,5 @@
-import { ACTION, utilAction } from './index'
+import ActionType from '../action'
+import util from '../util'
 import yaml from 'js-yaml'
 import _ from 'lodash'
 
@@ -20,7 +21,7 @@ let parseConfig = function(data, noContent) {
 export function setHeader(data) {
     let config = parseConfig(data)
     return {
-        type: ACTION.SET_HEADER,
+        type: ActionType.SET_HEADER,
         title: config ? config.title : '键入文章标题',
         tags: config ? config.tags : []
     }
@@ -33,7 +34,7 @@ export function setEditor(id, data) {
     let config = parseConfig(configData)
     let { title, tags } = config || {}
     return {
-        type: ACTION.SET_CONTENT,
+        type: ActionType.SET_CONTENT,
         id,
         title,
         tags,
@@ -44,7 +45,7 @@ export function setEditor(id, data) {
 
 export function setCurrent(current) {
     return {
-        type: ACTION.SET_CURRENT,
+        type: ActionType.SET_CURRENT,
         current
     }
 }
@@ -55,11 +56,11 @@ export function uploadImage(file, callback) {
         let data = new FormData()
         data.append('file', file)
         data.append('article_id', articleId)
-        utilAction.apiRequest('POST', 'upload', data).then(function(data) {
-            dispatch(utilAction.showTip('auto', '已插入图片'))
+        util.apiRequest('POST', 'upload', data).then(function(data) {
+            dispatch(util.showTip('auto', '已插入图片'))
             callback(data.path)
         }).catch((err) => {
-            dispatch(utilAction.showTip('auto', '图片上传失败'))
+            dispatch(util.showTip('auto', '图片上传失败'))
             callback()
         })
     }

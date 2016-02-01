@@ -1,11 +1,13 @@
 import React from 'react'
-import Component from './index'
+import Component from '../index'
 import classNames from 'classnames'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
-import { listAction, editorAction } from '../actions'
+
+import * as listAction from './action'
+import * as editorAction from '../editor/action'
 
 class List extends Component {
     componentWillMount() {

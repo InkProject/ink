@@ -1,6 +1,6 @@
 import Immutable from 'immutable'
 
-import { ACTION } from '../actions'
+import ActionType from '../action'
 
 export default function util(state = Immutable.fromJS({
     tip: {
@@ -11,7 +11,7 @@ export default function util(state = Immutable.fromJS({
     }
 }), action) {
     switch (action.type) {
-        case ACTION.SHOW_TIP:
+        case ActionType.SHOW_TIP:
             return state.mergeDeep({
                 tip: {
                     show: action.show,

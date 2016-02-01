@@ -1,10 +1,13 @@
 import React from 'react'
-import Component from './index'
+import Component from '../index'
 import classNames from 'classnames'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { listAction, editorAction, menuAction } from '../actions'
+
+import * as listAction from '../list/action'
+import * as editorAction from '../editor/action'
+import * as menuAction from '../menu/action'
 
 class Menu extends Component {
     onInboxClick() {
@@ -25,6 +28,7 @@ class Menu extends Component {
                         <i className={classNames('fa', {['fa-'+(show?'plus':'inbox')]: true})}></i>
                     </button>
                 </li>
+                <li><button className="button button-circle focus"><i className="fa fa-unlock-alt"></i></button></li>
                 <li><button className="button button-circle setting"><i className="fa fa-wrench"></i></button></li>
                 <li><button className="button button-circle theme"><i className="fa fa-moon-o"></i></button></li>
                 <li><button className="button button-circle help"><i className="fa fa-hashtag"></i></button></li>

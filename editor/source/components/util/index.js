@@ -1,4 +1,6 @@
-import { ACTION, apiURL } from './index'
+import ActionType from '../action'
+
+const apiURL = 'http://localhost:8000'
 
 function toogleTip({
     show = true,
@@ -7,7 +9,7 @@ function toogleTip({
     content = ''
 }) {
     return {
-        type: ACTION.SHOW_TIP,
+        type: ActionType.SHOW_TIP,
         loading,
         show,
         error,

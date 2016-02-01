@@ -7,7 +7,6 @@ import ReactDom from 'react-dom'
 import classNames from 'classnames'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { editorAction } from './actions'
 
 import Left from './components/left'
 import Editor from './components/editor'

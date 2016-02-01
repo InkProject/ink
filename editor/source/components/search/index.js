@@ -1,10 +1,10 @@
 import React from 'react'
-import Component from './index'
+import Component from '../index'
 import classNames from 'classnames'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { listAction } from '../actions'
+import * as listAction from '../list/action'
 
 export default class Search extends Component {
     constructor(props) {

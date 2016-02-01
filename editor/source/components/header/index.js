@@ -1,5 +1,5 @@
 import React from 'react'
-import Component from './index'
+import Component from '../index'
 import classNames from 'classnames'
 import _ from 'lodash'
 
