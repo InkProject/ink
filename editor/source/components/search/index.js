@@ -9,14 +9,14 @@ import * as listAction from '../list/action'
 export default class Search extends Component {
     constructor(props) {
         super(props)
-        this.state = {focus: false}
+        this.state = { focus: false }
     }
     onFocus() {
-        this.props.listAction.showList()
-        this.setState({focus: true})
+        store.dispatch(listAction.show())
+        this.setState({ focus: true })
     }
     onBlur() {
-        this.setState({focus: false})
+        this.setState({ focus: false })
     }
     render() {
         return (
@@ -30,8 +30,4 @@ export default class Search extends Component {
 
 export default connect(function(state) {
     return state
-}, function(dispatch) {
-    return {
-        listAction: bindActionCreators(listAction, dispatch)
-    }
 })(Search)

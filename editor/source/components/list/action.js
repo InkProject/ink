@@ -3,48 +3,39 @@ import * as editorAction from '../editor/action'
 import * as util from '../util'
 import ActionType from '../action'
 
-export function showLoading(flag) {
+export function show() {
     return {
-        type: ActionType.SHOW_LOADING,
-        flag
+        type: ActionType.LIST_SHOW
     }
 }
 
-function refreshList(data) {
+export function hide() {
     return {
-        type: ActionType.REFRESH_LIST,
+        type: ActionType.LIST_HIDE
+    }
+}
+
+function refresh(data) {
+    return {
+        type: ActionType.LIST_REFRESH,
         data
     }
 }
 
-export function fetchList() {
+export function fetch() {
     return dispatch => {
-        // dispatch(util.showTip('load'))
-        util.apiRequest('GET', `articles`).then(function(data) {
-            dispatch(refreshList(data))
-            // dispatch(util.showTip('hide'))
-        })
+        (async () => {
+            const data = await util.apiRequest('GET', `articles`)
+            dispatch(refresh(data))
+        })()
     }
 }
 
-export function showList() {
-    return {
-        type: ActionType.SHOW_LIST
-    }
-}
-
-export function hideList() {
-    return {
-        type: ActionType.HIDE_LIST
-    }
-}
-
-export function openArticle(id) {
+export function open(id) {
     return dispatch => {
-        dispatch(util.showTip('load'))
-        util.apiRequest('GET', `articles/${id}`).then(function(data) {
+        (async () => {
+            const data = await util.apiRequest('GET', `articles/${id}`)
             dispatch(editorAction.setEditor(id, data))
-            dispatch(util.showTip('hide'))
-        })
+        })()
     }
 }

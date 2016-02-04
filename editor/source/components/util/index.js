@@ -9,7 +9,7 @@ function toogleTip({
     content = ''
 }) {
     return {
-        type: ActionType.SHOW_TIP,
+        type: ActionType.UTIL_SHOW_TIP,
         loading,
         show,
         error,
@@ -52,7 +52,7 @@ export function showTip(type, content) {
 }
 
 export function apiRequest(method, url, data) {
-    const state = globalStore.getState()
+    const state = store.getState()
     const currentId = state.editor.get('id')
     const currentContent = state.editor.get('current')
     if (!(data instanceof FormData)) {

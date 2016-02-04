@@ -3,7 +3,6 @@ import Component from '../index'
 import classNames from 'classnames'
 import _ from 'lodash'
 
-import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import * as modalAction from './action'
 import * as menuAction from '../menu/action'
@@ -13,20 +12,20 @@ class Modal extends Component {
         super(props)
     }
     closeModal() {
-        this.props.menuAction.showModal(false)
+        store.dispatch(menuAction.showModal(false))
     }
     createArticle() {
         const name = _.trim(this.input.value)
         if (name) {
             this.input.value = ''
-            this.props.modalAction.createArticle(name)
-            this.props.menuAction.showModal(false)
+            store.dispatch(modalAction.createArticle(name))
+            store.dispatch(menuAction.showModal(false))
         } else {
             this.input.focus()
         }
     }
     render() {
-        const menu = this.props.menu
+        const { menu } = this.props
         return (
             <div id="modal" className={classNames({hide: !menu.get('modal').get('show')})}>
                 <div className="overlay" onClick={() => this.closeModal()}></div>
@@ -49,10 +48,5 @@ class Modal extends Component {
 export default connect(function(state) {
     return {
         menu: state.menu
-    }
-}, function(dispatch) {
-    return {
-        menuAction: bindActionCreators(menuAction, dispatch),
-        modalAction : bindActionCreators(modalAction, dispatch)
     }
 })(Modal)

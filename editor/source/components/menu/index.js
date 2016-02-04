@@ -2,25 +2,21 @@ import React from 'react'
 import Component from '../index'
 import classNames from 'classnames'
 
-import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
 import * as listAction from '../list/action'
-import * as editorAction from '../editor/action'
 import * as menuAction from '../menu/action'
 
 class Menu extends Component {
     onInboxClick() {
         if (this.props.show) {
-            this.props.menuAction.showModal(true)
+            store.dispatch(menuAction.showModal(true))
         } else {
-            this.props.listAction.showList()
+            store.dispatch(listAction.show())
         }
     }
     render() {
-        const show = this.props.show
-        const loading = this.props.loading
-        const listAction = this.props.listAction
+        const { show, loading } = this.props
         return (
             <ul id="menu" className="list">
                 <li>
@@ -38,10 +34,4 @@ class Menu extends Component {
     }
 }
 
-export default connect(null, function(dispatch) {
-    return {
-        listAction: bindActionCreators(listAction, dispatch),
-        editorAction: bindActionCreators(editorAction, dispatch),
-        menuAction: bindActionCreators(menuAction, dispatch)
-    }
-})(Menu)
+export default connect(null)(Menu)

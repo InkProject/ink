@@ -15,12 +15,15 @@ import Toolbar from './components/toolbar'
 import Modal from './components/modal'
 import Tooltip from './components/tooltip'
 
+import * as editorAction from './components/toolbar/action'
+
 class App extends Component {
     render() {
         const list = this.props.list
         const util = this.props.util
         const editor = this.props.editor
         const tip = util.get('tip')
+        // this.props.editorAction.reset()
         return (
             <div id="container">
                 <Modal />

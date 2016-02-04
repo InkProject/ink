@@ -8,11 +8,9 @@ export default function menu(state = Immutable.fromJS({
     }
 }), action) {
     switch (action.type) {
-        case ActionType.SHOW_MODAL:
+        case ActionType.MODAL_SHOW:
             return state.mergeDeep({
-                modal: {
-                    show: action.flag
-                }
+                modal: { show: action.flag }
             })
         default:
             return state

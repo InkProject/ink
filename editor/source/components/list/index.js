@@ -2,20 +2,17 @@ import React from 'react'
 import Component from '../index'
 import classNames from 'classnames'
 
-import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
 
 import * as listAction from './action'
-import * as editorAction from '../editor/action'
 
 class List extends Component {
     componentWillMount() {
-        this.props.listAction.fetchList()
+        store.dispatch(listAction.fetch())
     }
     render() {
-        const list = this.props.list
-        const editor = this.props.editor
+        const { list, editor } = this.props
         return (
             <ul id="list" className={classNames({hide: !list.get('show')})}>{
                 list.get('data').map(item => {
@@ -39,10 +36,5 @@ export default connect(function(state) {
     return {
         list: state.list,
         editor: state.editor
-    }
-}, function(dispatch) {
-    return {
-        listAction: bindActionCreators(listAction, dispatch),
-        editorAction: bindActionCreators(editorAction, dispatch)
     }
 })(List)

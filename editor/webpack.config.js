@@ -5,6 +5,7 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 module.exports = {
     entry: [
         'webpack-hot-middleware/client',
+        'babel-polyfill',
         './source/index.js',
         './source/index.html'
     ],

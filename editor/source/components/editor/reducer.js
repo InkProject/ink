@@ -2,21 +2,23 @@ import Immutable from 'immutable'
 import ActionType from '../action'
 import _ from 'lodash'
 
-export default function editor(state = Immutable.fromJS({
+const initState = Immutable.fromJS({
     id: '',
     title: '',
     tags: [],
     config: '',
     content: '',
     current: ''
-}), action) {
+})
+
+export default function editor(state = initState, action) {
     switch (action.type) {
-        case ActionType.SET_HEADER:
+        case ActionType.EDITOR_SET_HEADER:
             return state.mergeDeep({
                 title: action.title,
                 tags: action.tags
             })
-        case ActionType.SET_CONTENT:
+        case ActionType.EDITOR_SET_CONTENT:
             let current = `${_.trim(action.config)}\n\n---\n\n${_.trim(action.content)}`
             return state.mergeDeep({
                 id: action.id,
@@ -26,10 +28,12 @@ export default function editor(state = Immutable.fromJS({
                 content: action.content,
                 current: current
             })
-        case ActionType.SET_CURRENT:
+        case ActionType.EDITOR_SET_CURRENT:
             return state.mergeDeep({
                 current: action.current
             })
+        case ActionType.EDITOR_RESET:
+            return initState
         default:
             return state
     }

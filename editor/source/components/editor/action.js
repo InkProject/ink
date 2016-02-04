@@ -21,7 +21,7 @@ let parseConfig = function(data, noContent) {
 export function setHeader(data) {
     let config = parseConfig(data)
     return {
-        type: ActionType.SET_HEADER,
+        type: ActionType.EDITOR_SET_HEADER,
         title: config ? config.title : '键入文章标题',
         tags: config ? config.tags : []
     }
@@ -34,7 +34,7 @@ export function setEditor(id, data) {
     let config = parseConfig(configData)
     let { title, tags } = config || {}
     return {
-        type: ActionType.SET_CONTENT,
+        type: ActionType.EDITOR_SET_CONTENT,
         id,
         title,
         tags,
@@ -45,8 +45,14 @@ export function setEditor(id, data) {
 
 export function setCurrent(current) {
     return {
-        type: ActionType.SET_CURRENT,
+        type: ActionType.EDITOR_SET_CURRENT,
         current
+    }
+}
+
+export function reset() {
+    return {
+        type: ActionType.EDITOR_RESET
     }
 }
 

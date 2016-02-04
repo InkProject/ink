@@ -11,7 +11,7 @@ export default function util(state = Immutable.fromJS({
     }
 }), action) {
     switch (action.type) {
-        case ActionType.SHOW_TIP:
+        case ActionType.UTIL_SHOW_TIP:
             return state.mergeDeep({
                 tip: {
                     show: action.show,

@@ -3,18 +3,14 @@ import Component from '../index'
 import classNames from 'classnames'
 import List from '../list'
 import Menu from '../menu'
-
-import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
 export default class Left extends Component {
     render() {
-        const list = this.props.list
-        const show = list.get('show')
-        const loading = list.get('loading')
+        const { list } = this.props
         return (
-            <div id="left" className={classNames({close: !show})}>
-                <Menu show={show} loading={loading} />
+            <div id="left" className={classNames({close: !list.get('show')})}>
+                <Menu show={list.get('show')} loading={list.get('loading')} />
                 <List />
             </div>
         )
@@ -24,8 +20,5 @@ export default class Left extends Component {
 export default connect(function(state) {
     return {
         list: state.list
-    }
-}, function(dispatch) {
-    return {
     }
 })(Left)

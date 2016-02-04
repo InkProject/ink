@@ -3,7 +3,7 @@ import ActionType from '../action'
 
 export function showModal(flag) {
     return {
-        type: ActionType.SHOW_MODAL,
+        type: ActionType.MODAL_SHOW,
         flag
     }
 }

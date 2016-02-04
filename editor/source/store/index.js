@@ -1,10 +1,13 @@
 import { createStore, applyMiddleware } from 'redux'
-import thunk from 'redux-thunk'
+import thunkMiddleware from 'redux-thunk'
 import rootReducer from './reducer'
-import { syncReduxAndRouter } from 'redux-simple-router'
+import { syncHistory, routeReducer } from 'react-router-redux'
 import history from './history'
-const createStoreWithMiddleware = applyMiddleware(thunk)(createStore)
+
+const reduxRouterMiddleware = syncHistory(history)
+const createStoreWithMiddleware = applyMiddleware(thunkMiddleware, reduxRouterMiddleware)(createStore)
 const store = createStoreWithMiddleware(rootReducer)
+reduxRouterMiddleware.listenForReplays(store)
 
 if (module.hot) {
     module.hot.accept('./reducer', () => {
@@ -13,8 +16,6 @@ if (module.hot) {
     })
 }
 
-syncReduxAndRouter(history, store)
-
-window.globalStore = store
+window.store = store
 
 export default store

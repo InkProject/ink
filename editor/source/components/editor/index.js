@@ -51,7 +51,7 @@ class Editor extends Component {
     }
     componentDidUpdate(prevProps, prevState) {
         if (this.props.editor.get('id') != this.props.params.id) {
-            this.props.listAction.openArticle(this.props.params.id)
+            this.props.listAction.open(this.props.params.id)
         }
         if (!prevProps || this.props.editor.get('id') != prevProps.editor.get('id')) {
             this.contentEditor.setValue(this.props.editor.get('content') || '', -1)
@@ -74,13 +74,13 @@ class Editor extends Component {
             displayIndentGuides: false,
             animatedScroll: true
         }
-        editor.setKeyboardHandler('ace/keyboard/vim')
+        // editor.setKeyboardHandler('ace/keyboard/vim')
         editor.setOptions(editorOption)
         editor.renderer.setScrollMargin(200, 200)
         editor.container.style.lineHeight = 1.6
         editor.$blockScrolling = Infinity
         editor.on('focus', () =>
-            this.props.listAction.hideList()
+            this.props.listAction.hide()
         )
     }
     cumulativeOffset(element) {
