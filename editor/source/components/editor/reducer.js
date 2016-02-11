@@ -19,14 +19,13 @@ export default function editor(state = initState, action) {
                 tags: action.tags
             })
         case ActionType.EDITOR_SET_CONTENT:
-            let current = `${_.trim(action.config)}\n\n---\n\n${_.trim(action.content)}`
             return state.mergeDeep({
                 id: action.id,
                 title: action.title,
                 tags: action.tags,
                 config: action.config,
                 content: action.content,
-                current: current
+                current: action.current
             })
         case ActionType.EDITOR_SET_CURRENT:
             return state.mergeDeep({

@@ -31,7 +31,7 @@ export function fetch() {
     }
 }
 
-export function open(id) {
+export function openArticle(id) {
     return dispatch => {
         (async () => {
             const data = await util.apiRequest('GET', `articles/${id}`)

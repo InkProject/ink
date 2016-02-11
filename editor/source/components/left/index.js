@@ -10,7 +10,7 @@ export default class Left extends Component {
         const { list } = this.props
         return (
             <div id="left" className={classNames({close: !list.get('show')})}>
-                <Menu show={list.get('show')} loading={list.get('loading')} />
+                <Menu />
                 <List />
             </div>
         )

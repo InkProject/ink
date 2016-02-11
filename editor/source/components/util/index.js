@@ -17,13 +17,16 @@ function toogleTip({
     }
 }
 
+let tooltipTimeout = null
+
 export function showTip(type, content) {
     return dispatch => {
         if (type === 'auto') {
             dispatch(toogleTip({
                 content
             }))
-            setTimeout(function() {
+            clearTimeout(tooltipTimeout)
+            tooltipTimeout = setTimeout(function() {
                 dispatch(toogleTip({
                     show: false
                 }))
@@ -42,7 +45,8 @@ export function showTip(type, content) {
                 error: true,
                 content
             }))
-            setTimeout(function() {
+            clearTimeout(tooltipTimeout)
+            tooltipTimeout = setTimeout(function() {
                 dispatch(toogleTip({
                     show: false
                 }))
@@ -61,7 +65,7 @@ export function apiRequest(method, url, data) {
     return fetch(`${apiURL}/${url}`, {
         mode: 'cors',
         method: method,
-        body: data
+        body: data || undefined
     }).then((response) => {
         return response.json()
     }).catch((error) => {

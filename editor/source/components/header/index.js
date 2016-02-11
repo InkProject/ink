@@ -5,7 +5,7 @@ import _ from 'lodash'
 
 export default class extends Component {
     render() {
-        let title = this.props.title || '键入文章标题'
+        let title = this.props.title
         var tags = []
         if (_.isArray(this.props.tags) && this.props.tags.length > 0)
             tags = this.props.tags

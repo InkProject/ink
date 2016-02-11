@@ -1,5 +1,5 @@
 import ActionType from '../action'
-import util from '../util'
+import * as util from '../util'
 import yaml from 'js-yaml'
 import _ from 'lodash'
 
@@ -28,18 +28,33 @@ export function setHeader(data) {
 }
 
 export function setEditor(id, data) {
-    let dataAry = data.split('---')
-    let configData = _.trim(dataAry[0])
-    let content = _.trim(dataAry[1] ? dataAry.slice(1).join('---') : '')
-    let config = parseConfig(configData)
-    let { title, tags } = config || {}
-    return {
-        type: ActionType.EDITOR_SET_CONTENT,
-        id,
-        title,
-        tags,
-        config: configData,
-        content
+    if (['config', 'help'].includes(id)) {
+        const title = (id == 'config') ? '博客配置' : '使用帮助'
+        return {
+            type: ActionType.EDITOR_SET_CONTENT,
+            id,
+            title: title,
+            tags: [],
+            config: '',
+            content: data,
+            current: data
+        }
+    } else {
+        let dataAry = data.split('---')
+        let configData = _.trim(dataAry[0])
+        let content = _.trim(dataAry[1] ? dataAry.slice(1).join('---') : '')
+        let config = parseConfig(configData)
+        let { title, tags } = config || {}
+        let current = `${_.trim(configData)}\n\n---\n\n${_.trim(content)}`
+        return {
+            type: ActionType.EDITOR_SET_CONTENT,
+            id,
+            title,
+            tags,
+            config: configData,
+            content,
+            current
+        }
     }
 }
 
@@ -58,7 +73,7 @@ export function reset() {
 
 export function uploadImage(file, callback) {
     return dispatch => {
-        const articleId = globalStore.getState().editor.get('id')
+        const articleId = store.getState().editor.get('id')
         let data = new FormData()
         data.append('file', file)
         data.append('article_id', articleId)

@@ -3,15 +3,17 @@ import Component from '../index'
 import classNames from 'classnames'
 import ace from 'brace'
 import 'brace/mode/markdown'
+import 'brace/mode/yaml'
 import 'brace/theme/tomorrow'
 import _ from 'lodash'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
-import * as listAction from '../list/action'
-import * as editorAction from './action'
 import * as util from '../util'
+import * as editorAction from './action'
+import * as listAction from '../list/action'
+import * as menuAction from '../menu/action'
 
 import Header from '../header'
 
@@ -27,16 +29,21 @@ class Editor extends Component {
         }
     }
     switchConfigMode() {
-        this.setState({configMode: !this.state.configMode})
-        if (this.state.configMode) {
-            this.contentEditor.focus()
-            this.props.util.showTip('auto', '切换至内容')
+        if (this.notArticle()) {
+            this.props.util.showTip('auto', '提示：保存修改后请重启纸小墨以更新')
         } else {
-            this.configEditor.focus()
-            this.props.util.showTip('auto', '切换至配置')
+            this.setState({configMode: !this.state.configMode})
+            if (this.state.configMode) {
+                this.contentEditor.focus()
+                this.props.util.showTip('auto', '切换至内容')
+            } else {
+                this.configEditor.focus()
+                this.props.util.showTip('auto', '切换至配置')
+            }
+            this.setEditorStyle(this.contentEditor)
+            this.setEditorStyle(this.configEditor)
+            this.changeToolbar()
         }
-        this.setEditorStyle(this.contentEditor)
-        this.setEditorStyle(this.configEditor)
     }
     resizeEditor() {
         const width = window.innerWidth ||
@@ -48,10 +55,35 @@ class Editor extends Component {
         }
         this.setEditorStyle(this.contentEditor)
         this.setEditorStyle(this.configEditor)
+        _.delay(this.showToolbar.bind(this), 100)
     }
     componentDidUpdate(prevProps, prevState) {
-        if (this.props.editor.get('id') != this.props.params.id) {
-            this.props.listAction.open(this.props.params.id)
+        const openId = this.props.params.id
+        if (this.props.editor.get('id') != openId) {
+            switch(openId) {
+                case 'config':
+                    this.props.menuAction.openConfig()
+                    break
+                case 'help':
+                    this.props.menuAction.openHelp()
+                    break
+                default:
+                    this.props.listAction.openArticle(openId)
+                    break
+            }
+        } else {
+            switch(openId) {
+                case 'config':
+                    this.contentEditor.session.setMode('ace/mode/yaml')
+                    break
+                case 'help':
+                    this.contentEditor.session.setMode('ace/mode/markdown')
+                    break
+                default:
+                    this.contentEditor.session.setMode('ace/mode/markdown')
+                    this.configEditor.session.setMode('ace/mode/yaml')
+                    break
+            }
         }
         if (!prevProps || this.props.editor.get('id') != prevProps.editor.get('id')) {
             this.contentEditor.setValue(this.props.editor.get('content') || '', -1)
@@ -65,7 +97,7 @@ class Editor extends Component {
             showGutter: false,
             wrap: true,
             theme: 'ace/theme/tomorrow',
-            mode: 'ace/mode/markdown',
+            // mode: 'ace/mode/markdown',
             showPrintMargin: false,
             fontSize: '16px',
             fontFamily: "Menlo, Consolas, 'source-code-pro', 'DejaVu Sans Mono', Monaco, 'Ubuntu Mono', 'Courier New', Courier, 'Microsoft Yahei', 'Hiragino Sans GB', 'WenQuanYi Micro Hei', monospace",
@@ -98,56 +130,66 @@ class Editor extends Component {
     mergeState(object) {
         this.setState(Object.assign({}, this.state, object))
     }
+    notArticle() {
+        const openId = this.props.params.id
+        if (!['config', 'help'].includes(openId)) {
+            return null
+        }
+        return openId
+    }
+    focusLine() {
+      const selectRange = this.contentEditor.getSelectionRange()
+      const firstShowRow = this.contentEditor.getFirstVisibleRow()
+      const startRow = selectRange.start.row - firstShowRow
+      const endRow = selectRange.end.row - firstShowRow;
+      // const scrollTop = this.contentEditor.getCursorPositionScreen().row * 25;
+      // this.contentEditor.session.setScrollTop(scrollTop - 400);
+      const lines = document.querySelectorAll('#content-editor .ace_line_group');
+      ([]).forEach.call(lines, (line, idx) => {
+          if (idx >= startRow && idx <= endRow) {
+          // if (idx == endRow) {
+              line.className = 'ace_line_group no-blur'
+          } else {
+              line.className = 'ace_line_group'
+          }
+      })
+    }
+    showToolbar() {
+      const contentSelection = this.contentEditor.getSelection()
+      const contentSession = this.contentEditor.getSession()
+      const toolbarElem = document.querySelector('#editor-toolbar')
+      const cursor = contentSelection.getCursor()
+      const selectedText = contentSession.doc.getTextRange(contentSelection.getRange())
+      const cursorElem = document.querySelector('#content-editor .ace_cursor')
+      const cursorPos = this.cumulativeOffset(cursorElem)
+      if (_.trim(selectedText) && !selectedText.includes('\n')) {
+          toolbarElem.style.top = cursorPos.top - 45 + 'px'
+          toolbarElem.style.left = cursorPos.left - 15 + 'px'
+          this.mergeState({
+              toolbar: {show: true, selectMode: true}
+          })
+          return
+      } else {
+          toolbarElem.style.top = cursorPos.top - 7 + 'px'
+          toolbarElem.style.left = cursorPos.left - 55 + 'px'
+          this.mergeState({
+              toolbar: {selectMode: false}
+          })
+      }
+      const line = contentSession.getLine(cursor.row)
+      if (cursor.column == 0 && line.length == 0) {
+          this.mergeState({
+              toolbar: {show: true}
+          })
+      } else {
+          this.mergeState({
+              toolbar: {show: false}
+          })
+      }
+    }
     changeToolbar() {
-        const selectRange = this.contentEditor.getSelectionRange()
-        const firstShowRow = this.contentEditor.getFirstVisibleRow()
-        const startRow = selectRange.start.row - firstShowRow
-        const endRow = selectRange.end.row - firstShowRow;
-        // const scrollTop = this.contentEditor.getCursorPositionScreen().row * 25;
-        // this.contentEditor.session.setScrollTop(scrollTop - 400);
-        _.delay(() => {
-            const lines = document.querySelectorAll('#content-editor .ace_line_group');
-            ([]).forEach.call(lines, (line, idx) => {
-                if (idx >= (startRow - 1) && idx <= (endRow + 1)) {
-                    line.className = 'ace_line_group no-blur'
-                } else {
-                    line.className = 'ace_line_group'
-                }
-            })
-        })
-        _.delay(() => {
-            const contentSelection = this.contentEditor.getSelection()
-            const contentSession = this.contentEditor.getSession()
-            const toolbarElem = document.querySelector('#editor-toolbar')
-            const cursor = contentSelection.getCursor()
-            const selectedText = contentSession.doc.getTextRange(contentSelection.getRange())
-            const cursorElem = document.querySelector('#content-editor .ace_cursor')
-            const cursorPos = this.cumulativeOffset(cursorElem)
-            if (_.trim(selectedText) && !selectedText.includes('\n')) {
-                toolbarElem.style.top = cursorPos.top - 45 + 'px'
-                toolbarElem.style.left = cursorPos.left - 15 + 'px'
-                this.mergeState({
-                    toolbar: {show: true, selectMode: true}
-                })
-                return
-            } else {
-                toolbarElem.style.top = cursorPos.top - 7 + 'px'
-                toolbarElem.style.left = cursorPos.left - 55 + 'px'
-                this.mergeState({
-                    toolbar: {selectMode: false}
-                })
-            }
-            const line = contentSession.getLine(cursor.row)
-            if (cursor.column == 0 && line.length == 0) {
-                this.mergeState({
-                    toolbar: {show: true}
-                })
-            } else {
-                this.mergeState({
-                    toolbar: {show: false}
-                })
-            }
-        }, 100)
+        this.focusLine()
+        _.delay(this.showToolbar.bind(this), 100)
     }
     componentDidMount() {
         // init content editor
@@ -158,11 +200,29 @@ class Editor extends Component {
         this.configEditor = ace.edit('config-editor')
         this.setEditorStyle(this.configEditor)
         this.configEditor.on('input', () => {
-            this.props.editorAction.setHeader(this.configEditor.getValue())
+            if (!this.notArticle()) {
+                this.props.editorAction.setHeader(this.configEditor.getValue())
+            }
             this.onEditorChange()
         })
         this.contentEditor.on('input', () => {
             this.onEditorChange()
+        })
+        this.contentEditor.on('focus', () => {
+            this.focusLine()
+        })
+        this.contentEditor.session.on('changeScrollTop', () => {
+            _.delay(this.showToolbar.bind(this), 100)
+            const currentScrollTop = this.contentEditor.session.getScrollTop()
+            const headerElem = document.querySelector('#header')
+            if (currentScrollTop <= -100) {
+                const opacity = 1 - (currentScrollTop + 200) / 100
+                headerElem.style.opacity = opacity
+                headerElem.style.display = 'block'
+            } else {
+                headerElem.style.opacity = 0
+                headerElem.style.display = 'none'
+            }
         })
         const contentSelection = this.contentEditor.getSelection()
         // contentSelection.on('changeSelection', this.changeToolbar.bind(this))
@@ -173,10 +233,15 @@ class Editor extends Component {
         this.componentDidUpdate()
     }
     onEditorChange() {
-        const config = _.trim(this.configEditor.getValue())
-        const content = _.trim(this.contentEditor.getValue())
-        const current = `${_.trim(config)}\n\n---\n\n${_.trim(content)}`
-        this.props.editorAction.setCurrent(current)
+        if (this.notArticle()) {
+            const current = _.trim(this.contentEditor.getValue())
+            this.props.editorAction.setCurrent(current)
+        } else {
+            const config = _.trim(this.configEditor.getValue())
+            const content = _.trim(this.contentEditor.getValue())
+            const current = `${_.trim(config)}\n\n---\n\n${_.trim(content)}`
+            this.props.editorAction.setCurrent(current)
+        }
     }
     moveContentEditorCursor(row, column) {
         const contentSelection = this.contentEditor.getSelection()
@@ -256,6 +321,7 @@ class Editor extends Component {
     }
     render() {
         const editor = this.props.editor
+        const menu = this.props.menu
         return (
             <div className="editor-wrap">
                 <Header title={editor.get('title')} tags={editor.get('tags')} edit={this.state.configMode} onClick={() => this.switchConfigMode()} />
@@ -282,8 +348,8 @@ class Editor extends Component {
                         ]
                     }
                 </ul>
-                <div className={classNames({hide: this.state.configMode})}><div id="content-editor"></div></div>
-                <div className={classNames({hide: !this.state.configMode})}><div id="config-editor"></div></div>
+                <div className={classNames('editor-wrap content-editor-wrap', {hide: this.state.configMode, 'focus-mode': menu.get('focusMode')})}><div id="content-editor"></div></div>
+                <div className={classNames('editor-wrap config-editor-wrap', {hide: !this.state.configMode})}><div id="config-editor"></div></div>
             </div>
         )
     }
@@ -291,12 +357,14 @@ class Editor extends Component {
 
 export default connect(function(state) {
     return {
-        editor: state.editor
+        editor: state.editor,
+        menu: state.menu
     }
 }, function(dispatch) {
     return {
         listAction: bindActionCreators(listAction, dispatch),
         editorAction: bindActionCreators(editorAction, dispatch),
+        menuAction: bindActionCreators(menuAction, dispatch),
         util: bindActionCreators(util, dispatch)
     }
 })(Editor)

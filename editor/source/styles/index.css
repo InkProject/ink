@@ -28,10 +28,12 @@ button {
 }
 
 .button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-align: center;
     background-color: #555;
     color: white;
-    line-height: 31px;
     @mixin shadow;
     @mixin hover;
     &.button-cube {
@@ -49,7 +51,7 @@ button {
         border-radius: 50%;
         margin-right: 0;
         .fa {
-            font-size: 16px;
+            font-size: 15px;
         }
     }
 }
@@ -95,14 +97,17 @@ button {
     left: 0;
     top: 0;
     bottom: 0;
-    z-index: 2;
+    z-index: 3;
     overflow: auto;
     transition: width 0.25s;
     border-right: 1px dashed #ddd;
     background-color: #fefefe;
+    box-shadow: 0 2px 10px rgba(0, 0 , 0, .05);
     &.close {
         border-right: 0;
+        box-shadow: 0 0;
         background-color: transparent;
+        height: 50px;
         .list {
             .theme, .help, .setting, .create, .focus {
                 display: none;
@@ -136,12 +141,12 @@ button {
     position: fixed;
     top: 0;
     left: 100px;
-    z-index: 2;
+    z-index: 3;
     width: 215px;
     padding-top: 44px;
     padding-bottom: 30px;
     color: #aaa;
-    background-image: linear-gradient(to top, transparent, white 50%);
+    /*background-image: linear-gradient(to top, transparent, white 50%);*/
     &.focus {
         color: #555;
     }
@@ -241,6 +246,7 @@ button {
     position: relative;
     text-align: center;
     background-image: linear-gradient(to top, transparent, white 20%);
+    transition: .3s all ease;
     &.edit {
         .title {
             i {
@@ -277,6 +283,17 @@ button {
     }
 }
 
+.content-editor-wrap.focus-mode #content-editor {
+  .ace_line_group {
+      filter: blur(1px);
+      opacity: 0.3;
+      &.no-blur {
+          filter: blur(0);
+          opacity: 1;
+      }
+  }
+}
+
 #config-editor, #content-editor {
     position: absolute;
     top: 0;
@@ -285,15 +302,9 @@ button {
     left: 0;
     z-index: 0;
     .ace_line_group {
-        border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
-        box-sizing: border-box;
-        transition: .5s all ease;
-        filter: blur(1px);
-        opacity: 0.3;
-        &.no-blur {
-            filter: blur(0);
-            opacity: 1;
-        }
+      border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
+      box-sizing: border-box;
+      transition: .5s all ease;
     }
     .ace_cursor {
         color: #888;
