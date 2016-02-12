@@ -16,7 +16,8 @@ export default function list(state = Immutable.fromJS({
                 let item = action.data[id]
                 return {
                     id,
-                    name: item.Path,
+                    tags: item.Article ? (item.Article.Tags || []) : [],
+                    name: item.Name,
                     title: item.Article ? item.Article.Title : '未命名标题',
                     preview: item.Article ? item.Article.Preview : ''
                 }

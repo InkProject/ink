@@ -59,9 +59,10 @@ button {
 #tooltip {
     left: 0;
     right: 0;
+    top: 0;
     height: 35px;
-    position: absolute;
-    margin-top: 28px;
+    position: fixed;
+    margin-top: 20px;
     z-index: 9999;
     display: flex;
     justify-content: center;
@@ -90,31 +91,41 @@ button {
     }
 }
 
-#left {
+#menu {
     padding: 30px;
-    min-width: 42px;
+    max-width: 150px;
+    max-height: 150px;
     position: absolute;
     left: 0;
     top: 0;
     bottom: 0;
     z-index: 3;
-    overflow: auto;
-    transition: width 0.25s;
-    border-right: 1px dashed #ddd;
-    background-color: #fefefe;
-    box-shadow: 0 2px 10px rgba(0, 0 , 0, .05);
+    .theme, .focus {
+        display: none;
+    }
     &.close {
-        border-right: 0;
-        box-shadow: 0 0;
-        background-color: transparent;
         height: 50px;
-        .list {
-            .theme, .help, .setting, .create, .focus {
+        .tool {
+            .help, .setting {
                 display: none;
             }
         }
+        .head {
+            .theme, .focus {
+                display: block;
+            }
+        }
     }
-    .list {
+    .head {
+        position: absolute;
+        display: flex;
+        margin-left: 60px;
+        margin-top: 6px;
+        li {
+            margin-right: 20px;
+        }
+    }
+    .tool {
         position: fixed;
         width: 40px;
         text-align: center;
@@ -130,6 +141,8 @@ button {
                 }
                 &.focus {
                     margin-top: 15px;
+                }
+                &.active {
                     background-color: #a20000;
                 }
             }
@@ -140,15 +153,16 @@ button {
 #search-wrap {
     position: fixed;
     top: 0;
-    left: 100px;
+    left: 200px;
     z-index: 3;
     width: 215px;
     padding-top: 44px;
     padding-bottom: 30px;
     color: #aaa;
-    /*background-image: linear-gradient(to top, transparent, white 50%);*/
+    transition: .2s all ease;
     &.focus {
         color: #555;
+        left: 100px;
     }
     .fa {
         position: absolute;
@@ -164,55 +178,108 @@ button {
     }
 }
 
-#list {
-    width: 200px;
-    margin-left: 40px;
-    padding: 13px 30px;
-    padding-top: 0;
-    padding-right: 0;
-    margin-top: 70px;
-    .item {
-        padding-top: 20px;
-        padding-bottom: 20px;
-        &.selected {
+#list-wrap {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 2;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .logo {
+        opacity: 0.7;
+        display: block;
+        width: 250px;
+        margin: 0 auto;
+        margin-top: 90px;
+        margin-bottom: 90px;
+    }
+    .list-nav {
+        width: 750px;
+        li {
+            padding: 7px 10px;
+            margin-right: 20px;
+            float: left;
+            display: flex;
+            align-items: center;
+            color: #555;
+            /*background-color: #f5f5f5;*/
+            &.selected {
+                color: white;
+                background-color: #444;
+            }
+            .fa {
+                margin-right: 7px;
+            }
+            &.tags {
+                float: right;
+                margin-right: 0;
+            }
+        }
+    }
+    #list {
+        width: 750px;
+        margin-top: 30px;
+        .item {
+            padding: 30px 0;
+            opacity: 0.7;
+            border-bottom: 1px dashed #ccc;
+            &:last-child {
+                border: 0;
+            }
+            &:hover {
+                opacity: 1;
+            }
+            &.selected {
+                .title {
+                    color: #000;
+                    border-left: 4px solid #702500;
+                }
+            }
             .title {
-                color: #000;
-                border-left: 4px solid #702500;
+                color: #333;
+                font-weight: bold;
+                font-size: 24px;
+                margin-bottom: 10px;
+                margin-left: -13px;
+                padding-left: 9px;
+                border-left: 4px solid transparent;
+                box-sizing: border-box;
             }
             .preview {
-                color: #555;
+                color: #777;
+                margin-top: 5px;
+                line-height: 22px;
+            }
+            .footer {
                 margin-top: 10px;
+                overflow: auto;
+                .date {
+                    float: left;
+                    color: #bbb;
+                    margin-left: 10px;
+                }
+                .name {
+                    float: left;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    color: #555;
+                    &:hover {
+                        color: #222;
+                    }
+                }
+                .tags {
+                    float: right;
+                    .tag {
+                        color: #aaa;
+                        margin-left: 5px;
+                    }
+                }
             }
-        }
-        .head {
-            .date {
-                color: #aaa;
-            }
-        }
-        .name {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            color: #555;
-            margin-top: 5px;
-        }
-        .title {
-            color: #888;
-            font-weight: bold;
-            font-size: 16px;
-            margin-top: 10px;
-            margin-left: -13px;
-            padding-left: 9px;
-            border-left: 4px solid transparent;
-            box-sizing: border-box;
-        }
-        .preview {
-            color: #ccc;
-            margin-top: 10px;
-            width: 200px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
         }
     }
 }
@@ -239,14 +306,18 @@ button {
 }
 
 #header {
-    padding: 90px 0;
-    padding-bottom: 40px;
-    margin: 0 20px;
+    margin: 0 auto;
+    margin-top: 70px;
     z-index: 1;
     position: relative;
     text-align: center;
-    background-image: linear-gradient(to top, transparent, white 20%);
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
     transition: .3s all ease;
+    max-width: 600px;
     &.edit {
         .title {
             i {
@@ -265,8 +336,10 @@ button {
         i {
             display: none;
         }
+        &.readonly {
+            color: #a20000;
+        }
         margin: 0 auto;
-        max-width: 600px;
         font-size: 36px;
         font-weight: bold;
         color: #555;

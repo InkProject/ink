@@ -3,7 +3,7 @@ import * as util from '../util'
 import yaml from 'js-yaml'
 import _ from 'lodash'
 
-let parseConfig = function(data, noContent) {
+const parseConfig = function(data, noContent) {
     let configStr
     if (noContent) {
         configStr = _.trim(data)
@@ -23,7 +23,7 @@ export function setHeader(data) {
     return {
         type: ActionType.EDITOR_SET_HEADER,
         title: config ? config.title : '键入文章标题',
-        tags: config ? config.tags : []
+        tags: config ? (config.tags || []) : []
     }
 }
 
@@ -50,7 +50,7 @@ export function setEditor(id, data) {
             type: ActionType.EDITOR_SET_CONTENT,
             id,
             title,
-            tags,
+            tags: tags || [],
             config: configData,
             content,
             current

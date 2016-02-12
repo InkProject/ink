@@ -22,32 +22,37 @@ class Menu extends Component {
         if (!focusMode) store.dispatch(util.showTip('auto', '切换到专注模式'))
     }
     render() {
-        const { show, loading } = this.props.list.toJS()
+        const { show } = this.props.list.toJS()
         const { focusMode } = this.props.menu.toJS()
+        const path = this.props.routing.location.pathname
         return (
-            <ul id="menu" className="list">
-                <li>
-                    <button className="button button-circle inbox" onClick={this.onInboxClick.bind(this)}>
-                        <i className={classNames('fa', {['fa-'+(show?'plus':'inbox')]: true})}></i>
-                    </button>
-                </li>
-                <li onClick={this.onChangeFocusMode.bind(this)}>
-                    <button className="button button-circle focus">
-                        <i className={classNames('fa', {'fa-dot-circle-o': focusMode, 'fa-circle-o': !focusMode})}></i>
-                    </button>
-                </li>
-                <li>
-                    <Link to="/edit/config">
-                        <button className="button button-circle setting"><i className="fa fa-wrench"></i></button>
-                    </Link>
-                </li>
-                <li><button className="button button-circle theme"><i className="fa fa-moon-o"></i></button></li>
-                <li>
-                    <Link to="/edit/help">
-                        <button className="button button-circle help"><i className="fa fa-hashtag"></i></button>
-                    </Link>
-                </li>
-            </ul>
+            <div id="menu" className={classNames({close: !show})}>
+                <ul className="head">
+                    <li onClick={this.onChangeFocusMode.bind(this)}>
+                        <button className={classNames('button', 'button-circle', 'focus')}>
+                            <i className={classNames('fa', {'fa-dot-circle-o': focusMode, 'fa-circle-o': !focusMode})}></i>
+                        </button>
+                    </li>
+                    <li><button className="button button-circle theme"><i className="fa fa-moon-o"></i></button></li>
+                </ul>
+                <ul className="tool">
+                    <li>
+                        <button className="button button-circle inbox" onClick={this.onInboxClick.bind(this)}>
+                            <i className={classNames('fa', {['fa-'+(show?'plus':'inbox')]: true})}></i>
+                        </button>
+                    </li>
+                    <li>
+                        <Link to="/edit/config">
+                            <button className={classNames('button', 'button-circle', 'setting', {'active': path == '/edit/config'})}><i className="fa fa-wrench"></i></button>
+                        </Link>
+                    </li>
+                    <li>
+                        <Link to="/edit/help">
+                            <button className={classNames('button', 'button-circle', 'help', {'active': path == '/edit/help'})}><i className="fa fa-hashtag"></i></button>
+                        </Link>
+                    </li>
+                </ul>
+            </div>
         )
     }
 }
@@ -55,6 +60,7 @@ class Menu extends Component {
 export default connect(function(state) {
     return {
         list: state.list,
-        menu: state.menu
+        menu: state.menu,
+        routing: state.routing
     }
 })(Menu)

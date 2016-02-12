@@ -14,20 +14,33 @@ class List extends Component {
     render() {
         const { list, editor } = this.props
         return (
-            <ul id="list" className={classNames({hide: !list.get('show')})}>{
-                list.get('data').map(item => {
-                    return <li className={classNames('item hover', {selected: item.get('id') == editor.get('id')})} key={item.get('id')}>
-                        <Link to={`/edit/${item.get('id')}`}>
-                            <div className="head">
-                                <span className="date">2015-03-01 18:00</span>
-                            </div>
-                            <div className="name">{item.get('name')}</div>
-                            <div className="title">{item.get('title')}</div>
-                            <div className="preview">{item.get('preview')}</div>
-                        </Link>
-                    </li>
-                })
-            }</ul>
+            <div id="list-wrap" onClick={() => { store.dispatch(listAction.hide()) }} className={classNames({hide: !list.get('show')})}>
+                <img src={require('../../../assets/logo.png')} className="logo" />
+                <ul className="list-nav">
+                    <li className="item selected"><i className="fa fa-paper-plane-o"></i>已发布</li>
+                    <li className="item"><i className="fa fa-inbox"></i>草稿</li>
+                    <li className="item tags"><i className="fa fa-tags"></i>标签</li>
+                </ul>
+                <ul id="list">{
+                    list.get('data').map(item => {
+                        return <li className={classNames('item hover', {selected: item.get('id') == editor.get('id')})} key={item.get('id')}>
+                            <Link to={`/edit/${item.get('id')}`}>
+                                <div className="title">{item.get('title')}</div>
+                                <div className="preview">{item.get('preview')}</div>
+                                <div className="footer">
+                                    <div className="name">{item.get('name')}</div>
+                                    <div className="date">2015-03-01 18:00</div>
+                                    <div className="tags">{
+                                        item.get('tags').map(item =>
+                                            item ? <span className="tag">{item}</span> : null
+                                        )
+                                    }</div>
+                                </div>
+                            </Link>
+                        </li>
+                    })
+                }</ul>
+            </div>
         )
     }
 }

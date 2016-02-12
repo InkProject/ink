@@ -14,7 +14,8 @@ const initState = Immutable.fromJS({
 export default function editor(state = initState, action) {
     switch (action.type) {
         case ActionType.EDITOR_SET_HEADER:
-            return state.mergeDeep({
+            const newState = state.set('tags', action.tags)
+            return newState.mergeDeep({
                 title: action.title,
                 tags: action.tags
             })

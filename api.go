@@ -61,7 +61,7 @@ func UpdateArticleCache() {
 	symwalk.Walk(sourcePath, func(path string, info os.FileInfo, err error) error {
 		fileExt := strings.ToLower(filepath.Ext(path))
 		if fileExt == ".md" {
-			fileName := strings.TrimSuffix(strings.ToLower(filepath.Base(path)), ".md")
+			fileName := strings.TrimPrefix(strings.TrimSuffix(strings.ToLower(path), ".md"), "template/source/")
 			config, _ := ParseArticleConfig(path)
 			id := hashPath(path)
 			articleCache[string(id)] = CacheArticleInfo{
@@ -196,17 +196,43 @@ func ApiUploadFile(ctx *ink.Context) {
 	})
 }
 
+func ApiGetConfig(ctx *ink.Context) {
+	filePath := filepath.Join(rootPath, "config.yml")
+	data, err := ioutil.ReadFile(filePath)
+	if err != nil {
+		replyJSON(ctx, http.StatusInternalServerError, err.Error())
+		return
+	}
+	replyJSON(ctx, http.StatusOK, string(data))
+}
 
-// Rename
-// cacheArticle, ok := articleCache[ctx.Param["id"]]
-// if !ok {
-// 	replyJSON(ctx, http.StatusNotFound, "Not Found")
-// 	return
-// }
-// oldPath := cacheArticle.(map[string]interface{})["path"].(string)
-// newPath := filepath.Join(sourcePath, newArticle.Name+".md")
-// err = os.Rename(oldPath, newPath)
-// if err != nil {
-// 	replyJSON(ctx, http.StatusInternalServerError, err.Error())
-// 	return
-// }
+func ApiSaveConfig(ctx *ink.Context) {
+	content, err := ioutil.ReadAll(ctx.Req.Body)
+	if err != nil {
+		replyJSON(ctx, http.StatusInternalServerError, err.Error())
+		return
+	}
+	filePath := filepath.Join(rootPath, "config.yml")
+	err = ioutil.WriteFile(filePath, []byte(content), 0644)
+	if err != nil {
+		replyJSON(ctx, http.StatusInternalServerError, err.Error())
+		return
+	}
+	replyJSON(ctx, http.StatusOK, nil)
+}
+
+func ApiRenameArticle(ctx *ink.Context) {
+	// Rename
+	cacheArticle, ok := articleCache[ctx.Param["id"]]
+	if !ok {
+		replyJSON(ctx, http.StatusNotFound, "Not Found")
+		return
+	}
+	oldPath := cacheArticle.(map[string]interface{})["path"].(string)
+	newPath := filepath.Join(sourcePath, newArticle.Name+".md")
+	err = os.Rename(oldPath, newPath)
+	if err != nil {
+		replyJSON(ctx, http.StatusInternalServerError, err.Error())
+		return
+	}
+}

@@ -8,7 +8,8 @@ import classNames from 'classnames'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
-import Left from './components/left'
+import Menu from './components/menu'
+import List from './components/list'
 import Editor from './components/editor'
 import Search from './components/search'
 import Toolbar from './components/toolbar'
@@ -28,7 +29,8 @@ class App extends Component {
             <div id="container">
                 <Modal />
                 <Tooltip />
-                <Left />
+                <Menu />
+                <List />
                 <Search />
                 <Toolbar />
                 { this.props.Welcome || this.props.Editor }

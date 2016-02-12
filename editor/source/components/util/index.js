@@ -56,10 +56,7 @@ export function showTip(type, content) {
 }
 
 export function apiRequest(method, url, data) {
-    const state = store.getState()
-    const currentId = state.editor.get('id')
-    const currentContent = state.editor.get('current')
-    if (!(data instanceof FormData)) {
+    if (!((data instanceof FormData) || typeof(data) == 'string')) {
         data = data ? JSON.stringify(data) : null
     }
     return fetch(`${apiURL}/${url}`, {

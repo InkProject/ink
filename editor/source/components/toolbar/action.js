@@ -8,8 +8,12 @@ export function saveContent() {
         let currentId = state.editor.get('id')
         let currentContent = state.editor.get('current');
         (async () => {
-            const data = await util.apiRequest('PUT', `articles/${currentId}`, { content: currentContent })
-            dispatch(listAction.fetch())
+            if (currentId == 'config') {
+                const data = await util.apiRequest('PUT', 'config', currentContent)
+            } else {
+                const data = await util.apiRequest('PUT', `articles/${currentId}`, { content: currentContent })
+                dispatch(listAction.fetch())
+            }
             dispatch(util.showTip('auto', '保存成功'))
         })()
     }

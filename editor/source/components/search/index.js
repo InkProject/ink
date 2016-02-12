@@ -9,18 +9,14 @@ import * as listAction from '../list/action'
 export default class Search extends Component {
     constructor(props) {
         super(props)
-        this.state = { focus: false }
     }
     onFocus() {
         store.dispatch(listAction.show())
-        this.setState({ focus: true })
-    }
-    onBlur() {
-        this.setState({ focus: false })
     }
     render() {
+        const { show } = this.props.list.toJS()
         return (
-            <label id="search-wrap" htmlFor="search" className={classNames({focus: this.state.focus})}>
+            <label id="search-wrap" htmlFor="search" className={classNames({focus: show})}>
                 <i className="fa fa-search"></i>
                 <input id="search" type="text" placeholder="搜索..." onFocus={() => this.onFocus()} onBlur={() => this.onBlur()} />
             </label>
@@ -29,5 +25,7 @@ export default class Search extends Component {
 }
 
 export default connect(function(state) {
-    return state
+    return {
+        list: state.list
+    }
 })(Search)

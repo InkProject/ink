@@ -49,9 +49,9 @@ class Editor extends Component {
         const width = window.innerWidth ||
             document.documentElement.clientWidth ||
             document.body.clientWidth
-        if (width > 750) {
-            this.contentEditor.renderer.setPadding((width - 750) / 2)
-            this.configEditor.renderer.setPadding((width - 750) / 2)
+        if (width > 800) {
+            this.contentEditor.renderer.setPadding((width - 800) / 2)
+            this.configEditor.renderer.setPadding((width - 800) / 2)
         }
         this.setEditorStyle(this.contentEditor)
         this.setEditorStyle(this.configEditor)
@@ -218,7 +218,7 @@ class Editor extends Component {
             if (currentScrollTop <= -100) {
                 const opacity = 1 - (currentScrollTop + 200) / 100
                 headerElem.style.opacity = opacity
-                headerElem.style.display = 'block'
+                headerElem.style.display = 'flex'
             } else {
                 headerElem.style.opacity = 0
                 headerElem.style.display = 'none'
@@ -324,7 +324,7 @@ class Editor extends Component {
         const menu = this.props.menu
         return (
             <div className="editor-wrap">
-                <Header title={editor.get('title')} tags={editor.get('tags')} edit={this.state.configMode} onClick={() => this.switchConfigMode()} />
+                <Header title={editor.get('title')} tags={editor.get('tags').toJS()} edit={this.state.configMode} onClick={() => this.switchConfigMode()} />
                 <ul id="editor-toolbar" className={classNames({hide: !this.state.toolbar.show, select: this.state.toolbar.selectMode})}>
                     <li className="show"><i className={classNames('fa', {'fa-plus': !this.state.toolbar.selectMode}, {'fa-align-right': this.state.toolbar.selectMode})}></i></li>
                     {

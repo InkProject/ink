@@ -73,6 +73,8 @@ func Serve() {
 	editorWeb.Post("/articles", ApiCreateArticle)
 	editorWeb.Put("/articles/:id", ApiSaveArticle)
 	editorWeb.Delete("/articles/:id", ApiRemoveArticle)
+	editorWeb.Get("/config", ApiGetConfig)
+	editorWeb.Put("/config", ApiSaveConfig)
 	editorWeb.Post("/upload", ApiUploadFile)
 	editorWeb.Use(ink.Cors)
 	editorWeb.Get("*", ink.Static(filepath.Join("editor/assets")))
