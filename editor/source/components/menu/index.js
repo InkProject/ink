@@ -27,28 +27,27 @@ class Menu extends Component {
         const path = this.props.routing.location.pathname
         return (
             <div id="menu" className={classNames({close: !show})}>
-                <ul className="head">
-                    <li onClick={this.onChangeFocusMode.bind(this)}>
-                        <button className={classNames('button', 'button-circle', 'focus')}>
-                            <i className={classNames('fa', {'fa-dot-circle-o': focusMode, 'fa-circle-o': !focusMode})}></i>
-                        </button>
-                    </li>
-                    <li><button className="button button-circle theme"><i className="fa fa-moon-o"></i></button></li>
-                </ul>
                 <ul className="tool">
-                    <li>
-                        <button className="button button-circle inbox" onClick={this.onInboxClick.bind(this)}>
+                    <li className="inbox">
+                        <button className="button button-circle" onClick={this.onInboxClick.bind(this)}>
                             <i className={classNames('fa', {['fa-'+(show?'plus':'inbox')]: true})}></i>
                         </button>
                     </li>
-                    <li>
+                    <li className="focus" onClick={this.onChangeFocusMode.bind(this)}>
+                        <button className={classNames('button', 'button-circle')}>
+                            <i className={classNames('fa', {'fa-dot-circle-o': focusMode, 'fa-circle-o': !focusMode})}></i>
+                        </button>
+                    </li>
+                    <li className="fullscreen"><button className="button button-circle"><i className="fa fa-crop"></i></button></li>
+                    <li className="theme"><button className="button button-circle"><i className="fa fa-moon-o"></i></button></li>
+                    <li className="setting">
                         <Link to="/edit/config">
-                            <button className={classNames('button', 'button-circle', 'setting', {'active': path == '/edit/config'})}><i className="fa fa-wrench"></i></button>
+                            <button className={classNames('button', 'button-circle', {'active': path == '/edit/config'})}><i className="fa fa-wrench"></i></button>
                         </Link>
                     </li>
-                    <li>
+                    <li className="help">
                         <Link to="/edit/help">
-                            <button className={classNames('button', 'button-circle', 'help', {'active': path == '/edit/help'})}><i className="fa fa-hashtag"></i></button>
+                            <button className={classNames('button', 'button-circle', {'active': path == '/edit/help'})}><i className="fa fa-hashtag"></i></button>
                         </Link>
                     </li>
                 </ul>

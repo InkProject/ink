@@ -11,7 +11,6 @@ import { connect } from 'react-redux'
 import Menu from './components/menu'
 import List from './components/list'
 import Editor from './components/editor'
-import Search from './components/search'
 import Toolbar from './components/toolbar'
 import Modal from './components/modal'
 import Tooltip from './components/tooltip'
@@ -31,7 +30,6 @@ class App extends Component {
                 <Tooltip />
                 <Menu />
                 <List />
-                <Search />
                 <Toolbar />
                 { this.props.Welcome || this.props.Editor }
             </div>

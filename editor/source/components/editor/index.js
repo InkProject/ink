@@ -109,7 +109,7 @@ class Editor extends Component {
         // editor.setKeyboardHandler('ace/keyboard/vim')
         editor.setOptions(editorOption)
         editor.renderer.setScrollMargin(200, 200)
-        editor.container.style.lineHeight = 1.6
+        editor.container.style.lineHeight = 1.7
         editor.$blockScrolling = Infinity
         editor.on('focus', () =>
             this.props.listAction.hide()
@@ -170,7 +170,7 @@ class Editor extends Component {
           })
           return
       } else {
-          toolbarElem.style.top = cursorPos.top - 7 + 'px'
+          toolbarElem.style.top = cursorPos.top - 5 + 'px'
           toolbarElem.style.left = cursorPos.left - 55 + 'px'
           this.mergeState({
               toolbar: {selectMode: false}
