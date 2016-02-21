@@ -8,6 +8,8 @@ import * as listAction from '../list/action'
 import * as menuAction from '../menu/action'
 import * as util from '../util'
 
+import _ from 'lodash'
+
 class Menu extends Component {
     onInboxClick() {
         if (this.props.list.get('show')) {
@@ -20,6 +22,29 @@ class Menu extends Component {
         const focusMode = store.getState().menu.get('focusMode')
         store.dispatch(menuAction.changeFocusMode(!focusMode))
         if (!focusMode) store.dispatch(util.showTip('auto', '切换到专注模式'))
+    }
+    onFullscreen() {
+        if ((document.fullScreenElement && document.fullScreenElement !== null) ||
+            (!document.mozFullScreen && !document.webkitIsFullScreen)) {
+            if (document.documentElement.requestFullScreen) {
+                document.documentElement.requestFullScreen()
+            } else if (document.documentElement.mozRequestFullScreen) {
+                document.documentElement.mozRequestFullScreen()
+            } else if (document.documentElement.webkitRequestFullScreen) {
+                document.documentElement.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT)
+            }
+            _.delay(() => {
+                store.dispatch(util.showTip('auto', '缩放页面以获得最佳视觉体验'))
+            }, 5000)
+        } else {
+            if (document.cancelFullScreen) {
+                document.cancelFullScreen()
+            } else if (document.mozCancelFullScreen) {
+                document.mozCancelFullScreen()
+            } else if (document.webkitCancelFullScreen) {
+                document.webkitCancelFullScreen()
+            }
+        }
     }
     render() {
         const { show } = this.props.list.toJS()
@@ -38,7 +63,7 @@ class Menu extends Component {
                             <i className={classNames('fa', {'fa-dot-circle-o': focusMode, 'fa-circle-o': !focusMode})}></i>
                         </button>
                     </li>
-                    <li className="fullscreen"><button className="button button-circle"><i className="fa fa-crop"></i></button></li>
+                    <li className="fullscreen" onClick={this.onFullscreen.bind(this)}><button className="button button-circle"><i className="fa fa-crop"></i></button></li>
                     <li className="theme"><button className="button button-circle"><i className="fa fa-moon-o"></i></button></li>
                     <li className="setting">
                         <Link to="/edit/config">

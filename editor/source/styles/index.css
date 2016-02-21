@@ -71,7 +71,6 @@ button {
     z-index: 9999;
     display: flex;
     justify-content: center;
-    pointer-events: none;
     &.error {
         .content {
             background-color: #980000;
@@ -79,7 +78,6 @@ button {
     }
     .content {
         @mixin shadow;
-        @mixin hover;
         padding: 8px 18px;
         text-align: center;
         color: white;
@@ -93,6 +91,11 @@ button {
         i {
             font-size: 20px;
         }
+        .action {
+            margin-left: 10px;
+            cursor: pointer;
+            text-decoration: underline;
+        }
     }
 }
 
@@ -101,7 +104,7 @@ button {
     position: absolute;
     left: 0;
     top: 0;
-    z-index: 3;
+    z-index: 4;
     .theme, .focus, .fullscreen {
         display: none;
     }
@@ -149,7 +152,7 @@ button {
     right: 0;
     top: 0;
     bottom: 0;
-    z-index: 2;
+    z-index: 3;
     background-color: #fff;
     .logo {
         opacity: 0.7;
@@ -198,30 +201,41 @@ button {
                 }
             }
         }
+        .empty {
+            font-size: 90px;
+            margin: 0 auto;
+            width: 100%;
+            text-align: center;
+            opacity: 0.08;
+            margin-top: 50px;
+            text-shadow: 0 5px rgba(0,0,0,0.3);
+        }
         .list-nav {
             margin-top: 60px;
             overflow: auto;
             justify-content: center;
             display: flex;
             align-items: center;
+            font-weight: bold;
             li {
                 padding: 10px 17px;
                 margin: 20px;
                 color: #555;
                 @mixin hover;
                 .count {
-                    font-size: 12px;
                     color: #aaa;
                     margin-left: 5px;
                 }
                 .fa {
                     margin-right: 7px;
+                    font-size: 16px;
                 }
                 &.selected {
                     color: white;
                     @mixin shadow;
                     border-radius: 3px;
                     background-color: #444;
+                    text-shadow: 0 2px rgba(0,0,0,0.1);
                 }
             }
         }
@@ -236,18 +250,16 @@ button {
             .item {
                 padding: 20px 20px;
                 font-size: 16px;
-                /*border-bottom: 1px dashed #ddd;*/
                 display: flex;
                 justify-content: space-between;
                 border-radius: 4px;
+                margin-bottom: 10px;
                 &:hover {
                     background-color: #f9f9f9;
                 }
                 &.selected {
-                    /*background-color: #f5f5f5;*/
                     .title {
-                        color: #000;
-                        /*border-left: 3px solid #702500;*/
+                        color: #555;
                     }
                 }
                 .title {
@@ -256,8 +268,10 @@ button {
                     padding-left: 9px;
                     border-left: 4px solid transparent;
                     box-sizing: border-box;
+                    font-weight: bold;
                 }
                 .date {
+                    font-size: 14px;
                     color: #bbb;
                 }
             }
@@ -269,11 +283,15 @@ button {
             flex-wrap: wrap;
             justify-content: center;
             li {
-                @mixin hover;
-                font-size: 18px;
+                font-size: 16px;
                 font-weight: bold;
-                color: #ccc;
-                margin: 10px 20px;
+                color: #bbb;
+                padding: 10px 20px;
+                border-radius: 3px;
+                cursor: pointer;
+                &:hover {
+                    background-color: #f9f9f9;
+                }
             }
         }
     }
@@ -284,7 +302,7 @@ button {
     position: fixed;
     right: 0;
     top: 0;
-    z-index: 2;
+    z-index: 4;
     float: right;
     li {
         float: right;

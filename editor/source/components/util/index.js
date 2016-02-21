@@ -6,31 +6,37 @@ function toogleTip({
     show = true,
     error = false,
     loading = false,
-    content = ''
+    content = '',
+    action = null
 }) {
     return {
         type: ActionType.UTIL_SHOW_TIP,
         loading,
         show,
         error,
-        content
+        content,
+        action
     }
 }
 
 let tooltipTimeout = null
 
-export function showTip(type, content) {
+export function showTip(type, content, action) {
+    const calcTimeout = (content) => {
+        return content.length * 350
+    }
     return dispatch => {
         if (type === 'auto') {
             dispatch(toogleTip({
-                content
+                content,
+                action
             }))
             clearTimeout(tooltipTimeout)
             tooltipTimeout = setTimeout(function() {
                 dispatch(toogleTip({
                     show: false
                 }))
-            }, 2000)
+            }, calcTimeout(content))
         } else if (type === 'load') {
             dispatch(toogleTip({
                 loading: true,
@@ -50,7 +56,7 @@ export function showTip(type, content) {
                 dispatch(toogleTip({
                     show: false
                 }))
-            }, 2000)
+            }, calcTimeout(content))
         }
     }
 }

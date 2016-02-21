@@ -57,6 +57,38 @@ class Editor extends Component {
         this.setEditorStyle(this.configEditor)
         _.delay(this.showToolbar.bind(this), 100)
     }
+    getStorageItem(id) {
+        let editData = null
+        const editStr = localStorage.getItem('edit')
+        try {
+            editData = JSON.parse(editStr)
+        } catch(err) {}
+        if (editData) {
+            return editData[id] || null
+        }
+        return null
+    }
+    setStorageItem(id, data) {
+        let editData = null
+        const editStr = localStorage.getItem('edit')
+        try {
+            editData = JSON.parse(editStr)
+        } catch(err) {}
+        if (!editData) editData = {}
+        editData[id] = data
+        localStorage.setItem('edit', JSON.stringify(editData))
+    }
+    removeStorageItem(id) {
+        let editData = null
+        const editStr = localStorage.getItem('edit')
+        try {
+            editData = JSON.parse(editStr)
+        } catch(err) {}
+        if (editData && editData[id]) {
+            delete editData[id]
+        }
+        localStorage.setItem('edit', JSON.stringify(editData))
+    }
     componentDidUpdate(prevProps, prevState) {
         const openId = this.props.params.id
         if (this.props.editor.get('id') != openId) {
@@ -85,9 +117,29 @@ class Editor extends Component {
                     break
             }
         }
-        if (!prevProps || this.props.editor.get('id') != prevProps.editor.get('id')) {
-            this.contentEditor.setValue(this.props.editor.get('content') || '', -1)
-            this.configEditor.setValue(this.props.editor.get('config') || '', -1)
+        const currentId = this.props.editor.get('id')
+        if (!prevProps || currentId != prevProps.editor.get('id')) {
+            const editData = this.getStorageItem(currentId)
+            if (editData && editData.id) {
+                if (currentId == editData.id) {
+                    this.props.util.showTip('auto', '已恢复未保存编辑', {
+                        button: '撤销',
+                        callback: () => {
+                            this.contentEditor.setValue(this.props.editor.get('content') || '', -1)
+                            this.configEditor.setValue(this.props.editor.get('config') || '', -1)
+                            this.setState({configMode: false})
+                            this.removeStorageItem(currentId)
+                            this.props.util.showTip('auto', '已还原编辑')
+                        }
+                    })
+                    this.contentEditor.session.setValue(editData.content || '', -1)
+                    this.configEditor.session.setValue(editData.config || '', -1)
+                    this.setState({configMode: false})
+                    return
+                }
+            }
+            this.contentEditor.session.setValue(this.props.editor.get('content') || '', -1)
+            this.configEditor.session.setValue(this.props.editor.get('config') || '', -1)
             this.setState({configMode: false})
         }
     }
@@ -233,14 +285,27 @@ class Editor extends Component {
         this.componentDidUpdate()
     }
     onEditorChange() {
+        let origin = ''
+        let current = ''
+        const originConfig = _.trim(this.props.editor.get('config'))
+        const originContent = _.trim(this.props.editor.get('content'))
+        const currentConfig = _.trim(this.configEditor.getValue())
+        const currentContent = _.trim(this.contentEditor.getValue())
         if (this.notArticle()) {
-            const current = _.trim(this.contentEditor.getValue())
-            this.props.editorAction.setCurrent(current)
+            current = _.trim(this.contentEditor.getValue())
+            origin = _.trim(originContent)
         } else {
-            const config = _.trim(this.configEditor.getValue())
-            const content = _.trim(this.contentEditor.getValue())
-            const current = `${_.trim(config)}\n\n---\n\n${_.trim(content)}`
-            this.props.editorAction.setCurrent(current)
+            current = `${currentConfig}\n\n---\n\n${currentContent}`
+            origin = `${originConfig}\n\n---\n\n${originContent}`
+        }
+        this.props.editorAction.setCurrent(current)
+        const currentId = this.props.editor.get('id')
+        if (origin != current) {
+            this.setStorageItem(currentId, {
+              id: currentId,
+              config: currentConfig,
+              content: currentContent
+            })
         }
     }
     moveContentEditorCursor(row, column) {

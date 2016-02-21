@@ -26,7 +26,8 @@ export default function list(state = Immutable.fromJS({
                     name: item.Name,
                     title: item.Article ? item.Article.Title : '未命名标题',
                     preview: item.Article ? item.Article.Preview : '',
-                    draft: item.Article ? item.Article.Draft : false
+                    draft: item.Article ? item.Article.Draft : false,
+                    date: item.Date
                 }
             })
             const newState = state.set('tags', tagMap)

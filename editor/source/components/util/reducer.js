@@ -7,7 +7,8 @@ export default function util(state = Immutable.fromJS({
         loading: false,
         show: false,
         error: false,
-        content: ''
+        content: '',
+        action: null
     }
 }), action) {
     switch (action.type) {
@@ -17,7 +18,8 @@ export default function util(state = Immutable.fromJS({
                     show: action.show,
                     error: action.error,
                     loading: action.loading,
-                    content: action.content
+                    content: action.content,
+                    action: action.action
                 }
             })
         default:

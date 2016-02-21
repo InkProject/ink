@@ -1,6 +1,8 @@
 import React from 'react'
 import Component from '../index'
 import classNames from 'classnames'
+import moment from 'moment'
+moment.locale('zh-cn')
 import _ from 'lodash'
 
 import { connect } from 'react-redux'
@@ -30,8 +32,11 @@ class List extends Component {
     render() {
         const { list, editor } = this.props
         const countObj = _.countBy(list.get('data').toJS(), 'draft')
-        const draftCount = countObj['true']
-        const nonDraftCount = countObj['false']
+        const draftCount = countObj['true'] || 0
+        const nonDraftCount = countObj['false'] || 0
+        const tagCount = Object.keys(list.get('tags')).length
+        const hideEmpty = nonDraftCount && this.state.selected == 'article' ||
+          draftCount && this.state.selected == 'draft' || tagCount && this.state.selected == 'tags'
         return (
             <div id="list-wrap" onClick={this.onClickList.bind(this)} className={classNames({hide: !list.get('show')})}>
                 <img src={require('../../../assets/logo.png')} className="logo" />
@@ -43,14 +48,16 @@ class List extends Component {
                     <ul className="list-nav">
                         <li className={classNames('item', 'article', {selected: this.state.selected == 'article'})} onClick={this.onClickNav.bind(this, 'article')}><i className="fa fa-paper-plane-o"></i>文章<span className="count">({nonDraftCount})</span></li>
                         <li className={classNames('item', 'draft', {selected: this.state.selected == 'draft'})} onClick={this.onClickNav.bind(this, 'draft')}><i className="fa fa-inbox"></i>草稿<span className="count">({draftCount})</span></li>
-                    <li className={classNames('item', 'tags', {selected: this.state.selected == 'tags'})} onClick={this.onClickNav.bind(this, 'tags')}><i className="fa fa-tags"></i>标签<span className="count">({Object.keys(list.get('tags')).length})</span></li>
+                    <li className={classNames('item', 'tags', {selected: this.state.selected == 'tags'})} onClick={this.onClickNav.bind(this, 'tags')}><i className="fa fa-tags"></i>标签<span className="count">({tagCount})</span></li>
                     </ul>
+                    <i className={classNames('empty', 'fa', 'fa-inbox', {hide: hideEmpty})}></i>
                     <ul className={classNames('list-content', {hide: this.state.selected == 'tags'})}>{
                         list.get('data').map(item => {
+                            const date = moment(item.get('date')).fromNow()
                             return <Link to={`/edit/${item.get('id')}`}>
                                 <li className={classNames('item hover', {selected: item.get('id') == editor.get('id'), draft: item.get('draft'), article: !item.get('draft')})} key={item.get('id')}>
                                 <div className="title">{item.get('title')}</div>
-                                <div className="date">2015/12/11</div>
+                                <div className="date">{date}</div>
                                 </li>
                             </Link>
                         })
