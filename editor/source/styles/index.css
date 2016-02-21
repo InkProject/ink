@@ -391,7 +391,7 @@ button {
     .ace_line_group {
       border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
       box-sizing: border-box;
-      transition: .5s all ease;
+      transition: .1s all ease;
     }
     .ace_cursor {
         color: #888;

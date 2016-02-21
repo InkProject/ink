@@ -129,7 +129,7 @@ class Editor extends Component {
                             this.configEditor.setValue(this.props.editor.get('config') || '', -1)
                             this.setState({configMode: false})
                             this.removeStorageItem(currentId)
-                            this.props.util.showTip('auto', '已还原编辑')
+                            this.props.util.showTip('auto', '已还原编辑前内容')
                         }
                     })
                     this.contentEditor.session.setValue(editData.content || '', -1)
@@ -319,6 +319,14 @@ class Editor extends Component {
         }, 200)
         this.contentEditor.focus()
     }
+    focusEditor() {
+        if (this.state.configMode) {
+            this.contentEditor.focus()
+            alert(1)
+        } else {
+            this.configEditor.focus()
+        }
+    }
     onFileSelect(event) {
         this.props.editorAction.uploadImage(event.currentTarget.files[0], (path) => {
             this.contentEditor.insert(`![](${path})`)
@@ -360,7 +368,6 @@ class Editor extends Component {
                     contentSelection.selectTo(cursor.row, cursor.column + selectedText.length)
                     return
                 }
-
             case 'italic':
                 {
                     this.contentEditor.insert(`*${selectedText}*`)

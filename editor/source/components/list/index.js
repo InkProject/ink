@@ -14,20 +14,50 @@ class List extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            selected: 'article'
+            selected: 'article',
+            filterObj: {}
         }
     }
     componentWillMount() {
         store.dispatch(listAction.fetch())
     }
+    componentDidUpdate() {
+        this.refs.search.focus()
+    }
     onClickList() {
         store.dispatch(listAction.hide())
+        this.clearSeacrh()
     }
     onClickNav(item, event) {
         this.setState({
             selected: item
         })
         event.stopPropagation()
+    }
+    onSearch() {
+        const keyword = _.trim(this.refs.search.value).toLowerCase()
+        const searchObj = this.props.list.get('searchObj')
+        let filterObj = {}
+        _.each(searchObj, (item, id) => {
+            if (item.indexOf(keyword) < 0) {
+                filterObj[id] = true
+            }
+        })
+        this.setState({
+            filterObj
+        })
+    }
+    setSeacrh(tag, event) {
+        this.refs.search.value = tag
+        this.onSearch()
+        this.setState({
+            selected: 'article'
+        })
+        event.stopPropagation()
+    }
+    clearSeacrh() {
+        this.refs.search.value = ''
+        this.onSearch()
     }
     render() {
         const { list, editor } = this.props
@@ -42,7 +72,7 @@ class List extends Component {
                 <img src={require('../../../assets/logo.png')} className="logo" />
                 <label className="search-wrap" htmlFor="search">
                     <i className="fa fa-search"></i>
-                <input id="search" type="text" placeholder="关键字搜索..." />
+                <input ref="search" id="search" type="text" placeholder="关键字搜索..." onChange={this.onSearch.bind(this)} />
                 </label>
                 <div className={classNames('list', {[this.state.selected]: true})}>
                     <ul className="list-nav">
@@ -54,7 +84,7 @@ class List extends Component {
                     <ul className={classNames('list-content', {hide: this.state.selected == 'tags'})}>{
                         list.get('data').map(item => {
                             const date = moment(item.get('date')).fromNow()
-                            return <Link to={`/edit/${item.get('id')}`}>
+                            return <Link to={`/edit/${item.get('id')}`} className={classNames({hide: this.state.filterObj[item.get('id')]})}>
                                 <li className={classNames('item hover', {selected: item.get('id') == editor.get('id'), draft: item.get('draft'), article: !item.get('draft')})} key={item.get('id')}>
                                 <div className="title">{item.get('title')}</div>
                                 <div className="date">{date}</div>
@@ -64,7 +94,7 @@ class List extends Component {
                     }</ul>
                     <ul className={classNames('tags-content', {hide: this.state.selected != 'tags'})}>{
                         Object.keys(list.get('tags')).map((tag, count) => {
-                            return <li className="item">{tag}</li>
+                            return <li className="item" onClick={this.setSeacrh.bind(this, tag)}>{tag}</li>
                         })
                     }</ul>
                 </div>

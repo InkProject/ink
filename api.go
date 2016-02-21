@@ -9,6 +9,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"os"
+	"time"
 	"path/filepath"
 	"strings"
 	"mime/multipart"
@@ -27,6 +28,7 @@ type OldArticle struct {
 type CacheArticleInfo struct {
 	Name string
 	Path string
+	Date time.Time
 	Article *ArticleConfig
 }
 
@@ -67,6 +69,7 @@ func UpdateArticleCache() {
 			articleCache[string(id)] = CacheArticleInfo{
 				Name:    fileName,
 				Path:    path,
+				Date:    ParseDate(config.Date),
 				Article: config,
 			}
 		}
@@ -221,18 +224,18 @@ func ApiSaveConfig(ctx *ink.Context) {
 	replyJSON(ctx, http.StatusOK, nil)
 }
 
-func ApiRenameArticle(ctx *ink.Context) {
-	// Rename
-	cacheArticle, ok := articleCache[ctx.Param["id"]]
-	if !ok {
-		replyJSON(ctx, http.StatusNotFound, "Not Found")
-		return
-	}
-	oldPath := cacheArticle.(map[string]interface{})["path"].(string)
-	newPath := filepath.Join(sourcePath, newArticle.Name+".md")
-	err = os.Rename(oldPath, newPath)
-	if err != nil {
-		replyJSON(ctx, http.StatusInternalServerError, err.Error())
-		return
-	}
-}
+// func ApiRenameArticle(ctx *ink.Context) {
+// 	// Rename
+// 	cacheArticle, ok := articleCache[ctx.Param["id"]]
+// 	if !ok {
+// 		replyJSON(ctx, http.StatusNotFound, "Not Found")
+// 		return
+// 	}
+// 	oldPath := cacheArticle.(map[string]CacheArticleInfo)["path"].(string)
+// 	newPath := filepath.Join(sourcePath, newArticle.Name+".md")
+// 	err = os.Rename(oldPath, newPath)
+// 	if err != nil {
+// 		replyJSON(ctx, http.StatusInternalServerError, err.Error())
+// 		return
+// 	}
+// }
