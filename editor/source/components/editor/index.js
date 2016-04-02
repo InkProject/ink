@@ -55,7 +55,7 @@ class Editor extends Component {
         }
         this.setEditorStyle(this.contentEditor)
         this.setEditorStyle(this.configEditor)
-        _.delay(this.showToolbar.bind(this), 100)
+        this.changeToolbar()
     }
     getStorageItem(id) {
         let editData = null
@@ -264,7 +264,6 @@ class Editor extends Component {
             this.focusLine()
         })
         this.contentEditor.session.on('changeScrollTop', () => {
-            _.delay(this.showToolbar.bind(this), 100)
             const currentScrollTop = this.contentEditor.session.getScrollTop()
             const headerElem = document.querySelector('#header')
             if (currentScrollTop <= -100) {
@@ -275,9 +274,9 @@ class Editor extends Component {
                 headerElem.style.opacity = 0
                 headerElem.style.display = 'none'
             }
+            this.changeToolbar()
         })
         const contentSelection = this.contentEditor.getSelection()
-        // contentSelection.on('changeSelection', this.changeToolbar.bind(this))
         contentSelection.on('changeCursor', this.changeToolbar.bind(this))
         // resize by window size
         this.resizeEditor()
@@ -307,6 +306,7 @@ class Editor extends Component {
               content: currentContent
             })
         }
+        this.changeToolbar()
     }
     moveContentEditorCursor(row, column) {
         const contentSelection = this.contentEditor.getSelection()

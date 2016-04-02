@@ -67,6 +67,7 @@ button {
     top: 0;
     height: 35px;
     position: fixed;
+    margin: 0 320px;
     margin-top: 20px;
     z-index: 9999;
     display: flex;
@@ -372,10 +373,10 @@ button {
 
 .content-editor-wrap.focus-mode #content-editor {
   .ace_line_group {
-      filter: blur(1px);
-      opacity: 0.3;
+      /*filter: blur(1px);*/
+      opacity: 0.2;
       &.no-blur {
-          filter: blur(0);
+          /*filter: blur(0);*/
           opacity: 1;
       }
   }
