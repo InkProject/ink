@@ -1,4 +1,4 @@
-title: "纸小墨指南"
+title: "简洁的静态博客构建工具 —— 纸小墨（InkPaper）"
 date: 2015-03-01 18:00:00 +0800
 update: 2015-11-06 10:00:00 +0800
 author: me
@@ -6,32 +6,139 @@ cover: "-/images/example.png"
 tags:
     - 设计
     - 写作
-    - 技术
-    - 文档
 preview: 纸小墨（InkPaper）是一个使用GO语言编写的静态博客构建工具，可以快速搭建博客网站。优点是无依赖跨平台，配置简单构建快速，注重简洁易用与排版优化
 
 ---
 
-九月三十日早晨那天，家里的小猫去世了，很突然。
+## 纸小墨简介
 
-那天我在厦门的好朋友家，听到**家里人打电话过**来，爸爸说他回老家的火车票被取消了，我觉得很奇怪，追问半天就是说被取消了，然后打电话给妈，问了好几遍她才说是小猫去世了，说不是个好兆头，爸取消了行程，返程机票也退了。
+纸小墨（InkPaper）是一个使用GO语言编写的静态博客构建工具，可以快速搭建博客网站。优点是无依赖跨平台，配置简单构建快速，注重于简洁易用与排版优化。
 
-听到这个消息当时很难受，一是小猫在我不在时就这样突然走了，觉得难过又觉得奇怪，二是让我原本觉得慢慢开放的父母依然还是非常迷信，电话里我沉默了好久。
+![纸小墨 - 简洁的静态博客构建工具](-/images/example.png)
 
-小猫是三个月前从同学家抱回来的，他家大猫咪生了三个小猫，我抱回来的这只全身雪白，特别小。把它放在开了洞的鞋盒子里，骑车带了回来。刚开始几天它很胆小，躲在看不见的地方，后来慢慢胆子大了，才开始自己吃东西。我和她起名叫喵帕斯，来源于悠哉日常大王里主角那句很萌的口头禅。
+### 开始上手
+- 下载并解压 [Ink](http://www.inkpaper.io/)，运行命令 `ink preview`
+- 使用浏览器访问 `http://localhost:8000` 预览
 
-给喵帕斯买了小猫窝，幼年猫粮和装吃的小盆。它很喜欢那个小窝，每天玩累了就自己躺在里面，软软的，什么奇怪的睡姿都有，我特别喜欢在它呼噜呼噜时去摸它软软的肚皮。有段时间受不了它到处拉屎，买了猫砂，刨猫砂的声音滋啦滋啦的，觉得好玩又可恨 >_< 。
+### 配置网站
+编辑`config.yml`，使用如下格式
 
-每天回家，喵帕斯都会跑过来喵喵叫，要我在它的小盆子里补充猫粮和水，因为它的小窝在床底边，每天睡觉时，它总会很好奇地抱住我的脚啃，不放，然后我就会甩来甩去挣脱掉。
+``` yaml
+site:
+    title: 网站标题
+    subtitle: 网站子标题
+    limit: 每页可显示的文章数目
+    theme: 网站主题目录
+    comment: 评论插件变量(默认为Disqus账户名)
+    root: 网站根路径 #可选
+    lang: 网站语言 #支持en, zh，可在theme/lang.yml配置
+    url: 网站链接 #用于RSS生成
+    link: 文章链接形式 #默认为{title}.html，支持{year},{month},{day},{title}变量
 
-喵帕斯偶尔会出去，在外面很近的地方逛逛，我每天跑步时它总会跟我出去，然后在马路边看着我跑远，它便自己回去。有一晚我睡觉时习惯性的去摸猫窝，没摸到它，才发现那晚它跑出去没有回来，各种猜测，怕它在外面被人捉走或是跑太远迷路回不来了。找遍了附近没发现踪影，第二天早上我把猫粮放在院子里，期待它回来看得到，不会饿着。
+authors:
+    作者ID:
+        name: 作者名称
+        intro: 作者简介
+        avatar: 作者头像路径
 
-第二天晚上下班回家，在家附近的马路边听到喵喵的声音，一回头，喵帕斯居然向我跑了过来，我一把抱住了它跑回了家，特别感动它认出了是我。给小盆里放满了猫粮，它喵呜喵呜地使劲吃，身上还有树叶屑，看来那晚它真的迷路了，一天多没吃东西，饿坏了。
+build:
+    port: 预览端口
+    copy:
+        - 构建时将会复制的目录/文件
+    publish: |
+        ink publish 命令将会执行的脚本
+```
 
-三十日那天早晨，喵帕斯去世了，这次是再也回不来了。
+### 创建文章
+在`source`目录中建立任意`.md`文件（可置于子文件夹），使用如下格式
 
-家里人说它早上还好好的，活蹦乱跳，像往常一样开门就先跑出去玩，然后跑了回来。早晨突然听到它在沙发底下叫了几声，声音很大很不对劲，发现它时就躺着了，等抱出来就不怎么动了，过了一会屎尿失禁，肚皮起伏喘着气，然后就没力气了，前后只不过几分钟。早上没喂任何东西，前晚上像往常一样喂的馒头碎末拌的妙鲜包那种湿猫粮。
+``` yaml
+title: 文章标题
+date: 年-月-日 时:分:秒 #创建时间，可加时区如" +0800"
+update: 年-月-日 时:分:秒 #更新时间，可选，可加时区如" +0800"
+author: 作者ID
+cover: 题图链接 #可选
+draft: false #草稿，可选
+top: false #置顶文章，可选
+preview: 文章预览，也可在正文中使用<!--more-->分割 #可选
+tags: #可选
+    - 标签1
+    - 标签2
 
-不知道原因，毫无预兆的走了。后悔当时我没能在身边陪着它，只希望它能在那边过得好，没有任何痛苦。再见了，喵帕斯，以后若再有小猫咪，我会更加努力照顾好它。
+---
 
-好的，我明白了一切，但是没有给我最重组的答案，不是吗？
+Markdown格式的正文
+```
+
+### 发布博客
+- 在博客目录下运行`ink publish`命令自动构建博客并发布
+- 或运行`ink build`命令将生成的`public`目录下的内容手动部署
+
+> Tips: 当使用`ink preview`命令时，`source`目录中文件发生变化，会自动重新构建博客，刷新浏览器以更新。
+
+## 定制支持
+
+### 修改主题
+
+默认主题使用coffee, less编写，修改对应文件后，需要在`theme`目录下运行`gulp`命令重新编译，使用`ink build`命令构建时默认将会复制js, css目录到`public`目录下。
+
+页面包含`page.html`（文章列表）及`article.html`（文章）等，所有页面均支持[GO语言HTML模板](http://golang.org/pkg/html/template/)语法，可引用变量。
+
+### 添加页面
+
+在`source`目录下创建的任意`.html`文件将被复制，这些文件中可引用`config.yml`中site字段下的所有变量。
+
+### 博客迁移(Beta)
+
+Ink提供简单的Jeklly/Hexo博客文章格式转换，使用命令：
+``` shell
+ink convert /path/_posts
+```
+
+### 源码编译
+
+本地运行
+
+1. 配置[GO](http://golang.org/doc/install)语言环境
+2. 运行命令`go get github.com/InkProject/ink`，编译并获取ink
+3. 运行命令`ink preview $GOPATH/src/github.com/InkProject/ink/template`，预览博客
+
+Docker构建（示例）
+
+1. Clone源码 `git clone git@github.com:InkProject/ink.git`
+2. 源码目录下构建镜像`docker build -t ink .`
+3. 运行容器`docker run -p 8000:80 ink`
+
+## 主题
+
+- Pure: [https://github.com/Xdatk/ink-pure](https://github.com/Xdatk/ink-pure)
+- Werttin: [https://github.com/Skimige/ink_Werttin](https://github.com/Skimige/ink_Werttin)
+
+## 开源协议
+[CC Attribution-NonCommercial License 4.0](https://creativecommons.org/licenses/by-nc/4.0/)
+
+## 反馈建议
+
+请报告至 [https://github.com/InkProject/ink/issues](https://github.com/InkProject/ink/issues)
+
+## 更新历史
+
+- [2015-08-15] 一些Bug修复，新增RSS订阅支持，主题改善
+- [2015-07-04] 数项Bug修复与主题改善，支持置顶，多语言，子模板
+- [2015-06-04] 编译更多平台版本，增加标签与存档页
+- [2015-03-01] Beta版本，基础功能完成
+
+## 更新计划
+
+- 排版深度优化
+- 扩展与插件支持
+
+## 他们正在使用
+
+- [http://www.inkpaper.io/blog/](http://www.inkpaper.io/blog/)
+- [https://hyper.sh/blog/](https://hyper.sh/blog/)
+- [http://wangsiyi.net/](http://wangsiyi.net/)
+- [http://lubia.cn/](http://lubia.cn/)
+- [http://ikevin.in/](http://ikevin.in/)
+- [http://bluepi0j.me/](http://bluepi0j.me/)
+- [http://leftcoding.com/](http://leftcoding.com/)
