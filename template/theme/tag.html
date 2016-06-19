@@ -24,15 +24,7 @@
                 <ul class="tag-list">
                     {{range .Tag}}
                     <li class="tag-item">
-                        <div class="tag-name">{{.Name}}<span class="tag-count"> ({{.Count}})</span></div>
-                        <ul class="article-list">
-                            {{range .Articles}}
-                            <li class="article-item">
-                                <span class="date">{{.Date}}</span>
-                                <a href="{{.Link}}">{{.Title}}</a>
-                            </li>
-                            {{end}}
-                        </ul>
+                        <a class="tag-name" href="{{$.Site.Root}}/tag/{{.Name}}/index.html">{{.Name}}<span class="tag-count"> ({{.Count}})</span></a>
                     </li>
                     {{end}}
                 </ul>
