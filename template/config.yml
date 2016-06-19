@@ -7,7 +7,7 @@ site:
     url: "http://www.inkpaper.io/blog"
     comment: username
     # logo: "-/images/avatar.jpg"
-    # link: "{title}.html"
+    # link: "{category}/{year}/{month}/{day}/{title}.html"
     # root: "/blog"
 
 authors:

@@ -1,12 +1,14 @@
 package main
 
 import (
-	"github.com/InkProject/blackfriday"
-	"gopkg.in/yaml.v2"
 	"html/template"
 	"io/ioutil"
 	"path/filepath"
 	"strings"
+	"time"
+
+	"github.com/InkProject/blackfriday"
+	"gopkg.in/yaml.v2"
 )
 
 type SiteConfig struct {
@@ -63,14 +65,17 @@ type ArticleConfig struct {
 type Article struct {
 	GlobalConfig
 	ArticleConfig
-	Date    int64
-	Update  int64
-	Author  AuthorConfig
-	Tags    []string
-	Preview template.HTML
-	Content template.HTML
-	Link    string
-	Config  interface{}
+	Time     time.Time
+	MTime    time.Time
+	Date     int64
+	Update   int64
+	Author   AuthorConfig
+	Category string
+	Tags     []string
+	Preview  template.HTML
+	Content  template.HTML
+	Link     string
+	Config   interface{}
 }
 
 type ThemeConfig struct {
@@ -185,19 +190,35 @@ func ParseArticle(markdownPath string) *Article {
 	article.Preview = config.Preview
 	article.Config = config.Config
 	article.Content = Parse(content)
-	article.Date = ParseDate(config.Date).Unix()
+	article.Time = ParseDate(config.Date)
+	article.Date = article.Time.Unix()
+	if config.Update != "" {
+		article.MTime = ParseDate(config.Update)
+		article.Update = article.MTime.Unix()
+	}
 	article.Title = config.Title
-	article.Tags = config.Tags
 	article.Topic = config.Topic
 	article.Draft = config.Draft
 	article.Top = config.Top
-	if config.Update != "" {
-		article.Update = ParseDate(config.Update).Unix()
-	}
 	if author, ok := globalConfig.Authors[config.Author]; ok {
 		author.Id = config.Author
 		author.Avatar = ReplaceRootFlag(author.Avatar)
 		article.Author = author
+	}
+	if len(config.Categories) > 0 {
+		article.Category = config.Categories[0]
+	} else {
+		article.Category = "misc"
+	}
+	tags := map[string]bool{}
+	alltags := append([]string{}, config.Tags...)
+	alltags = append(alltags, config.Categories...)
+	for _, tag := range alltags {
+		tags[tag] = true
+	}
+	article.Tags = []string{}
+	for tag := range tags {
+		article.Tags = append(article.Tags, tag)
 	}
 	// Support topic and cover field
 	if config.Cover != "" {

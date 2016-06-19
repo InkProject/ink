@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"github.com/gorilla/feeds"
 	"github.com/facebookgo/symwalk"
+	"github.com/gorilla/feeds"
 	"html/template"
 	"io/ioutil"
 	"os"
@@ -119,16 +119,23 @@ func Build() {
 			if article == nil || article.Draft {
 				return nil
 			}
+			var (
+				datePrefix = article.Time.Format("2006-01-02-")
+			)
 			// Generate page name
 			fileName := strings.TrimSuffix(strings.ToLower(filepath.Base(path)), ".md")
+			if strings.HasPrefix(fileName, datePrefix) {
+				fileName = fileName[len(datePrefix):]
+			}
+
 			Log("Building " + fileName)
 			// Genetate custom link
-			unixTime := time.Unix(article.Date, 0)
 			linkMap := map[string]string{
-				"{year}":  unixTime.Format("2006"),
-				"{month}": unixTime.Format("01"),
-				"{day}":   unixTime.Format("02"),
-				"{title}": fileName,
+				"{year}":     article.Time.Format("2006"),
+				"{month}":    article.Time.Format("01"),
+				"{day}":      article.Time.Format("02"),
+				"{category}": article.Category,
+				"{title}":    fileName,
 			}
 			var link string
 			if globalConfig.Site.Link == "" {
@@ -156,13 +163,13 @@ func Build() {
 				tagMap[tag] = append(tagMap[tag], *article)
 			}
 			// Get archive info
-			dateYear := unixTime.Format("2006")
+			dateYear := article.Time.Format("2006")
 			if _, ok := archiveMap[dateYear]; !ok {
 				archiveMap[dateYear] = make(Collections, 0)
 			}
 			articleInfo := ArticleInfo{
 				DetailDate: article.Date,
-				Date:       unixTime.Format("2006-01-02"),
+				Date:       article.Time.Format("2006-01-02"),
 				Title:      article.Title,
 				Link:       article.Link,
 				Top:        article.Top,
@@ -217,7 +224,7 @@ func Build() {
 			articleValue := article.(Article)
 			articleInfos = append(articleInfos, ArticleInfo{
 				DetailDate: articleValue.Date,
-				Date:       time.Unix(articleValue.Date, 0).Format("2006-01-02"),
+				Date:       articleValue.Time.Format("2006-01-02"),
 				Title:      articleValue.Title,
 				Link:       articleValue.Link,
 				Top:        articleValue.Top,
@@ -285,8 +292,8 @@ func GenerateRSS(articles Collections) {
 				Link:        &feeds.Link{Href: globalConfig.Site.Url + article.Link},
 				Description: string(article.Content),
 				Author:      &feeds.Author{article.Author.Name, ""},
-				Created:     time.Unix(article.Date, 0),
-				Updated:     time.Unix(article.Update, 0),
+				Created:     article.Time,
+				Updated:     article.MTime,
 			})
 		}
 		if atom, err := feed.ToAtom(); err == nil {
