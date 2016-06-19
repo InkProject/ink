@@ -52,14 +52,14 @@ func Fatal(info interface{}) {
 
 // Parse date by std date string
 func ParseDate(dateStr string) time.Time {
-	date, err := time.ParseInLocation(fmt.Sprintf(DATE_FORMAT), dateStr, time.Now().Location())
+	date, err := time.Parse(fmt.Sprintf(DATE_FORMAT_WITH_TIMEZONE), dateStr)
 	if err != nil {
-		date, err = time.ParseInLocation(fmt.Sprintf(DATE_FORMAT_WITH_TIMEZONE), dateStr, time.Now().Location())
+		date, err = time.ParseInLocation(fmt.Sprintf(DATE_FORMAT), dateStr, time.Now().Location())
 		if err != nil {
 			Fatal(err.Error())
 		}
 	}
-	return date.Local()
+	return date
 }
 
 // Check file if exist
