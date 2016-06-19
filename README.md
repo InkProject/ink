@@ -17,7 +17,7 @@ site:
     subtitle: Website Subtitle
     limit: Max Article Count Per Page
     theme: Website Theme Directory
-    disqus: Disqus Plugin Username
+    comment: Disqus Plugin Username
     root: Website Root Path #Optional
     lang: Website language #Support en, zh, Configurable in theme/lang.yml
 
