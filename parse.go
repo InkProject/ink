@@ -211,14 +211,14 @@ func ParseArticle(markdownPath string) *Article {
 		article.Category = "misc"
 	}
 	tags := map[string]bool{}
-	alltags := append([]string{}, config.Tags...)
-	alltags = append(alltags, config.Categories...)
-	for _, tag := range alltags {
+	article.Tags = config.Tags
+	for _, tag := range config.Tags {
 		tags[tag] = true
 	}
-	article.Tags = []string{}
-	for tag := range tags {
-		article.Tags = append(article.Tags, tag)
+	for _, cat := range config.Categories {
+		if _, ok := tags[cat]; !ok {
+			article.Tags = append(article.Tags, cat)
+		}
 	}
 	// Support topic and cover field
 	if config.Cover != "" {
