@@ -7,12 +7,12 @@ import (
 	"github.com/InkProject/ink.go"
 	"github.com/facebookgo/symwalk"
 	"io/ioutil"
+	"mime/multipart"
 	"net/http"
 	"os"
-	"time"
 	"path/filepath"
 	"strings"
-	"mime/multipart"
+	"time"
 	// "fmt"
 )
 
@@ -26,9 +26,9 @@ type OldArticle struct {
 }
 
 type CacheArticleInfo struct {
-	Name string
-	Path string
-	Date time.Time
+	Name    string
+	Path    string
+	Date    time.Time
 	Article *ArticleConfig
 }
 
@@ -128,7 +128,7 @@ func ApiCreateArticle(ctx *ink.Context) {
 		replyJSON(ctx, http.StatusInternalServerError, err.Error())
 		return
 	}
-	replyJSON(ctx, http.StatusOK, map[string]string {
+	replyJSON(ctx, http.StatusOK, map[string]string{
 		"id": hashPath(filePath),
 	})
 }
@@ -194,7 +194,7 @@ func ApiUploadFile(ctx *ink.Context) {
 		replyJSON(ctx, http.StatusInternalServerError, err.Error())
 		return
 	}
-	replyJSON(ctx, http.StatusOK, map[string]string {
+	replyJSON(ctx, http.StatusOK, map[string]string{
 		"path": "-/" + filepath.Join("images", article.Name, handler.Filename),
 	})
 }

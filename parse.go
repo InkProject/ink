@@ -72,6 +72,7 @@ type Article struct {
 	Author   AuthorConfig
 	Category string
 	Tags     []string
+	Markdown string
 	Preview  template.HTML
 	Content  template.HTML
 	Link     string
@@ -189,6 +190,7 @@ func ParseArticle(markdownPath string) *Article {
 	// Parse markdown content
 	article.Preview = config.Preview
 	article.Config = config.Config
+	article.Markdown = content
 	article.Content = Parse(content)
 	article.Time = ParseDate(config.Date)
 	article.Date = article.Time.Unix()

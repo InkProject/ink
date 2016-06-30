@@ -33,45 +33,50 @@ func main() {
 		{
 			Name:  "build",
 			Usage: "Generate blog to public folder",
-			Action: func(c *cli.Context) {
+			Action: func(c *cli.Context) error {
 				ParseGlobalConfigByCli(c, false)
 				Build()
+				return nil
 			},
 		},
 		{
 			Name:  "preview",
 			Usage: "Run in server mode to preview blog",
-			Action: func(c *cli.Context) {
+			Action: func(c *cli.Context) error {
 				ParseGlobalConfigByCli(c, true)
 				Build()
 				Watch()
 				Serve()
+				return nil
 			},
 		},
 		{
 			Name:  "publish",
 			Usage: "Generate blog to public folder and publish",
-			Action: func(c *cli.Context) {
+			Action: func(c *cli.Context) error {
 				ParseGlobalConfigByCli(c, false)
 				Build()
 				Publish()
+				return nil
 			},
 		},
 		{
 			Name:  "serve",
 			Usage: "Run in server mode to serve blog",
-			Action: func(c *cli.Context) {
+			Action: func(c *cli.Context) error {
 				ParseGlobalConfigByCli(c, true)
 				Build()
 				Watch()
 				Serve()
+				return nil
 			},
 		},
 		{
 			Name:  "convert",
 			Usage: "Convert Jekyll/Hexo post format to Ink format (Beta)",
-			Action: func(c *cli.Context) {
+			Action: func(c *cli.Context) error {
 				Convert(c)
+				return nil
 			},
 		},
 	}

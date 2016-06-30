@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"github.com/facebookgo/symwalk"
-	"github.com/gorilla/feeds"
 	"html/template"
 	"io/ioutil"
 	"os"
@@ -183,9 +182,12 @@ func Build() {
 	}
 	// Sort by date
 	sort.Sort(articles)
-	// Generate rss page
+	// Generate RSS page
 	wg.Add(1)
 	go GenerateRSS(articles)
+	// Generate article list JSON
+	wg.Add(1)
+	go GenerateJSON(articles)
 	// Render article
 	wg.Add(1)
 	go RenderArticles(articleTpl, articles)
@@ -265,46 +267,6 @@ func Build() {
 	endTime := time.Now()
 	usedTime := endTime.Sub(startTime)
 	fmt.Printf("\nFinished to build in public folder (%v)\n", usedTime)
-}
-
-// Generate rss page
-func GenerateRSS(articles Collections) {
-	defer wg.Done()
-	var feedArticles Collections
-	if len(articles) < globalConfig.Site.Limit {
-		feedArticles = articles
-	} else {
-		feedArticles = articles[0:globalConfig.Site.Limit]
-	}
-	if globalConfig.Site.Url != "" {
-		feed := &feeds.Feed{
-			Title:       globalConfig.Site.Title,
-			Link:        &feeds.Link{Href: globalConfig.Site.Url},
-			Description: globalConfig.Site.Subtitle,
-			Author:      &feeds.Author{globalConfig.Site.Title, ""},
-			Created:     time.Now(),
-		}
-		feed.Items = make([]*feeds.Item, 0)
-		for _, item := range feedArticles {
-			article := item.(Article)
-			feed.Items = append(feed.Items, &feeds.Item{
-				Title:       article.Title,
-				Link:        &feeds.Link{Href: globalConfig.Site.Url + article.Link},
-				Description: string(article.Content),
-				Author:      &feeds.Author{article.Author.Name, ""},
-				Created:     article.Time,
-				Updated:     article.MTime,
-			})
-		}
-		if atom, err := feed.ToAtom(); err == nil {
-			err := ioutil.WriteFile(filepath.Join(publicPath, "atom.xml"), []byte(atom), 0644)
-			if err != nil {
-				Fatal(err.Error())
-			}
-		} else {
-			Fatal(err.Error())
-		}
-	}
 }
 
 // Copy static files

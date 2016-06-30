@@ -3,9 +3,9 @@ package main
 import (
 	"fmt"
 	"github.com/InkProject/ink.go"
+	"github.com/facebookgo/symwalk"
 	"github.com/go-fsnotify/fsnotify"
 	"github.com/gorilla/websocket"
-	"github.com/facebookgo/symwalk"
 	"os"
 	"path/filepath"
 )
