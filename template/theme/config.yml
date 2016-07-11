@@ -1,7 +1,7 @@
 # Copied files to public folder when build
 copy:
     - bundle
-    - favicon.ico
+    - favicon.png
     - robots.txt
 # I18n Support
 lang:

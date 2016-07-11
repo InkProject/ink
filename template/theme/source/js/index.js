@@ -59,10 +59,16 @@ var timeSince = function(date) {
   return Math.floor(seconds) + timeSinceLang.second
 }
 
+
+
 var initSearch = function() {
-  $.getJSON('/index.json').then(function(articles) {
-    var db = lunr(function() {
+  var searchDom = $('#search')
+  if (!searchDom.length) return
+  var db = null
+  $.getJSON(root + '/index.json').then(function(articles) {
+    db = lunr(function() {
       this.field('title', { boost: 10 })
+      this.field('preview')
       this.field('content')
     })
     var tpl = function(title, preview, link) {
@@ -71,24 +77,26 @@ var initSearch = function() {
       .replace('{{link}}', link)
       .replace('{{preview}}', preview)
     }
-    articles.forEach(function(article, idx) {
+    for (var i = 0; i < articles.length; i++) {
+      var article = articles[i]
       db.add({
-        id: idx,
+        id: i,
         title: article.title,
+        preview: article.preview,
         content: article.content
       })
-    })
+    }
     var oriHtml = $('.article-list').html()
-    $('#search').on('input', debounce(function() {
+    searchDom.on('input', debounce(function() {
       var keyword = $(this).val().trim()
       var results = db.search(keyword)
       if (results.length) {
         var retHtml = ''
-        results.forEach(function(result) {
-          var item = articles[result.ref]
+        for (var i = 0; i < results.length; i++) {
+          var item = articles[results[i].ref]
           var itemHtml = tpl(item.title, item.preview, item.link)
           retHtml += itemHtml
-        })
+        }
         $('.page-nav').hide()
         $('.article-list').html(retHtml)
       } else {

@@ -1,0 +1,40 @@
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1, minimum-scale=1, maximum-scale=1">
+<link rel="shortcut icon" href="{{.Site.Root}}/favicon.png">
+<link rel="apple-itouch-icon" href="{{.Site.Root}}/favicon.png">
+<link rel="stylesheet" href="{{.Site.Root}}/bundle/index.css">
+<script type="text/javascript">
+    var timeSinceLang = {
+        year: '{{i18n "since_year"}}',
+        month: '{{i18n "since_month"}}',
+        day: '{{i18n "since_day"}}',
+        hour: '{{i18n "since_hour"}}',
+        minute: '{{i18n "since_minute"}}',
+        second: '{{i18n "since_second"}}'
+    };
+    var root = '{{.Site.Root}}';
+</script>
+{{if .Develop}}
+<script type="text/javascript">
+    var conn, reloadTimer, connectTimer;
+    var connect = function() {
+        conn = new WebSocket('ws://' + location.host + '/live');
+        conn.onmessage = function(event) {
+            if (event.data === 'change') {
+                if (reloadTimer) clearTimeout(reloadTimer);
+                reloadTimer = setTimeout(function() {
+                    window.location.reload();
+                }, 200);
+            }
+        };
+        conn.onclose = function() {
+            if (connectTimer) clearTimeout(connectTimer);
+            connectTimer = setTimeout(function() {
+                connect();
+            }, 1000);
+        };
+    };
+    connect();
+</script>
+{{end}}
