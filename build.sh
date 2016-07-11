@@ -4,7 +4,12 @@
 
 build () {
   echo "building for $1 $2..."
-  GOOS=$1 GOARCH=$2 go build -o release/ink
+  if [ $1 == "windows" ]
+  then
+    GOOS=$1 GOARCH=$2 go build -o release/ink.exe
+  else
+    GOOS=$1 GOARCH=$2 go build -o release/ink
+  fi
   cd release
   if [ $1 == "linux" ]
   then
