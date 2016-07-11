@@ -55,6 +55,11 @@ lang:
         zh: 置顶
         ru: Наверх
         ja: TOP
+    search:
+        en: Search
+        zh: 搜索
+        ru: Поиск
+        ja: 検索
     since_year:
         en: " years ago"
         zh: 年前

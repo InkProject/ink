@@ -1,6 +1,6 @@
 title: "An Elegant Static Blog Generator —— InkPaper"
 date: 2015-03-01 17:00:00 +0800
-update: 2015-11-06 10:00:00 +0800
+update: 2016-07-11 17:00:00 +0800
 author: me
 cover: "-/images/example-en.png"
 tags:
@@ -29,9 +29,9 @@ site:
     subtitle: Website Subtitle
     limit: Max Article Count Per Page
     theme: Website Theme Directory
-    comment: Comment Plugin Variable (Default Is Disqus Username)
+    comment: Comment Plugin Variable (Default is disqus username)
     root: Website Root Path #Optional
-    lang: Website Language #Support en, zh, Configurable in theme/lang.yml
+    lang: Website Language #Support en, zh, ru, ja, Configurable in theme/lang.yml
     url: Website URL #For RSS Generating
     link: Article Link Scheme #Default Is {title}.html，Support {year},{month},{day},{title} Variables
 
@@ -80,7 +80,7 @@ Markdown Format's Body
 
 ### Modify Theme
 
-Default theme use coffee & less build, after modify that files, run `gulp` in `theme` to recompile, run `ink` will copy js and css directory to public directory;
+Default theme placed in `theme` folder, run `npm install` and `webpack` to rebuild in this folder.
 
 page `page.html` (article list) and `article.html` (article), use variable with [Golang Template](http://golang.org/pkg/html/template/) syntax.
 
@@ -124,6 +124,7 @@ Docker Build (Example)
 
 ## Change Log
 
+- [2016-07-11] Fix bugs and merge many PRs
 - [2015-08-15] Bug fix, support RSS feed, improve theme
 - [2015-07-04] Bug fix, improve theme, support top, i18n, subtemplate
 - [2015-06-04] Build more platform, add archive and tag page
@@ -132,14 +133,10 @@ Docker Build (Example)
 ## Develop Plan
 
 - Improve Theme
-- Extension And Plugin
+- InkPaper Editor
 
 ## They are using
 
 - [http://www.inkpaper.io/blog/](http://www.inkpaper.io/blog/)
 - [https://hyper.sh/blog/](https://hyper.sh/blog/)
-- [http://wangsiyi.net/](http://wangsiyi.net/)
-- [http://lubia.cn/](http://lubia.cn/)
-- [http://ikevin.in/](http://ikevin.in/)
-- [http://bluepi0j.me/](http://bluepi0j.me/)
-- [http://leftcoding.com/](http://leftcoding.com/)
+- [http://wangxu.me/](http://wangxu.me/)

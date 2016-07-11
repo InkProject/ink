@@ -81,6 +81,30 @@ a.name {
         font-size: 16px;
         color: #bbb;
       }
+      .search-wrap {
+        position: relative;
+        max-width: 300px;
+        margin: 0 auto;
+        margin-top: 50px;
+        .search {
+          padding: 10px 25px;
+          border: 1px solid #ddd;
+          border-radius: 100px;
+          width: 100%;
+          box-sizing: border-box;
+          opacity: 0.8;
+          &:focus {
+            outline: 0;
+            opacity: 1;
+          }
+        }
+        .icon {
+          position: absolute;
+          right: 10px;
+          top: 5px;
+          opacity: 0.3;
+        }
+      }
     }
     .article-list {
       margin-top: 100px;
@@ -156,6 +180,16 @@ a.name {
             color: #bbb;
             text-decoration: none;
           }
+        }
+      }
+      .empty {
+        text-align: center;
+        font-size: 24px;
+        max-width: 800px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        span {
+          font-weight: bold;
         }
       }
     }
@@ -453,10 +487,10 @@ a.name {
         @mixin font-code;
         font-size: 14px;
         margin: 0;
-        padding: 10px;
-        border-radius: 4px;
-        border: 2px dashed #dadada;
-        background-color: #f9f9f9;
+        padding: 10px 15px;
+        border-radius: 6px;
+        border: 2px dashed #ece7e7;
+        background-color: #fdfcfc;
         display: block;
         overflow: auto;
       }

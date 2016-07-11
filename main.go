@@ -15,7 +15,7 @@ import (
 )
 
 const (
-	VERSION      = "Beta (2016-05-06)"
+	VERSION      = "RELEASE 2016-07-11"
 	DEFAULT_ROOT = "blog"
 )
 
