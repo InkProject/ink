@@ -59,56 +59,54 @@ var timeSince = function(date) {
   return Math.floor(seconds) + timeSinceLang.second
 }
 
-
-
 var initSearch = function() {
   var searchDom = $('#search')
   if (!searchDom.length) return
-  var db = null
-  $.getJSON(root + '/index.json').then(function(articles) {
-    db = lunr(function() {
-      this.field('title', { boost: 10 })
-      this.field('preview')
-      this.field('content')
-    })
-    var tpl = function(title, preview, link) {
-      return searchTpl
-      .replace('{{title}}', title)
-      .replace('{{link}}', link)
-      .replace('{{preview}}', preview)
-    }
-    for (var i = 0; i < articles.length; i++) {
-      var article = articles[i]
-      db.add({
-        id: i,
-        title: article.title,
-        preview: article.preview,
-        content: article.content
-      })
-    }
-    var oriHtml = $('.article-list').html()
-    searchDom.on('input', debounce(function() {
-      var keyword = $(this).val().trim()
-      var results = db.search(keyword)
-      if (results.length) {
-        var retHtml = ''
-        for (var i = 0; i < results.length; i++) {
-          var item = articles[results[i].ref]
-          var itemHtml = tpl(item.title, item.preview, item.link)
-          retHtml += itemHtml
-        }
-        $('.page-nav').hide()
-        $('.article-list').html(retHtml)
-      } else {
-        if (keyword) {
-          $('.page-nav').hide()
-          $('.article-list').html('<div class="empty">未搜索到 "<span>' + keyword + '</span>"</div>')
-        } else {
-          $('.page-nav').show()
-          $('.article-list').html(oriHtml)
-        }
+  var worker = new Worker(root + '/bundle/searchWorker.js')
+  var oriHtml = $('.article-list').html()
+  var tpl = function(title, preview, link) {
+    return searchTpl
+    .replace('{{title}}', title)
+    .replace('{{link}}', link)
+    .replace('{{preview}}', preview)
+  }
+  worker.onmessage = function(event) {
+    var results = event.data.results
+    if (results.length) {
+      var retHtml = ''
+      for (var i = 0; i < results.length; i++) {
+        var item = results[i]
+        var itemHtml = tpl(item.title, item.preview, item.link)
+        retHtml += itemHtml
       }
-    }, 500))
+      $('.page-nav').hide()
+      $('.article-list').html(retHtml)
+    } else {
+      var keyword = event.data.keyword
+      if (keyword) {
+        $('.page-nav').hide()
+        $('.article-list').html('<div class="empty">未搜索到 "<span>' + keyword + '</span>"</div>')
+      } else {
+        $('.page-nav').show()
+        $('.article-list').html(oriHtml)
+      }
+    }
+  }
+  searchDom.on('input', debounce(function() {
+    var keyword = $(this).val().trim()
+    if (keyword) {
+      worker.postMessage({
+        search: 'search',
+        keyword: keyword
+      })
+    } else {
+      $('.page-nav').show()
+      $('.article-list').html(oriHtml)
+    }
+  }, 500))
+  worker.postMessage({
+    action: 'start',
+    root: root
   })
 }
 

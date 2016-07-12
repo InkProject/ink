@@ -18,6 +18,7 @@
                         {{if .Site.Logo}}<img class="logo" src="{{.Site.Logo}}" />{{end}}
                         <h1 class="title">{{.Site.Title}}</h1>
                         <h2 class="subtitle">{{.Site.Subtitle}}</h2>
+                        {{template "search" .}}
                     {{end}}
                 </header>
                 <ul class="article-list">

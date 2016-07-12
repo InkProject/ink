@@ -184,10 +184,6 @@ func GenerateJSON(articles Collections) {
 			"title":   article.Title,
 			"content": article.Markdown,
 			"preview": article.Preview,
-			"date":    article.Date,
-			"update":  article.Update,
-			"author":  article.Author,
-			"tags":    article.Tags,
 			"link":    article.Link,
 		}
 		datas = append(datas, data)
