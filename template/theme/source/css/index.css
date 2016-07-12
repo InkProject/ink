@@ -108,6 +108,9 @@ a.name {
     }
     .article-list {
       margin-top: 100px;
+      .searched {
+        background-color: #bfedff;
+      }
       .article {
         margin-bottom: 55px;
         padding-bottom: 45px;

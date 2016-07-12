@@ -4,8 +4,8 @@ update: 2016-07-11 17:00:00 +0800
 author: me
 cover: "-/images/example-en.png"
 tags:
-    - Design
-    - Writing
+    - 设计
+    - 写作
 preview: InkPaper is an static blog generator developed by Golang, No dependencies, Cross platform, Easy use, Fast build, Elegant theme
 
 ---

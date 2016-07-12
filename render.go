@@ -9,6 +9,7 @@ import (
 	"path/filepath"
 	"strconv"
 	"time"
+  "strings"
 )
 
 type Data interface{}
@@ -181,9 +182,9 @@ func GenerateJSON(articles Collections) {
 	for i, _ := range articles {
 		article := articles[i].(Article)
 		var data = map[string]interface{}{
-			"title":   article.Title,
-			"content": article.Markdown,
-			"preview": article.Preview,
+			"title":   strings.ToLower(article.Title),
+			"content": strings.ToLower(article.Markdown),
+			"preview": strings.ToLower(string(article.Preview)),
 			"link":    article.Link,
 		}
 		datas = append(datas, data)

@@ -62,21 +62,29 @@ var timeSince = function(date) {
 var initSearch = function() {
   var searchDom = $('#search')
   if (!searchDom.length) return
-  var worker = new Worker(root + '/bundle/searchWorker.js')
+  var searchWorker = new Worker(root + '/bundle/searchWorker.js')
   var oriHtml = $('.article-list').html()
-  var tpl = function(title, preview, link) {
+  var workerStarted = false
+  var tpl = function(keywords, title, preview, link) {
+    for (var i = 0; i < keywords.length; i++) {
+      var keyword = keywords[i]
+      var wrap = '<span class="searched">' + keyword + '</span>'
+      title = title.replace(keyword, wrap)
+      preview = preview.replace(keyword, wrap)
+    }
     return searchTpl
     .replace('{{title}}', title)
     .replace('{{link}}', link)
     .replace('{{preview}}', preview)
   }
-  worker.onmessage = function(event) {
+  searchWorker.onmessage = function(event) {
     var results = event.data.results
+    var keywords = event.data.keywords
     if (results.length) {
       var retHtml = ''
       for (var i = 0; i < results.length; i++) {
         var item = results[i]
-        var itemHtml = tpl(item.title, item.preview, item.link)
+        var itemHtml = tpl(keywords, item.title, item.preview, item.link)
         retHtml += itemHtml
       }
       $('.page-nav').hide()
@@ -95,7 +103,7 @@ var initSearch = function() {
   searchDom.on('input', debounce(function() {
     var keyword = $(this).val().trim()
     if (keyword) {
-      worker.postMessage({
+      searchWorker.postMessage({
         search: 'search',
         keyword: keyword
       })
@@ -104,9 +112,14 @@ var initSearch = function() {
       $('.article-list').html(oriHtml)
     }
   }, 500))
-  worker.postMessage({
-    action: 'start',
-    root: root
+  searchDom.on('focus', function() {
+    if (!workerStarted) {
+      searchWorker.postMessage({
+        action: 'start',
+        root: root
+      })
+      workerStarted = true
+    }
   })
 }
 
