@@ -4,20 +4,20 @@
 
 build () {
   echo "building for $1 $2..."
+  suffix=""
   if [ $1 == "windows" ]
   then
-    GOOS=$1 GOARCH=$2 go build -o release/ink.exe
-  else
-    GOOS=$1 GOARCH=$2 go build -o release/ink
+    suffix=".exe"
   fi
+  GOOS=$1 GOARCH=$2 go build -o release/ink$suffix
   cd release
   if [ $1 == "linux" ]
   then
-    tar cvf - blog/* ink | gzip -9 - > ink_$1_$2.tar.gz
+    tar cvf - blog/* ink$suffix | gzip -9 - > ink_$1_$2.tar.gz
   else
-    7za a -tzip -r ink_$1_$2.zip blog ink
+    7za a -tzip -r ink_$1_$2.zip blog ink$suffix
   fi
-  rm -rf ink
+  rm -rf ink$suffix
   cd ..
 }
 
