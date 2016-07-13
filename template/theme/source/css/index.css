@@ -7,7 +7,7 @@
 @import "archive-tag.css";
 @import "content.css";
 
-.head {
+.header-wrap {
   padding: 15px;
   position: absolute;
   z-index: 1;
@@ -15,15 +15,26 @@
   font-size: 18px;
   left: 0;
   right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   a {
     color: $greyLight;
   }
   .index {
-    float: left;
+    display: flex;
+    align-items: center;
+    .logo {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: 1px solid $greyLighter;
+      margin-right: 10px;
+    }
   }
   .menu {
+    display: flex;
     .menu-item {
-      float: right;
       margin-right: 10px;
     }
   }
