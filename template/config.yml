@@ -1,7 +1,7 @@
 site:
     title: "纸小墨官方博客"
     subtitle: "简洁的静态博客构建工具"
-    limit: 10
+    limit: 1
     theme: theme
     lang: zh
     url: "http://www.inkpaper.io/blog"

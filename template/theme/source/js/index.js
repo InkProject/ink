@@ -3,7 +3,6 @@ window.jQuery = window.$ = require('jquery')
 window.hljs = require('./highlight.pack.js')
 require('./jquery.unveil.js')
 
-var lunr = require('lunr')
 var searchTpl = require('raw!./searchTpl.html')
 
 // pick from underscore

@@ -26,6 +26,7 @@ func Watch() {
 				if event.Op == fsnotify.Write {
 					// Handle when file change
 					fmt.Println(event.Name)
+					ParseGlobalConfigWrap(rootPath, true)
 					Build()
 					if conn != nil {
 						if err := conn.WriteMessage(websocket.TextMessage, []byte("change")); err != nil {
@@ -38,18 +39,29 @@ func Watch() {
 			}
 		}
 	}()
-	var dirs = []string{"source"}
+	var dirs = []string{
+    filepath.Join(rootPath, "source"),
+    filepath.Join(themePath, "bundle"),
+  }
+  var files = []string{
+    filepath.Join(rootPath, "config.yml"),
+    filepath.Join(themePath),
+  }
 	for _, source := range dirs {
-		dirPath := filepath.Join(rootPath, source)
-		symwalk.Walk(dirPath, func(path string, f os.FileInfo, err error) error {
-			if f.IsDir() {
-				if err := watcher.Add(path); err != nil {
-					Warn(err.Error())
-				}
-			}
-			return nil
-		})
+    symwalk.Walk(source, func(path string, f os.FileInfo, err error) error {
+      if f.IsDir() {
+        if err := watcher.Add(path); err != nil {
+          Warn(err.Error())
+        }
+      }
+      return nil
+    })
 	}
+  for _, source := range files {
+    if err := watcher.Add(source); err != nil {
+      Warn(err.Error())
+    }
+  }
 }
 
 func Websocket(ctx *ink.Context) {

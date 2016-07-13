@@ -6,7 +6,7 @@ cover: "-/images/example-en.png"
 tags:
     - 设计
     - 写作
-preview: InkPaper is an static blog generator developed by Golang, No dependencies, Cross platform, Easy use, Fast build, Elegant theme
+preview: InkPaper is an static blog generator developed by Golang, No dependencies, Cross platform, Easy use, Fast build, Elegant theme.
 
 ---
 
@@ -74,7 +74,7 @@ Markdown Format's Body
 - Run `ink publish` in blog directory to automatically build and publish
 - Or run `ink build` to manually deploy generated `public` directory
 
-> **Tips**: When `source` directory changed，`ink preview` will automatically rebuild blog，refresh browser to update
+> **Tips**: When `source` directory changed，`ink preview` will automatically rebuild blog，refresh browser to update.
 
 ## Customization
 

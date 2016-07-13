@@ -26,7 +26,7 @@
                     <li class="article">
                         <a class="title" href="{{$.Site.Root}}/{{.Link}}">{{if .Top}}<span class="top">[{{i18n "top"}}]</span>{{end}}{{.Title}}</a>
                         {{if .Cover}}<div class="cover" style="background-image:url({{.Cover}});"></div>{{end}}
-                        {{if .Preview}}<section class="preview content">{{.Preview}}...</section>{{end}}
+                        {{if .Preview}}<section class="preview content">{{.Preview}}</section>{{end}}
                         <section class="info">
                             {{if .Author.Avatar}}<span class="avatar" style="background-image: url({{.Author.Avatar}});"></span>{{end}}
                             {{if .Author.Name}}<a class="name" href="{{.Site.Root}}/about.{{.Author.Id}}.html">{{.Author.Name}}</a>{{end}}

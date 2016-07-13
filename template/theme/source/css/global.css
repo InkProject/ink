@@ -29,5 +29,6 @@ a {
 }
 
 *::selection {
-  background-color: #c7e5ff;
+  background-color: $black;
+  color: $whiteLighter;
 }

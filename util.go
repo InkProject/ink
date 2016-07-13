@@ -74,6 +74,13 @@ func Exists(path string) bool {
 	return false
 }
 
+// Check file if is directory
+func IsDir(path string) bool {
+  file, err := os.Stat(path)
+  if err != nil { return false }
+  return file.IsDir()
+}
+
 // Copy folder and file
 // Refer to https://www.socketloop.com/tutorials/golang-copy-directory-including-sub-directories-files
 func CopyFile(source string, dest string) {

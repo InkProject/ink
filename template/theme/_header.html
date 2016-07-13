@@ -1,6 +1,8 @@
-<a class="index" href="{{.Site.Root}}/">{{.Site.Title}}</a>
-<ul class="menu">
-    <li class="menu-item"><a href="{{.Site.Root}}/archive.html">{{i18n "archive"}}</a></li>
-    <li class="menu-item"><a href="{{.Site.Root}}/tag.html">{{i18n "tag"}}</a></li>
-    {{if .Site.Url}}<li class="menu-item"><a href="{{.Site.Root}}/atom.xml">{{i18n "rss"}}</a></li>{{end}}
-</ul>
+<header class="head">
+  <a class="index" href="{{.Site.Root}}/">{{.Site.Title}}</a>
+  <ul class="menu">
+      <li class="menu-item"><a href="{{.Site.Root}}/archive.html">{{i18n "archive"}}</a></li>
+      <li class="menu-item"><a href="{{.Site.Root}}/tag.html">{{i18n "tag"}}</a></li>
+      {{if .Site.Url}}<li class="menu-item"><a href="{{.Site.Root}}/atom.xml">{{i18n "rss"}}</a></li>{{end}}
+  </ul>
+</header>
