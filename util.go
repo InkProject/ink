@@ -21,6 +21,8 @@ const (
 	DATE_FORMAT_WITH_TIMEZONE = "2006-01-02 15:04:05 -0700"
 )
 
+var exitCode int
+
 // Print log
 func Log(info interface{}) {
 	fmt.Printf("%s\n", info)
@@ -42,6 +44,7 @@ func Error(info interface{}) {
 	} else {
 		fmt.Printf("%s%s\n%s", CLR_R, info, "\x1b[0m")
 	}
+	exitCode = 1
 }
 
 // Print error log and exit

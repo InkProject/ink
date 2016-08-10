@@ -64,7 +64,7 @@ var initSearch = function() {
   var searchWorker = new Worker(root + '/bundle/searchWorker.js')
   var oriHtml = $('.article-list').html()
   var workerStarted = false
-  var tpl = function(keywords, title, preview, link) {
+  var tpl = function(keywords, title, preview, link, cover) {
     for (var i = 0; i < keywords.length; i++) {
       var keyword = keywords[i]
       var wrap = '<span class="searched">' + keyword + '</span>'
@@ -75,6 +75,7 @@ var initSearch = function() {
     .replace('{{title}}', title)
     .replace('{{link}}', link)
     .replace('{{preview}}', preview)
+    .replace('{{cover}}', cover)
   }
   searchWorker.onmessage = function(event) {
     var results = event.data.results
@@ -83,7 +84,7 @@ var initSearch = function() {
       var retHtml = ''
       for (var i = 0; i < results.length; i++) {
         var item = results[i]
-        var itemHtml = tpl(keywords, item.title, item.preview, item.link)
+        var itemHtml = tpl(keywords, item.title, item.preview, item.link, item.cover)
         retHtml += itemHtml
       }
       $('.page-nav').hide()

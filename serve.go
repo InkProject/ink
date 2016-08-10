@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"github.com/InkProject/ink.go"
 	"github.com/facebookgo/symwalk"
 	"github.com/go-fsnotify/fsnotify"
@@ -25,7 +24,7 @@ func Watch() {
 			case event := <-watcher.Events:
 				if event.Op == fsnotify.Write {
 					// Handle when file change
-					fmt.Println(event.Name)
+					Log(event.Name)
 					ParseGlobalConfigWrap(rootPath, true)
 					Build()
 					if conn != nil {

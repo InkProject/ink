@@ -6,19 +6,30 @@ cover: "-/images/example.png"
 tags:
     - 设计
     - 写作
-preview: 纸小墨（InkPaper）是一个使用GO语言编写的静态博客构建工具，可以快速搭建博客网站。优点是无依赖跨平台，配置简单构建快速，注重简洁易用与排版优化。
+preview: 纸小墨（InkPaper）是一个GO语言编写的开源静态博客构建工具，可以快速搭建博客网站。它无依赖跨平台，配置简单构建快速，注重简洁易用与更优雅的排版。
 
 ---
 
 ## 纸小墨简介
 
-纸小墨（InkPaper）是一个使用GO语言编写的静态博客构建工具，可以快速搭建博客网站。优点是无依赖跨平台，配置简单构建快速，注重简洁易用与排版优化。
+纸小墨（InkPaper）是一个GO语言编写的开源静态博客构建工具，可以快速搭建博客网站。它无依赖跨平台，配置简单构建快速，注重简洁易用与更优雅的排版。
 
 ![纸小墨 - 简洁的静态博客构建工具](-/images/example.png)
 
 ### 开始上手
-- 下载并解压 [Ink](http://www.inkpaper.io/)，运行命令 `ink preview`。
+- 下载并解压 [纸小墨](http://www.inkpaper.io/)，运行命令 `ink preview`。
 - 使用浏览器访问 `http://localhost:8000` 预览。
+
+### 特性介绍
+- YAML格式的配置
+- Markdown格式的文章
+- 无依赖跨平台
+- 超快的构建速度
+- 不断改善的主题与排版
+- 多文章作者支持
+- 归档与标签自动生成
+- 保存时实时预览页面
+- 离线的全文关键字搜索
 
 ### 配置网站
 编辑`config.yml`，使用如下格式：
@@ -74,7 +85,7 @@ Markdown格式的正文
 - 在博客目录下运行`ink publish`命令自动构建博客并发布。
 - 或运行`ink build`命令将生成的`public`目录下的内容手动部署。
 
-> Tips: 当使用`ink preview`命令时，`source`目录中文件发生变化，会自动重新构建博客，刷新浏览器以更新。
+> Tips: 在使用`ink preview`命令时，编辑保存文件后，博客会自动重新构建并刷新浏览器页面。
 
 ## 定制支持
 
@@ -90,7 +101,7 @@ Markdown格式的正文
 
 ### 博客迁移(Beta)
 
-Ink提供简单的Jeklly/Hexo博客文章格式转换，使用命令：
+纸小墨提供简单的Jeklly/Hexo博客文章格式转换，使用命令：
 ``` shell
 ink convert /path/_posts
 ```
@@ -114,12 +125,9 @@ Docker构建（示例）
 - Pure: [https://github.com/Xdatk/ink-pure](https://github.com/Xdatk/ink-pure)
 - Werttin: [https://github.com/Skimige/ink_Werttin](https://github.com/Skimige/ink_Werttin)
 
-## 开源协议
-[CC Attribution-NonCommercial License 4.0](https://creativecommons.org/licenses/by-nc/4.0/)
-
 ## 反馈贡献
 
-目前为止，纸小墨仍然是个非成熟的开源项目，非常欢迎任何人的任何贡献。如有问题，可以报告至 [https://github.com/InkProject/ink/issues](https://github.com/InkProject/ink/issues)
+纸小墨基于 [CC Attribution-NonCommercial License 4.0](https://creativecommons.org/licenses/by-nc/4.0/) 协议，目前为止它仍然是个非成熟的开源项目，非常欢迎任何人的任何贡献。如有问题可报告至 [https://github.com/InkProject/ink/issues](https://github.com/InkProject/ink/issues)。
 
 ## 更新历史
 
@@ -137,5 +145,6 @@ Docker构建（示例）
 ## 正在使用
 
 - [http://www.inkpaper.io/blog/](http://www.inkpaper.io/blog/)
-- [https://hyper.sh/blog/](https://hyper.sh/blog/)
+- [http://blog.hyper.sh/](http://blog.hyper.sh/)
 - [http://wangxu.me/](http://wangxu.me/)
+- [http://whzecomjm.com/](http://whzecomjm.com/)

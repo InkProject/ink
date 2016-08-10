@@ -85,7 +85,7 @@
         border-radius: 70px;
         background-size: cover;
         background-repeat: no-repeat;
-        border: 20px $whiteLighter solid;
+        border: 20px white solid;
         &:before {
           border-top: 1px $greyLighter dashed;
           content: "";

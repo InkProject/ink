@@ -74,7 +74,7 @@ Markdown Format's Body
 - Run `ink publish` in blog directory to automatically build and publish
 - Or run `ink build` to manually deploy generated `public` directory
 
-> **Tips**: When `source` directory changed，`ink preview` will automatically rebuild blog，refresh browser to update.
+> **Tips**: When files changed，`ink preview` will automatically rebuild blog，refresh browser to update.
 
 ## Customization
 
@@ -115,10 +115,9 @@ Docker Build (Example)
 - Pure: [https://github.com/Xdatk/ink-pure](https://github.com/Xdatk/ink-pure)
 - Werttin: [https://github.com/Skimige/ink_Werttin](https://github.com/Skimige/ink_Werttin)
 
-## License
-[CC Attribution-NonCommercial License 4.0](https://creativecommons.org/licenses/by-nc/4.0/)
-
 ## Issue Report
+
+[CC Attribution-NonCommercial License 4.0](https://creativecommons.org/licenses/by-nc/4.0/)
 
 [https://github.com/InkProject/ink/issues](https://github.com/InkProject/ink/issues)
 
@@ -138,5 +137,6 @@ Docker Build (Example)
 ## They are using
 
 - [http://www.inkpaper.io/blog/](http://www.inkpaper.io/blog/)
-- [https://hyper.sh/blog/](https://hyper.sh/blog/)
+- [http://blog.hyper.sh/](http://blog.hyper.sh/)
 - [http://wangxu.me/](http://wangxu.me/)
+- [http://whzecomjm.com/](http://whzecomjm.com/)

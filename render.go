@@ -186,6 +186,7 @@ func GenerateJSON(articles Collections) {
 			"content": strings.ToLower(article.Markdown),
 			"preview": strings.ToLower(string(article.Preview)),
 			"link":    article.Link,
+      "cover":   article.Cover,
 		}
 		datas = append(datas, data)
 	}

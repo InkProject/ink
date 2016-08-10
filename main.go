@@ -81,6 +81,7 @@ func main() {
 		},
 	}
 	app.Run(os.Args)
+	os.Exit(exitCode)
 }
 
 func ParseGlobalConfigByCli(c *cli.Context, develop bool) {
