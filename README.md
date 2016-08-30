@@ -6,6 +6,9 @@ InkPaper is an static blog generator developed by Golang, No dependencies, Cross
 
 ### Quick Start
 - Download & Extract [Ink](http://www.inkpaper.io/)，Run `ink preview`
+
+    > Tips：Linux/macOS,try ./ink preview or ./ink publish
+
 - Open `http://localhost:8000` in browser to preview
 
 ### Website Configuration
