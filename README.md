@@ -129,5 +129,7 @@ Docker Build (Example)
 ## They are using
 
 - [http://www.inkpaper.io/blog/](http://www.inkpaper.io/blog/)
-- [https://hyper.sh/blog/](https://hyper.sh/blog/)
+- [http://blog.hyper.sh/](http://blog.hyper.sh/)
 - [http://wangxu.me/](http://wangxu.me/)
+- [http://whzecomjm.com/](http://whzecomjm.com/)
+- [http://www.shery.me/blog/](http://www.shery.me/blog/)

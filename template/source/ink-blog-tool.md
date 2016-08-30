@@ -152,3 +152,4 @@ Docker构建（示例）
 - [http://blog.hyper.sh/](http://blog.hyper.sh/)
 - [http://wangxu.me/](http://wangxu.me/)
 - [http://whzecomjm.com/](http://whzecomjm.com/)
+- [http://www.shery.me/blog/](http://www.shery.me/blog/)
