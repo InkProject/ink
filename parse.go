@@ -89,7 +89,7 @@ const (
 	MORE_SPLIT   = "<!--more-->"
 )
 
-func Parse(markdown string) template.HTML {
+func ParseMarkdown(markdown string) template.HTML {
 	// html.UnescapeString
 	return template.HTML(blackfriday.MarkdownCommon([]byte(markdown)))
 }
@@ -171,8 +171,10 @@ func ParseArticleConfig(markdownPath string) (config *ArticleConfig, content str
 	// Parse preview splited by MORE_SPLIT
 	previewAry := strings.SplitN(content, MORE_SPLIT, 2)
 	if len(config.Preview) <= 0 && len(previewAry) > 1 {
-		config.Preview = Parse(previewAry[0])
+		config.Preview = ParseMarkdown(previewAry[0])
 		content = strings.Replace(content, MORE_SPLIT, "", 1)
+	} else {
+		config.Preview = ParseMarkdown(string(config.Preview))
 	}
 	return config, content
 }
@@ -191,7 +193,7 @@ func ParseArticle(markdownPath string) *Article {
 	article.Preview = config.Preview
 	article.Config = config.Config
 	article.Markdown = content
-	article.Content = Parse(content)
+	article.Content = ParseMarkdown(content)
 	article.Time = ParseDate(config.Date)
 	article.Date = article.Time.Unix()
 	if config.Update != "" {
