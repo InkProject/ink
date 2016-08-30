@@ -17,7 +17,11 @@ preview: 纸小墨（InkPaper）是一个GO语言编写的开源静态博客构�
 ![纸小墨 - 简洁的静态博客构建工具](-/images/example.png)
 
 ### 开始上手
-- 下载并解压 [纸小墨](http://www.inkpaper.io/)，运行命令 `ink preview`。
+
+- 下载并解压 [Ink](http://www.inkpaper.io/)，运行命令 `ink preview`
+
+  > 注意：Linux/macOS下，使用 `./ink preview`
+
 - 使用浏览器访问 `http://localhost:8000` 预览。
 
 ### 特性介绍
