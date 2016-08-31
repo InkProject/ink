@@ -4,6 +4,7 @@
         {{template "head" .}}
         <meta name="keywords" content="{{range .Tags}}{{.}},{{end}}">
         <meta name="description" content="{{.Title}}">
+        <meta name="author" content="{{.Author.Name}}">
         <title>{{.Title}}</title>
     </head>
     <body>
