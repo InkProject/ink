@@ -18,7 +18,7 @@ preview: 纸小墨（InkPaper）是一个GO语言编写的开源静态博客构�
 
 ### 开始上手
 
-- 下载并解压 [Ink](http://www.inkpaper.io/)，运行命令 `ink preview`
+- 下载并解压 [Ink](http://www.chole.io/)，运行命令 `ink preview`
 
   > 注意：Linux/macOS下，使用 `./ink preview`
 
@@ -148,7 +148,7 @@ Docker构建（示例）
 
 ## 正在使用
 
-- [http://www.inkpaper.io/blog/](http://www.inkpaper.io/blog/)
+- [http://www.chole.io/blog/](http://www.chole.io/blog/)
 - [http://blog.hyper.sh/](http://blog.hyper.sh/)
 - [http://wangxu.me/](http://wangxu.me/)
 - [http://whzecomjm.com/](http://whzecomjm.com/)

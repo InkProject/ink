@@ -4,7 +4,7 @@ site:
     limit: 10
     theme: theme
     lang: zh
-    url: "http://www.inkpaper.io/blog"
+    url: "http://www.chole.io/blog"
     comment: username
     logo: "-/images/avatar.png"
     # link: "{category}/{year}/{month}/{day}/{title}.html"
