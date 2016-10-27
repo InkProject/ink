@@ -68,8 +68,9 @@ var initSearch = function() {
     for (var i = 0; i < keywords.length; i++) {
       var keyword = keywords[i]
       var wrap = '<span class="searched">' + keyword + '</span>'
-      title = title.replace(keyword, wrap)
-      preview = preview.replace(keyword, wrap)
+      var reg = new RegExp(keyword, 'ig')
+      title = title.replace(reg, wrap)
+      preview = preview.replace(reg, wrap)
     }
     return searchTpl
     .replace('{{title}}', title)

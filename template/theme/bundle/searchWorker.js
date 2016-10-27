@@ -59,7 +59,7 @@ onmessage = function(event) {
   var action = event.data.action
   if (action == 'start') {
     load(event.data.root + '/index.json', function(xhr) {
-      data = JSON.parse(xhr.responseText.toLowerCase())
+      data = JSON.parse(xhr.responseText)
       if (lastKeyword) {
         search(lastKeyword)
       }

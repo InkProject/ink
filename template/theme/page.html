@@ -2,9 +2,8 @@
 <html>
     <head>
         {{template "head" .}}
-        <meta name="keywords" content="{{.Site.Title}}, {{.Site.Subtitle}},inkpaper,纸小墨,博客,静态博客构建工具,构建迅速,专注创作,素雅简洁,无依赖,跨平台,go语言,开源,Github">
-        <meta name="description" content="{{.Site.Subtitle}},纸小墨,简洁的静态博客构建工具,构建只为纯粹书写的博客">
-        <meta name="author" content="{{.Author.Name}}">
+        <meta name="keywords" content="{{.Site.Subtitle}}">
+        <meta name="description" content="{{.Site.Subtitle}}">
         <title>{{.Site.Title}}</title>
     </head>
     <body>
@@ -13,6 +12,7 @@
             <article class="main page">
                 <header class="header site">
                     {{if .TagName}}
+                        {{if .Site.Logo}}<img class="logo" src="{{.Site.Logo}}" />{{end}}
                         <h1 class="tag">{{.TagName}}</h1>
                         <h2 class="tag-sub">{{.TagCount}} {{i18n "articles"}}</h2>
                     {{else}}

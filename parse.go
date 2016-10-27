@@ -116,6 +116,9 @@ func ParseGlobalConfig(configPath string, develop bool) *GlobalConfig {
 		config.Site.Root = ""
 	}
 	config.Site.Logo = strings.Replace(config.Site.Logo, "-/", config.Site.Root+"/", -1)
+	if config.Site.Url != "" && strings.HasSuffix(config.Site.Url, "/") {
+		config.Site.Url = strings.TrimSuffix(config.Site.Url, "/")
+	}
 	// Parse Theme Config
 	themeConfig := ParseThemeConfig(filepath.Join(rootPath, config.Site.Theme, "config.yml"))
 	for _, copyItem := range themeConfig.Copy {

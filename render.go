@@ -2,14 +2,14 @@ package main
 
 import (
 	"encoding/json"
-	"github.com/gorilla/feeds"
 	"html/template"
 	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strconv"
 	"time"
-  "strings"
+
+	"github.com/gorilla/feeds"
 )
 
 type Data interface{}
@@ -103,7 +103,7 @@ func GenerateRSS(articles Collections) {
 			article := item.(Article)
 			feed.Items = append(feed.Items, &feeds.Item{
 				Title:       article.Title,
-				Link:        &feeds.Link{Href: globalConfig.Site.Url + article.Link},
+				Link:        &feeds.Link{Href: globalConfig.Site.Url + "/" + article.Link},
 				Description: string(article.Preview),
 				Author:      &feeds.Author{article.Author.Name, ""},
 				Created:     article.Time,
@@ -182,11 +182,11 @@ func GenerateJSON(articles Collections) {
 	for i, _ := range articles {
 		article := articles[i].(Article)
 		var data = map[string]interface{}{
-			"title":   strings.ToLower(article.Title),
-			"content": strings.ToLower(article.Markdown),
-			"preview": strings.ToLower(string(article.Preview)),
+			"title":   article.Title,
+			"content": article.Markdown,
+			"preview": string(article.Preview),
 			"link":    article.Link,
-      "cover":   article.Cover,
+			"cover":   article.Cover,
 		}
 		datas = append(datas, data)
 	}

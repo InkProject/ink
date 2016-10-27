@@ -1,19 +1,9 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="utf-8">
-        <meta name="renderer" content="webkit">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <meta http-equiv="Cache-Control" content="no-siteapp">
-        <meta name="google" value="notranslate">
-        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1, minimum-scale=1, maximum-scale=1">
-        <meta name="keywords" content="{{.Site.Title}}, {{.Site.Subtitle}},inkpaper,纸小墨,博客,静态博客构建工具,构建迅速,专注创作,素雅简洁,无依赖,跨平台,go语言,开源,Github">
-        <meta name="description" content="{{.Site.Subtitle}},纸小墨,简洁的静态博客构建工具,构建只为纯粹书写的博客">
-        <meta name="author" content="{{.Author.Name}}">
-        <link rel="shortcut icon" href="{{.Site.Root}}/favicon.png">
-        <link rel="apple-itouch-icon" href="{{.Site.Root}}/favicon.png">
-        <meta name="robots" content="index,follow">
-        <link rel="stylesheet" href="{{.Site.Root}}/bundle/index.css">
+        {{template "head" .}}
+        <meta name="keywords" content="{{.Site.Subtitle}}">
+        <meta name="description" content="{{.Site.Subtitle}}">
         <title>{{.Site.Title}}</title>
     </head>
     <body>

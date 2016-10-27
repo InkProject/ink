@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# binary build script for ink
+# build binary releases for ink
 
 build () {
   echo "building for $1 $2..."
