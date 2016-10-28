@@ -76,7 +76,6 @@ var initSearch = function() {
     .replace('{{title}}', title)
     .replace('{{link}}', link)
     .replace('{{preview}}', preview)
-    .replace('{{cover}}', cover)
   }
   searchWorker.onmessage = function(event) {
     var results = event.data.results
