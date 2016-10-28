@@ -73,6 +73,7 @@ func (v Collections) Less(i, j int) bool {
 func Build() {
 	startTime := time.Now()
 	var articles = make(Collections, 0)
+	var pages    = make(Collections, 0)
 	var tagMap = make(map[string]Collections)
 	var archiveMap = make(map[string]Collections)
 	// Parse config
@@ -120,31 +121,33 @@ func Build() {
 			}
 			var (
 				datePrefix = article.Time.Format("2006-01-02-")
+				link string
 			)
 			// Generate page name
 			fileName := strings.TrimSuffix(strings.ToLower(filepath.Base(path)), ".md")
-			if strings.HasPrefix(fileName, datePrefix) {
-				fileName = fileName[len(datePrefix):]
+			link = fileName + ".html"
+			if article.Type == "post" {
+				if strings.HasPrefix(fileName, datePrefix) {
+					fileName = fileName[len(datePrefix):]
+				}
+				if globalConfig.Site.Link != "" {
+					linkMap := map[string]string{
+						"{year}":     article.Time.Format("2006"),
+						"{month}":    article.Time.Format("01"),
+						"{day}":      article.Time.Format("02"),
+						"{category}": article.Category,
+						"{title}":    fileName,
+					}
+					link = globalConfig.Site.Link
+					for key, val := range linkMap {
+						link = strings.Replace(link, key, val, -1)
+					}
+				}
+
 			}
 
 			Log("Building " + fileName)
 			// Genetate custom link
-			linkMap := map[string]string{
-				"{year}":     article.Time.Format("2006"),
-				"{month}":    article.Time.Format("01"),
-				"{day}":      article.Time.Format("02"),
-				"{category}": article.Category,
-				"{title}":    fileName,
-			}
-			var link string
-			if globalConfig.Site.Link == "" {
-				link = fileName + ".html"
-			} else {
-				link = globalConfig.Site.Link
-				for key, val := range linkMap {
-					link = strings.Replace(link, key, val, -1)
-				}
-			}
 			directory := filepath.Dir(link)
 			err := os.MkdirAll(filepath.Join(publicPath, directory), 0777)
 			if err != nil {
@@ -153,6 +156,11 @@ func Build() {
 			// Generate file path
 			article.Link = link
 			article.GlobalConfig = *globalConfig
+
+			if article.Type == "page" {
+				pages = append(pages, *article)
+				return nil
+			}
 			articles = append(articles, *article)
 			// Get tags info
 			for _, tag := range article.Tags {
@@ -191,6 +199,9 @@ func Build() {
 	// Render article
 	wg.Add(1)
 	go RenderArticles(articleTpl, articles)
+	// Render pages
+	wg.Add(1)
+	go RenderArticles(articleTpl, pages)
 	// Generate article list pages
 	wg.Add(1)
 	go RenderArticleList("", articles, "")

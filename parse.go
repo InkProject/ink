@@ -59,6 +59,7 @@ type ArticleConfig struct {
 	Draft      bool
 	Preview    template.HTML
 	Top        bool
+	Type       string
 	Config     interface{}
 }
 
@@ -171,6 +172,9 @@ func ParseArticleConfig(markdownPath string) (config *ArticleConfig, content str
 	if config == nil {
 		return nil, ""
 	}
+	if config.Type == "" {
+		config.Type = "post"
+	}
 	// Parse preview splited by MORE_SPLIT
 	previewAry := strings.SplitN(content, MORE_SPLIT, 2)
 	if len(config.Preview) <= 0 && len(previewAry) > 1 {
@@ -193,6 +197,7 @@ func ParseArticle(markdownPath string) *Article {
 	}
 	var article Article
 	// Parse markdown content
+	article.Type = config.Type
 	article.Preview = config.Preview
 	article.Config = config.Config
 	article.Markdown = content
