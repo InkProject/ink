@@ -202,8 +202,10 @@ func ParseArticle(markdownPath string) *Article {
 	article.Config = config.Config
 	article.Markdown = content
 	article.Content = ParseMarkdown(content)
-	article.Time = ParseDate(config.Date)
-	article.Date = article.Time.Unix()
+	if config.Date != "" {
+		article.Time = ParseDate(config.Date)
+		article.Date = article.Time.Unix()
+	}
 	if config.Update != "" {
 		article.MTime = ParseDate(config.Update)
 		article.Update = article.MTime.Unix()
@@ -238,5 +240,30 @@ func ParseArticle(markdownPath string) *Article {
 	} else {
 		article.Cover = config.Topic
 	}
+	// Generate page name
+	fileName := strings.TrimSuffix(strings.ToLower(filepath.Base(markdownPath)), ".md")
+	link := fileName + ".html"
+	// Genetate custom link
+	if article.Type == "post" {
+		datePrefix := article.Time.Format("2006-01-02-")
+		if strings.HasPrefix(fileName, datePrefix) {
+			fileName = fileName[len(datePrefix):]
+		}
+		if globalConfig.Site.Link != "" {
+			linkMap := map[string]string{
+				"{year}":     article.Time.Format("2006"),
+				"{month}":    article.Time.Format("01"),
+				"{day}":      article.Time.Format("02"),
+				"{category}": article.Category,
+				"{title}":    fileName,
+			}
+			link = globalConfig.Site.Link
+			for key, val := range linkMap {
+				link = strings.Replace(link, key, val, -1)
+			}
+		}
+	}
+	article.Link = link
+	article.GlobalConfig = *globalConfig
 	return &article
 }

@@ -1,6 +1,6 @@
 site:
     title: "纸小墨官方博客"
-    subtitle: "简洁的静态博客构建工具"
+    subtitle: "构建只为纯粹书写的博客"
     limit: 10
     theme: theme
     lang: zh
@@ -13,7 +13,7 @@ site:
 authors:
     me:
         name: "纸小墨"
-        intro: "简洁的静态博客构建工具"
+        intro: "构建只为纯粹书写的博客"
         avatar: "-/images/avatar.png"
 
 build:

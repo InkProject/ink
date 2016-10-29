@@ -55,6 +55,7 @@ preview: Article Preview，Also use <!--more--> to split in body #Optional
 tags: #Optional
     - Tag1
     - Tag2
+type: post #Specify type is post or page, Optional
 
 ---
 

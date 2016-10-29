@@ -16,7 +16,7 @@
                     {{if .Author.Avatar}}<span class="avatar" style="background-image: url({{.Author.Avatar}});"></span>{{end}}
                     {{if .Author.Name}}<a class="name" href="{{.Site.Root}}/about.{{.Author.Id}}.html">{{.Author.Name}}</a>{{end}}
                     {{if .Update}}
-                    <span class="date" data-time="{{.Update}}"><span class="from"></span> {{i18n "updated"}}</span>
+                    <span class="date" data-time="{{.Update}}"><span class="from"></span></span>
                     {{else}}
                     <span class="date" data-time="{{.Date}}"><span class="from"></span></span>
                     {{end}}
