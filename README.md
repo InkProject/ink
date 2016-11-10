@@ -136,7 +136,6 @@ Docker Build (Example)
 
 - [http://www.chole.io/blog/](http://www.chole.io/blog/)
 - [http://blog.hyper.sh/](http://blog.hyper.sh/)
-- [http://www.shery.me/blog/](http://www.shery.me/blog/)
 - [http://wangxu.me/](http://wangxu.me/)
 - [http://whzecomjm.com/](http://whzecomjm.com/)
 - [http://www.shery.me/blog/](http://www.shery.me/blog/)
