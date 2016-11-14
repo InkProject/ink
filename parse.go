@@ -33,6 +33,7 @@ type AuthorConfig struct {
 }
 
 type BuildConfig struct {
+	Output	string
 	Port    string
 	Watch   bool
 	Copy    []string
@@ -119,6 +120,9 @@ func ParseGlobalConfig(configPath string, develop bool) *GlobalConfig {
 	config.Site.Logo = strings.Replace(config.Site.Logo, "-/", config.Site.Root+"/", -1)
 	if config.Site.Url != "" && strings.HasSuffix(config.Site.Url, "/") {
 		config.Site.Url = strings.TrimSuffix(config.Site.Url, "/")
+	}
+	if (config.Build.Output == "") {
+		config.Build.Output = "public"
 	}
 	// Parse Theme Config
 	themeConfig := ParseThemeConfig(filepath.Join(rootPath, config.Site.Theme, "config.yml"))

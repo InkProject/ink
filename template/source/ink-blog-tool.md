@@ -57,6 +57,7 @@ authors:
         avatar: 作者头像路径
 
 build:
+    output: 构建输出目录 #可选, 默认为 "public"
     port: 预览端口
     copy:
         - 构建时将会复制的目录/文件

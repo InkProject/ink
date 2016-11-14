@@ -95,7 +95,7 @@ func Serve() {
 
 	previewWeb := ink.New()
 	previewWeb.Get("/live", Websocket)
-	previewWeb.Get("*", ink.Static(filepath.Join(rootPath, "public")))
+	previewWeb.Get("*", ink.Static(filepath.Join(rootPath, globalConfig.Build.Output)))
 
 	Log("Access http://localhost:" + globalConfig.Build.Port + "/ to open preview")
 	previewWeb.Listen(":" + globalConfig.Build.Port)

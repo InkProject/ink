@@ -119,7 +119,7 @@ func Publish() {
 		flag = "-c"
 	}
 	cmd := exec.Command(shell, flag, command)
-	cmd.Dir = filepath.Join(rootPath, "public")
+	cmd.Dir = filepath.Join(rootPath, globalConfig.Build.Output)
 	// Start print stdout and stderr of process
 	stdout, _ := cmd.StdoutPipe()
 	stderr, _ := cmd.StderrPipe()

@@ -45,6 +45,7 @@ authors:
         avatar: Author Avatar Path
 
 build:
+    output: Build Output Directory #Optional, Default is "public"
     port: Preview Port
     copy:
         - Copied Files When Build

@@ -79,7 +79,7 @@ func Build() {
 	var archiveMap = make(map[string]Collections)
 	// Parse config
 	themePath = filepath.Join(rootPath, globalConfig.Site.Theme)
-	publicPath = filepath.Join(rootPath, "public")
+	publicPath = filepath.Join(rootPath, globalConfig.Build.Output)
 	sourcePath = filepath.Join(rootPath, "source")
 	// Append all partial html
 	var partialTpl string

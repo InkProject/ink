@@ -17,6 +17,7 @@ authors:
         avatar: "-/images/avatar.png"
 
 build:
+    # output: "public"
     port: 8000
     # Copied files to public folder when build
     copy:
