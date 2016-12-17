@@ -74,6 +74,7 @@ func (v Collections) Less(i, j int) bool {
 func Build() {
 	startTime := time.Now()
 	var articles = make(Collections, 0)
+	var visibleArticles = make(Collections, 0)
 	var pages = make(Collections, 0)
 	var tagMap = make(map[string]Collections)
 	var archiveMap = make(map[string]Collections)
@@ -133,6 +134,10 @@ func Build() {
 				return nil
 			}
 			articles = append(articles, *article)
+			if article.Hide {
+				return nil
+			}
+			visibleArticles = append(visibleArticles, *article)
 			// Get tags info
 			for _, tag := range article.Tags {
 				if _, ok := tagMap[tag]; !ok {
@@ -156,17 +161,18 @@ func Build() {
 		}
 		return nil
 	})
-	if len(articles) == 0 {
+	if len(visibleArticles) == 0 {
 		Fatal("Must be have at least one article")
 	}
 	// Sort by date
 	sort.Sort(articles)
+	sort.Sort(visibleArticles)
 	// Generate RSS page
 	wg.Add(1)
-	go GenerateRSS(articles)
+	go GenerateRSS(visibleArticles)
 	// Generate article list JSON
 	wg.Add(1)
-	go GenerateJSON(articles)
+	go GenerateJSON(visibleArticles)
 	// Render articles
 	wg.Add(1)
 	go RenderArticles(articleTpl, articles)
@@ -175,7 +181,7 @@ func Build() {
 	go RenderArticles(articleTpl, pages)
 	// Generate article list pages
 	wg.Add(1)
-	go RenderArticleList("", articles, "")
+	go RenderArticleList("", visibleArticles, "")
 	// Generate article list pages by tag
 	for tagName, articles := range tagMap {
 		wg.Add(1)
@@ -195,7 +201,7 @@ func Build() {
 	sort.Sort(archives)
 	wg.Add(1)
 	go RenderPage(archiveTpl, map[string]interface{}{
-		"Total":   len(articles),
+		"Total":   len(visibleArticles),
 		"Archive": archives,
 		"Site":    globalConfig.Site,
 		"I18n":    globalConfig.I18n,
@@ -226,7 +232,7 @@ func Build() {
 	sort.Sort(Collections(tags))
 	wg.Add(1)
 	go RenderPage(tagTpl, map[string]interface{}{
-		"Total": len(articles),
+		"Total": len(visibleArticles),
 		"Tag":   tags,
 		"Site":  globalConfig.Site,
 		"I18n":  globalConfig.I18n,

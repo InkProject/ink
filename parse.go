@@ -61,6 +61,7 @@ type ArticleConfig struct {
 	Preview    template.HTML
 	Top        bool
 	Type       string
+	Hide       bool
 	Config     interface{}
 }
 
@@ -201,6 +202,7 @@ func ParseArticle(markdownPath string) *Article {
 	}
 	var article Article
 	// Parse markdown content
+	article.Hide = config.Hide
 	article.Type = config.Type
 	article.Preview = config.Preview
 	article.Config = config.Config
