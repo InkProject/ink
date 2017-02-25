@@ -3,19 +3,20 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"github.com/codegangsta/cli"
-	"github.com/facebookgo/symwalk"
-	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"runtime"
 	"strings"
+
+	"github.com/codegangsta/cli"
+	"github.com/facebookgo/symwalk"
+	"gopkg.in/yaml.v2"
 )
 
 const (
-	VERSION      = "RELEASE 2016-07-11"
+	VERSION      = "RELEASE 2017-02-25"
 	DEFAULT_ROOT = "blog"
 )
 
@@ -66,7 +67,6 @@ func main() {
 			Action: func(c *cli.Context) error {
 				ParseGlobalConfigByCli(c, true)
 				Build()
-				Watch()
 				Serve()
 				return nil
 			},

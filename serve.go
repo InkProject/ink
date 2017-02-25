@@ -1,12 +1,13 @@
 package main
 
 import (
+	"os"
+	"path/filepath"
+
 	"github.com/InkProject/ink.go"
 	"github.com/facebookgo/symwalk"
 	"github.com/go-fsnotify/fsnotify"
 	"github.com/gorilla/websocket"
-	"os"
-	"path/filepath"
 )
 
 var watcher *fsnotify.Watcher
@@ -39,28 +40,28 @@ func Watch() {
 		}
 	}()
 	var dirs = []string{
-    filepath.Join(rootPath, "source"),
-    filepath.Join(themePath, "bundle"),
-  }
-  var files = []string{
-    filepath.Join(rootPath, "config.yml"),
-    filepath.Join(themePath),
-  }
-	for _, source := range dirs {
-    symwalk.Walk(source, func(path string, f os.FileInfo, err error) error {
-      if f.IsDir() {
-        if err := watcher.Add(path); err != nil {
-          Warn(err.Error())
-        }
-      }
-      return nil
-    })
+		filepath.Join(rootPath, "source"),
+		filepath.Join(themePath, "bundle"),
 	}
-  for _, source := range files {
-    if err := watcher.Add(source); err != nil {
-      Warn(err.Error())
-    }
-  }
+	var files = []string{
+		filepath.Join(rootPath, "config.yml"),
+		filepath.Join(themePath),
+	}
+	for _, source := range dirs {
+		symwalk.Walk(source, func(path string, f os.FileInfo, err error) error {
+			if f.IsDir() {
+				if err := watcher.Add(path); err != nil {
+					Warn(err.Error())
+				}
+			}
+			return nil
+		})
+	}
+	for _, source := range files {
+		if err := watcher.Add(source); err != nil {
+			Warn(err.Error())
+		}
+	}
 }
 
 func Websocket(ctx *ink.Context) {
@@ -69,7 +70,7 @@ func Websocket(ctx *ink.Context) {
 		WriteBufferSize: 1024,
 	}
 	if c, err := upgrader.Upgrade(ctx.Res, ctx.Req, nil); err != nil {
-		Fatal(err)
+		Warn(err)
 	} else {
 		conn = c
 	}
