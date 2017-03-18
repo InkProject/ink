@@ -1,6 +1,9 @@
 {
   "name": "InkPaperDefaultTheme",
   "version": "0.0.1",
+  "scripts": {
+    "start": "webpack"
+  },
   "description": "InkPaper Default Theme",
   "devDependencies": {
     "autoprefixer": "^6.3.6",

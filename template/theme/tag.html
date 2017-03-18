@@ -18,7 +18,7 @@
                     <span class="title">{{i18n "tag"}} -</span>
                     <span class="subtitle">{{.Total}} {{i18n "articles"}}</span>
                 </header>
-                <ul class="tag-list">
+                <ul class="tag-list clearfix">
                     {{range .Tag}}
                     <li class="tag-item">
                         <a class="tag-name" href="{{$.Site.Root}}/tag/{{.Name}}/index.html">{{.Name}}<span class="tag-count"> ({{.Count}})</span></a>
