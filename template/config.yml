@@ -6,6 +6,7 @@ site:
     lang: zh
     url: "http://www.chole.io/blog"
     comment: username
+    moe: true
     logo: "-/images/avatar.png"
     # link: "{category}/{year}/{month}/{day}/{title}.html"
     # root: "/blog"

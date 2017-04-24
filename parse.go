@@ -19,6 +19,7 @@ type SiteConfig struct {
 	Limit    int
 	Theme    string
 	Comment  string
+	Moe      bool
 	Lang     string
 	Url      string
 	Link     string
