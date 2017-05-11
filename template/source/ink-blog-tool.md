@@ -98,7 +98,7 @@ Markdown格式的正文
 
 ### 修改主题
 
-默认主题在`theme`目录下，修改源代码后在该目录下运行`npm install`与`webpack`重新构建。
+默认主题在`theme`目录下，修改源代码后在该目录下运行`npm install`与`npm run build`重新构建。
 
 页面包含`page.html`（文章列表）及`article.html`（文章）等，所有页面均支持[GO语言HTML模板](http://golang.org/pkg/html/template/)语法，可引用变量。
 

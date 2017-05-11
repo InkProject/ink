@@ -2,7 +2,8 @@
   "name": "InkPaperDefaultTheme",
   "version": "0.0.1",
   "scripts": {
-    "start": "webpack"
+    "start": "./node_modules/.bin/webpack --progress --colors --watch",
+    "build": "./node_modules/.bin/webpack --progress --colors"
   },
   "description": "InkPaper Default Theme",
   "devDependencies": {

@@ -78,7 +78,7 @@ Markdown Format's Body
 
 ### Modify Theme
 
-Default theme placed in `theme` folder, run `npm install` and `webpack` to rebuild in this folder.
+Default theme placed in `theme` folder, run `npm install` and `npm run build` to rebuild in this folder.
 
 page `page.html` (article list) and `article.html` (article), use variable with [Golang Template](http://golang.org/pkg/html/template/) syntax.
 

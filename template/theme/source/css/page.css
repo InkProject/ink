@@ -78,7 +78,9 @@
           border: 1px solid $whiteDark;
           box-sizing: border-box;
           margin-top: 15px;
-          margin-bottom: 10px;
+          @media (max-width: 414px) {
+            height: 180px;
+          }
         }
         .preview {
           @mixin font-main;
