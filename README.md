@@ -112,8 +112,10 @@ Docker Build (Example)
 
 - Dark(Official Theme): [https://github.com/InkProject/ink-theme-dark](https://github.com/InkProject/ink-theme-dark)
 - simple: [https://github.com/myiq/ink-simple](https://github.com/myiq/ink-simple)
-- <del>Pure: [https://github.com/Xdatk/ink-pure](https://github.com/Xdatk/ink-pure)</del>
-- Werttin: [https://github.com/Skimige/ink_Werttin](https://github.com/Skimige/ink_Werttin)
+
+## Related Toturials
+
+- [Automatically deploy your Ink blog to GitHub pages wiht Travis CI](http://www.shery.me/blog/travis-ci.html)
 
 ## License
 [CC Attribution-NonCommercial License 4.0](https://creativecommons.org/licenses/by-nc/4.0/)

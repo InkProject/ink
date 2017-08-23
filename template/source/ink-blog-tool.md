@@ -127,10 +127,14 @@ Docker构建（示例）
 2. 源码目录下构建镜像`docker build -t ink .`。
 3. 运行容器`docker run -p 8000:80 ink`。
 
-## 三方主题
+## 主题
 
-- Pure: [https://github.com/Xdatk/ink-pure](https://github.com/Xdatk/ink-pure)
-- Werttin: [https://github.com/Skimige/ink_Werttin](https://github.com/Skimige/ink_Werttin)
+- Dark(Official Theme): [https://github.com/InkProject/ink-theme-dark](https://github.com/InkProject/ink-theme-dark)
+- simple: [https://github.com/myiq/ink-simple](https://github.com/myiq/ink-simple)
+
+## 相关链接
+
+- [InkPaper 最佳实践](https://segmentfault.com/a/1190000009084954)
 
 ## 反馈贡献
 
