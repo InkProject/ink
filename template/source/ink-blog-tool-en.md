@@ -118,8 +118,12 @@ Docker Build (Example)
 
 ## Theme
 
-- Pure: [https://github.com/Xdatk/ink-pure](https://github.com/Xdatk/ink-pure)
-- Werttin: [https://github.com/Skimige/ink_Werttin](https://github.com/Skimige/ink_Werttin)
+- Dark(Official Theme): [https://github.com/InkProject/ink-theme-dark](https://github.com/InkProject/ink-theme-dark)
+- simple: [https://github.com/myiq/ink-simple](https://github.com/myiq/ink-simple)
+
+## Related Toturials
+
+- [Automatically deploy your Ink blog to GitHub pages wiht Travis CI](http://www.shery.me/blog/travis-ci.html)
 
 ## Issue Report
 
