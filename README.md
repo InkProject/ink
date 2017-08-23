@@ -110,7 +110,9 @@ Docker Build (Example)
 
 ## Theme
 
-- Pure: [https://github.com/Xdatk/ink-pure](https://github.com/Xdatk/ink-pure)
+- Dark(Official Theme): [https://github.com/InkProject/ink-theme-dark](https://github.com/InkProject/ink-theme-dark)
+- simple: [https://github.com/myiq/ink-simple](https://github.com/myiq/ink-simple)
+- <del>Pure: [https://github.com/Xdatk/ink-pure](https://github.com/Xdatk/ink-pure)</del>
 - Werttin: [https://github.com/Skimige/ink_Werttin](https://github.com/Skimige/ink_Werttin)
 
 ## License
