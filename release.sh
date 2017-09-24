@@ -15,7 +15,7 @@ build () {
   then
     tar cvf - blog/* ink$suffix | gzip -9 - > ink_$1_$2.tar.gz
   else
-    7za a -tzip -r ink_$1_$2.zip blog ink$suffix
+    7z a -tzip -r ink_$1_$2.zip blog ink$suffix
   fi
   rm -rf ink$suffix
   cd ..
