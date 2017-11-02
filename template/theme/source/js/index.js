@@ -74,7 +74,7 @@ var initSearch = function() {
     }
     return searchTpl
     .replace('{{title}}', title)
-    .replace('{{link}}', link + '?search=' + keywords)
+    .replace('{{link}}', link + '?search=' + keywords)  // append keywords to url
     .replace('{{preview}}', preview)
   }
   searchWorker.onmessage = function(event) {
@@ -159,23 +159,18 @@ $(function() {
   initSearch()
 })
 
-// get searched keywords from url
-var reg = new RegExp("(^|&)search=([^&]*)(&|$)")
-var r = window.location.search.substr(1).match(reg)
-var keywords = decodeURI(r[2]).split(',')
-
 // highlight searched keywords
-var content = document.body.innerHTML
 if (keywords != null && keywords.toString().length > 1) {
+  var content = document.body.innerHTML
   for (var i = 0; i < keywords.length; i++) {
     var keyword = keywords[i]
-    var wrap = '<span id="searched" class="searched">' + keyword + '</span>'     // id="searched" is for scrolling below
+    var wrap = '<span class="searched">' + keyword + '</span>'
     var reg = new RegExp(keyword, 'ig')
     content = content.replace(reg, wrap)
   }
-}
-document.body.innerHTML = content
+  document.body.innerHTML = content
 
-// scroll to the first searched keyword
-var elmnt = document.getElementById("searched")
-elmnt.scrollIntoView()
+  // scroll to the first searched keyword
+  var elmnt = document.getElementsByClassName("searched")
+  elmnt[0].scrollIntoView()
+}
