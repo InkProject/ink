@@ -74,7 +74,7 @@ var initSearch = function() {
     }
     return searchTpl
     .replace('{{title}}', title)
-    .replace('{{link}}', link)
+    .replace('{{link}}', link + '?search=' + keywords)  // append keywords to url
     .replace('{{preview}}', preview)
   }
   searchWorker.onmessage = function(event) {
@@ -158,3 +158,19 @@ $(function() {
   // init search
   initSearch()
 })
+
+// highlight searched keywords
+if (keywords != null && keywords.toString().length > 1) {
+  var content = document.body.innerHTML
+  for (var i = 0; i < keywords.length; i++) {
+    var keyword = keywords[i]
+    var wrap = '<span class="searched">' + keyword + '</span>'
+    var reg = new RegExp(keyword, 'ig')
+    content = content.replace(reg, wrap)
+  }
+  document.body.innerHTML = content
+
+  // scroll to the first searched keyword
+  var elmnt = document.getElementsByClassName("searched")
+  elmnt[0].scrollIntoView()
+}
