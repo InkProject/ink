@@ -159,8 +159,12 @@ $(function() {
   initSearch()
 })
 
-// highlight searched keywords
-if (keywords != null && keywords.toString().length > 1) {
+// get searched keywords from url
+var reg = new RegExp("(^|&)search=([^&]*)(&|$)")
+var r = window.location.search.substr(1).match(reg)
+if (r != null && r.toString().length > 1) {
+  var keywords = decodeURI(r[2]).split(',')
+  // highlight searched keywords
   var content = document.body.innerHTML
   for (var i = 0; i < keywords.length; i++) {
     var keyword = keywords[i]
@@ -169,8 +173,26 @@ if (keywords != null && keywords.toString().length > 1) {
     content = content.replace(reg, wrap)
   }
   document.body.innerHTML = content
-
   // scroll to the first searched keyword
   var elmnt = document.getElementsByClassName("searched")
   elmnt[0].scrollIntoView()
 }
+
+// show "go top" button when needed
+$(document).ready(function () {
+  $("#go_top").hide();
+  $(function () {
+    var height = $(window).height();
+    $(window).scroll(function () {
+      if ($(window).scrollTop() > height) {
+        $("#go_top").fadeIn(500);
+      } else {
+        $("#go_top").fadeOut(500);
+      }
+    });
+    $("#go_top").click(function () {
+      $('body,html').animate({ scrollTop: 0 }, 100);
+      return false;
+    });
+  });
+});
