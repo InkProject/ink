@@ -260,6 +260,9 @@ func ParseArticle(markdownPath string) *Article {
 				"{year}":     article.Time.Format("2006"),
 				"{month}":    article.Time.Format("01"),
 				"{day}":      article.Time.Format("02"),
+				"{hour}":     article.Time.Format("15"),
+				"{minute}":   article.Time.Format("04"),
+				"{second}":   article.Time.Format("05"),
 				"{category}": article.Category,
 				"{title}":    fileName,
 			}
