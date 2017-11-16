@@ -3,7 +3,7 @@ site:
     subtitle: "构建只为纯粹书写的博客"
     limit: 10
     theme: theme
-    lang: zh
+    lang: zh-cn
     url: "http://www.chole.io/blog"
     comment: username
     logo: "-/images/avatar.png"
