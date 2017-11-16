@@ -7,86 +7,103 @@ copy:
 lang:
     archive:
         en: ARCHIVE
-        zh: 归档
+        zh-cn: 归档
+        zh-tw: 歸檔
         ru: Архив
         ja: アーカイブ
     tag:
         en: TAG
-        zh: 标签
+        zh-cn: 标签
+        zh-tw: 標籤
         ru: Теги
         ja: タグ
     rss:
         en: RSS
-        zh: 订阅
+        zh-cn: 订阅
+        zh-tw: 訂閱
         ru: RSS
         ja: RSS
     articles:
         en: Articles
-        zh: 篇文章
+        zh-cn: 篇文章
+        zh-tw: 篇文章
         ru: Записи
         ja: 記事
     updated:
         en: updated
-        zh: 更新
+        zh-cn: 更新
+        zh-tw: 更新
         ru: обновлено
         ja: 更新
     prev_page:
         en: Prev Page
-        zh: 上一页
+        zh-cn: ◀ 上一页
+        zh-tw: ◀ 上一頁
         ru: Назад
         ja: 前のページ
     next_page:
         en: Next Page
-        zh: 下一页
+        zh-cn: 下一页 ▶
+        zh-tw: 下一頁 ▶
         ru: Далее
         ja: 次のページ
     prev_reading:
         en: Prev Reading
-        zh: 上篇文章
+        zh-cn: ◀ 上一篇
+        zh-tw: ◀ 上一篇
         ru: Предыдущая запись
         ja: 新しい記事
     next_reading:
         en: Next Reading
-        zh: 下篇文章
+        zh-cn: 下一篇 ▶
+        zh-tw: 下一篇 ▶
         ru: Следующая запись
         ja: 古い記事
     top:
         en: TOP
-        zh: 置顶
+        zh-cn: 置顶
+        zh-tw: 置頂
         ru: Наверх
         ja: TOP
     search:
         en: Search
-        zh: 搜索
+        zh-cn: 搜索
+        zh-tw: 搜尋
         ru: Поиск
         ja: 検索
     since_year:
         en: " years ago"
-        zh: 年前
+        zh-cn: 年前
+        zh-tw: 年前
         ru: " лет назад"
         ja: 年前
     since_month:
         en: " months ago"
-        zh: 个月前
+        zh-cn: 个月前
+        zh-tw: 個月前
         ru: " месяцев назад"
         ja: ヶ月前
     since_day:
         en: " days ago"
-        zh: 天前
+        zh-cn: 天前
+        zh-tw: 天前
         ru: " дней назад"
         ja: 日前
     since_hour:
         en: " hours ago"
-        zh: 小时前
+        zh-cn: 小时前
+        zh-tw: 小時前
         ru: " часов назад"
         ja: 時間前
     since_minute:
         en: " minutes ago"
-        zh: 分钟前
+        zh-cn: 分钟前
+        zh-tw: 分鐘前
         ru: " минут назад"
         ja: 分前
     since_second:
         en: " seconds ago"
-        zh: 秒前
+        zh-cn: 秒前
+        zh-tw: 秒前
         ru: " секунд назад"
         ja: 秒前
