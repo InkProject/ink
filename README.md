@@ -28,7 +28,7 @@ site:
     root: Website Root Path #Optional
     lang: Website Language #Support en, zh, ru, ja, Configurable in theme/lang.yml
     url: Website URL #For RSS Generating
-    link: Article Link Scheme #Default Is {title}.html，Support {year},{month},{day},{title} Variables
+    link: Article Link Scheme #Default Is {title}.html，Support {year},{month},{day},{hour},{minute},{second},{title} Variables
 
 authors:
     AuthorID:
