@@ -6,7 +6,7 @@ import (
 
 	"github.com/InkProject/ink.go"
 	"github.com/facebookgo/symwalk"
-	"github.com/go-fsnotify/fsnotify"
+	"github.com/fsnotify/fsnotify"
 	"github.com/gorilla/websocket"
 )
 
