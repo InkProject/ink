@@ -8,6 +8,7 @@ import (
 	"github.com/facebookgo/symwalk"
 	"github.com/fsnotify/fsnotify"
 	"github.com/gorilla/websocket"
+	"github.com/taadis/oper"
 )
 
 var watcher *fsnotify.Watcher
@@ -98,6 +99,8 @@ func Serve() {
 	previewWeb.Get("/live", Websocket)
 	previewWeb.Get("*", ink.Static(filepath.Join(rootPath, globalConfig.Build.Output)))
 
-	Log("Access http://localhost:" + globalConfig.Build.Port + "/ to open preview")
+	uri := "http://localhost:" + globalConfig.Build.Port + "/"
+	Log("Access " + uri + " to open preview")
+	oper.Access(uri)
 	previewWeb.Listen(":" + globalConfig.Build.Port)
 }
