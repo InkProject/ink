@@ -18,7 +18,7 @@ import (
 )
 
 const (
-	VERSION            = "RELEASE 2017-09-24"
+	VERSION            = "RELEASE 2018-07-27"
 	DEFAULT_ROOT       = "blog"
 	DATE_FORMAT_STRING = "2006-01-02 15:04:05"
 	INDENT             = "  " // 2 spaces
