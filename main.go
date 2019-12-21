@@ -46,13 +46,17 @@ var globalConfig *GlobalConfig
 var rootPath string
 
 func main() {
+
 	app := cli.NewApp()
 	app.Name = "ink"
 	app.Usage = "An elegant static blog generator"
-	app.Author = "https://github.com/imeoer"
-	app.Email = "imeoer@gmail.com"
+	app.Authors = []*cli.Author{
+		{Name: "Harrison", Email: "harrison@lolwut.com"},
+		{Name: "Oliver Allen", Email: "oliver@toyshop.com"},
+	}
+	//app.Email = "imeoer@gmail.com"
 	app.Version = VERSION
-	app.Commands = []cli.Command{
+	app.Commands = []*cli.Command{
 		{
 			Name:  "build",
 			Usage: "Generate blog to public folder",
@@ -105,49 +109,49 @@ func main() {
 			Name:  "new",
 			Usage: "Creates a new article",
 			Flags: []cli.Flag{
-				cli.BoolFlag{
+				&cli.BoolFlag{
 					Name:  "hide",
 					Usage: "Hides the article",
 				},
-				cli.BoolFlag{
+				&cli.BoolFlag{
 					Name:  "top",
 					Usage: "Places the article at the top",
 				},
-				cli.BoolFlag{
+				&cli.BoolFlag{
 					Name:  "post",
 					Usage: "The article is a post",
 				},
-				cli.BoolFlag{
+				&cli.BoolFlag{
 					Name:  "page",
 					Usage: "The article is a page",
 				},
-				cli.BoolFlag{
+				&cli.BoolFlag{
 					Name:  "draft",
 					Usage: "The article is a draft",
 				},
 
-				cli.StringFlag{
+				&cli.StringFlag{
 					Name:  "title",
 					Usage: "Article title",
 				},
-				cli.StringFlag{
+				&cli.StringFlag{
 					Name:  "author",
 					Usage: "Article author",
 				},
-				cli.StringFlag{
+				&cli.StringFlag{
 					Name:  "cover",
 					Usage: "Article cover path",
 				},
-				cli.StringFlag{
+				&cli.StringFlag{
 					Name:  "date",
 					Usage: "The date and time on which the article was created (2006-01-02 15:04:05)",
 				},
-				cli.StringFlag{
+				&cli.StringFlag{
 					Name:  "file",
 					Usage: "The path of where the article will be stored",
 				},
 
-				cli.StringSliceFlag{
+				&cli.StringSliceFlag{
 					Name:  "tag",
 					Usage: "Adds a tag to the article",
 				},
@@ -163,8 +167,8 @@ func main() {
 }
 
 func ParseGlobalConfigByCli(c *cli.Context, develop bool) {
-	if len(c.Args()) > 0 {
-		rootPath = c.Args()[0]
+	if c.Args().Len() > 0 {
+		rootPath = c.Args().Slice()[0]
 	} else {
 		rootPath = "."
 	}
@@ -207,8 +211,8 @@ func New(c *cli.Context) {
 
 	// Parse args
 	args := c.Args()
-	if len(args) > 0 {
-		blogTitle = args[0]
+	if args.Len() > 0 {
+		blogTitle = args.Slice()[0]
 	}
 	if blogTitle == "" {
 		if c.String("title") != "" {
@@ -223,8 +227,8 @@ func New(c *cli.Context) {
 		fileName = c.String("file")
 	}
 
-	if len(args) > 1 {
-		author = args[1]
+	if args.Len() > 1 {
+		author = args.Slice()[1]
 	}
 	if author == "" {
 		author = c.String("author")
@@ -349,13 +353,13 @@ func Convert(c *cli.Context) {
 	// Parse arguments
 	var sourcePath, rootPath string
 	args := c.Args()
-	if len(args) > 0 {
-		sourcePath = args[0]
+	if args.Len() > 0 {
+		sourcePath = args.Slice()[0]
 	} else {
 		Fatal("Please specify the posts source path")
 	}
-	if len(args) > 1 {
-		rootPath = args[1]
+	if args.Len() > 1 {
+		rootPath = args.Slice()[1]
 	} else {
 		rootPath = "."
 	}
