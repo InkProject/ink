@@ -6,23 +6,34 @@
 <meta name="google" value="notranslate">
 <meta name="robots" content="index,follow">
 
+
+{{ $imgurl := printf "%s%s" .Site.Url .Site.Logo}}
+{{ if .Image }}
+    {{ $imgurl = .Image }}
+{{ end }}
+
+{{ $subtitle := .Site.Subtitle }}
+{{ if .Subtitle }}
+    {{ $subtitle = .Subtitle }}
+{{ end }}
+
 <!-- Twitter -->
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="{{.Site.Title}}">
-<meta name="twitter:description" content="{{.Site.Subtitle}}">
-<meta name="twitter:image:src" content="{{.Site.Url}}{{.Site.Logo}}">
+<meta name="twitter:title" content="{{.Title}}">
+<meta name="twitter:description" content="{{$subtitle}}">
+<meta name="twitter:image:src" content="{{$imgurl}}">
 <!-- Facebook -->
 <meta property="og:url" content="{{.Site.Url}}">
-<meta property="og:title" content="{{.Site.Title}}">
-<meta property="og:description" content="{{.Site.Subtitle}}">
+<meta property="og:title" content="{{.Title}}">
+<meta property="og:description" content="{{$subtitle}}">
 <meta property="og:site_name" content="{{.Site.Title}}">
-<meta property="og:image" content="{{.Site.Url}}{{.Site.Logo}}">
+<meta property="og:image" content="{{$imgurl}}">
 <meta property="og:type" content="website">
 <meta name="robots" content="noodp">
 <!-- Google Plus -->
-<meta itemprop="name" content="{{.Site.Title}}">
-<meta itemprop="description" content="{{.Site.Subtitle}}">
-<meta itemprop="image" content="{{.Site.Url}}{{.Site.Logo}}">
+<meta itemprop="name" content="{{.Title}}">
+<meta itemprop="description" content="{{$subtitle}}">
+<meta itemprop="image" content="{{$imgurl}}">
 <!-- Canonical URL -->
 <link rel="canonical" href="{{.Site.Url}}">
 
