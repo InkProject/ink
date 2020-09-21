@@ -62,6 +62,8 @@ type ArticleConfig struct {
 	Top        bool
 	Type       string
 	Hide       bool
+	Image      string
+	Subtitle   string
 	Config     interface{}
 }
 
@@ -80,6 +82,8 @@ type Article struct {
 	Content  template.HTML
 	Link     string
 	Config   interface{}
+	Image    string
+	Subtitle string
 }
 
 type ThemeConfig struct {
@@ -220,6 +224,8 @@ func ParseArticle(markdownPath string) *Article {
 	article.Topic = config.Topic
 	article.Draft = config.Draft
 	article.Top = config.Top
+	article.Image = config.Image
+	article.Subtitle = config.Subtitle
 	if author, ok := globalConfig.Authors[config.Author]; ok {
 		author.Id = config.Author
 		author.Avatar = ReplaceRootFlag(author.Avatar)
