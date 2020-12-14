@@ -7,8 +7,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/InkProject/blackfriday"
 	"gopkg.in/yaml.v2"
+
+	"github.com/InkProject/blackfriday"
 )
 
 type SiteConfig struct {
@@ -33,7 +34,7 @@ type AuthorConfig struct {
 }
 
 type BuildConfig struct {
-	Output	string
+	Output  string
 	Port    string
 	Watch   bool
 	Copy    []string
@@ -126,7 +127,7 @@ func ParseGlobalConfig(configPath string, develop bool) *GlobalConfig {
 	if config.Site.Url != "" && strings.HasSuffix(config.Site.Url, "/") {
 		config.Site.Url = strings.TrimSuffix(config.Site.Url, "/")
 	}
-	if (config.Build.Output == "") {
+	if config.Build.Output == "" {
 		config.Build.Output = "public"
 	}
 	// Parse Theme Config

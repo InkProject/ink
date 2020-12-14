@@ -4,8 +4,6 @@ import (
 	"crypto/md5"
 	"encoding/hex"
 	"encoding/json"
-	"github.com/InkProject/ink.go"
-	"github.com/facebookgo/symwalk"
 	"io/ioutil"
 	"mime/multipart"
 	"net/http"
@@ -13,6 +11,9 @@ import (
 	"path/filepath"
 	"strings"
 	"time"
+
+	"github.com/InkProject/ink.go"
+	"github.com/facebookgo/symwalk"
 	// "fmt"
 )
 

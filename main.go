@@ -3,18 +3,18 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"html/template"
 	"io/ioutil"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"runtime"
 	"strings"
-
-	"github.com/codegangsta/cli"
-	"github.com/facebookgo/symwalk"
-	"gopkg.in/yaml.v2"
-	"html/template"
 	"time"
+
+	"github.com/facebookgo/symwalk"
+	"github.com/urfave/cli/v2"
+	"gopkg.in/yaml.v2"
 )
 
 const (
