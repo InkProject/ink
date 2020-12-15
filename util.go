@@ -79,9 +79,11 @@ func Exists(path string) bool {
 
 // Check file if is directory
 func IsDir(path string) bool {
-  file, err := os.Stat(path)
-  if err != nil { return false }
-  return file.IsDir()
+	file, err := os.Stat(path)
+	if err != nil {
+		return false
+	}
+	return file.IsDir()
 }
 
 // Copy folder and file
