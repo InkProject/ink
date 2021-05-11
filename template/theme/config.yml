@@ -48,13 +48,13 @@ lang:
         ru: Далее
         ja: 次のページ
     prev_reading:
-        en: Prev Reading
+        en: Prev Article
         zh-cn: ◀ 上一篇
         zh-tw: ◀ 上一篇
         ru: Предыдущая запись
         ja: 新しい記事
     next_reading:
-        en: Next Reading
+        en: Next Article
         zh-cn: 下一篇 ▶
         zh-tw: 下一篇 ▶
         ru: Следующая запись

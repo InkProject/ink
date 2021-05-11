@@ -1,6 +1,6 @@
-## Introduce
+## Introduction
 
-InkPaper is an static blog generator developed by Golang, No dependencies, Cross platform, Easy use, Fast build, Elegant theme.
+InkPaper is a static blog generator developed in Golang. No dependencies, cross platform, easy to use, fast building times and an elegant theme.
 
 [![release](https://img.shields.io/badge/release-v2018--07--27-blue.svg)](http://www.chole.io/)
 [![apm](https://img.shields.io/badge/license-CC%20BY--NC%204.0-blue.svg)](https://creativecommons.org/licenses/by-nc/4.0/)
@@ -9,14 +9,14 @@ InkPaper is an static blog generator developed by Golang, No dependencies, Cross
 ![InkPaper - An Elegant Static Blog Generator](template/source/images/example-en.png)
 
 ### Quick Start
-- Download & Extract [Ink](https://imeoer.github.io/)，Run `ink preview`
+- Download & Extract [Ink](https://imeoer.github.io/) and run `ink preview`
 
-  > Tips：Linux/macOS, use `./ink preview`
+  > Tip：Linux/macOS, use `./ink preview`
 
-- Open `http://localhost:8000` in browser to preview
+- Open `http://localhost:8000` in your browser to preview
 
 ### Website Configuration
-Edit `config.yml`, use format:
+Edit `config.yml`, use this format:
 
 ``` yaml
 site:
@@ -42,11 +42,11 @@ build:
     copy:
         - Copied Files When Build
     publish: |
-        Excuted command when use 'ink publish'
+        Excuted command when 'ink publish' is used
 ```
 
-### Writing
-Create any `.md` file in `source` directory (Support subdirectory), use format:
+### Blog Writing
+Create a `.md` file in the `source` directory (Supports subdirectories). Use this format:
 
 ``` yaml
 title: Article Title
@@ -69,16 +69,16 @@ Markdown Format's Body
 ```
 
 ### Publish
-- Run `ink publish` in blog directory to automatically build and publish
+- Run `ink publish` in the blog directory to automatically build and publish
 - Or run `ink build` to manually deploy generated `public` directory
 
-> **Tips**: When `source` directory changed，`ink preview` will automatically rebuild blog，refresh browser to update
+> **Tips**: When `source` directory changed，`ink preview` will automatically rebuild the blog. Refresh browser to update
 
 ## Customization
 
-### Modify Theme
+### Modifying The Theme
 
-Default theme placed in `theme` folder, run `npm install` and `npm run build` to rebuild in this folder.
+The default theme is placed in the `theme` folder, run `npm install` and `npm run build` to rebuild in this folder.
 
 page `page.html` (article list) and `article.html` (article), use variable with [Golang Template](http://golang.org/pkg/html/template/) syntax.
 
@@ -86,15 +86,15 @@ page `page.html` (article list) and `article.html` (article), use variable with 
 
 Created any `.html` file will be copied to `source` directory, could use all variables on `site` field in `config.yml`.
 
-### Blog Migrate (Beta)
+### Blog Migration (Beta)
 
-Support simple Jeklly/Hexo post convert, use:
+Supports simple Jeklly/Hexo post convertions. Usage:
 
 ``` shell
 ink convert /path/_posts
 ```
 
-### Build from source
+### Building from source
 
 Local Build
 
@@ -110,17 +110,17 @@ Docker Build (Example)
 
 ## Theme
 
-- Dark(Official Theme): [https://github.com/InkProject/ink-theme-dark](https://github.com/InkProject/ink-theme-dark)
-- simple: [https://github.com/myiq/ink-simple](https://github.com/myiq/ink-simple)
+- Dark (Official Theme): [https://github.com/InkProject/ink-theme-dark](https://github.com/InkProject/ink-theme-dark)
+- Simple: [https://github.com/myiq/ink-simple](https://github.com/myiq/ink-simple)
 
-## Related Toturials
+## Related Tutorials
 
-- [Automatically deploy your Ink blog to GitHub pages wiht Travis CI](http://www.shery.me/blog/travis-ci.html)
+- [Automatically deploy your Ink blog to GitHub pages with Travis CI](http://www.shery.me/blog/travis-ci.html)
 
 ## License
 [CC Attribution-NonCommercial License 4.0](https://creativecommons.org/licenses/by-nc/4.0/)
 
-## Issue Report
+## Reporting An Issue
 
 [https://github.com/InkProject/ink/issues](https://github.com/InkProject/ink/issues)
 
@@ -134,12 +134,12 @@ Docker Build (Example)
 - [2015-06-04] Build more platform, add archive and tag page
 - [2015-03-01] Release first beta version
 
-## Develop Plan
+## Development Roadmap
 
 - Improve Theme
 - InkPaper Editor
 
-## They are using
+## These blogs are driven by InkPaper
 
 - [https://imeoer.github.io/blog/](https://imeoer.github.io/blog/)
 - [http://blog.hyper.sh/](http://blog.hyper.sh/)

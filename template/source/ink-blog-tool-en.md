@@ -6,25 +6,25 @@ cover: "-/images/example-en.png"
 tags:
     - 设计
     - 写作
-preview: InkPaper is an static blog generator developed by Golang, No dependencies, Cross platform, Easy use, Fast build, Elegant theme.
+preview: InkPaper is a static blog generator developed in Golang. No dependencies, cross platform, easy to use, fast building times and an elegant theme.
 
 ---
 
-## Introduce
+## Introduction
 
-InkPaper is an static blog generator developed by Golang, No dependencies, Cross platform, Easy use, Fast build, Elegant theme.
+InkPaper is a static blog generator developed in Golang. No dependencies, cross platform, easy to use, fast building times and an elegant theme.
 
 ![InkPaper - An Elegant Static Blog Generator](-/images/example-en.png)
 
 ### Quick Start
-- Download & Extract [Ink](http://www.chole.io/)，Run `ink preview`
+- Download & Extract [Ink](http://www.chole.io/) and run `ink preview`
 
-  > Tips：Linux/macOS, use `./ink preview`
+  > Tip：Linux/macOS, use `./ink preview`
 
-- Open `http://localhost:8000` in browser to preview
+- Open `http://localhost:8000` in your browser to preview
 
 ### Website Configuration
-Edit `config.yml`, use format:
+Edit `config.yml`, use this format:
 
 ``` yaml
 site:
@@ -50,11 +50,11 @@ build:
     copy:
         - Copied Files When Build
     publish: |
-        Excuted command when use 'ink publish'
+        Excuted command when 'ink publish' is used
 ```
 
-### Writing
-Create any `.md` file in `source` directory (Support subdirectory), use format:
+### Blog Writing
+Create a `.md` file in the `source` directory (Supports subdirectories). Use this format:
 
 ``` yaml
 title: Article Title
@@ -77,16 +77,16 @@ Markdown Format's Body
 ```
 
 ### Publish
-- Run `ink publish` in blog directory to automatically build and publish
+- Run `ink publish` in the blog directory to automatically build and publish
 - Or run `ink build` to manually deploy generated `public` directory
 
-> **Tips**: When files changed，`ink preview` will automatically rebuild blog，refresh browser to update.
+> **Tips**: When files changed，`ink preview` will automatically rebuild the blog. Refresh browser to update.
 
 ## Customization
 
-### Modify Theme
+### Modifying The Theme
 
-Default theme placed in `theme` folder, run `npm install` and `npm run build` to rebuild in this folder.
+The default theme is placed in the `theme` folder, run `npm install` and `npm run build` to rebuild in this folder.
 
 page `page.html` (article list) and `article.html` (article), use variable with [Golang Template](http://golang.org/pkg/html/template/) syntax.
 
@@ -96,13 +96,13 @@ Created any `.html` file will be copied to `source` directory, could use all var
 
 ### Blog Migrate (Beta)
 
-Support simple Jeklly/Hexo post convert, use:
+Supports simple Jeklly/Hexo post convertions. Usage:
 
 ``` shell
 ink convert /path/_posts
 ```
 
-### Build from source
+### Building from source
 
 Local Build
 
@@ -125,7 +125,7 @@ Docker Build (Example)
 
 - [Automatically deploy your Ink blog to GitHub pages wiht Travis CI](http://www.shery.me/blog/travis-ci.html)
 
-## Issue Report
+## Reporting An Issue
 
 [CC Attribution-NonCommercial License 4.0](https://creativecommons.org/licenses/by-nc/4.0/)
 
@@ -139,12 +139,12 @@ Docker Build (Example)
 - [2015-06-04] Build more platform, add archive and tag page
 - [2015-03-01] Release first beta version
 
-## Develop Plan
+## Development Roadmap
 
 - Improve Theme
 - InkPaper Editor
 
-## They are using
+## These blogs are driven by InkPaper
 
 - [http://www.chole.io/blog/](http://www.chole.io/blog/)
 - [http://blog.hyper.sh/](http://blog.hyper.sh/)

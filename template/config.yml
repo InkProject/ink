@@ -20,10 +20,10 @@ authors:
 build:
     # output: "public"
     port: 8000
-    # Copied files to public folder when build
+    # These files are copied to the public folder when 'ink build' is used
     copy:
         - "source/images"
-    # Excuted command when use 'ink publish'
+    # Executed commands when 'ink publish' is used
     publish: |
         git add . -A
         git commit -m "update"
