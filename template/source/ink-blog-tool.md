@@ -46,7 +46,7 @@ site:
     theme: 网站主题目录
     comment: 评论插件变量(默认为Disqus账户名)
     root: 网站根路径 #可选
-    lang: 网站语言 #支持en, zh, ru, ja，可在theme/config.yml配置
+    lang: 网站语言 #支持en, zh, ru, ja，de, 可在theme/config.yml配置
     url: 网站链接 #用于RSS生成
     link: 文章链接形式 #默认为{title}.html，支持{year},{month},{day},{title}变量
 

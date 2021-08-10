@@ -11,99 +11,116 @@ lang:
         zh-tw: 歸檔
         ru: Архив
         ja: アーカイブ
+        de: ARCHIV
     tag:
         en: TAG
         zh-cn: 标签
         zh-tw: 標籤
         ru: Теги
         ja: タグ
+        de: TAG
     rss:
         en: RSS
         zh-cn: 订阅
         zh-tw: 訂閱
         ru: RSS
         ja: RSS
+        de: RSS
     articles:
         en: Articles
         zh-cn: 篇文章
         zh-tw: 篇文章
         ru: Записи
         ja: 記事
+        de: Beiträge
     updated:
         en: updated
         zh-cn: 更新
         zh-tw: 更新
         ru: обновлено
         ja: 更新
+        de: geändert
     prev_page:
         en: Prev Page
         zh-cn: ◀ 上一页
         zh-tw: ◀ 上一頁
         ru: Назад
         ja: 前のページ
+        de: Seite zurück
     next_page:
         en: Next Page
         zh-cn: 下一页 ▶
         zh-tw: 下一頁 ▶
         ru: Далее
         ja: 次のページ
+        de: Seite vor
     prev_reading:
         en: Prev Article
         zh-cn: ◀ 上一篇
         zh-tw: ◀ 上一篇
         ru: Предыдущая запись
         ja: 新しい記事
+        de: Vorheriger Beitrag
     next_reading:
         en: Next Article
         zh-cn: 下一篇 ▶
         zh-tw: 下一篇 ▶
         ru: Следующая запись
         ja: 古い記事
+        de: Nächster Beitrag
     top:
         en: TOP
         zh-cn: 置顶
         zh-tw: 置頂
         ru: Наверх
         ja: TOP
+        de: Angeheftet
     search:
         en: Search
         zh-cn: 搜索
         zh-tw: 搜尋
         ru: Поиск
         ja: 検索
+        de: Suche
     since_year:
         en: " years ago"
         zh-cn: 年前
         zh-tw: 年前
         ru: " лет назад"
         ja: 年前
+        de: " Jahre"
     since_month:
         en: " months ago"
         zh-cn: 个月前
         zh-tw: 個月前
         ru: " месяцев назад"
         ja: ヶ月前
+        de: " Monate"
     since_day:
         en: " days ago"
         zh-cn: 天前
         zh-tw: 天前
         ru: " дней назад"
         ja: 日前
+        de: " Tage"
     since_hour:
         en: " hours ago"
         zh-cn: 小时前
         zh-tw: 小時前
         ru: " часов назад"
         ja: 時間前
+        de: " Stunden"
     since_minute:
         en: " minutes ago"
         zh-cn: 分钟前
         zh-tw: 分鐘前
         ru: " минут назад"
         ja: 分前
+        de: " Minuten"
     since_second:
         en: " seconds ago"
         zh-cn: 秒前
         zh-tw: 秒前
         ru: " секунд назад"
         ja: 秒前
+        de: " Sekunden"
