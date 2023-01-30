@@ -6,21 +6,25 @@
  * Licensed under the MIT license.
  * Copyright 2013 Luís Almeida
  * https://github.com/luis-almeida
+ * 
+ * 
+ * Modified by @w568w to work with the lastest jQuery.
  */
+import $ from 'jquery'
 
-;(function($) {
 
-  $.fn.unveil = function(threshold, callback) {
+(function () {
+  $.fn.unveil = function (threshold, callback) {
 
-    var $w = $(window),
-        th = threshold || 0,
-        retina = window.devicePixelRatio > 1,
-        attrib = retina? "data-src-retina" : "data-src",
-        images = this,
-        loaded;
+    let $w = $(window),
+      th = threshold || 0,
+      retina = window.devicePixelRatio > 1,
+      attrib = retina ? "data-src-retina" : "data-src",
+      images = this,
+      loaded;
 
-    this.one("unveil", function() {
-      var source = this.getAttribute(attrib);
+    this.one("unveil", function () {
+      let source = this.getAttribute(attrib);
       source = source || this.getAttribute("data-src");
       if (source) {
         this.setAttribute("src", source);
@@ -29,14 +33,14 @@
     });
 
     function unveil() {
-      var inview = images.filter(function() {
-        var $e = $(this);
+      const inview = images.filter(function () {
+        let $e = $(this);
         if ($e.is(":hidden")) return;
 
-        var wt = $w.scrollTop(),
-            wb = wt + $w.height(),
-            et = $e.offset().top,
-            eb = et + $e.height();
+        let wt = $w.scrollTop(),
+          wb = wt + $w.height(),
+          et = $e.offset().top,
+          eb = et + $e.height();
 
         return eb >= wt - th && et <= wb + th;
       });
@@ -52,5 +56,4 @@
     return this;
 
   };
-
-})(window.jQuery || window.Zepto);
+})();
