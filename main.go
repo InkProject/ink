@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"fmt"
 	"html/template"
-	"io/ioutil"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -373,7 +372,7 @@ func Convert(c *cli.Context) {
 		fileExt := strings.ToLower(filepath.Ext(path))
 		if fileExt == ".md" || fileExt == ".html" {
 			// Read data from file
-			data, err := ioutil.ReadFile(path)
+			data, err := os.ReadFile(path)
 			fileName := filepath.Base(path)
 			Log("Converting " + fileName)
 			if err != nil {
@@ -431,7 +430,7 @@ func Convert(c *cli.Context) {
 			if fileExt != ".md" {
 				targetName = targetName + ".md"
 			}
-			ioutil.WriteFile(filepath.Join(rootPath, targetName), []byte(markdownStr), 0644)
+			os.WriteFile(filepath.Join(rootPath, targetName), []byte(markdownStr), 0644)
 			count++
 		}
 		return nil

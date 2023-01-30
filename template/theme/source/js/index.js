@@ -1,15 +1,16 @@
-require('../css/index.css')
-window.jQuery = window.$ = require('jquery')
-window.hljs = require('./highlight.pack.js')
-require('./jquery.unveil.js')
+import '../css/index.css'
+import $ from 'jquery'
+import './jquery.unveil'
+import searchTpl from './searchTpl.html'
 
-var searchTpl = require('raw!./searchTpl.html')
+// backward compatibility for old version of highlight.js
+window.hljs = require('./highlight.pack.js')
 
 // pick from underscore
-var debounce = function(func, wait, immediate) {
+var debounce = function (func, wait, immediate) {
   var timeout, args, context, timestamp, result;
 
-  var later = function() {
+  var later = function () {
     var last = Date.now() - timestamp;
 
     if (last < wait && last >= 0) {
@@ -23,7 +24,7 @@ var debounce = function(func, wait, immediate) {
     }
   };
 
-  return function() {
+  return function () {
     context = this;
     args = arguments;
     timestamp = Date.now();
@@ -38,7 +39,7 @@ var debounce = function(func, wait, immediate) {
   };
 }
 
-var timeSince = function(date) {
+var timeSince = function (date) {
   var seconds = Math.floor((new Date() - date) / 1000)
   var interval = Math.floor(seconds / 31536000)
   if (interval > 1) return interval + timeSinceLang.year
@@ -58,13 +59,13 @@ var timeSince = function(date) {
   return Math.floor(seconds) + timeSinceLang.second
 }
 
-var initSearch = function() {
+var initSearch = function () {
   var searchDom = $('#search')
   if (!searchDom.length) return
   var searchWorker = new Worker(root + '/bundle/searchWorker.js')
   var oriHtml = $('.article-list').html()
   var workerStarted = false
-  var tpl = function(keywords, title, preview, link, cover) {
+  var tpl = function (keywords, title, preview, link, cover) {
     for (var i = 0; i < keywords.length; i++) {
       var keyword = keywords[i]
       var wrap = '<span class="searched">' + keyword + '</span>'
@@ -73,11 +74,11 @@ var initSearch = function() {
       preview = preview.replace(reg, wrap)
     }
     return searchTpl
-    .replace('{{title}}', title)
-    .replace('{{link}}', link + '?search=' + keywords)  // append keywords to url
-    .replace('{{preview}}', preview)
+      .replace('{{title}}', title)
+      .replace('{{link}}', link + '?search=' + keywords)  // append keywords to url
+      .replace('{{preview}}', preview)
   }
-  searchWorker.onmessage = function(event) {
+  searchWorker.onmessage = function (event) {
     var results = event.data.results
     var keywords = event.data.keywords
     if (results.length) {
@@ -100,7 +101,7 @@ var initSearch = function() {
       }
     }
   }
-  searchDom.on('input', debounce(function() {
+  searchDom.on('input', debounce(function () {
     var keyword = $(this).val().trim()
     if (keyword) {
       searchWorker.postMessage({
@@ -112,7 +113,7 @@ var initSearch = function() {
       $('.article-list').html(oriHtml)
     }
   }, 500))
-  searchDom.on('focus', function() {
+  searchDom.on('focus', function () {
     if (!workerStarted) {
       searchWorker.postMessage({
         action: 'start',
@@ -123,9 +124,9 @@ var initSearch = function() {
   })
 }
 
-$(function() {
+$(function () {
   // render date
-  $('.date').each(function(idx, item) {
+  $('.date').each(function (idx, item) {
     var $date = $(item)
     var timeStr = $date.data('time')
     if (timeStr) {
@@ -135,11 +136,11 @@ $(function() {
     }
   })
   // render highlight
-  $('pre code').each(function(i, block) {
+  $('pre code').each(function (i, block) {
     hljs.highlightBlock(block)
   })
   // append image description
-  $('img').each(function(idx, item) {
+  $('img').each(function (idx, item) {
     $item = $(item)
     if ($item.attr('data-src')) {
       $item.wrap('<a href="' + $item.attr('data-src') + '" target="_blank"></a>')
@@ -149,8 +150,8 @@ $(function() {
   })
   // lazy load images
   if ($('img').unveil) {
-    $('img').unveil(200, function() {
-      $(this).load(function() {
+    $('img').unveil(200, function () {
+      $(this).on("load", function () {
         this.style.opacity = 1
       })
     })

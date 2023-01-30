@@ -4,7 +4,7 @@ import (
 	"crypto/md5"
 	"encoding/hex"
 	"encoding/json"
-	"io/ioutil"
+	"io"
 	"mime/multipart"
 	"net/http"
 	"os"
@@ -14,7 +14,6 @@ import (
 
 	"github.com/InkProject/ink.go"
 	"github.com/facebookgo/symwalk"
-	// "fmt"
 )
 
 type NewArticle struct {
@@ -91,7 +90,7 @@ func ApiGetArticle(ctx *ink.Context) {
 		return
 	}
 	filePath := article.Path
-	data, err := ioutil.ReadFile(filePath)
+	data, err := os.ReadFile(filePath)
 	if err != nil {
 		replyJSON(ctx, http.StatusInternalServerError, err.Error())
 		return
@@ -124,7 +123,7 @@ func ApiCreateArticle(ctx *ink.Context) {
 		return
 	}
 	filePath := filepath.Join(sourcePath, article.Name+".md")
-	err = ioutil.WriteFile(filePath, []byte(article.Content), 0644)
+	err = os.WriteFile(filePath, []byte(article.Content), 0644)
 	if err != nil {
 		replyJSON(ctx, http.StatusInternalServerError, err.Error())
 		return
@@ -150,7 +149,7 @@ func ApiSaveArticle(ctx *ink.Context) {
 	}
 	// Write
 	path := cacheArticle.Path
-	err = ioutil.WriteFile(path, []byte(article.Content), 0644)
+	err = os.WriteFile(path, []byte(article.Content), 0644)
 	if err != nil {
 		replyJSON(ctx, http.StatusInternalServerError, err.Error())
 		return
@@ -164,7 +163,7 @@ func getFormFile(ctx *ink.Context, field string) (data []byte, handler *multipar
 		replyJSON(ctx, http.StatusBadRequest, err.Error())
 		return nil, handler, err
 	}
-	data, err = ioutil.ReadAll(file)
+	data, err = io.ReadAll(file)
 	if err != nil {
 		replyJSON(ctx, http.StatusBadRequest, err.Error())
 		return data, handler, err
@@ -191,7 +190,7 @@ func ApiUploadFile(ctx *ink.Context) {
 		replyJSON(ctx, http.StatusInternalServerError, err.Error())
 		return
 	}
-	if err = ioutil.WriteFile(filepath.Join(fileDirPath, handler.Filename), fileData, 0777); err != nil {
+	if err = os.WriteFile(filepath.Join(fileDirPath, handler.Filename), fileData, 0777); err != nil {
 		replyJSON(ctx, http.StatusInternalServerError, err.Error())
 		return
 	}
@@ -202,7 +201,7 @@ func ApiUploadFile(ctx *ink.Context) {
 
 func ApiGetConfig(ctx *ink.Context) {
 	filePath := filepath.Join(rootPath, "config.yml")
-	data, err := ioutil.ReadFile(filePath)
+	data, err := os.ReadFile(filePath)
 	if err != nil {
 		replyJSON(ctx, http.StatusInternalServerError, err.Error())
 		return
@@ -211,13 +210,13 @@ func ApiGetConfig(ctx *ink.Context) {
 }
 
 func ApiSaveConfig(ctx *ink.Context) {
-	content, err := ioutil.ReadAll(ctx.Req.Body)
+	content, err := io.ReadAll(ctx.Req.Body)
 	if err != nil {
 		replyJSON(ctx, http.StatusInternalServerError, err.Error())
 		return
 	}
 	filePath := filepath.Join(rootPath, "config.yml")
-	err = ioutil.WriteFile(filePath, []byte(content), 0644)
+	err = os.WriteFile(filePath, []byte(content), 0644)
 	if err != nil {
 		replyJSON(ctx, http.StatusInternalServerError, err.Error())
 		return

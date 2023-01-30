@@ -1,28 +1,28 @@
 {
   "name": "InkPaperDefaultTheme",
-  "version": "0.0.1",
+  "version": "0.1.1",
   "scripts": {
-    "start": "./node_modules/.bin/webpack --progress --colors --watch",
-    "build": "./node_modules/.bin/webpack --progress --colors"
+    "start": "./node_modules/.bin/webpack --watch  --mode=development",
+    "build": "./node_modules/.bin/webpack"
   },
   "description": "InkPaper Default Theme",
   "devDependencies": {
-    "autoprefixer": "^6.3.6",
-    "css-loader": "^0.22.0",
-    "extract-text-webpack-plugin": "^0.9.1",
-    "file-loader": "^0.8.4",
-    "postcss-import": "^8.1.2",
-    "postcss-loader": "^0.9.1",
-    "precss": "^1.4.0",
-    "raw-loader": "^0.5.1",
-    "source-map-loader": "^0.1.5",
-    "style-loader": "^0.13.0",
-    "url-loader": "^0.5.6",
-    "webpack": "^1.12.2",
-    "webpack-dev-middleware": "^1.6.1",
-    "webpack-hot-middleware": "^2.10.0"
+    "autoprefixer": "^10.4.2",
+    "css-loader": "^6.6.0",
+    "file-loader": "^6.2.0",
+    "mini-css-extract-plugin": "^2.6.0",
+    "postcss": "^8.4.7",
+    "postcss-import": "^15.1.0",
+    "postcss-loader": "^7.0.2",
+    "precss": "^4.0.0",
+    "raw-loader": "^4.0.2",
+    "source-map-loader": "^4.0.1",
+    "style-loader": "^3.3.1",
+    "url-loader": "^4.1.1",
+    "webpack": "^5.69.1",
+    "webpack-cli": "^5.0.1"
   },
   "dependencies": {
-    "jquery": "^3.5.1"
+    "jquery": "^3.6.3"
   }
 }

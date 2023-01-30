@@ -55,9 +55,9 @@ func Fatal(info interface{}) {
 
 // Parse date by std date string
 func ParseDate(dateStr string) time.Time {
-	date, err := time.Parse(fmt.Sprintf(DATE_FORMAT_WITH_TIMEZONE), dateStr)
+	date, err := time.Parse(fmt.Sprint(DATE_FORMAT_WITH_TIMEZONE), dateStr)
 	if err != nil {
-		date, err = time.ParseInLocation(fmt.Sprintf(DATE_FORMAT), dateStr, time.Now().Location())
+		date, err = time.ParseInLocation(fmt.Sprint(DATE_FORMAT), dateStr, time.Now().Location())
 		if err != nil {
 			Fatal(err.Error())
 		}
@@ -90,7 +90,6 @@ func IsDir(path string) bool {
 // Refer to https://www.socketloop.com/tutorials/golang-copy-directory-including-sub-directories-files
 func CopyFile(source string, dest string) {
 	sourcefile, err := os.Open(source)
-	defer sourcefile.Close()
 	if err != nil {
 		Fatal(err.Error())
 	}
@@ -101,12 +100,18 @@ func CopyFile(source string, dest string) {
 	defer destfile.Close()
 	defer wg.Done()
 	_, err = io.Copy(destfile, sourcefile)
-	if err == nil {
-		sourceinfo, err := os.Stat(source)
-		if err != nil {
-			err = os.Chmod(dest, sourceinfo.Mode())
-		}
+	if err != nil {
+		Fatal(err.Error())
 	}
+	sourceinfo, err := os.Stat(source)
+	if err != nil {
+		Fatal(err.Error())
+	}
+	err = os.Chmod(dest, sourceinfo.Mode())
+	if err != nil {
+		Fatal(err.Error())
+	}
+	sourcefile.Close()
 }
 
 func CopyDir(source string, dest string) {
@@ -122,6 +127,9 @@ func CopyDir(source string, dest string) {
 	defer directory.Close()
 	defer wg.Done()
 	objects, err := directory.Readdir(-1)
+	if err != nil {
+		Fatal(err.Error())
+	}
 	for _, obj := range objects {
 		sourcefilepointer := source + "/" + obj.Name()
 		destinationfilepointer := dest + "/" + obj.Name()
