@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"html/template"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"sort"
@@ -89,7 +88,7 @@ func Build() {
 		fileExt := strings.ToLower(filepath.Ext(path))
 		baseName := strings.ToLower(filepath.Base(path))
 		if fileExt == ".html" && strings.HasPrefix(baseName, "_") {
-			html, err := ioutil.ReadFile(path)
+			html, err := os.ReadFile(path)
 			if err != nil {
 				Fatal(err.Error())
 			}

@@ -3,7 +3,6 @@ package main
 import (
 	"encoding/json"
 	"html/template"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strconv"
@@ -23,7 +22,7 @@ type RenderArticle struct {
 // Compile html template
 func CompileTpl(tplPath string, partialTpl string, name string) template.Template {
 	// Read template data from file
-	html, err := ioutil.ReadFile(tplPath)
+	html, err := os.ReadFile(tplPath)
 	if err != nil {
 		Fatal(err.Error())
 	}
@@ -64,7 +63,7 @@ func RenderPage(tpl template.Template, tplData interface{}, outPath string) {
 func RenderArticles(tpl template.Template, articles Collections) {
 	defer wg.Done()
 	articleCount := len(articles)
-	for i, _ := range articles {
+	for i := range articles {
 		currentArticle := articles[i].(Article)
 		var renderArticle = RenderArticle{currentArticle, nil, nil}
 		if i >= 1 {
@@ -95,7 +94,7 @@ func GenerateRSS(articles Collections) {
 			Title:       globalConfig.Site.Title,
 			Link:        &feeds.Link{Href: globalConfig.Site.Url},
 			Description: globalConfig.Site.Subtitle,
-			Author:      &feeds.Author{globalConfig.Site.Title, ""},
+			Author:      &feeds.Author{Name: globalConfig.Site.Title, Email: ""},
 			Created:     time.Now(),
 		}
 		feed.Items = make([]*feeds.Item, 0)
@@ -105,13 +104,13 @@ func GenerateRSS(articles Collections) {
 				Title:       article.Title,
 				Link:        &feeds.Link{Href: globalConfig.Site.Url + "/" + article.Link},
 				Description: string(article.Preview),
-				Author:      &feeds.Author{article.Author.Name, ""},
+				Author:      &feeds.Author{Name: article.Author.Name, Email: ""},
 				Created:     article.Time,
 				Updated:     article.MTime,
 			})
 		}
 		if atom, err := feed.ToAtom(); err == nil {
-			err := ioutil.WriteFile(filepath.Join(publicPath, "atom.xml"), []byte(atom), 0644)
+			err := os.WriteFile(filepath.Join(publicPath, "atom.xml"), []byte(atom), 0644)
 			if err != nil {
 				Fatal(err.Error())
 			}
@@ -179,7 +178,7 @@ func RenderArticleList(rootPath string, articles Collections, tagName string) {
 func GenerateJSON(articles Collections) {
 	defer wg.Done()
 	datas := make([]map[string]interface{}, 0)
-	for i, _ := range articles {
+	for i := range articles {
 		article := articles[i].(Article)
 		var data = map[string]interface{}{
 			"title":   article.Title,
@@ -191,5 +190,5 @@ func GenerateJSON(articles Collections) {
 		datas = append(datas, data)
 	}
 	str, _ := json.Marshal(datas)
-	ioutil.WriteFile(filepath.Join(publicPath, "index.json"), []byte(str), 0644)
+	os.WriteFile(filepath.Join(publicPath, "index.json"), []byte(str), 0644)
 }
