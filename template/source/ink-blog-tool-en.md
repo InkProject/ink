@@ -70,6 +70,7 @@ tags: #Optional
     - Tag2
 type: post #Specify type is post or page, Optional
 hide: false #Hide article，can be accessed via URL, Optional
+toc: false #Show table of contents，Optional
 
 ---
 

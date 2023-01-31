@@ -67,6 +67,7 @@ type ArticleConfig struct {
 	Top        bool
 	Type       string
 	Hide       bool
+	Toc        bool
 	Image      string
 	Subtitle   string
 	Config     map[string]interface{}
@@ -129,11 +130,14 @@ func renderHookLazyLoadImage(w io.Writer, node ast.Node, entering bool) (ast.Wal
 	return ast.GoToNext, false
 }
 
-func ParseMarkdown(markdown string) template.HTML {
+func ParseMarkdown(markdown string, toc bool) template.HTML {
 	extensions := parser.CommonExtensions | parser.Footnotes
 	parser := parser.NewWithExtensions(extensions)
 
 	htmlFlags := html.CommonFlags
+	if toc {
+		htmlFlags |= html.TOC
+	}
 	opts := html.RendererOptions{Flags: htmlFlags, RenderNodeHook: renderHookLazyLoadImage}
 	renderer := html.NewRenderer(opts)
 
@@ -226,10 +230,10 @@ func ParseArticleConfig(markdownPath string) (config *ArticleConfig, content str
 	// Parse preview splited by MORE_SPLIT
 	previewAry := strings.SplitN(content, MORE_SPLIT, 2)
 	if len(config.Preview) <= 0 && len(previewAry) > 1 {
-		config.Preview = ParseMarkdown(previewAry[0])
+		config.Preview = ParseMarkdown(previewAry[0], false)
 		content = strings.Replace(content, MORE_SPLIT, "", 1)
 	} else {
-		config.Preview = ParseMarkdown(string(config.Preview))
+		config.Preview = ParseMarkdown(string(config.Preview), false)
 	}
 	return config, content
 }
@@ -250,7 +254,7 @@ func ParseArticle(markdownPath string) *Article {
 	article.Preview = config.Preview
 	article.Config = config.Config
 	article.Markdown = content
-	article.Content = ParseMarkdown(content)
+	article.Content = ParseMarkdown(content, config.Toc)
 	if config.Date != "" {
 		article.Time = ParseDate(config.Date)
 		article.Date = article.Time.Unix()
