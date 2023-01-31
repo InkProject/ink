@@ -112,6 +112,8 @@ Docker Build (Example)
 
 - Dark (Official Theme): [https://github.com/InkProject/ink-theme-dark](https://github.com/InkProject/ink-theme-dark)
 - Simple: [https://github.com/myiq/ink-simple](https://github.com/myiq/ink-simple)
+- Story: [https://github.com/akkuman/ink-theme-story](https://github.com/akkuman/ink-theme-story)
+- Material2: [https://github.com/w568w/InkMaterialTheme](https://github.com/w568w/InkMaterialTheme)
 
 ## Related Tutorials
 
