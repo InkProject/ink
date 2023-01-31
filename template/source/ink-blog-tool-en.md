@@ -94,6 +94,53 @@ page `page.html` (article list) and `article.html` (article), use variable with 
 
 Created any `.html` file will be copied to `source` directory, could use all variables on `site` field in `config.yml`.
 
+#### Define Custom Variables
+
+<!-- 纸小墨支持在页面中定义自定义变量，必须放置于 `config.yaml` 的 `site.config`  之下，如：
+
+``` yaml
+site:
+    config:
+        MyVar: "Hello World"
+```
+
+在页面中可通过 `{{.Site.Config.MyVar}}` 来引用该变量。
+
+> **注意**
+> 
+> 虽然 `config.yaml` 的其他部分字段名均为小写，但自定义变量的名称必须使用正确的大小写，如：
+
+> ```yaml
+site:
+    config:
+        MYVAR_aaa: "Hello World"
+```
+
+> 则在页面中必须使用 `{{.Site.Config.MYVAR_aaa}}` 来引用该变量。 -->
+
+InkPaper supports defining custom variables in pages, which must be placed under `site.config` in `config.yaml`, such as:
+
+``` yaml
+site:
+    config:
+        MyVar: "Hello World"
+```
+
+The variable can be referenced in the page by `{{.Site.Config.MyVar}}`.
+
+> **Note**
+>
+> Although the field names in other parts of `config.yaml` are all lowercase, the name of the custom variable must be used correctly, such as:
+>
+> ```yaml
+site:
+    config:
+        MYVAR_aaa: "Hello World"
+```
+
+> then the variable must be referenced in the page by `{{.Site.Config.MYVAR_aaa}}`.
+
+
 ### Blog Migrate (Beta)
 
 Supports simple Jeklly/Hexo post convertions. Usage:
