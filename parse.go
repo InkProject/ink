@@ -130,7 +130,7 @@ func renderHookLazyLoadImage(w io.Writer, node ast.Node, entering bool) (ast.Wal
 }
 
 func ParseMarkdown(markdown string) template.HTML {
-	extensions := parser.CommonExtensions
+	extensions := parser.CommonExtensions | parser.Footnotes
 	parser := parser.NewWithExtensions(extensions)
 
 	htmlFlags := html.CommonFlags
