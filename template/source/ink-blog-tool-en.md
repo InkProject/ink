@@ -23,6 +23,21 @@ InkPaper is a static blog generator developed in Golang. No dependencies, cross 
 
 - Open `http://localhost:8000` in your browser to preview
 
+### Features
+- YAML format configuration
+- Markdown format articles
+- No dependencies, cross platform
+- Super fast build times
+- Continuously improving theme and typography
+- Multiple article authors support
+- Archive and tag generation
+- Real-time preview when saving
+- Offline full-text keyword search
+- $\LaTeX$ style math formula support (MathJax):
+
+$$
+\int_{-\infty}^\infty g(x) dx = \frac{1}{2\pi i} \oint_{\gamma} \frac{f(z)}{z-g(x)} dz
+$$
 ### Website Configuration
 Edit `config.yml`, use this format:
 

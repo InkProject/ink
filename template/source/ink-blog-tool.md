@@ -34,6 +34,11 @@ preview: 纸小墨（InkPaper）是一个GO语言编写的开源静态博客构�
 - 归档与标签自动生成
 - 保存时实时预览页面
 - 离线的全文关键字搜索
+- $\LaTeX$ 风格的数学公式支持（MathJax）：
+
+$$ 
+\int_{-\infty}^\infty g(x) dx = \frac{1}{2\pi i} \oint_{\gamma} \frac{f(z)}{z-g(x)} dz
+$$
 
 ### 配置网站
 编辑`config.yml`，使用如下格式：
