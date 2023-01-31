@@ -14,7 +14,9 @@ module.exports = {
     },]
   },
   plugins: [
-    new MiniCssExtractPlugin()
+    new MiniCssExtractPlugin({
+      filename: "index.css",
+    })
   ],
   watch: false
 }
