@@ -1,4 +1,6 @@
 var MiniCssExtractPlugin = require("mini-css-extract-plugin")
+var UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+var CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 
 module.exports = {
   entry: './source/js/index.js',
@@ -18,5 +20,25 @@ module.exports = {
       filename: "index.css",
     })
   ],
+  optimization: {
+    minimizer: [new UglifyJsPlugin({
+      parallel: true,
+      uglifyOptions: {
+        output: {
+          comments: false,
+        },
+      },
+    }), new CssMinimizerPlugin({
+      parallel: true,
+      minimizerOptions: {
+        preset: [
+          'default',
+          {
+            discardComments: { removeAll: true },
+          }
+        ],
+      },
+    }),],
+  },
   watch: false
 }
