@@ -17,7 +17,7 @@ InkPaper is a static blog generator developed in Golang. No dependencies, cross 
 ![InkPaper - An Elegant Static Blog Generator](-/images/example-en.png)
 
 ### Quick Start
-- Download & Extract [Ink](http://www.chole.io/) and run `ink preview`
+- Download & Extract [Ink](https://github.com/InkProject/ink) and run `ink preview`
 
   > Tip：Linux/macOS, use `./ink preview`
 
@@ -94,6 +94,30 @@ page `page.html` (article list) and `article.html` (article), use variable with 
 
 Created any `.html` file will be copied to `source` directory, could use all variables on `site` field in `config.yml`.
 
+#### Define Custom Variables
+InkPaper supports defining custom variables in pages, which must be placed under `site.config` in `config.yaml`, such as:
+
+``` yaml
+site:
+    config:
+        MyVar: "Hello World"
+```
+
+The variable can be referenced in the page by `{{.Site.Config.MyVar}}`.
+
+> **Note**
+>
+> Although the field names in other parts of `config.yaml` are all lowercase, the name of the custom variable must be used correctly, such as:
+>
+> ```yaml
+site:
+    config:
+        MYVAR_aaa: "Hello World"
+```
+
+> then the variable must be referenced in the page by `{{.Site.Config.MYVAR_aaa}}`.
+
+
 ### Blog Migrate (Beta)
 
 Supports simple Jeklly/Hexo post convertions. Usage:
@@ -146,7 +170,7 @@ Docker Build (Example)
 
 ## These blogs are driven by InkPaper
 
-- [http://www.chole.io/blog/](http://www.chole.io/blog/)
+- [https://imeoer.github.io/blog/](https://imeoer.github.io/blog/)
 - [http://blog.hyper.sh/](http://blog.hyper.sh/)
 - [http://wangxu.me/](http://wangxu.me/)
 - [http://whzecomjm.com/](http://whzecomjm.com/)

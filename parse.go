@@ -69,7 +69,7 @@ type ArticleConfig struct {
 	Hide       bool
 	Image      string
 	Subtitle   string
-	Config     interface{}
+	Config     map[string]interface{}
 }
 
 type Article struct {
@@ -130,7 +130,7 @@ func renderHookLazyLoadImage(w io.Writer, node ast.Node, entering bool) (ast.Wal
 }
 
 func ParseMarkdown(markdown string) template.HTML {
-	extensions := parser.CommonExtensions
+	extensions := parser.CommonExtensions | parser.Footnotes
 	parser := parser.NewWithExtensions(extensions)
 
 	htmlFlags := html.CommonFlags
@@ -241,7 +241,7 @@ func ParseArticle(markdownPath string) *Article {
 		return nil
 	}
 	if config.Config == nil {
-		config.Config = ""
+		config.Config = make(map[string]interface{})
 	}
 	var article Article
 	// Parse markdown content

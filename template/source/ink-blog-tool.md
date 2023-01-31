@@ -18,7 +18,7 @@ preview: 纸小墨（InkPaper）是一个GO语言编写的开源静态博客构�
 
 ### 开始上手
 
-- 下载并解压 [Ink](http://www.chole.io/)，运行命令 `ink preview`
+- 下载并解压 [Ink](https://imeoer.github.io/)，运行命令 `ink preview`
 
   > 注意：Linux/macOS下，使用 `./ink preview`
 
@@ -106,6 +106,29 @@ Markdown格式的正文
 
 在`source`目录下创建的任意`.html`文件将被复制，这些文件中可引用`config.yml`中site字段下的所有变量。
 
+#### 定义自定义变量
+纸小墨支持在页面中定义自定义变量，必须放置于 `config.yaml` 的 `site.config`  之下，如：
+
+``` yaml
+site:
+    config:
+        MyVar: "Hello World"
+```
+
+在页面中可通过 `{{.Site.Config.MyVar}}` 来引用该变量。
+
+> **注意**
+> 
+> 虽然 `config.yaml` 的其他部分字段名均为小写，但自定义变量的名称必须使用正确的大小写，如：
+
+> ```yaml
+site:
+    config:
+        MYVAR_aaa: "Hello World"
+```
+
+> 则在页面中必须使用 `{{.Site.Config.MYVAR_aaa}}` 来引用该变量。
+
 ### 博客迁移(Beta)
 
 纸小墨提供简单的Jeklly/Hexo博客文章格式转换，使用命令：
@@ -155,7 +178,7 @@ Docker构建（示例）
 
 ## 正在使用
 
-- [http://www.chole.io/blog/](http://www.chole.io/blog/)
+- [https://imeoer.github.io/blog/](https://imeoer.github.io/blog/)
 - [http://blog.hyper.sh/](http://blog.hyper.sh/)
 - [http://wangxu.me/](http://wangxu.me/)
 - [http://whzecomjm.com/](http://whzecomjm.com/)

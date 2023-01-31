@@ -9,6 +9,8 @@
   "devDependencies": {
     "autoprefixer": "^10.4.2",
     "css-loader": "^6.6.0",
+    "css-minimizer-webpack-plugin": "^4.2.2",
+    "uglifyjs-webpack-plugin": "^2.2.0",
     "file-loader": "^6.2.0",
     "mini-css-extract-plugin": "^2.6.0",
     "postcss": "^8.4.7",
