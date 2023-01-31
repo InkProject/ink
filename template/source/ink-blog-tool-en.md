@@ -17,7 +17,7 @@ InkPaper is a static blog generator developed in Golang. No dependencies, cross 
 ![InkPaper - An Elegant Static Blog Generator](-/images/example-en.png)
 
 ### Quick Start
-- Download & Extract [Ink](http://www.chole.io/) and run `ink preview`
+- Download & Extract [Ink](https://github.com/InkProject/ink) and run `ink preview`
 
   > Tip：Linux/macOS, use `./ink preview`
 
@@ -146,7 +146,7 @@ Docker Build (Example)
 
 ## These blogs are driven by InkPaper
 
-- [http://www.chole.io/blog/](http://www.chole.io/blog/)
+- [https://imeoer.github.io/blog/](https://imeoer.github.io/blog/)
 - [http://blog.hyper.sh/](http://blog.hyper.sh/)
 - [http://wangxu.me/](http://wangxu.me/)
 - [http://whzecomjm.com/](http://whzecomjm.com/)
