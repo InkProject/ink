@@ -179,8 +179,8 @@ func RenderArticleList(rootPath string, articles Collections, tagName string) {
 			"Develop":  globalConfig.Develop,
 			"Page":     i + 1,
 			"Total":    page,
-			"Prev":     prev,
-			"Next":     next,
+			"Prev":     template.URL(filepath.ToSlash(prev)),
+			"Next":     template.URL(filepath.ToSlash(next)),
 			"TagName":  tagName,
 			"TagCount": len(articles),
 		}
