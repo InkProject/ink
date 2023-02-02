@@ -37,6 +37,7 @@ preview: {{.Preview}}
 {{- end}}
 type: {{.Type}}
 hide: {{.Hide}}
+toc: {{.Toc}}
 ---
 `
 )
@@ -111,6 +112,10 @@ func main() {
 				&cli.BoolFlag{
 					Name:  "hide",
 					Usage: "Hides the article",
+				},
+				&cli.BoolFlag{
+					Name:  "toc",
+					Usage: "Adds a table of contents to the article",
 				},
 				&cli.BoolFlag{
 					Name:  "top",
@@ -202,6 +207,7 @@ func New(c *cli.Context) {
 	top := "false"
 	postType := "post"
 	hide := "false"
+	toc := "false"
 	date := time.Now()
 
 	// Empty string values
@@ -244,6 +250,9 @@ func New(c *cli.Context) {
 	}
 	if c.Bool("hide") {
 		hide = "true"
+	}
+	if c.Bool("toc") {
+		toc = "true"
 	}
 	if c.Bool("draft") {
 		draft = "true"
@@ -299,6 +308,7 @@ func New(c *cli.Context) {
 		"Top":        top,
 		"Type":       postType,
 		"Hide":       hide,
+		"Toc":        toc,
 		"Preview":    preview,
 		"Cover":      cover,
 		"Tags":       tagString,

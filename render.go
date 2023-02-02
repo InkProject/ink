@@ -66,13 +66,28 @@ func RenderArticles(tpl template.Template, articles Collections) {
 	for i := range articles {
 		currentArticle := articles[i].(Article)
 		var renderArticle = RenderArticle{currentArticle, nil, nil}
-		if i >= 1 {
-			article := articles[i-1].(Article)
-			renderArticle.Prev = &article
-		}
-		if i <= articleCount-2 {
-			article := articles[i+1].(Article)
-			renderArticle.Next = &article
+		// Only show next and prev article if it is not hidden
+		if !renderArticle.Hide {
+			if i >= 1 {
+				// Find prev unhidden article
+				for j := i - 1; j >= 0; j-- {
+					prevArticle := articles[j].(Article)
+					if !prevArticle.Hide {
+						renderArticle.Prev = &prevArticle
+						break
+					}
+				}
+			}
+			if i <= articleCount-2 {
+				// Find next unhidden article
+				for j := i + 1; j < articleCount; j++ {
+					nextArticle := articles[j].(Article)
+					if !nextArticle.Hide {
+						renderArticle.Next = &nextArticle
+						break
+					}
+				}
+			}
 		}
 		outPath := filepath.Join(publicPath, currentArticle.Link)
 		wg.Add(1)
@@ -164,8 +179,8 @@ func RenderArticleList(rootPath string, articles Collections, tagName string) {
 			"Develop":  globalConfig.Develop,
 			"Page":     i + 1,
 			"Total":    page,
-			"Prev":     prev,
-			"Next":     next,
+			"Prev":     template.URL(filepath.ToSlash(prev)),
+			"Next":     template.URL(filepath.ToSlash(next)),
 			"TagName":  tagName,
 			"TagCount": len(articles),
 		}
