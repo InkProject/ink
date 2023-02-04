@@ -15,7 +15,7 @@
     "postcss": "^8.4.7",
     "postcss-import": "^15.1.0",
     "postcss-loader": "^7.0.2",
-    "precsss": "^4.0.2",
+    "precss": "^4.0.0",
     "raw-loader": "^4.0.2",
     "source-map-loader": "^4.0.1",
     "style-loader": "^3.3.1",
