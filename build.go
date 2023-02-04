@@ -250,6 +250,7 @@ func Build() {
 		rootPath:   rootPath,
 		themePath:  themePath,
 		publicPath: publicPath,
+		global:     globalConfig,
 		currentCwd: sourcePath,
 	}
 	for _, path := range files {
