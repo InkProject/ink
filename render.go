@@ -20,7 +20,7 @@ type RenderArticle struct {
 }
 
 // Compile html template
-func CompileTpl(tplPath string, partialTpl string, name string) template.Template {
+func CompileTpl(tplPath string, partialTpl string, name string, funcContext FuncContext) template.Template {
 	// Read template data from file
 	html, err := os.ReadFile(tplPath)
 	if err != nil {
@@ -28,13 +28,8 @@ func CompileTpl(tplPath string, partialTpl string, name string) template.Templat
 	}
 	// Append partial template
 	htmlStr := string(html) + partialTpl
-	funcMap := template.FuncMap{
-		"i18n": func(val string) string {
-			return globalConfig.I18n[val]
-		},
-	}
 	// Generate html content
-	tpl, err := template.New(name).Funcs(funcMap).Parse(htmlStr)
+	tpl, err := template.New(name).Funcs(funcContext.FuncMap()).Parse(htmlStr)
 	if err != nil {
 		Fatal(err.Error())
 	}

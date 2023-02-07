@@ -3,9 +3,6 @@ import $ from 'jquery'
 import './jquery.unveil'
 import searchTpl from './searchTpl.html'
 
-// backward compatibility for old version of highlight.js
-window.hljs = require('./highlight.pack.js')
-
 // pick from underscore
 let debounce = function (func, wait, immediate) {
   let timeout, args, context, timestamp, result;
@@ -136,8 +133,8 @@ $(function () {
     }
   })
   // render highlight
-  $('pre code').each(function (_, block) {
-    hljs.highlightBlock(block)
+  import("highlight.js").then(({ default: hljs }) => {
+    hljs.highlightAll()
   })
   // append image description
   $('img').each(function (_, item) {

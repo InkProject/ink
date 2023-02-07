@@ -133,6 +133,19 @@ site:
 
 > then the variable must be referenced in the page by `{{.Site.Config.MYVAR_aaa}}`.
 
+#### Use Functions (Experimental)
+
+InkPaper defines a minimal set of functions that can be used in HTML pages (except for `.md` source files), such as
+
+``` yaml
+{{ readFile "path/to/file" }}
+```
+
+This will read the content of the file `path/to/file` and include it in the page without any processing.
+
+For file-related functions, when executed in the `source` directory, the file path is relative to the `source` directory; when executed in other directories, the file path is relative to the theme (such as `theme`).
+
+See the source file `funcs.go` for a list of all functions.
 
 ### Blog Migrate (Beta)
 

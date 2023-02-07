@@ -99,10 +99,17 @@ func Build() {
 		}
 	}
 	// Compile template
-	articleTpl = CompileTpl(filepath.Join(themePath, "article.html"), partialTpl, "article")
-	pageTpl = CompileTpl(filepath.Join(themePath, "page.html"), partialTpl, "page")
-	archiveTpl = CompileTpl(filepath.Join(themePath, "archive.html"), partialTpl, "archive")
-	tagTpl = CompileTpl(filepath.Join(themePath, "tag.html"), partialTpl, "tag")
+	funcCxt := FuncContext{
+		rootPath:   rootPath,
+		themePath:  themePath,
+		publicPath: publicPath,
+		global:     globalConfig,
+		currentCwd: themePath,
+	}
+	articleTpl = CompileTpl(filepath.Join(themePath, "article.html"), partialTpl, "article", funcCxt)
+	pageTpl = CompileTpl(filepath.Join(themePath, "page.html"), partialTpl, "page", funcCxt)
+	archiveTpl = CompileTpl(filepath.Join(themePath, "archive.html"), partialTpl, "archive", funcCxt)
+	tagTpl = CompileTpl(filepath.Join(themePath, "tag.html"), partialTpl, "tag", funcCxt)
 	// Clean public folder
 	cleanPatterns := []string{"post", "tag", "images", "js", "css", "*.html", "favicon.ico", "robots.txt"}
 	for _, pattern := range cleanPatterns {
@@ -239,11 +246,18 @@ func Build() {
 	}, filepath.Join(publicPath, "tag.html"))
 	// Generate other pages
 	files, _ = filepath.Glob(filepath.Join(sourcePath, "*.html"))
+	funcCxt = FuncContext{
+		rootPath:   rootPath,
+		themePath:  themePath,
+		publicPath: publicPath,
+		global:     globalConfig,
+		currentCwd: sourcePath,
+	}
 	for _, path := range files {
 		fileExt := strings.ToLower(filepath.Ext(path))
 		baseName := filepath.Base(path)
 		if fileExt == ".html" && !strings.HasPrefix(baseName, "_") {
-			htmlTpl := CompileTpl(path, partialTpl, baseName)
+			htmlTpl := CompileTpl(path, partialTpl, baseName, funcCxt)
 			relPath, _ := filepath.Rel(sourcePath, path)
 			wg.Add(1)
 			go RenderPage(htmlTpl, globalConfig, filepath.Join(publicPath, relPath))

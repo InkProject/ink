@@ -84,7 +84,7 @@
         }
         .preview {
           @mixin font-main;
-          display: inline-block;
+          display: block;
           line-height: 28px;
           font-size: 16px;
           margin-top: 10px;
