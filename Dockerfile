@@ -1,4 +1,4 @@
-FROM golang:1.17
+FROM golang:1.18
 RUN go get github.com/InkProject/ink
 EXPOSE 8000
 WORKDIR /go/src/github.com/InkProject/ink

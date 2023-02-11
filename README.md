@@ -96,7 +96,7 @@ ink convert /path/_posts
 
 ### Building from source
 
-Local Build ([for go 1.17](https://go.dev/doc/go-get-install-deprecation)
+Local Build ([for go 1.18](https://go.dev/doc/go-get-install-deprecation)
 
 1. Install [Golang](http://golang.org/doc/install) environment
 2. Run `go get github.com/InkProject/ink`, compile and get ink
