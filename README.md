@@ -2,9 +2,7 @@
 
 InkPaper is a static blog generator developed in Golang. No dependencies, cross platform, easy to use, fast building times and an elegant theme.
 
-[![release](https://img.shields.io/badge/release-v2018--07--27-blue.svg)](https://github.com/InkProject/ink)
 [![apm](https://img.shields.io/badge/license-CC%20BY--NC%204.0-blue.svg)](https://creativecommons.org/licenses/by-nc/4.0/)
-
 
 ![InkPaper - An Elegant Static Blog Generator](template/source/images/example-en.png)
 
@@ -125,21 +123,6 @@ Docker Build (Example)
 ## Reporting An Issue
 
 [https://github.com/InkProject/ink/issues](https://github.com/InkProject/ink/issues)
-
-## Change Log
-
-- [2018-07-27] Adds ink new command
-- [2017-02-25] Fix bugs and merge some PRs
-- [2016-07-11] Fix bugs and merge many PRs
-- [2015-08-15] Bug fix, support RSS feed, improve theme
-- [2015-07-04] Bug fix, improve theme, support top, i18n, subtemplate
-- [2015-06-04] Build more platform, add archive and tag page
-- [2015-03-01] Release first beta version
-
-## Development Roadmap
-
-- Improve Theme
-- InkPaper Editor
 
 ## These blogs are driven by InkPaper
 
