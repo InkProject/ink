@@ -1,5 +1,6 @@
-FROM golang:latest
-RUN go get github.com/InkProject/ink
+FROM golang:1.18
+ADD . /code
+WORKDIR /code
+RUN go install
 EXPOSE 8000
-WORKDIR /go/src/github.com/InkProject/ink
 CMD ["ink", "preview", "template"]
