@@ -6,8 +6,24 @@ InkPaper is a static blog generator developed in Golang. No dependencies, cross 
 
 ![InkPaper - An Elegant Static Blog Generator](template/source/images/example-en.png)
 
+### Features
+- YAML format configuration
+- Markdown format articles
+- No dependencies, cross platform
+- Super fast build times
+- Continuously improving theme and typography
+- Multiple article authors support
+- Archive and tag generation
+- Real-time preview when saving
+- Offline full-text keyword search
+- $\LaTeX$ style math formula support (MathJax):
+
+$$
+\int_{-\infty}^\infty g(x) dx = \frac{1}{2\pi i} \oint_{\gamma} \frac{f(z)}{z-g(x)} dz
+$$
+
 ### Quick Start
-- Download & Extract [Ink](https://imeoer.github.io/) and run `ink preview`
+- Download & Extract [Ink](https://github.com/InkProject/ink/releases) and run `ink preview`
 
   > Tip：Linux/macOS, use `./ink preview`
 
@@ -23,19 +39,19 @@ site:
     limit: Max Article Count Per Page
     theme: Website Theme Directory
     comment: Comment Plugin Variable (Default is disqus username)
-    root: Website Root Path #Optional
-    lang: Website Language #Support en, zh, ru, ja, de, Configurable in theme/lang.yml
-    url: Website URL #For RSS Generating
-    link: Article Link Scheme #Default Is {title}.html，Support {year},{month},{day},{hour},{minute},{second},{title} Variables
+    root: Website Root Path # Optional
+    lang: Website Language # Support en, zh, ru, ja, de, pt-br, configurable in theme/lang.yml
+    url: Website URL # For RSS generating
+    link: Article Link Scheme # Default is {title}.html, Support {year}, {month}, {day}, {hour}, {minute}, {second}, {title} variables
 
 authors:
-    AuthorID:
+    AuthorID: # Your author ID, used in article's author field
         name: Author Name
         intro: Author Motto
         avatar: Author Avatar Path
 
 build:
-    output: Build Output Directory #Optional, Default is "public"
+    output: Build Output Directory # Optional, default is "public"
     port: Preview Port
     copy:
         - Copied Files When Build
@@ -48,19 +64,19 @@ Create a `.md` file in the `source` directory (Supports subdirectories). Use thi
 
 ``` yaml
 title: Article Title
-date: Year-Month-Day Hour:Minute:Second #Created Time，Support TimeZone, such as " +0800"
-update: Year-Month-Day Hour:Minute:Second #Updated Time，Optional，Support TimeZone, such as " +0800"
+date: Year-Month-Day Hour:Minute:Second #Created Time. Support timezone, such as " +0800"
+update: Year-Month-Day Hour:Minute:Second #Updated Time, optional. Support timezone, such as " +0800"
 author: AuthorID
-cover: Article Cover Path #Optional
-draft: false #If Draft，Optional
-top: false #Place article to top, Optional
-preview: Article Preview，Also use <!--more--> to split in body #Optional
-tags: #Optional
+cover: Article Cover Path # Optional
+draft: false # Is draft or not, optional
+top: false # Place article to top or not, optional
+preview: Article Preview, Also use <!--more--> to split in body # Optional
+tags: # Optional
     - Tag1
     - Tag2
-type: post #Specify type is post or page, Optional
-hide: false #Hide article，can be accessed via URL, Optional
-
+type: post # Specify type is post or page, optional
+hide: false # Hide article or not. Hidden atricles still can be accessed via URL, optional
+toc: false # Show table of contents or not, optional
 ---
 
 Markdown Format's Body
@@ -70,7 +86,7 @@ Markdown Format's Body
 - Run `ink publish` in the blog directory to automatically build and publish
 - Or run `ink build` to manually deploy generated `public` directory
 
-> **Tips**: When `source` directory changed，`ink preview` will automatically rebuild the blog. Refresh browser to update
+> **Tips**: When files changed, `ink preview` will automatically rebuild the blog. Refresh browser to update.
 
 ## Customization
 
@@ -84,6 +100,43 @@ page `page.html` (article list) and `article.html` (article), use variable with 
 
 Created any `.html` file will be copied to `source` directory, could use all variables on `site` field in `config.yml`.
 
+
+#### Define Custom Variables
+InkPaper supports defining custom variables in pages, which must be placed under `site.config` in `config.yaml`, such as:
+
+``` yaml
+site:
+    config:
+        MyVar: "Hello World"
+```
+
+The variable can be referenced in the page by `{{.Site.Config.MyVar}}`.
+
+> **Note**
+>
+> Although the field names in other parts of `config.yaml` are all lowercase, the name of the custom variable must be used correctly. Otherwises, such a variable:
+>
+> ```yaml
+> site:
+>     config:
+>         MYVAR_aAa: "Hello World"
+> ```
+> must be referenced in the page as `{{.Site.Config.MYVAR_aAa}}`.
+
+#### Use Functions (Experimental)
+
+InkPaper defines a minimal set of functions that can be used in HTML pages (except for `.md` source files), such as
+
+``` yaml
+{{ readFile "path/to/file" }}
+```
+
+This will read the content of the file `path/to/file` and include it in the page without any processing.
+
+For file-related functions, when executed in the `source` directory, the file path is relative to the `source` directory; when executed in other directories, the file path is relative to the theme (such as `theme`).
+
+See the source file `funcs.go` for a list of all functions.
+
 ### Blog Migration (Beta)
 
 Supports simple Jeklly/Hexo post convertions. Usage:
@@ -94,13 +147,13 @@ ink convert /path/_posts
 
 ### Building from source
 
-Local Build
+**Local Build**
 
 1. Install [Golang](http://golang.org/doc/install) environment
-2. Run `go get github.com/InkProject/ink`, compile and get ink
-3. Run `ink preview $GOPATH/src/github.com/InkProject/ink/template`, preview blog
+2. Run `git clone https://github.com/InkProject/ink && cd ink && go install` to compile and install ink
+3. Run `ink preview $GOPATH/src/github.com/InkProject/ink/template` to preview blog
 
-Docker Build (Example)
+**Docker Build (Example)**
 
 1. Clone code `git clone git@github.com:InkProject/ink.git`
 2. Build image `docker build -t ink .` in source directory
