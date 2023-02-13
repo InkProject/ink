@@ -12,6 +12,7 @@ lang:
         ru: Архив
         ja: アーカイブ
         de: ARCHIV
+        pt-br: Arquivo
     tag:
         en: TAG
         zh-cn: 标签
@@ -19,6 +20,7 @@ lang:
         ru: Теги
         ja: タグ
         de: TAG
+        pt-br: TAG
     rss:
         en: RSS
         zh-cn: 订阅
@@ -26,6 +28,7 @@ lang:
         ru: RSS
         ja: RSS
         de: RSS
+        pt-br: RSS
     articles:
         en: Articles
         zh-cn: 篇文章
@@ -33,6 +36,7 @@ lang:
         ru: Записи
         ja: 記事
         de: Beiträge
+        pt-br: Artigos
     updated:
         en: updated
         zh-cn: 更新
@@ -40,6 +44,7 @@ lang:
         ru: обновлено
         ja: 更新
         de: geändert
+        pt-br: atualizado
     prev_page:
         en: Prev Page
         zh-cn: ◀ 上一页
@@ -47,6 +52,7 @@ lang:
         ru: Назад
         ja: 前のページ
         de: Seite zurück
+        pt-br: Página Anterior
     next_page:
         en: Next Page
         zh-cn: 下一页 ▶
@@ -54,6 +60,7 @@ lang:
         ru: Далее
         ja: 次のページ
         de: Seite vor
+        pt-br: Próxima Página
     prev_reading:
         en: Prev Article
         zh-cn: ◀ 上一篇
@@ -61,6 +68,7 @@ lang:
         ru: Предыдущая запись
         ja: 新しい記事
         de: Vorheriger Beitrag
+        pt-br: Artigo Anterior
     next_reading:
         en: Next Article
         zh-cn: 下一篇 ▶
@@ -68,6 +76,7 @@ lang:
         ru: Следующая запись
         ja: 古い記事
         de: Nächster Beitrag
+        pt-br: Próximo Artigo
     top:
         en: TOP
         zh-cn: 置顶
@@ -75,6 +84,7 @@ lang:
         ru: Наверх
         ja: TOP
         de: Angeheftet
+        pt-br: Acima
     search:
         en: Search
         zh-cn: 搜索
@@ -82,6 +92,7 @@ lang:
         ru: Поиск
         ja: 検索
         de: Suche
+        pt-br: Busca
     since_year:
         en: " years ago"
         zh-cn: 年前
@@ -89,6 +100,7 @@ lang:
         ru: " лет назад"
         ja: 年前
         de: " Jahre"
+        pt-br: " anos atrás"
     since_month:
         en: " months ago"
         zh-cn: 个月前
@@ -96,6 +108,7 @@ lang:
         ru: " месяцев назад"
         ja: ヶ月前
         de: " Monate"
+        pt-br: " meses atrás"
     since_day:
         en: " days ago"
         zh-cn: 天前
@@ -103,6 +116,7 @@ lang:
         ru: " дней назад"
         ja: 日前
         de: " Tage"
+        pt-br: " dias atrás"
     since_hour:
         en: " hours ago"
         zh-cn: 小时前
@@ -110,6 +124,7 @@ lang:
         ru: " часов назад"
         ja: 時間前
         de: " Stunden"
+        pt-br: " horas atrás"
     since_minute:
         en: " minutes ago"
         zh-cn: 分钟前
@@ -117,6 +132,7 @@ lang:
         ru: " минут назад"
         ja: 分前
         de: " Minuten"
+        pt-br: " minutos atrás"
     since_second:
         en: " seconds ago"
         zh-cn: 秒前
@@ -124,3 +140,4 @@ lang:
         ru: " секунд назад"
         ja: 秒前
         de: " Sekunden"
+        pt-br: " segundos atrás"

@@ -5,4 +5,5 @@ release
 debian
 npm-debug.log
 editor_old
+.idea
 .DS_Store
