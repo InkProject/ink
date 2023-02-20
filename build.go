@@ -176,6 +176,9 @@ func Build() {
 	// Generate RSS page
 	wg.Add(1)
 	go GenerateRSS(visibleArticles)
+	// Generate sitemap page
+	wg.Add(1)
+	go GenerateSitemap(visibleArticles)
 	// Generate article list JSON
 	wg.Add(1)
 	go GenerateJSON(visibleArticles)

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
 	"html/template"
 	"os"
@@ -9,6 +10,7 @@ import (
 	"time"
 
 	"github.com/gorilla/feeds"
+	"github.com/snabb/sitemap"
 )
 
 type Data interface{}
@@ -125,6 +127,46 @@ func GenerateRSS(articles Collections) {
 				Fatal(err.Error())
 			}
 		} else {
+			Fatal(err.Error())
+		}
+	}
+}
+
+// Generate sitemap page
+func GenerateSitemap(articles Collections) {
+	defer wg.Done()
+
+	if globalConfig.Site.Url != "" {
+		sm := sitemap.New()
+
+		globalModTime := time.Now()
+		sm.Add(&sitemap.URL{
+			Loc:        globalConfig.Site.Url,
+			LastMod:    &globalModTime,
+			ChangeFreq: sitemap.Weekly,
+		})
+
+		for _, item := range articles {
+			article := item.(Article)
+
+			var lastModTime time.Time
+			if article.MTime.After(article.Time) {
+				lastModTime = article.MTime
+			} else {
+				lastModTime = article.Time
+			}
+
+			sm.Add(&sitemap.URL{
+				Loc:        globalConfig.Site.Url + "/" + article.Link,
+				LastMod:    &lastModTime,
+				ChangeFreq: sitemap.Weekly,
+			})
+		}
+
+		var sitemap bytes.Buffer
+		sm.WriteTo(&sitemap)
+		err := os.WriteFile(filepath.Join(publicPath, "sitemap.xml"), sitemap.Bytes(), 0644)
+		if err != nil {
 			Fatal(err.Error())
 		}
 	}

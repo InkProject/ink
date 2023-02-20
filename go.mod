@@ -22,6 +22,8 @@ require (
 	github.com/facebookgo/testname v0.0.0-20150612200628-5443337c3a12 // indirect
 	github.com/kr/pretty v0.2.1 // indirect
 	github.com/russross/blackfriday/v2 v2.1.0 // indirect
+	github.com/snabb/diagio v1.0.1 // indirect
+	github.com/snabb/sitemap v1.0.2 // indirect
 	github.com/xrash/smetrics v0.0.0-20201216005158-039620a65673 // indirect
 	golang.org/x/sys v0.1.0 // indirect
 )
