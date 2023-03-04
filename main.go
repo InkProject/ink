@@ -43,6 +43,7 @@ toc: {{.Toc}}
 )
 
 var globalConfig *GlobalConfig
+var themeConfig *ThemeConfig
 var rootPath string
 
 func main() {
@@ -187,8 +188,8 @@ func ParseGlobalConfigByCli(c *cli.Context, develop bool) {
 
 func ParseGlobalConfigWrap(root string, develop bool) {
 	rootPath = root
-	globalConfig = ParseGlobalConfig(filepath.Join(rootPath, "config.yml"), develop)
-	if globalConfig == nil {
+	globalConfig, themeConfig = ParseGlobalConfig(filepath.Join(rootPath, "config.yml"), develop)
+	if globalConfig == nil || themeConfig == nil {
 		return
 	}
 }

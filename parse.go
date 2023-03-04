@@ -148,12 +148,12 @@ func ReplaceRootFlag(content string) string {
 	return strings.Replace(content, "-/", globalConfig.Site.Root+"/", -1)
 }
 
-func ParseGlobalConfig(configPath string, develop bool) *GlobalConfig {
+func ParseGlobalConfig(configPath string, develop bool) (*GlobalConfig, *ThemeConfig) {
 	var config *GlobalConfig
 	// Parse Global Config
 	data, err := os.ReadFile(configPath)
 	if err != nil {
-		return nil
+		return nil, nil
 	}
 	if err = yaml.Unmarshal(data, &config); err != nil {
 		Fatal(err.Error())
@@ -181,7 +181,7 @@ func ParseGlobalConfig(configPath string, develop bool) *GlobalConfig {
 	for item, langItem := range themeConfig.Lang {
 		config.I18n[item] = langItem[config.Site.Lang]
 	}
-	return config
+	return config, themeConfig
 }
 
 func ParseThemeConfig(configPath string) *ThemeConfig {
