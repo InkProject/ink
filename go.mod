@@ -1,6 +1,8 @@
 module github.com/InkProject/ink
 
-go 1.18
+go 1.23.0
+
+toolchain go1.24.3
 
 require (
 	github.com/InkProject/ink.go v0.0.0-20160120061933-86de6d066e8d
