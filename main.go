@@ -11,7 +11,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/facebookgo/symwalk"
+	"github.com/edwardrf/symwalk"
 	"github.com/urfave/cli/v2"
 	"gopkg.in/yaml.v2"
 )

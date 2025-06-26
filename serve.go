@@ -6,7 +6,7 @@ import (
 	"reflect"
 
 	"github.com/InkProject/ink.go"
-	"github.com/facebookgo/symwalk"
+	"github.com/edwardrf/symwalk"
 	"github.com/fsnotify/fsnotify"
 	"github.com/gorilla/websocket"
 )
