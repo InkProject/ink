@@ -10,7 +10,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/facebookgo/symwalk"
+	"github.com/edwardrf/symwalk"
 )
 
 // Parse config
@@ -27,6 +27,8 @@ type ArticleInfo struct {
 	Title      string
 	Link       string
 	Top        bool
+	Author     AuthorConfig
+	Tags       []string
 }
 
 type Archive struct {
@@ -162,6 +164,8 @@ func Build() {
 				Title:      article.Title,
 				Link:       article.Link,
 				Top:        article.Top,
+				Author:     article.Author,
+				Tags:       article.Tags,
 			}
 			archiveMap[dateYear] = append(archiveMap[dateYear], articleInfo)
 		}
@@ -228,6 +232,8 @@ func Build() {
 				Title:      articleValue.Title,
 				Link:       articleValue.Link,
 				Top:        articleValue.Top,
+				Author:     articleValue.Author,
+				Tags:       articleValue.Tags,
 			})
 		}
 		// Sort by date

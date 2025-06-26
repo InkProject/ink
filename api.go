@@ -13,7 +13,7 @@ import (
 	"time"
 
 	"github.com/InkProject/ink.go"
-	"github.com/facebookgo/symwalk"
+	"github.com/edwardrf/symwalk"
 )
 
 type NewArticle struct {
