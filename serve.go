@@ -72,7 +72,7 @@ func Watch() {
 		for {
 			select {
 			case event := <-watcher.Events:
-				if event.Op == fsnotify.Write {
+				if event.Has(fsnotify.Write) || event.Has(fsnotify.Create) || event.Has(fsnotify.Remove) || event.Has(fsnotify.Rename) {
 					// Handle when file change
 					Log(event.Name)
 					ParseGlobalConfigWrap(rootPath, true)
