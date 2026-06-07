@@ -8,7 +8,7 @@ import (
 	"strings"
 	"time"
 
-	"gopkg.in/yaml.v2"
+	"go.yaml.in/yaml/v4"
 
 	gomk "github.com/gomarkdown/markdown"
 	"github.com/gomarkdown/markdown/ast"
@@ -155,7 +155,7 @@ func ParseGlobalConfig(configPath string, develop bool) (*GlobalConfig, *ThemeCo
 	if err != nil {
 		return nil, nil
 	}
-	if err = yaml.Unmarshal(data, &config); err != nil {
+	if err = yaml.Load(data, &config); err != nil {
 		Fatal(err.Error())
 	}
 	if config.Site.Config == nil {
@@ -192,7 +192,7 @@ func ParseThemeConfig(configPath string) *ThemeConfig {
 		Fatal(err.Error())
 	}
 	// Parse config content
-	if err := yaml.Unmarshal(data, &themeConfig); err != nil {
+	if err := yaml.Load(data, &themeConfig); err != nil {
 		Fatal(err.Error())
 	}
 	return themeConfig
@@ -217,7 +217,7 @@ func ParseArticleConfig(markdownPath string) (config *ArticleConfig, content str
 		content = markdownStr[1]
 	}
 	// Parse config content
-	if err := yaml.Unmarshal([]byte(configStr), &config); err != nil {
+	if err := yaml.Load([]byte(configStr), &config); err != nil {
 		Error(err.Error())
 		return nil, ""
 	}

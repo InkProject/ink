@@ -9,8 +9,6 @@ import (
 	"strings"
 	"sync"
 	"time"
-
-	"github.com/edwardrf/symwalk"
 )
 
 // Parse config
@@ -121,7 +119,7 @@ func Build() {
 		}
 	}
 	// Find all .md to generate article
-	symwalk.Walk(sourcePath, func(path string, info os.FileInfo, err error) error {
+	walkSymlinks(sourcePath, func(path string, info os.FileInfo, err error) error {
 		fileExt := strings.ToLower(filepath.Ext(path))
 		if fileExt == ".md" {
 			// Parse markdown data

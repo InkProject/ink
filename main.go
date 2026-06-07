@@ -2,8 +2,10 @@ package main
 
 import (
 	"bufio"
+	"context"
 	"fmt"
 	"html/template"
+	"net/mail"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -11,9 +13,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/edwardrf/symwalk"
-	"github.com/urfave/cli/v2"
-	"gopkg.in/yaml.v2"
+	"github.com/urfave/cli/v3"
+	"go.yaml.in/yaml/v4"
 )
 
 const (
@@ -48,12 +49,12 @@ var rootPath string
 
 func main() {
 
-	app := cli.NewApp()
+	app := &cli.Command{}
 	app.Name = "ink"
 	app.Usage = "An elegant static blog generator"
-	app.Authors = []*cli.Author{
-		{Name: "Harrison", Email: "harrison@lolwut.com"},
-		{Name: "Oliver Allen", Email: "oliver@toyshop.com"},
+	app.Authors = []any{
+		mail.Address{Name: "Harrison", Address: "harrison@lolwut.com"},
+		mail.Address{Name: "Oliver Allen", Address: "oliver@toyshop.com"},
 	}
 	//app.Email = "imeoer@gmail.com"
 	app.Version = VERSION
@@ -61,7 +62,7 @@ func main() {
 		{
 			Name:  "build",
 			Usage: "Generate blog to public folder",
-			Action: func(c *cli.Context) error {
+			Action: func(ctx context.Context, c *cli.Command) error {
 				ParseGlobalConfigByCli(c, false)
 				Build()
 				return nil
@@ -70,7 +71,7 @@ func main() {
 		{
 			Name:  "preview",
 			Usage: "Run in server mode to preview blog",
-			Action: func(c *cli.Context) error {
+			Action: func(ctx context.Context, c *cli.Command) error {
 				ParseGlobalConfigByCli(c, true)
 				Build()
 				Watch()
@@ -81,7 +82,7 @@ func main() {
 		{
 			Name:  "publish",
 			Usage: "Generate blog to public folder and publish",
-			Action: func(c *cli.Context) error {
+			Action: func(ctx context.Context, c *cli.Command) error {
 				ParseGlobalConfigByCli(c, false)
 				Build()
 				Publish()
@@ -91,7 +92,7 @@ func main() {
 		{
 			Name:  "serve",
 			Usage: "Run in server mode to serve blog",
-			Action: func(c *cli.Context) error {
+			Action: func(ctx context.Context, c *cli.Command) error {
 				ParseGlobalConfigByCli(c, true)
 				Build()
 				Serve()
@@ -101,7 +102,7 @@ func main() {
 		{
 			Name:  "convert",
 			Usage: "Convert Jekyll/Hexo post format to Ink format (Beta)",
-			Action: func(c *cli.Context) error {
+			Action: func(ctx context.Context, c *cli.Command) error {
 				Convert(c)
 				return nil
 			},
@@ -161,17 +162,19 @@ func main() {
 					Usage: "Adds a tag to the article",
 				},
 			},
-			Action: func(c *cli.Context) error {
+			Action: func(ctx context.Context, c *cli.Command) error {
 				New(c)
 				return nil
 			},
 		},
 	}
-	app.Run(os.Args)
+	if err := app.Run(context.Background(), os.Args); err != nil {
+		Fatal(err)
+	}
 	os.Exit(exitCode)
 }
 
-func ParseGlobalConfigByCli(c *cli.Context, develop bool) {
+func ParseGlobalConfigByCli(c *cli.Command, develop bool) {
 	if c.Args().Len() > 0 {
 		rootPath = c.Args().Slice()[0]
 	} else {
@@ -194,7 +197,7 @@ func ParseGlobalConfigWrap(root string, develop bool) {
 	}
 }
 
-func New(c *cli.Context) {
+func New(c *cli.Command) {
 	// If source folder does not exist, create
 	if _, err := os.Stat("source/"); os.IsNotExist(err) {
 		os.Mkdir("source", os.ModePerm)
@@ -359,7 +362,7 @@ func Publish() {
 	cmd.Run()
 }
 
-func Convert(c *cli.Context) {
+func Convert(c *cli.Command) {
 	// Parse arguments
 	var sourcePath, rootPath string
 	args := c.Args()
@@ -379,7 +382,7 @@ func Convert(c *cli.Context) {
 	}
 	// Parse Jekyll/Hexo post file
 	count := 0
-	symwalk.Walk(sourcePath, func(path string, f os.FileInfo, err error) error {
+	walkSymlinks(sourcePath, func(path string, f os.FileInfo, err error) error {
 		fileExt := strings.ToLower(filepath.Ext(path))
 		if fileExt == ".md" || fileExt == ".html" {
 			// Read data from file
@@ -403,7 +406,7 @@ func Convert(c *cli.Context) {
 			}
 			// Parse config
 			var article ArticleConfig
-			if err = yaml.Unmarshal([]byte(configStr), &article); err != nil {
+			if err = yaml.Load([]byte(configStr), &article); err != nil {
 				Fatal(err.Error())
 			}
 			tags := make(map[string]bool)
@@ -432,7 +435,7 @@ func Convert(c *cli.Context) {
 			article.Update = ""
 			// Generate Config
 			var inkConfig []byte
-			if inkConfig, err = yaml.Marshal(article); err != nil {
+			if inkConfig, err = yaml.Dump(article, yaml.V3); err != nil {
 				Fatal(err.Error())
 			}
 			inkConfigStr := string(inkConfig)

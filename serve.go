@@ -6,7 +6,6 @@ import (
 	"reflect"
 
 	"github.com/InkProject/ink.go"
-	"github.com/edwardrf/symwalk"
 	"github.com/fsnotify/fsnotify"
 	"github.com/gorilla/websocket"
 )
@@ -45,7 +44,7 @@ func buildWatchList() (files []string, dirs []string) {
 // Add files and dirs to watcher
 func configureWatcher(watcher *fsnotify.Watcher, files []string, dirs []string) error {
 	for _, source := range dirs {
-		symwalk.Walk(source, func(path string, f os.FileInfo, err error) error {
+		walkSymlinks(source, func(path string, f os.FileInfo, err error) error {
 			if f != nil && f.IsDir() {
 				if err := watcher.Add(path); err != nil {
 					Warn(err.Error())

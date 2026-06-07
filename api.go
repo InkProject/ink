@@ -13,7 +13,6 @@ import (
 	"time"
 
 	"github.com/InkProject/ink.go"
-	"github.com/edwardrf/symwalk"
 )
 
 type NewArticle struct {
@@ -60,7 +59,7 @@ func replyJSON(ctx *ink.Context, status int, data interface{}) {
 
 func UpdateArticleCache() {
 	articleCache = make(map[string]CacheArticleInfo, 0)
-	symwalk.Walk(sourcePath, func(path string, info os.FileInfo, err error) error {
+	walkSymlinks(sourcePath, func(path string, info os.FileInfo, err error) error {
 		fileExt := strings.ToLower(filepath.Ext(path))
 		if fileExt == ".md" {
 			fileName := strings.TrimPrefix(strings.TrimSuffix(strings.ToLower(path), ".md"), "template/source/")
