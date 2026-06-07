@@ -19,7 +19,7 @@ func buildWatchList() (files []string, dirs []string) {
 	}
 	files = []string{
 		filepath.Join(rootPath, "config.yml"),
-		filepath.Join(themePath),
+		themePath,
 	}
 
 	// Add files and directories defined in theme's config.yml to watcher
@@ -42,31 +42,42 @@ func buildWatchList() (files []string, dirs []string) {
 }
 
 // Add files and dirs to watcher
-func configureWatcher(watcher *fsnotify.Watcher, files []string, dirs []string) error {
+func configureWatcher(watcher *fsnotify.Watcher, files []string, dirs []string) {
 	for _, source := range dirs {
-		walkSymlinks(source, func(path string, f os.FileInfo, err error) error {
+		if err := walkSymlinks(source, func(path string, f os.FileInfo, err error) error {
+			if err != nil {
+				Warn(err.Error())
+				return nil
+			}
 			if f != nil && f.IsDir() {
 				if err := watcher.Add(path); err != nil {
 					Warn(err.Error())
 				}
 			}
 			return nil
-		})
+		}); err != nil {
+			Warn(err.Error())
+		}
 	}
 	for _, source := range files {
 		if err := watcher.Add(source); err != nil {
 			Warn(err.Error())
 		}
 	}
-	return nil
 }
 
 func Watch() {
 	// Listen watched file change event
 	if watcher != nil {
-		watcher.Close()
+		if err := watcher.Close(); err != nil {
+			Warn(err.Error())
+		}
 	}
-	watcher, _ = fsnotify.NewWatcher()
+	newWatcher, err := fsnotify.NewWatcher()
+	if err != nil {
+		Fatal(err.Error())
+	}
+	watcher = newWatcher
 	files, dirs := buildWatchList()
 	go func() {
 		for {

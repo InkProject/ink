@@ -46,26 +46,26 @@ type Collections []interface{}
 func (v Collections) Len() int      { return len(v) }
 func (v Collections) Swap(i, j int) { v[i], v[j] = v[j], v[i] }
 func (v Collections) Less(i, j int) bool {
-	switch v[i].(type) {
+	switch item := v[i].(type) {
 	case ArticleInfo:
-		return v[i].(ArticleInfo).DetailDate > v[j].(ArticleInfo).DetailDate
+		return item.DetailDate > v[j].(ArticleInfo).DetailDate
 	case Article:
-		article1 := v[i].(Article)
+		article1 := item
 		article2 := v[j].(Article)
 		if article1.Top && !article2.Top {
 			return true
-		} else if !article1.Top && article2.Top {
+		}
+		if !article1.Top && article2.Top {
 			return false
-		} else {
-			return article1.Date > article2.Date
 		}
+		return article1.Date > article2.Date
 	case Archive:
-		return v[i].(Archive).Year > v[j].(Archive).Year
+		return item.Year > v[j].(Archive).Year
 	case Tag:
-		if v[i].(Tag).Count == v[j].(Tag).Count {
-			return v[i].(Tag).Name > v[j].(Tag).Name
+		if item.Count == v[j].(Tag).Count {
+			return item.Name > v[j].(Tag).Name
 		}
-		return v[i].(Tag).Count > v[j].(Tag).Count
+		return item.Count > v[j].(Tag).Count
 	}
 	return false
 }
@@ -83,7 +83,10 @@ func Build() {
 	sourcePath = filepath.Join(rootPath, "source")
 	// Append all partial html
 	var partialTpl string
-	files, _ := filepath.Glob(filepath.Join(themePath, "*.html"))
+	files, err := filepath.Glob(filepath.Join(themePath, "*.html"))
+	if err != nil {
+		Fatal(err.Error())
+	}
 	for _, path := range files {
 		fileExt := strings.ToLower(filepath.Ext(path))
 		baseName := strings.ToLower(filepath.Base(path))
@@ -113,13 +116,21 @@ func Build() {
 	// Clean public folder
 	cleanPatterns := []string{"post", "tag", "images", "js", "css", "*.html", "favicon.ico", "robots.txt"}
 	for _, pattern := range cleanPatterns {
-		files, _ := filepath.Glob(filepath.Join(publicPath, pattern))
+		files, err := filepath.Glob(filepath.Join(publicPath, pattern))
+		if err != nil {
+			Fatal(err.Error())
+		}
 		for _, path := range files {
-			os.RemoveAll(path)
+			if err := os.RemoveAll(path); err != nil {
+				Fatal(err.Error())
+			}
 		}
 	}
 	// Find all .md to generate article
-	walkSymlinks(sourcePath, func(path string, info os.FileInfo, err error) error {
+	if err := walkSymlinks(sourcePath, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
 		fileExt := strings.ToLower(filepath.Ext(path))
 		if fileExt == ".md" {
 			// Parse markdown data
@@ -168,7 +179,9 @@ func Build() {
 			archiveMap[dateYear] = append(archiveMap[dateYear], articleInfo)
 		}
 		return nil
-	})
+	}); err != nil {
+		Fatal(err.Error())
+	}
 	if len(visibleArticles) == 0 {
 		Fatal("Must be have at least one article")
 	}
@@ -243,7 +256,7 @@ func Build() {
 		})
 	}
 	// Sort by count
-	sort.Sort(Collections(tags))
+	sort.Sort(tags)
 	wg.Add(1)
 	go RenderPage(tagTpl, map[string]interface{}{
 		"Total": len(visibleArticles),
@@ -252,7 +265,10 @@ func Build() {
 		"I18n":  globalConfig.I18n,
 	}, filepath.Join(publicPath, "tag.html"))
 	// Generate other pages
-	files, _ = filepath.Glob(filepath.Join(sourcePath, "*.html"))
+	files, err = filepath.Glob(filepath.Join(sourcePath, "*.html"))
+	if err != nil {
+		Fatal(err.Error())
+	}
 	funcCxt = FuncContext{
 		rootPath:   rootPath,
 		themePath:  themePath,
@@ -265,7 +281,10 @@ func Build() {
 		baseName := filepath.Base(path)
 		if fileExt == ".html" && !strings.HasPrefix(baseName, "_") {
 			htmlTpl := CompileTpl(path, partialTpl, baseName, funcCxt)
-			relPath, _ := filepath.Rel(sourcePath, path)
+			relPath, err := filepath.Rel(sourcePath, path)
+			if err != nil {
+				Fatal(err.Error())
+			}
 			wg.Add(1)
 			go RenderPage(htmlTpl, globalConfig, filepath.Join(publicPath, relPath))
 		}

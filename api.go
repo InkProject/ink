@@ -46,7 +46,9 @@ func replyJSON(w http.ResponseWriter, status int, data interface{}) {
 		w.Header().Set("Content-Type", "application/json")
 		w.Header().Set("Access-Control-Allow-Origin", "*")
 		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
-		w.Write(jsonStr)
+		if _, err := w.Write(jsonStr); err != nil {
+			Warn(err.Error())
+		}
 	} else {
 		Warn(data)
 		http.Error(w, data.(string), status)
@@ -55,13 +57,19 @@ func replyJSON(w http.ResponseWriter, status int, data interface{}) {
 
 func UpdateArticleCache() {
 	articleCache = make(map[string]CacheArticleInfo, 0)
-	walkSymlinks(sourcePath, func(path string, info os.FileInfo, err error) error {
+	if err := walkSymlinks(sourcePath, func(path string, _ os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
 		fileExt := strings.ToLower(filepath.Ext(path))
 		if fileExt == ".md" {
 			fileName := strings.TrimPrefix(strings.TrimSuffix(strings.ToLower(path), ".md"), "template/source/")
 			config, _ := ParseArticleConfig(path)
+			if config == nil {
+				return nil
+			}
 			id := hashPath(path)
-			articleCache[string(id)] = CacheArticleInfo{
+			articleCache[id] = CacheArticleInfo{
 				Name:    fileName,
 				Path:    path,
 				Date:    ParseDate(config.Date),
@@ -69,7 +77,9 @@ func UpdateArticleCache() {
 			}
 		}
 		return nil
-	})
+	}); err != nil {
+		Warn(err.Error())
+	}
 }
 
 func ApiListArticle(w http.ResponseWriter, r *http.Request) {
@@ -173,8 +183,8 @@ func ApiUploadFile(w http.ResponseWriter, r *http.Request) {
 		replyJSON(w, http.StatusBadRequest, err.Error())
 		return
 	}
-	articleId := r.FormValue("article_id")
-	article, ok := articleCache[articleId]
+	articleID := r.FormValue("article_id")
+	article, ok := articleCache[articleID]
 	if !ok {
 		replyJSON(w, http.StatusNotFound, "Not Found")
 		return
@@ -211,7 +221,7 @@ func ApiSaveConfig(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	filePath := filepath.Join(rootPath, "config.yml")
-	err = os.WriteFile(filePath, []byte(content), 0644)
+	err = os.WriteFile(filePath, content, 0644)
 	if err != nil {
 		replyJSON(w, http.StatusInternalServerError, err.Error())
 		return

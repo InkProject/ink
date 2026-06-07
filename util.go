@@ -151,7 +151,11 @@ func CopyFile(source string, dest string) {
 	if err != nil {
 		Fatal(err.Error())
 	}
-	defer destfile.Close()
+	defer func() {
+		if err := destfile.Close(); err != nil {
+			Fatal(err.Error())
+		}
+	}()
 	defer wg.Done()
 	_, err = io.Copy(destfile, sourcefile)
 	if err != nil {
@@ -165,7 +169,9 @@ func CopyFile(source string, dest string) {
 	if err != nil {
 		Fatal(err.Error())
 	}
-	sourcefile.Close()
+	if err := sourcefile.Close(); err != nil {
+		Fatal(err.Error())
+	}
 }
 
 func CopyDir(source string, dest string) {
@@ -177,8 +183,15 @@ func CopyDir(source string, dest string) {
 	if err != nil {
 		Fatal(err.Error())
 	}
-	directory, _ := os.Open(source)
-	defer directory.Close()
+	directory, err := os.Open(source)
+	if err != nil {
+		Fatal(err.Error())
+	}
+	defer func() {
+		if err := directory.Close(); err != nil {
+			Fatal(err.Error())
+		}
+	}()
 	defer wg.Done()
 	objects, err := directory.Readdir(-1)
 	if err != nil {

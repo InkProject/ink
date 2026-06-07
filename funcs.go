@@ -26,6 +26,9 @@ func (ctx FuncContext) I18n(val string) string {
 }
 
 func (ctx FuncContext) ReadFile(path string) template.HTML {
-	bytes, _ := os.ReadFile(filepath.Join(ctx.currentCwd, path))
+	bytes, err := os.ReadFile(filepath.Join(ctx.currentCwd, path))
+	if err != nil {
+		Fatal(err.Error())
+	}
 	return template.HTML(bytes)
 }

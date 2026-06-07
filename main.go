@@ -56,7 +56,7 @@ func main() {
 		mail.Address{Name: "Harrison", Address: "harrison@lolwut.com"},
 		mail.Address{Name: "Oliver Allen", Address: "oliver@toyshop.com"},
 	}
-	//app.Email = "imeoer@gmail.com"
+	// app.Email = "imeoer@gmail.com"
 	app.Version = VERSION
 	app.Commands = []*cli.Command{
 		{
@@ -200,7 +200,9 @@ func ParseGlobalConfigWrap(root string, develop bool) {
 func New(c *cli.Command) {
 	// If source folder does not exist, create
 	if _, err := os.Stat("source/"); os.IsNotExist(err) {
-		os.Mkdir("source", os.ModePerm)
+		if err := os.Mkdir("source", os.ModePerm); err != nil {
+			Fatal(err)
+		}
 	}
 
 	var author, blogTitle, fileName string
@@ -342,8 +344,14 @@ func Publish() {
 	cmd := exec.Command(shell, flag, command)
 	cmd.Dir = filepath.Join(rootPath, globalConfig.Build.Output)
 	// Start print stdout and stderr of process
-	stdout, _ := cmd.StdoutPipe()
-	stderr, _ := cmd.StderrPipe()
+	stdout, pipeErr := cmd.StdoutPipe()
+	if pipeErr != nil {
+		Fatal(pipeErr)
+	}
+	stderr, pipeErr := cmd.StderrPipe()
+	if pipeErr != nil {
+		Fatal(pipeErr)
+	}
 	out := bufio.NewScanner(stdout)
 	err := bufio.NewScanner(stderr)
 	// Print stdout
@@ -359,7 +367,9 @@ func Publish() {
 		}
 	}()
 	// Exec command
-	cmd.Run()
+	if err := cmd.Run(); err != nil {
+		Fatal(err)
+	}
 }
 
 func Convert(c *cli.Command) {
@@ -382,7 +392,10 @@ func Convert(c *cli.Command) {
 	}
 	// Parse Jekyll/Hexo post file
 	count := 0
-	walkSymlinks(sourcePath, func(path string, f os.FileInfo, err error) error {
+	if err := walkSymlinks(sourcePath, func(path string, _ os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
 		fileExt := strings.ToLower(filepath.Ext(path))
 		if fileExt == ".md" || fileExt == ".html" {
 			// Read data from file
@@ -396,11 +409,11 @@ func Convert(c *cli.Command) {
 			var configStr, contentStr string
 			content := strings.TrimSpace(string(data))
 			parseAry := strings.SplitN(content, "---", 3)
-			parseLen := len(parseAry)
-			if parseLen == 3 { // Jekyll
+			switch len(parseAry) {
+			case 3: // Jekyll
 				configStr = parseAry[1]
 				contentStr = parseAry[2]
-			} else if parseLen == 2 { // Hexo
+			case 2: // Hexo
 				configStr = parseAry[0]
 				contentStr = parseAry[1]
 			}
@@ -427,7 +440,7 @@ func Convert(c *cli.Command) {
 				article.Date = dateAry[0]
 			}
 			if len(article.Date) == 10 {
-				article.Date = article.Date + " 00:00:00"
+				article.Date += " 00:00:00"
 			}
 			if len(article.Date) == 0 {
 				article.Date = "1970-01-01 00:00:00"
@@ -442,12 +455,16 @@ func Convert(c *cli.Command) {
 			markdownStr := inkConfigStr + "\n\n---\n\n" + contentStr + "\n"
 			targetName := "source/" + fileName
 			if fileExt != ".md" {
-				targetName = targetName + ".md"
+				targetName += ".md"
 			}
-			os.WriteFile(filepath.Join(rootPath, targetName), []byte(markdownStr), 0644)
+			if err := os.WriteFile(filepath.Join(rootPath, targetName), []byte(markdownStr), 0644); err != nil {
+				return err
+			}
 			count++
 		}
 		return nil
-	})
+	}); err != nil {
+		Fatal(err.Error())
+	}
 	fmt.Printf("\nConvert finish, total %v articles\n", count)
 }

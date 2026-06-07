@@ -46,7 +46,9 @@ func RenderPage(tpl template.Template, tplData interface{}, outPath string) {
 		Fatal(err.Error())
 	}
 	defer func() {
-		outFile.Close()
+		if err := outFile.Close(); err != nil {
+			Fatal(err.Error())
+		}
 	}()
 	defer wg.Done()
 	// Template render
@@ -164,7 +166,9 @@ func GenerateSitemap(articles Collections) {
 		}
 
 		var sitemap bytes.Buffer
-		sm.WriteTo(&sitemap)
+		if _, err := sm.WriteTo(&sitemap); err != nil {
+			Fatal(err.Error())
+		}
 		err := os.WriteFile(filepath.Join(publicPath, "sitemap.xml"), sitemap.Bytes(), 0644)
 		if err != nil {
 			Fatal(err.Error())
@@ -177,7 +181,9 @@ func RenderArticleList(rootPath string, articles Collections, tagName string) {
 	defer wg.Done()
 	// Create path
 	pagePath := filepath.Join(publicPath, rootPath)
-	os.MkdirAll(pagePath, 0777)
+	if err := os.MkdirAll(pagePath, 0777); err != nil {
+		Fatal(err.Error())
+	}
 	// Split page
 	limit := globalConfig.Site.Limit
 	total := len(articles)
@@ -241,6 +247,11 @@ func GenerateJSON(articles Collections) {
 		}
 		datas = append(datas, data)
 	}
-	str, _ := json.Marshal(datas)
-	os.WriteFile(filepath.Join(publicPath, "index.json"), []byte(str), 0644)
+	str, err := json.Marshal(datas)
+	if err != nil {
+		Fatal(err.Error())
+	}
+	if err := os.WriteFile(filepath.Join(publicPath, "index.json"), str, 0644); err != nil {
+		Fatal(err.Error())
+	}
 }
