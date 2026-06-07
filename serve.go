@@ -1,11 +1,11 @@
 package main
 
 import (
+	"net/http"
 	"os"
 	"path/filepath"
 	"reflect"
 
-	"github.com/InkProject/ink.go"
 	"github.com/fsnotify/fsnotify"
 	"github.com/gorilla/websocket"
 )
@@ -100,41 +100,41 @@ func Watch() {
 	configureWatcher(watcher, files, dirs)
 }
 
-func Websocket(ctx *ink.Context) {
+func Websocket(w http.ResponseWriter, r *http.Request) {
 	var upgrader = websocket.Upgrader{
 		ReadBufferSize:  1024,
 		WriteBufferSize: 1024,
 	}
-	if c, err := upgrader.Upgrade(ctx.Res, ctx.Req, nil); err != nil {
+	if c, err := upgrader.Upgrade(w, r, nil); err != nil {
 		Warn(err)
 	} else {
 		conn = c
 	}
-	ctx.Stop()
 }
 
 func Serve() {
-	// editorWeb := ink.New()
+	// editorWeb := http.NewServeMux()
 	//
-	// editorWeb.Get("/articles", ApiListArticle)
-	// editorWeb.Get("/articles/:id", ApiGetArticle)
-	// editorWeb.Post("/articles", ApiCreateArticle)
-	// editorWeb.Put("/articles/:id", ApiSaveArticle)
-	// editorWeb.Delete("/articles/:id", ApiRemoveArticle)
-	// editorWeb.Get("/config", ApiGetConfig)
-	// editorWeb.Put("/config", ApiSaveConfig)
-	// editorWeb.Post("/upload", ApiUploadFile)
-	// editorWeb.Use(ink.Cors)
-	// editorWeb.Get("*", ink.Static(filepath.Join("editor/assets")))
+	// editorWeb.HandleFunc("GET /articles", ApiListArticle)
+	// editorWeb.HandleFunc("GET /articles/{id}", ApiGetArticle)
+	// editorWeb.HandleFunc("POST /articles", ApiCreateArticle)
+	// editorWeb.HandleFunc("PUT /articles/{id}", ApiSaveArticle)
+	// editorWeb.HandleFunc("DELETE /articles/{id}", ApiRemoveArticle)
+	// editorWeb.HandleFunc("GET /config", ApiGetConfig)
+	// editorWeb.HandleFunc("PUT /config", ApiSaveConfig)
+	// editorWeb.HandleFunc("POST /upload", ApiUploadFile)
+	// editorWeb.Handle("/", http.FileServer(http.Dir(filepath.Join("editor/assets"))))
 
 	// Log("Access http://localhost:" + globalConfig.Build.Port + "/ to open editor")
-	// go editorWeb.Listen(":2333")
+	// go http.ListenAndServe(":2333", editorWeb)
 
-	previewWeb := ink.New()
-	previewWeb.Get("/live", Websocket)
-	previewWeb.Get("*", ink.Static(filepath.Join(rootPath, globalConfig.Build.Output)))
+	previewWeb := http.NewServeMux()
+	previewWeb.HandleFunc("/live", Websocket)
+	previewWeb.Handle("/", http.FileServer(http.Dir(filepath.Join(rootPath, globalConfig.Build.Output))))
 
 	uri := "http://localhost:" + globalConfig.Build.Port + "/"
 	Log("Access " + uri + " to open preview")
-	previewWeb.Listen(":" + globalConfig.Build.Port)
+	if err := http.ListenAndServe(":"+globalConfig.Build.Port, previewWeb); err != nil {
+		Warn(err)
+	}
 }
