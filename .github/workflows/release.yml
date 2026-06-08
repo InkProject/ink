@@ -20,16 +20,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
       - name: Setup Go
-        uses: actions/setup-go@v3
+        uses: actions/setup-go@v6
         with:
-          go-version: "stable"
+          go-version-file: go.mod
+          cache-dependency-path: go.sum
       - name: Build
         run: sh ./release.sh
       - if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && github.event.inputs.tag_name == 'nightly')
         name: Release Nightly
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v3
         with:
           files: release/ink*
           prerelease: true
@@ -39,7 +40,7 @@ jobs:
           fail_on_unmatched_files: true
       - if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
         name: Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v3
         with:
           files: release/ink*
           prerelease: false

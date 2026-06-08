@@ -1,12 +1,11 @@
 package main
 
 import (
+	"net/http"
 	"os"
 	"path/filepath"
 	"reflect"
 
-	"github.com/InkProject/ink.go"
-	"github.com/edwardrf/symwalk"
 	"github.com/fsnotify/fsnotify"
 	"github.com/gorilla/websocket"
 )
@@ -20,7 +19,7 @@ func buildWatchList() (files []string, dirs []string) {
 	}
 	files = []string{
 		filepath.Join(rootPath, "config.yml"),
-		filepath.Join(themePath),
+		themePath,
 	}
 
 	// Add files and directories defined in theme's config.yml to watcher
@@ -43,37 +42,48 @@ func buildWatchList() (files []string, dirs []string) {
 }
 
 // Add files and dirs to watcher
-func configureWatcher(watcher *fsnotify.Watcher, files []string, dirs []string) error {
+func configureWatcher(watcher *fsnotify.Watcher, files []string, dirs []string) {
 	for _, source := range dirs {
-		symwalk.Walk(source, func(path string, f os.FileInfo, err error) error {
+		if err := walkSymlinks(source, func(path string, f os.FileInfo, err error) error {
+			if err != nil {
+				Warn(err.Error())
+				return nil
+			}
 			if f != nil && f.IsDir() {
 				if err := watcher.Add(path); err != nil {
 					Warn(err.Error())
 				}
 			}
 			return nil
-		})
+		}); err != nil {
+			Warn(err.Error())
+		}
 	}
 	for _, source := range files {
 		if err := watcher.Add(source); err != nil {
 			Warn(err.Error())
 		}
 	}
-	return nil
 }
 
 func Watch() {
 	// Listen watched file change event
 	if watcher != nil {
-		watcher.Close()
+		if err := watcher.Close(); err != nil {
+			Warn(err.Error())
+		}
 	}
-	watcher, _ = fsnotify.NewWatcher()
+	newWatcher, err := fsnotify.NewWatcher()
+	if err != nil {
+		Fatal(err.Error())
+	}
+	watcher = newWatcher
 	files, dirs := buildWatchList()
 	go func() {
 		for {
 			select {
 			case event := <-watcher.Events:
-				if event.Op == fsnotify.Write {
+				if event.Has(fsnotify.Write) || event.Has(fsnotify.Create) || event.Has(fsnotify.Remove) || event.Has(fsnotify.Rename) {
 					// Handle when file change
 					Log(event.Name)
 					ParseGlobalConfigWrap(rootPath, true)
@@ -101,41 +111,41 @@ func Watch() {
 	configureWatcher(watcher, files, dirs)
 }
 
-func Websocket(ctx *ink.Context) {
+func Websocket(w http.ResponseWriter, r *http.Request) {
 	var upgrader = websocket.Upgrader{
 		ReadBufferSize:  1024,
 		WriteBufferSize: 1024,
 	}
-	if c, err := upgrader.Upgrade(ctx.Res, ctx.Req, nil); err != nil {
+	if c, err := upgrader.Upgrade(w, r, nil); err != nil {
 		Warn(err)
 	} else {
 		conn = c
 	}
-	ctx.Stop()
 }
 
 func Serve() {
-	// editorWeb := ink.New()
+	// editorWeb := http.NewServeMux()
 	//
-	// editorWeb.Get("/articles", ApiListArticle)
-	// editorWeb.Get("/articles/:id", ApiGetArticle)
-	// editorWeb.Post("/articles", ApiCreateArticle)
-	// editorWeb.Put("/articles/:id", ApiSaveArticle)
-	// editorWeb.Delete("/articles/:id", ApiRemoveArticle)
-	// editorWeb.Get("/config", ApiGetConfig)
-	// editorWeb.Put("/config", ApiSaveConfig)
-	// editorWeb.Post("/upload", ApiUploadFile)
-	// editorWeb.Use(ink.Cors)
-	// editorWeb.Get("*", ink.Static(filepath.Join("editor/assets")))
+	// editorWeb.HandleFunc("GET /articles", ApiListArticle)
+	// editorWeb.HandleFunc("GET /articles/{id}", ApiGetArticle)
+	// editorWeb.HandleFunc("POST /articles", ApiCreateArticle)
+	// editorWeb.HandleFunc("PUT /articles/{id}", ApiSaveArticle)
+	// editorWeb.HandleFunc("DELETE /articles/{id}", ApiRemoveArticle)
+	// editorWeb.HandleFunc("GET /config", ApiGetConfig)
+	// editorWeb.HandleFunc("PUT /config", ApiSaveConfig)
+	// editorWeb.HandleFunc("POST /upload", ApiUploadFile)
+	// editorWeb.Handle("/", http.FileServer(http.Dir(filepath.Join("editor/assets"))))
 
 	// Log("Access http://localhost:" + globalConfig.Build.Port + "/ to open editor")
-	// go editorWeb.Listen(":2333")
+	// go http.ListenAndServe(":2333", editorWeb)
 
-	previewWeb := ink.New()
-	previewWeb.Get("/live", Websocket)
-	previewWeb.Get("*", ink.Static(filepath.Join(rootPath, globalConfig.Build.Output)))
+	previewWeb := http.NewServeMux()
+	previewWeb.HandleFunc("/live", Websocket)
+	previewWeb.Handle("/", http.FileServer(http.Dir(filepath.Join(rootPath, globalConfig.Build.Output))))
 
 	uri := "http://localhost:" + globalConfig.Build.Port + "/"
 	Log("Access " + uri + " to open preview")
-	previewWeb.Listen(":" + globalConfig.Build.Port)
+	if err := http.ListenAndServe(":"+globalConfig.Build.Port, previewWeb); err != nil {
+		Warn(err)
+	}
 }

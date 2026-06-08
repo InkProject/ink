@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"path/filepath"
 	"runtime"
 	"time"
 )
@@ -86,6 +87,59 @@ func IsDir(path string) bool {
 	return file.IsDir()
 }
 
+func walkSymlinks(root string, fn filepath.WalkFunc) error {
+	root, err := filepath.EvalSymlinks(root)
+	if err != nil {
+		return err
+	}
+	visitedDirs := make([]os.FileInfo, 0)
+
+	var walkFn filepath.WalkFunc
+	walkFn = func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return fn(path, info, err)
+		}
+
+		if info.IsDir() {
+			for _, visited := range visitedDirs {
+				if os.SameFile(info, visited) {
+					return filepath.SkipDir
+				}
+			}
+			visitedDirs = append(visitedDirs, info)
+		}
+
+		if err := fn(path, info, nil); err != nil {
+			return err
+		}
+
+		if info.Mode()&os.ModeSymlink == 0 {
+			return nil
+		}
+
+		linkedInfo, err := os.Stat(path)
+		if err != nil {
+			return err
+		}
+		if !linkedInfo.IsDir() {
+			return nil
+		}
+		for _, visited := range visitedDirs {
+			if os.SameFile(linkedInfo, visited) {
+				return nil
+			}
+		}
+
+		linkedPath, err := filepath.EvalSymlinks(path)
+		if err != nil {
+			return err
+		}
+		return filepath.Walk(linkedPath, walkFn)
+	}
+
+	return filepath.Walk(root, walkFn)
+}
+
 // Copy folder and file
 // Refer to https://www.socketloop.com/tutorials/golang-copy-directory-including-sub-directories-files
 func CopyFile(source string, dest string) {
@@ -97,7 +151,11 @@ func CopyFile(source string, dest string) {
 	if err != nil {
 		Fatal(err.Error())
 	}
-	defer destfile.Close()
+	defer func() {
+		if err := destfile.Close(); err != nil {
+			Fatal(err.Error())
+		}
+	}()
 	defer wg.Done()
 	_, err = io.Copy(destfile, sourcefile)
 	if err != nil {
@@ -111,7 +169,9 @@ func CopyFile(source string, dest string) {
 	if err != nil {
 		Fatal(err.Error())
 	}
-	sourcefile.Close()
+	if err := sourcefile.Close(); err != nil {
+		Fatal(err.Error())
+	}
 }
 
 func CopyDir(source string, dest string) {
@@ -123,8 +183,15 @@ func CopyDir(source string, dest string) {
 	if err != nil {
 		Fatal(err.Error())
 	}
-	directory, _ := os.Open(source)
-	defer directory.Close()
+	directory, err := os.Open(source)
+	if err != nil {
+		Fatal(err.Error())
+	}
+	defer func() {
+		if err := directory.Close(); err != nil {
+			Fatal(err.Error())
+		}
+	}()
 	defer wg.Done()
 	objects, err := directory.Readdir(-1)
 	if err != nil {
