@@ -1,11 +1,11 @@
 site:
-    title: "Journey of Reverse Engineer"
-    subtitle: "A lifecycle story of an enthusiast"
+    title: "Me"
+    subtitle: "Example"
     limit: 10
     theme: ./theme
     lang: tr-TR
     url: "https://github.com/jpglord/blog"
-    comment: Akif Esad Tosun
+    comment: this is a comment
     logo: "-/images/avatar.png"
     config:
     # link: "{category}/{year}/{month}/{day}/{title}.html"
@@ -14,7 +14,7 @@ site:
 
 authors:
     me:
-        name: "jpglod"
+        name: "example"
         intro: "Journalist of computer science"
         avatar: "-/images/avatar.png"
 
