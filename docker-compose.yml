@@ -1,0 +1,23 @@
+services:
+  ink:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ink-blog:latest
+    container_name: ink-blog
+    command: ["ink", "preview", "builds"]
+    environment:
+      # Ownership of the auto-scaffolded blog (see entrypoint.sh). Defaults
+      # match a typical single-user Linux desktop; override if your host
+      # user has a different id, e.g. `PUID=$(id -u) PGID=$(id -g) docker compose up`.
+      - PUID=${PUID:-1000}
+      - PGID=${PGID:-1000}
+    ports:
+      - "8000:8000"
+    volumes:
+      # Blog workspace (config.yml, source/, theme, public/) lives on the
+      # host so edits are picked up by ink's file watcher and generated
+      # output (public/) is written back without rebuilding the image.
+      # If ./builds doesn't exist yet, the entrypoint scaffolds one from
+      # the bundled template on first start.
+      - ./builds:/code/builds:Z

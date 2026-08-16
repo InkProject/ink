@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {{template "head" .}}
+        <meta name="keywords" content="{{range .Tags}}{{.}},{{end}}">
+        <meta name="description" content="{{.Title}}">
+        <meta name="author" content="{{.Author.Name}}">
+        <title>{{.Title}}</title>
+    </head>
+    <body>
+        <article class="container">
+            {{template "headerasset" .}}
+            <article class="main article">
+                <h1 class="title">{{.Title}}</h1>
+                <section class="info">
+                    {{if .Author.Avatar}}<span class="avatar" style="background-image: url({{.Author.Avatar}});"></span>{{end}}
+                    {{if .Author.Name}}<a class="name" href="{{.Site.Root}}/about.{{.Author.Id}}.html">{{.Author.Name}}</a>{{end}}
+                    {{if .Update}}
+                    <span class="date" data-time="{{.Update}}"><span class="from"></span></span>
+                    {{else}}
+                    <span class="date" data-time="{{.Date}}"><span class="from"></span></span>
+                    {{end}}
+                    <span class="tags">{{range .Tags}}<a class="tag" href="{{$.Site.Root}}/tag/{{.}}/index.html">{{.}}</a>{{end}}</span>
+                </section>
+                <article class="content">{{.Content}}</article>
+                <section class="author">
+                    {{if .Author.Avatar}}<div class="avatar" style="background-image: url({{.Author.Avatar}});"></div>{{end}}
+                    <a class="name" href="{{.Site.Root}}/about.{{.Author.Id}}.html">{{.Author.Name}}</a>
+                    <div class="intro">{{.Author.Intro}}</div>
+                </section>
+                <section class="recommend">
+                    {{if .Prev}}
+                    <section class="nav prev{{if .Next}} more{{end}}">
+                        <!-- <div class="head">{{i18n "prev_reading"}}</div>
+                        <a class="link" href="{{.Site.Root}}/{{.Prev.Link}}">{{.Prev.Title}}</a> -->
+                        <a class="link" href="{{.Site.Root}}/{{.Prev.Link}}">{{i18n "prev_reading"}}</a>
+                    </section>
+                    {{end}}
+                    {{if .Next}}
+                    <section class="nav next{{if .Prev}} more{{end}}">
+                        <!-- <div class="head">{{i18n "next_reading"}}</div>
+                        <a class="link" href="{{.Site.Root}}/{{.Next.Link}}">{{.Next.Title}}</a> -->
+                        <a class="link" href="{{.Site.Root}}/{{.Next.Link}}">{{i18n "next_reading"}}</a>
+                    </section>
+                    {{end}}
+                </section>
+                {{template "comment" .}}
+            </article>
+        </article>
+        {{template "footer" .}}
+        <script src="{{.Site.Root}}/bundle/index.js"></script>
+    </body>
+</html>

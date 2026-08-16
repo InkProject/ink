@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {{template "head" .}}
+        <meta name="keywords" content="{{.Site.Subtitle}}">
+        <meta name="description" content="{{.Site.Subtitle}}">
+        <title>{{.Site.Title}}</title>
+    </head>
+    <body>
+        <article class="container">
+            {{template "headerasset" .}}
+            <article class="main tag">
+                <header class="header">
+                    <span class="title">{{i18n "tag"}} -</span>
+                    <span class="subtitle">{{.Total}} {{i18n "articles"}}</span>
+                </header>
+                <ul class="tag-list clearfix">
+                    {{range .Tag}}
+                    <li class="tag-item">
+                        <a class="tag-name" href="{{$.Site.Root}}/tag/{{.Name}}/index.html">{{.Name}}<span class="tag-count"> ({{.Count}})</span></a>
+                    </li>
+                    {{end}}
+                </ul>
+            </article>
+        </article>
+        {{template "footer" .}}
+    </body>
+    <script src="{{.Site.Root}}/bundle/index.js"></script>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {{template "head" .}}
+        <meta name="keywords" content="{{.Site.Subtitle}}">
+        <meta name="description" content="{{.Site.Subtitle}}">
+        <title>{{.Site.Title}}</title>
+    </head>
+    <body>
+        <article class="container">
+            {{if .TagName}}
+              {{template "headerarticle" .}}
+            {{else}}
+              {{template "header" .}}
+            {{end}}
+            <article class="main page" id="article">
+                <header class="header site">
+                  {{if .TagName}}
+                    {{if .Site.Logo}}<img class="logo" src="{{.Site.Logo}}" />{{end}}
+                    <h1 class="tag">{{.TagName}}</h1>
+                    <h2 class="tag-sub">{{.TagCount}} {{i18n "articles"}}</h2>
+                  {{else}}
+                    {{if .Site.Logo}}<img class="logo" src="{{.Site.Logo}}" />{{end}}
+                    <!-- <h1 class="title">{{.Site.Title}}</h1> -->
+                    <!-- <h2 class="subtitle">{{.Site.Subtitle}}</h2> -->
+                    {{template "search" .}}
+                  {{end}}
+                </header>
+                <ul class="article-list">
+                    {{range .Articles}}
+                    <li class="article">
+                        <a class="title" href="{{$.Site.Root}}/{{.Link}}">{{if .Top}}<span class="top">[{{i18n "top"}}]</span>{{end}}{{.Title}}</a>
+                        {{if .Cover}}<div class="cover" style="background-image:url({{.Cover}});"></div>{{end}}
+                        {{if .Preview}}<section class="preview content">{{.Preview}}</section>{{end}}
+                        <section class="info">
+                            {{if .Author.Avatar}}<span class="avatar" style="background-image: url({{.Author.Avatar}});"></span>{{end}}
+                            {{if .Author.Name}}<a class="name" href="{{.Site.Root}}/about.{{.Author.Id}}.html">{{.Author.Name}}</a>{{end}}
+                            {{if .Update}}
+                            <span class="date" data-time="{{.Update}}"><span class="from"></span></span>
+                            {{else}}
+                            <span class="date" data-time="{{.Date}}"><span class="from"></span></span>
+                            {{end}}
+                            <span class="tags">
+                            {{range .Tags}}<a class="tag" href="{{$.Site.Root}}/tag/{{.}}/index.html">{{.}}</a>{{end}}
+                            </span>
+                        </section>
+                    </li>
+                    {{end}}
+                </ul>
+                <section class="page-nav">
+                    {{if .Prev}}<a class="prev" href="{{.Site.Root}}/{{.Prev}}">{{i18n "prev_page"}}</a>{{end}}
+                    {{if ne .Total 1}}<span class="nav">{{.Page}} / {{.Total}}</span>{{end}}
+                    {{if .Next}}<a class="next" href="{{.Site.Root}}/{{.Next}}">{{i18n "next_page"}}</a>{{end}}
+                </section>
+            </article>
+        </article>
+        {{template "footer" .}}
+    </body>
+    <script src="{{.Site.Root}}/bundle/index.js"></script>
+</html>

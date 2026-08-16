@@ -1,0 +1,130 @@
+.main {
+  &.article {
+    /*padding-top: 50px;*/
+    padding-bottom: 120px;
+    .title {
+      margin: 0;
+      font-weight: bold;
+      color: $darkLight;
+      font-size: 4rem;
+      /*line-height: 42px;*/
+    }
+    .info {
+      margin-top: 10px;
+      font-size: 14px;
+      .avatar {
+        display: inline-block;
+        width: 30px;
+        height: 30px;
+        margin-right: 10px;
+        border-radius: 30px;
+        background-size: cover;
+        background-repeat: no-repeat;
+        float: left;
+        border: 1px $greyLighter solid;
+      }
+      .name {
+        margin-right: 5px;
+        text-decoration: none;
+      }
+      .date {
+        color: $grey;
+        margin-right: 5px;
+      }
+      .tags {
+        @mixin font-main;
+        .tag {
+          margin-right: 5px;
+          color: $grey;
+          text-decoration: none;
+        }
+      }
+    }
+    .recommend {
+      margin-top: 50px;
+      overflow: auto;
+      .nav {
+        width: 100%;
+        .head {
+          font-size: 12px;
+          font-style: italic;
+          margin-bottom: 10px;
+          color: $grey;
+          text-align: center;
+        }
+        .link {
+          display: inline-block;
+          font-size: 1.4rem;
+          text-align: center;
+          color: $black;
+          text-decoration: none;
+          border-bottom: 1px solid $grey;
+          -webkit-transition: border-color .5s ease;
+          transition: border-color .5s ease;
+          transition: border-color .5s ease;
+          transition: border-color .5s ease,-webkit-transform .5s ease;
+          &:hover {
+            /*color: $greenDark;*/
+            border-color: $black;
+          }
+        }
+        &.prev.more {
+          width: 45%;
+          text-align: left;
+          float: left;
+          .head, .link  {
+            text-align: left;
+          }
+        }
+        &.next.more {
+          width: 45%;
+          text-align: right;
+          float: right;
+          .head, .link {
+            text-align: right;
+          }
+        }
+      }
+    }
+    .author {
+      margin-top: 36px;
+      padding-top: 40px;
+      text-align: center;
+      .avatar {
+        margin: 0 auto;
+        width: 70px;
+        height: 70px;
+        border-radius: 70px;
+        background-size: cover;
+        background-repeat: no-repeat;
+        border: 20px white solid;
+        &:before {
+          border-top: 1px $greyLighter dashed;
+          content: "";
+          width: 100%;
+          position: absolute;
+          left: 0;
+          right: 0;
+          margin-top: 36px;
+          z-index: -1;
+        }
+      }
+      .name {
+        margin-top: 20px;
+        font-weight: bold;
+        font-size: 16px;
+        text-decoration: none;
+      }
+      .intro {
+        @mixin font-main;
+        /*font-style: italic;*/
+        margin-top: 8px;
+        font-size: 14px;
+        color: $grey;
+      }
+    }
+    #disqus_thread {
+      margin-top: 50px;
+    }
+  }
+}

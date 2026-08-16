@@ -1,0 +1,32 @@
+site:
+    title: "Journey of Reverse Engineer"
+    subtitle: "A lifecycle story of an enthusiast"
+    limit: 10
+    theme: ./ink-theme-dark/dark
+    lang: tr-TR
+    url: "https://github.com/jpglord/blog"
+    comment: Akif Esad Tosun
+    logo: "-/images/avatar.png"
+    config:
+    # link: "{category}/{year}/{month}/{day}/{title}.html"
+    # link: "{year}{month}{day}{hour}{minute}{second}.html"
+    # root: "/blog"
+
+authors:
+    me:
+        name: "jpglod"
+        intro: "Journalist of computer science"
+        avatar: "-/images/avatar.png"
+
+build:
+    # output: "public"
+    port: 8000
+    # These files are copied to the public folder when 'ink build' is used
+    copy:
+        - "./ink-theme-dark/dark/source/"
+        - "./source/images/"
+    # Executed commands when 'ink publish' is used
+    publish: |
+        git add . -A
+        git commit -m "update"
+        git push origin

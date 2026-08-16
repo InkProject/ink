@@ -1,0 +1,102 @@
+# Copied files to public folder when build
+copy:
+    - bundle
+    - favicon.png
+    - robots.txt
+# I18n Support
+lang:
+    bg1:
+        en: "./images/bg1.jpg"
+        zh: "./images/bg1.jpg"
+        ru: "./images/bg1.jpg"
+        ja: "./images/bg1.jpg"
+    bg2:
+        en: "./images/bg2.jpg"
+        zh: "./images/bg2.jpg"
+        ru: "./images/bg2.jpg"
+        ja: "./images/bg2.jpg"
+    archive:
+        en: ARCHIVE
+        zh: 归档
+        ru: Архив
+        ja: アーカイブ
+    tag:
+        en: TAG
+        zh: 标签
+        ru: Теги
+        ja: タグ
+    rss:
+        en: RSS
+        zh: 订阅
+        ru: RSS
+        ja: RSS
+    articles:
+        en: Articles
+        zh: 篇文章
+        ru: Записи
+        ja: 記事
+    updated:
+        en: updated
+        zh: 更新
+        ru: обновлено
+        ja: 更新
+    prev_page:
+        en: Prev Page
+        zh: 上一页
+        ru: Назад
+        ja: 前のページ
+    next_page:
+        en: Next Page
+        zh: 下一页
+        ru: Далее
+        ja: 次のページ
+    prev_reading:
+        en: Prev Reading
+        zh: 上篇文章
+        ru: Предыдущая запись
+        ja: 新しい記事
+    next_reading:
+        en: Next Reading
+        zh: 下篇文章
+        ru: Следующая запись
+        ja: 古い記事
+    top:
+        en: TOP
+        zh: 置顶
+        ru: Наверх
+        ja: TOP
+    search:
+        en: Search
+        zh: 搜索
+        ru: Поиск
+        ja: 検索
+    since_year:
+        en: " years ago"
+        zh: 年前
+        ru: " лет назад"
+        ja: 年前
+    since_month:
+        en: " months ago"
+        zh: 个月前
+        ru: " месяцев назад"
+        ja: ヶ月前
+    since_day:
+        en: " days ago"
+        zh: 天前
+        ru: " дней назад"
+        ja: 日前
+    since_hour:
+        en: " hours ago"
+        zh: 小时前
+        ru: " часов назад"
+        ja: 時間前
+    since_minute:
+        en: " minutes ago"
+        zh: 分钟前
+        ru: " минут назад"
+        ja: 分前
+    since_second:
+        en: " seconds ago"
+        zh: 秒前
+        ru: " секунд назад"
+        ja: 秒前

@@ -1,0 +1,66 @@
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1, minimum-scale=1, maximum-scale=1">
+<meta name="renderer" content="webkit">
+<meta name="google" value="notranslate">
+<meta name="robots" content="index,follow">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="{{.Site.Title}}">
+<meta name="twitter:description" content="{{.Site.Subtitle}}">
+<meta name="twitter:image:src" content="{{.Site.Url}}{{.Site.Logo}}">
+<!-- Facebook -->
+<meta property="og:url" content="{{.Site.Url}}">
+<meta property="og:title" content="{{.Site.Title}}">
+<meta property="og:description" content="{{.Site.Subtitle}}">
+<meta property="og:site_name" content="{{.Site.Title}}">
+<meta property="og:image" content="{{.Site.Url}}{{.Site.Logo}}">
+<meta property="og:type" content="website">
+<meta name="robots" content="noodp">
+<!-- Google Plus -->
+<meta itemprop="name" content="{{.Site.Title}}">
+<meta itemprop="description" content="{{.Site.Subtitle}}">
+<meta itemprop="image" content="{{.Site.Url}}{{.Site.Logo}}">
+<!-- Canonical URL -->
+<link rel="canonical" href="{{.Site.Url}}">
+
+<link rel="shortcut icon" href="{{.Site.Root}}/favicon.png?v=2017">
+<link rel="apple-itouch-icon" href="{{.Site.Root}}/favicon.png?v=2017">
+<link rel="stylesheet" href="{{.Site.Root}}/bundle/index.css">
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400" />
+<script type="text/javascript">
+    var timeSinceLang = {
+        year: '{{i18n "since_year"}}',
+        month: '{{i18n "since_month"}}',
+        day: '{{i18n "since_day"}}',
+        hour: '{{i18n "since_hour"}}',
+        minute: '{{i18n "since_minute"}}',
+        second: '{{i18n "since_second"}}'
+    };
+    var root = '{{.Site.Root}}';
+</script>
+{{if .Develop}}
+<script type="text/javascript">
+    var conn, reloadTimer, connectTimer;
+    var connect = function() {
+        conn = new WebSocket('ws://' + location.host + '/live');
+        conn.onmessage = function(event) {
+            if (event.data === 'change') {
+                if (reloadTimer) clearTimeout(reloadTimer);
+                reloadTimer = setTimeout(function() {
+                    window.location.reload();
+                }, 200);
+            }
+        };
+        conn.onclose = function() {
+            if (connectTimer) clearTimeout(connectTimer);
+            connectTimer = setTimeout(function() {
+                connect();
+            }, 1000);
+        };
+    };
+    connect();
+</script>
+{{end}}
