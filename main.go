@@ -358,13 +358,23 @@ func Publish() {
 	go func() {
 		for out.Scan() {
 			Log(out.Text())
+			if out.Err() != nil {
+				break
+			}
 		}
+
+		panic(fmt.Errorf("Stdout cycle broke by error"))
 	}()
 	// Print stdin
 	go func() {
 		for err.Scan() {
 			Log(err.Text())
+			if err.Err() != nil {
+				break
+			}
 		}
+
+		panic(fmt.Errorf("Err stdin cycle brok by error"))
 	}()
 	// Exec command
 	if err := cmd.Run(); err != nil {

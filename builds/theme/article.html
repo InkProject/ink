@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {{template "head" .}}
+        <meta name="keywords" content="{{range .Tags}}{{.}},{{end}}">
+        <meta name="description" content="{{.Title}}">
+        <meta name="author" content="{{.Author.Name}}">
+        <title>{{.Title}}</title>
+    </head>
+    <body>
+        <article class="container">
+            {{template "header" .}}
+            <article class="main article">
+                <h1 class="title">{{.Title}}</h1>
+                <section class="info">
+                    {{if .Author.Avatar}}<span class="avatar" style="background-image: url({{.Author.Avatar}});"></span>{{end}}
+                    {{if .Author.Name}}<a class="name" href="{{.Site.Root}}/about.{{.Author.Id}}.html">{{.Author.Name}}</a>{{end}}
+                    {{if .Update}}
+                    <span class="date" data-time="{{.Update}}"><span class="from"></span></span>
+                    {{else}}
+                    <span class="date" data-time="{{.Date}}"><span class="from"></span></span>
+                    {{end}}
+                    <span class="tags">{{range .Tags}}<a class="tag" href="{{$.Site.Root}}/tag/{{.}}/index.html">{{.}}</a>{{end}}</span>
+                </section>
+                <article class="content">{{.Content}}</article>
+                <section class="author">
+                    {{if .Author.Avatar}}<div class="avatar" style="background-image: url({{.Author.Avatar}});"></div>{{end}}
+                    <a class="name" href="{{.Site.Root}}/about.{{.Author.Id}}.html">{{.Author.Name}}</a>
+                    <div class="intro">{{.Author.Intro}}</div>
+                </section>
+                <section class="recommend">
+                    {{if .Prev}}
+                    <section class="nav prev{{if .Next}} more{{end}}">
+                        <div class="head">{{i18n "prev_reading"}}</div>
+                        <a class="link" href="{{.Site.Root}}/{{.Prev.Link}}">{{.Prev.Title}}</a>
+                    </section>
+                    {{end}}
+                    {{if .Next}}
+                    <section class="nav next{{if .Prev}} more{{end}}">
+                        <div class="head">{{i18n "next_reading"}}</div>
+                        <a class="link" href="{{.Site.Root}}/{{.Next.Link}}">{{.Next.Title}}</a>
+                    </section>
+                    {{end}}
+                </section>
+                {{template "comment" .}}
+            </article>
+        </article>
+        {{template "footer" .}}
+        <script src="{{.Site.Root}}/bundle/index.js"></script>
+        <div id="go_top" style="position:fixed; LEFT:85%; bottom:50px">
+            <svg width="30" height="30" viewBox="0 0 878 1024">
+                <path fill="#8a8a8a" d="M733.714 511.429c0-9.714-3.429-18.857-10.286-25.714l-258.857-258.857c-6.857-6.857-16-10.286-25.714-10.286s-18.857 3.429-25.714 10.286l-258.857 258.857c-6.857 6.857-10.286 16-10.286 25.714s3.429 18.857 10.286 25.714l52 52c6.857 6.857 16 10.286 25.714 10.286s18.857-3.429 25.714-10.286l108-108v286.857c0 20 16.571 36.571 36.571 36.571h73.143c20 0 36.571-16.571 36.571-36.571v-286.857l108 108c6.857 6.857 16 10.857 25.714 10.857s18.857-4 25.714-10.857l52-52c6.857-6.857 10.286-16 10.286-25.714zM877.714 512c0 242.286-196.571 438.857-438.857 438.857s-438.857-196.571-438.857-438.857 196.571-438.857 438.857-438.857 438.857 196.571 438.857 438.857z"></path>
+            </svg>
+        </div>
+    </body>
+</html>
