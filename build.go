@@ -15,9 +15,6 @@ import (
 var articleTpl, pageTpl, archiveTpl, tagTpl template.Template
 var themePath, publicPath, sourcePath string
 
-// For concurrency
-var wg sync.WaitGroup
-
 // Data struct
 type ArticleInfo struct {
 	DetailDate int64
@@ -72,6 +69,7 @@ func (v Collections) Less(i, j int) bool {
 
 func Build() {
 	startTime := time.Now()
+	var tasks sync.WaitGroup
 	var articles = make(Collections, 0)
 	var visibleArticles = make(Collections, 0)
 	var pages = make(Collections, 0)
@@ -189,28 +187,21 @@ func Build() {
 	sort.Sort(articles)
 	sort.Sort(visibleArticles)
 	// Generate RSS page
-	wg.Add(1)
-	go GenerateRSS(visibleArticles)
+	tasks.Go(func() { GenerateRSS(visibleArticles) })
 	// Generate sitemap page
-	wg.Add(1)
-	go GenerateSitemap(visibleArticles)
+	tasks.Go(func() { GenerateSitemap(visibleArticles) })
 	// Generate article list JSON
-	wg.Add(1)
-	go GenerateJSON(visibleArticles)
+	tasks.Go(func() { GenerateJSON(visibleArticles) })
 	// Render articles
-	wg.Add(1)
-	go RenderArticles(articleTpl, articles)
+	RenderArticles(&tasks, articleTpl, articles)
 	// Render pages
-	wg.Add(1)
-	go RenderArticles(articleTpl, pages)
+	RenderArticles(&tasks, articleTpl, pages)
 	// Generate article list pages
-	wg.Add(1)
-	go RenderArticleList("", visibleArticles, "")
+	RenderArticleList(&tasks, "", visibleArticles, "")
 	// Generate article list pages by tag
 	for tagName, articles := range tagMap {
 		sort.Sort(articles)
-		wg.Add(1)
-		go RenderArticleList(filepath.Join("tag", tagName), articles, tagName)
+		RenderArticleList(&tasks, filepath.Join("tag", tagName), articles, tagName)
 	}
 	// Generate archive page
 	archives := make(Collections, 0)
@@ -224,13 +215,14 @@ func Build() {
 	}
 	// Sort by year
 	sort.Sort(archives)
-	wg.Add(1)
-	go RenderPage(archiveTpl, map[string]any{
-		"Total":   len(visibleArticles),
-		"Archive": archives,
-		"Site":    globalConfig.Site,
-		"I18n":    globalConfig.I18n,
-	}, filepath.Join(publicPath, "archive.html"))
+	tasks.Go(func() {
+		RenderPage(archiveTpl, map[string]any{
+			"Total":   len(visibleArticles),
+			"Archive": archives,
+			"Site":    globalConfig.Site,
+			"I18n":    globalConfig.I18n,
+		}, filepath.Join(publicPath, "archive.html"))
+	})
 	// Generate tag page
 	tags := make(Collections, 0)
 	for tagName, tagArticles := range tagMap {
@@ -257,13 +249,14 @@ func Build() {
 	}
 	// Sort by count
 	sort.Sort(tags)
-	wg.Add(1)
-	go RenderPage(tagTpl, map[string]any{
-		"Total": len(visibleArticles),
-		"Tag":   tags,
-		"Site":  globalConfig.Site,
-		"I18n":  globalConfig.I18n,
-	}, filepath.Join(publicPath, "tag.html"))
+	tasks.Go(func() {
+		RenderPage(tagTpl, map[string]any{
+			"Total": len(visibleArticles),
+			"Tag":   tags,
+			"Site":  globalConfig.Site,
+			"I18n":  globalConfig.I18n,
+		}, filepath.Join(publicPath, "tag.html"))
+	})
 	// Generate other pages
 	files, err = filepath.Glob(filepath.Join(sourcePath, "*.html"))
 	if err != nil {
@@ -285,20 +278,21 @@ func Build() {
 			if err != nil {
 				Fatal(err.Error())
 			}
-			wg.Add(1)
-			go RenderPage(htmlTpl, globalConfig, filepath.Join(publicPath, relPath))
+			tasks.Go(func() {
+				RenderPage(htmlTpl, globalConfig, filepath.Join(publicPath, relPath))
+			})
 		}
 	}
 	// Copy static files
-	Copy()
-	wg.Wait()
+	Copy(&tasks)
+	tasks.Wait()
 	endTime := time.Now()
 	usedTime := endTime.Sub(startTime)
 	fmt.Printf("\nFinished to build in public folder (%v)\n", usedTime)
 }
 
 // Copy static files
-func Copy() {
+func Copy(tasks *sync.WaitGroup) {
 	srcList := globalConfig.Build.Copy
 	for _, source := range srcList {
 		if matches, err := filepath.Glob(filepath.Join(rootPath, source)); err == nil {
@@ -310,11 +304,10 @@ func Copy() {
 				}
 				fileName := file.Name()
 				desPath := filepath.Join(publicPath, fileName)
-				wg.Add(1)
 				if file.IsDir() {
-					go CopyDir(srcPath, desPath)
+					tasks.Go(func() { CopyDir(srcPath, desPath) })
 				} else {
-					go CopyFile(srcPath, desPath)
+					tasks.Go(func() { CopyFile(srcPath, desPath) })
 				}
 			}
 		} else {
