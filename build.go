@@ -41,7 +41,7 @@ type Tag struct {
 }
 
 // For sort
-type Collections []interface{}
+type Collections []any
 
 func (v Collections) Len() int      { return len(v) }
 func (v Collections) Swap(i, j int) { v[i], v[j] = v[j], v[i] }
@@ -82,7 +82,7 @@ func Build() {
 	publicPath = filepath.Join(rootPath, globalConfig.Build.Output)
 	sourcePath = filepath.Join(rootPath, "source")
 	// Append all partial html
-	var partialTpl string
+	var partialTpl strings.Builder
 	files, err := filepath.Glob(filepath.Join(themePath, "*.html"))
 	if err != nil {
 		Fatal(err.Error())
@@ -98,7 +98,7 @@ func Build() {
 			tplName := strings.TrimPrefix(baseName, "_")
 			tplName = strings.TrimSuffix(tplName, ".html")
 			htmlStr := "{{define \"" + tplName + "\"}}" + string(html) + "{{end}}"
-			partialTpl += htmlStr
+			partialTpl.WriteString(htmlStr)
 		}
 	}
 	// Compile template
@@ -109,10 +109,10 @@ func Build() {
 		global:     globalConfig,
 		currentCwd: themePath,
 	}
-	articleTpl = CompileTpl(filepath.Join(themePath, "article.html"), partialTpl, "article", funcCxt)
-	pageTpl = CompileTpl(filepath.Join(themePath, "page.html"), partialTpl, "page", funcCxt)
-	archiveTpl = CompileTpl(filepath.Join(themePath, "archive.html"), partialTpl, "archive", funcCxt)
-	tagTpl = CompileTpl(filepath.Join(themePath, "tag.html"), partialTpl, "tag", funcCxt)
+	articleTpl = CompileTpl(filepath.Join(themePath, "article.html"), partialTpl.String(), "article", funcCxt)
+	pageTpl = CompileTpl(filepath.Join(themePath, "page.html"), partialTpl.String(), "page", funcCxt)
+	archiveTpl = CompileTpl(filepath.Join(themePath, "archive.html"), partialTpl.String(), "archive", funcCxt)
+	tagTpl = CompileTpl(filepath.Join(themePath, "tag.html"), partialTpl.String(), "tag", funcCxt)
 	// Clean public folder
 	cleanPatterns := []string{"post", "tag", "images", "js", "css", "*.html", "favicon.ico", "robots.txt"}
 	for _, pattern := range cleanPatterns {
@@ -225,7 +225,7 @@ func Build() {
 	// Sort by year
 	sort.Sort(archives)
 	wg.Add(1)
-	go RenderPage(archiveTpl, map[string]interface{}{
+	go RenderPage(archiveTpl, map[string]any{
 		"Total":   len(visibleArticles),
 		"Archive": archives,
 		"Site":    globalConfig.Site,
@@ -258,7 +258,7 @@ func Build() {
 	// Sort by count
 	sort.Sort(tags)
 	wg.Add(1)
-	go RenderPage(tagTpl, map[string]interface{}{
+	go RenderPage(tagTpl, map[string]any{
 		"Total": len(visibleArticles),
 		"Tag":   tags,
 		"Site":  globalConfig.Site,
@@ -280,7 +280,7 @@ func Build() {
 		fileExt := strings.ToLower(filepath.Ext(path))
 		baseName := filepath.Base(path)
 		if fileExt == ".html" && !strings.HasPrefix(baseName, "_") {
-			htmlTpl := CompileTpl(path, partialTpl, baseName, funcCxt)
+			htmlTpl := CompileTpl(path, partialTpl.String(), baseName, funcCxt)
 			relPath, err := filepath.Rel(sourcePath, path)
 			if err != nil {
 				Fatal(err.Error())

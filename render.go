@@ -13,7 +13,7 @@ import (
 	"github.com/snabb/sitemap"
 )
 
-type Data interface{}
+type Data any
 
 type RenderArticle struct {
 	Article
@@ -39,7 +39,7 @@ func CompileTpl(tplPath string, partialTpl string, name string, funcContext Func
 }
 
 // Render html file by data
-func RenderPage(tpl template.Template, tplData interface{}, outPath string) {
+func RenderPage(tpl template.Template, tplData any, outPath string) {
 	// Create file
 	outFile, err := os.Create(outPath)
 	if err != nil {
@@ -216,7 +216,7 @@ func RenderArticleList(rootPath string, articles Collections, tagName string) {
 			}
 			next = ""
 		}
-		var data = map[string]interface{}{
+		var data = map[string]any{
 			"Articles": articles[first:count],
 			"Site":     globalConfig.Site,
 			"Develop":  globalConfig.Develop,
@@ -235,10 +235,10 @@ func RenderArticleList(rootPath string, articles Collections, tagName string) {
 // Generate article list JSON
 func GenerateJSON(articles Collections) {
 	defer wg.Done()
-	datas := make([]map[string]interface{}, 0)
+	datas := make([]map[string]any, 0)
 	for i := range articles {
 		article := articles[i].(Article)
-		var data = map[string]interface{}{
+		var data = map[string]any{
 			"title":   article.Title,
 			"content": article.Markdown,
 			"preview": string(article.Preview),

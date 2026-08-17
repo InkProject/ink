@@ -25,12 +25,12 @@ const (
 var exitCode int
 
 // Print log
-func Log(info interface{}) {
+func Log(info any) {
 	fmt.Printf("%s\n", info)
 }
 
 // Print warning log
-func Warn(info interface{}) {
+func Warn(info any) {
 	if runtime.GOOS == "windows" {
 		fmt.Printf("WARNING: %s\n", info)
 	} else {
@@ -39,7 +39,7 @@ func Warn(info interface{}) {
 }
 
 // Print error log
-func Error(info interface{}) {
+func Error(info any) {
 	if runtime.GOOS == "windows" {
 		fmt.Printf("ERR: %s\n", info)
 	} else {
@@ -49,7 +49,7 @@ func Error(info interface{}) {
 }
 
 // Print error log and exit
-func Fatal(info interface{}) {
+func Fatal(info any) {
 	Error(info)
 	os.Exit(1)
 }
