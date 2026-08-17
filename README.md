@@ -159,6 +159,43 @@ ink convert /path/_posts
 2. Build image `docker build -t ink .` in source directory
 3. Run container `docker run -p 8888:80 ink`
 
+**Docker Compose**
+
+``` shell
+docker compose up
+```
+
+The blog lives in `./builds`, which is gitignored and bind-mounted into the
+container. It's created and scaffolded from `template/` the first time a
+container starts, so a bare clone needs no setup. `docker compose build` only
+compiles the image -- it neither needs nor creates `./builds`.
+
+Scaffolded files are chowned to `1000:1000`. If your host user has a different
+id, run:
+
+``` shell
+PUID=$(id -u) PGID=$(id -g) docker compose up
+```
+
+### Shell Completion
+
+``` shell
+# bash
+source <(ink completion bash)
+
+# zsh
+source <(ink completion zsh)
+
+# fish
+ink completion fish > ~/.config/fish/completions/ink.fish
+
+# PowerShell -- write the script somewhere and dot-source it from $PROFILE
+ink completion pwsh > path/to/ink.ps1
+```
+
+Most commands also have a short alias: `b` (build), `p` (preview),
+`pub` (publish), `s` (serve), `c` (convert), `n` (new).
+
 ## Theme
 
 - Dark (Official Theme): [https://github.com/InkProject/ink-theme-dark](https://github.com/InkProject/ink-theme-dark)

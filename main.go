@@ -58,10 +58,19 @@ func main() {
 	}
 	// app.Email = "imeoer@gmail.com"
 	app.Version = VERSION
+	// Serve `ink completion <bash|zsh|fish|pwsh>` and complete command/flag
+	// names when the shell asks for them.
+	app.EnableShellCompletion = true
+	app.ConfigureShellCompletionCommand = func(cmd *cli.Command) {
+		// Listed in `ink help` rather than hidden, otherwise nobody
+		// discovers it.
+		cmd.Hidden = false
+	}
 	app.Commands = []*cli.Command{
 		{
-			Name:  "build",
-			Usage: "Generate blog to public folder",
+			Name:    "build",
+			Aliases: []string{"b"},
+			Usage:   "Generate blog to public folder",
 			Action: func(ctx context.Context, c *cli.Command) error {
 				ParseGlobalConfigByCli(c, false)
 				Build()
@@ -69,8 +78,9 @@ func main() {
 			},
 		},
 		{
-			Name:  "preview",
-			Usage: "Run in server mode to preview blog",
+			Name:    "preview",
+			Aliases: []string{"p"},
+			Usage:   "Run in server mode to preview blog",
 			Action: func(ctx context.Context, c *cli.Command) error {
 				ParseGlobalConfigByCli(c, true)
 				Build()
@@ -80,8 +90,9 @@ func main() {
 			},
 		},
 		{
-			Name:  "publish",
-			Usage: "Generate blog to public folder and publish",
+			Name:    "publish",
+			Aliases: []string{"pub"},
+			Usage:   "Generate blog to public folder and publish",
 			Action: func(ctx context.Context, c *cli.Command) error {
 				ParseGlobalConfigByCli(c, false)
 				Build()
@@ -90,8 +101,9 @@ func main() {
 			},
 		},
 		{
-			Name:  "serve",
-			Usage: "Run in server mode to serve blog",
+			Name:    "serve",
+			Aliases: []string{"s"},
+			Usage:   "Run in server mode to serve blog",
 			Action: func(ctx context.Context, c *cli.Command) error {
 				ParseGlobalConfigByCli(c, true)
 				Build()
@@ -100,66 +112,80 @@ func main() {
 			},
 		},
 		{
-			Name:  "convert",
-			Usage: "Convert Jekyll/Hexo post format to Ink format (Beta)",
+			Name:    "convert",
+			Aliases: []string{"c"},
+			Usage:   "Convert Jekyll/Hexo post format to Ink format (Beta)",
 			Action: func(ctx context.Context, c *cli.Command) error {
 				Convert(c)
 				return nil
 			},
 		},
 		{
-			Name:  "new",
-			Usage: "Creates a new article",
+			Name:    "new",
+			Aliases: []string{"n"},
+			Usage:   "Creates a new article",
 			Flags: []cli.Flag{
 				&cli.BoolFlag{
-					Name:  "hide",
-					Usage: "Hides the article",
+					Name:    "hide",
+					Aliases: []string{"H"},
+					Usage:   "Hides the article",
 				},
 				&cli.BoolFlag{
-					Name:  "toc",
-					Usage: "Adds a table of contents to the article",
+					Name:    "toc",
+					Aliases: []string{"c"},
+					Usage:   "Adds a table of contents to the article",
 				},
 				&cli.BoolFlag{
-					Name:  "top",
-					Usage: "Places the article at the top",
+					Name:    "top",
+					Aliases: []string{"T"},
+					Usage:   "Places the article at the top",
 				},
 				&cli.BoolFlag{
-					Name:  "post",
-					Usage: "The article is a post",
+					Name:    "post",
+					Aliases: []string{"P"},
+					Usage:   "The article is a post",
 				},
 				&cli.BoolFlag{
-					Name:  "page",
-					Usage: "The article is a page",
+					Name:    "page",
+					Aliases: []string{"G"},
+					Usage:   "The article is a page",
 				},
 				&cli.BoolFlag{
-					Name:  "draft",
-					Usage: "The article is a draft",
+					Name:    "draft",
+					Aliases: []string{"d"},
+					Usage:   "The article is a draft",
 				},
 
 				&cli.StringFlag{
-					Name:  "title",
-					Usage: "Article title",
+					Name:    "title",
+					Aliases: []string{"t"},
+					Usage:   "Article title",
 				},
 				&cli.StringFlag{
-					Name:  "author",
-					Usage: "Article author",
+					Name:    "author",
+					Aliases: []string{"a"},
+					Usage:   "Article author",
 				},
 				&cli.StringFlag{
-					Name:  "cover",
-					Usage: "Article cover path",
+					Name:    "cover",
+					Aliases: []string{"C"},
+					Usage:   "Article cover path",
 				},
 				&cli.StringFlag{
-					Name:  "date",
-					Usage: "The date and time on which the article was created (2006-01-02 15:04:05)",
+					Name:    "date",
+					Aliases: []string{"D"},
+					Usage:   "The date and time on which the article was created (2006-01-02 15:04:05)",
 				},
 				&cli.StringFlag{
-					Name:  "file",
-					Usage: "The path of where the article will be stored",
+					Name:    "file",
+					Aliases: []string{"f"},
+					Usage:   "The path of where the article will be stored",
 				},
 
 				&cli.StringSliceFlag{
-					Name:  "tag",
-					Usage: "Adds a tag to the article",
+					Name:    "tag",
+					Aliases: []string{"g"},
+					Usage:   "Adds a tag to the article",
 				},
 			},
 			Action: func(ctx context.Context, c *cli.Command) error {

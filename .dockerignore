@@ -1,2 +1,13 @@
 .git
+.github
+
+# The blog workspace is created at run time, not build time. Keeping it out of
+# the build context means the image builds identically whether or not ./builds
+# exists on the host, and a big blog never slows the build down.
 builds/
+
+# Local build output / binaries -- the image compiles its own.
+public
+release
+ink
+ink.exe

@@ -1,6 +1,10 @@
 services:
   ink:
     build:
+      # The build context excludes ./builds (see .dockerignore), so
+      # `docker compose build` compiles the image with no blog workspace
+      # present and creates none on the host. The workspace only appears when
+      # a container actually runs -- `docker compose up`.
       context: .
       dockerfile: Dockerfile
     image: ink-blog:latest
@@ -15,9 +19,9 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      # Blog workspace (config.yml, source/, theme, public/) lives on the
+      # Blog workspace (config.yml, source/, theme/, public/) lives on the
       # host so edits are picked up by ink's file watcher and generated
       # output (public/) is written back without rebuilding the image.
-      # If ./builds doesn't exist yet, the entrypoint scaffolds one from
-      # the bundled template on first start.
+      # If ./builds doesn't exist yet, `docker compose up` creates it and the
+      # entrypoint scaffolds it from the bundled template on first start.
       - ./builds:/code/builds:Z

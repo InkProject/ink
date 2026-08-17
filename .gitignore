@@ -1,6 +1,9 @@
 ink
 ink.exe
 public
+# Local blog workspace: created by `docker compose up` and scaffolded from
+# template/ on first start. Personal content, never committed.
+builds/
 release
 debian
 npm-debug.log
