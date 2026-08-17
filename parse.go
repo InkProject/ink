@@ -27,7 +27,7 @@ type SiteConfig struct {
 	Lang     string
 	Url      string
 	Link     string
-	Config   interface{}
+	Config   any
 }
 
 type AuthorConfig struct {
@@ -70,7 +70,7 @@ type ArticleConfig struct {
 	Toc        bool
 	Image      string
 	Subtitle   string
-	Config     map[string]interface{}
+	Config     map[string]any
 }
 
 type Article struct {
@@ -87,7 +87,7 @@ type Article struct {
 	Preview  template.HTML
 	Content  template.HTML
 	Link     string
-	Config   interface{}
+	Config   any
 	Image    string
 	Subtitle string
 }
@@ -249,7 +249,7 @@ func ParseArticle(markdownPath string) *Article {
 		return nil
 	}
 	if config.Config == nil {
-		config.Config = make(map[string]interface{})
+		config.Config = make(map[string]any)
 	}
 	var article Article
 	// Parse markdown content

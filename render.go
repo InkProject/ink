@@ -7,13 +7,14 @@ import (
 	"os"
 	"path/filepath"
 	"strconv"
+	"sync"
 	"time"
 
 	"github.com/gorilla/feeds"
 	"github.com/snabb/sitemap"
 )
 
-type Data interface{}
+type Data any
 
 type RenderArticle struct {
 	Article
@@ -39,7 +40,7 @@ func CompileTpl(tplPath string, partialTpl string, name string, funcContext Func
 }
 
 // Render html file by data
-func RenderPage(tpl template.Template, tplData interface{}, outPath string) {
+func RenderPage(tpl template.Template, tplData any, outPath string) {
 	// Create file
 	outFile, err := os.Create(outPath)
 	if err != nil {
@@ -50,7 +51,6 @@ func RenderPage(tpl template.Template, tplData interface{}, outPath string) {
 			Fatal(err.Error())
 		}
 	}()
-	defer wg.Done()
 	// Template render
 	err = tpl.Execute(outFile, tplData)
 	if err != nil {
@@ -59,8 +59,7 @@ func RenderPage(tpl template.Template, tplData interface{}, outPath string) {
 }
 
 // Generate all article page
-func RenderArticles(tpl template.Template, articles Collections) {
-	defer wg.Done()
+func RenderArticles(tasks *sync.WaitGroup, tpl template.Template, articles Collections) {
 	articleCount := len(articles)
 	for i := range articles {
 		currentArticle := articles[i].(Article)
@@ -89,14 +88,12 @@ func RenderArticles(tpl template.Template, articles Collections) {
 			}
 		}
 		outPath := filepath.Join(publicPath, currentArticle.Link)
-		wg.Add(1)
-		go RenderPage(tpl, renderArticle, outPath)
+		tasks.Go(func() { RenderPage(tpl, renderArticle, outPath) })
 	}
 }
 
 // Generate rss page
 func GenerateRSS(articles Collections) {
-	defer wg.Done()
 	var feedArticles Collections
 	if len(articles) < globalConfig.Site.Limit {
 		feedArticles = articles
@@ -136,8 +133,6 @@ func GenerateRSS(articles Collections) {
 
 // Generate sitemap page
 func GenerateSitemap(articles Collections) {
-	defer wg.Done()
-
 	if globalConfig.Site.Url != "" {
 		sm := sitemap.New()
 
@@ -177,8 +172,7 @@ func GenerateSitemap(articles Collections) {
 }
 
 // Generate article list page
-func RenderArticleList(rootPath string, articles Collections, tagName string) {
-	defer wg.Done()
+func RenderArticleList(tasks *sync.WaitGroup, rootPath string, articles Collections, tagName string) {
 	// Create path
 	pagePath := filepath.Join(publicPath, rootPath)
 	if err := os.MkdirAll(pagePath, 0777); err != nil {
@@ -216,7 +210,7 @@ func RenderArticleList(rootPath string, articles Collections, tagName string) {
 			}
 			next = ""
 		}
-		var data = map[string]interface{}{
+		var data = map[string]any{
 			"Articles": articles[first:count],
 			"Site":     globalConfig.Site,
 			"Develop":  globalConfig.Develop,
@@ -227,18 +221,16 @@ func RenderArticleList(rootPath string, articles Collections, tagName string) {
 			"TagName":  tagName,
 			"TagCount": len(articles),
 		}
-		wg.Add(1)
-		go RenderPage(pageTpl, data, outPath)
+		tasks.Go(func() { RenderPage(pageTpl, data, outPath) })
 	}
 }
 
 // Generate article list JSON
 func GenerateJSON(articles Collections) {
-	defer wg.Done()
-	datas := make([]map[string]interface{}, 0)
+	datas := make([]map[string]any, 0)
 	for i := range articles {
 		article := articles[i].(Article)
-		var data = map[string]interface{}{
+		var data = map[string]any{
 			"title":   article.Title,
 			"content": article.Markdown,
 			"preview": string(article.Preview),

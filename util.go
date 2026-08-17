@@ -25,12 +25,12 @@ const (
 var exitCode int
 
 // Print log
-func Log(info interface{}) {
+func Log(info any) {
 	fmt.Printf("%s\n", info)
 }
 
 // Print warning log
-func Warn(info interface{}) {
+func Warn(info any) {
 	if runtime.GOOS == "windows" {
 		fmt.Printf("WARNING: %s\n", info)
 	} else {
@@ -39,7 +39,7 @@ func Warn(info interface{}) {
 }
 
 // Print error log
-func Error(info interface{}) {
+func Error(info any) {
 	if runtime.GOOS == "windows" {
 		fmt.Printf("ERR: %s\n", info)
 	} else {
@@ -49,7 +49,7 @@ func Error(info interface{}) {
 }
 
 // Print error log and exit
-func Fatal(info interface{}) {
+func Fatal(info any) {
 	Error(info)
 	os.Exit(1)
 }
@@ -156,7 +156,6 @@ func CopyFile(source string, dest string) {
 			Fatal(err.Error())
 		}
 	}()
-	defer wg.Done()
 	_, err = io.Copy(destfile, sourcefile)
 	if err != nil {
 		Fatal(err.Error())
@@ -183,29 +182,17 @@ func CopyDir(source string, dest string) {
 	if err != nil {
 		Fatal(err.Error())
 	}
-	directory, err := os.Open(source)
-	if err != nil {
-		Fatal(err.Error())
-	}
-	defer func() {
-		if err := directory.Close(); err != nil {
-			Fatal(err.Error())
-		}
-	}()
-	defer wg.Done()
-	objects, err := directory.Readdir(-1)
+	objects, err := os.ReadDir(source)
 	if err != nil {
 		Fatal(err.Error())
 	}
 	for _, obj := range objects {
-		sourcefilepointer := source + "/" + obj.Name()
-		destinationfilepointer := dest + "/" + obj.Name()
+		sourcefilepointer := filepath.Join(source, obj.Name())
+		destinationfilepointer := filepath.Join(dest, obj.Name())
 		if obj.IsDir() {
-			wg.Add(1)
 			CopyDir(sourcefilepointer, destinationfilepointer)
 		} else {
-			wg.Add(1)
-			go CopyFile(sourcefilepointer, destinationfilepointer)
+			CopyFile(sourcefilepointer, destinationfilepointer)
 		}
 	}
 }

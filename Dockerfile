@@ -1,4 +1,4 @@
-FROM golang:1.18
+FROM golang:1.26
 ADD . /code
 WORKDIR /code
 RUN go install

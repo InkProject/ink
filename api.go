@@ -36,7 +36,7 @@ func hashPath(path string) string {
 	return hex.EncodeToString(md5Hex[:])
 }
 
-func replyJSON(w http.ResponseWriter, status int, data interface{}) {
+func replyJSON(w http.ResponseWriter, status int, data any) {
 	jsonStr, err := json.Marshal(data)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
