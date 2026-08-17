@@ -156,7 +156,6 @@ func CopyFile(source string, dest string) {
 			Fatal(err.Error())
 		}
 	}()
-	defer wg.Done()
 	_, err = io.Copy(destfile, sourcefile)
 	if err != nil {
 		Fatal(err.Error())
@@ -183,29 +182,17 @@ func CopyDir(source string, dest string) {
 	if err != nil {
 		Fatal(err.Error())
 	}
-	directory, err := os.Open(source)
-	if err != nil {
-		Fatal(err.Error())
-	}
-	defer func() {
-		if err := directory.Close(); err != nil {
-			Fatal(err.Error())
-		}
-	}()
-	defer wg.Done()
-	objects, err := directory.Readdir(-1)
+	objects, err := os.ReadDir(source)
 	if err != nil {
 		Fatal(err.Error())
 	}
 	for _, obj := range objects {
-		sourcefilepointer := source + "/" + obj.Name()
-		destinationfilepointer := dest + "/" + obj.Name()
+		sourcefilepointer := filepath.Join(source, obj.Name())
+		destinationfilepointer := filepath.Join(dest, obj.Name())
 		if obj.IsDir() {
-			wg.Add(1)
 			CopyDir(sourcefilepointer, destinationfilepointer)
 		} else {
-			wg.Add(1)
-			go CopyFile(sourcefilepointer, destinationfilepointer)
+			CopyFile(sourcefilepointer, destinationfilepointer)
 		}
 	}
 }
